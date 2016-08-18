@@ -1,0 +1,112 @@
+<!doctype html>
+<html>
+  <head>
+    <title><%= json.project.title %></title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+    <%= t.include("partials/_head.html") %>
+    <%= t.include("partials/_analytics.html") %>
+  </head>
+  <script>  var HDN = HDN || {}  </script>
+
+  <body>
+
+    <responsive-child>
+
+    <%= t.include("partials/_nav.html") %>
+
+    <div class="outer">
+
+      <!-- <img class="icon left" src="./assets/top_hat.jpg"></img> -->
+      <!-- <img class="icon right" src="./assets/top_hat.jpg"></img> -->
+      <div class="title">2016 Election Results</div>
+
+
+      <div class="divider"></div>
+      <div class="sub-title-links">
+        <div class="sub-title">Federal</div>
+        <div class="sub-title">State</div>
+        <div class="sub-title">Local</div>
+        <div class="sub-title">Regional</div>
+      </div>
+      <div class="divider"></div>
+
+      <h1>Federal</h1>
+
+        <h2 class="race president">President</h2>
+
+          <div class="entry">
+            <h3 class="name">Hillary Clinton</h3>
+            <div class="bar" id="hillaryclinton"></div>
+            <div class="bar-label">100</div>
+          </div>
+          <div class="entry">
+            <h3 class="name">Donald Trump</h3>
+            <div class="bar" id="donaldtrump"></div>
+            <div class="bar-label">10</div>
+          </div>
+
+          <svg viewBox="0 0 959 593" width="700px" height="400px">
+            <%= t.include("assets/states.svg") %>
+          </svg>
+
+        <h2 class="race senate">US Senate</h2>
+          <div class="entry">
+            <h3 class="name">Kamala Harris</h3>
+            <div class="bar" id="kamalaharris"></div>
+            <div class="bar-label">50</div>
+          </div>
+          <div class="entry">
+            <h3 class="name">Loretta Sanchez</h3>
+            <div class="bar" id="lorettasanchez"></div>
+            <div class="bar-label">50</div>
+          </div>
+
+        <h2 class="race senate">Congress</h2>
+          <div class="entry">
+            <h3 class="name">Michael Honda</h3>
+            <div class="bar" id="michaelhonda"></div>
+            <div class="bar-label">50</div>
+          </div>
+          <div class="entry">
+            <h3 class="name">Ro Khanna</h3>
+            <div class="bar" id="rokhanna"></div>
+            <div class="bar-label">50</div>
+          </div>
+
+      <h1>State</h1>
+
+      <div class="races">Races:</div>
+
+      <div class="propositions">Propositions:</div>
+
+
+
+      <svg viewBox="0 0 167 284" width="700px" height="400px">
+        <%= t.include("assets/CAcounties.svg") %>
+      </svg>
+
+      <h1>Local</h1>
+
+      <h1>Regional</h1>
+
+    </div>
+
+    </responsive-child>
+
+    <%= t.include("partials/_footer.html") %>
+
+    <script>
+      var presidentialData = <%= JSON.stringify(csv.presidentialData) %>;
+      var propList = window.propList = <%= JSON.stringify(csv.StatePropositionsData) %>;
+      console.log(propList);
+    </script>
+
+    <script src="app.js" async></script>
+    <%= t.include("partials/_helloSFC.html") %>
+
+  </body>
+</html>
