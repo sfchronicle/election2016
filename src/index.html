@@ -131,12 +131,12 @@
 
       <h2 class="races">SF Supervisors:</h2>
 
-      <h4 class="race sup">District 1</h4>
-      <h4 class="race sup">District 3</h4>
-      <h4 class="race sup">District 5</h4>
-      <h4 class="race sup">District 7</h4>
-      <h4 class="race sup">District 9</h4>
-      <h4 class="race sup">District 11</h4>
+      <h4 class="race sup" id="district1">District 1</h4>
+      <h4 class="race sup" id="district3">District 3</h4>
+      <h4 class="race sup" id="district5">District 5</h4>
+      <h4 class="race sup" id="district7">District 7</h4>
+      <h4 class="race sup" id="district9">District 9</h4>
+      <h4 class="race sup" id="district11">District 11</h4>
 
       <h2 class="sf-propositions">SF Propositions:</h2>
       <input type="text" placeholder="&#xf002;  Search by SF proposition letter" id="sf-propositions-search" style="font-family:AntennaExtraLight, FontAwesome">
@@ -157,6 +157,7 @@
       var presidentialData = <%= JSON.stringify(csv.presidentialData) %>;
       var propList = window.propList = <%= JSON.stringify(csv.StatePropositionsData) %>;
       var SFpropList = window.SFpropList = <%= JSON.stringify(csv.SFPropositionsData) %>;
+      var SFsupesList = <%= JSON.stringify(csv.SFSupesData) %>;
       var electoralVotes = <%= JSON.stringify(csv.electoralVotes) %>;
     </script>
 
