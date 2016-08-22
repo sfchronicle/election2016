@@ -78,7 +78,9 @@
 
       <h1 id="state">State</h1>
 
-      <h2 class="races">Races:</h2>
+      <h2 class="races" id="racectrl"><i class="fa fa-caret-right" id="rcaret" aria-hidden="true"></i>  Races:</h2>
+
+      <div id="racesec">
 
       <h4 class="race senate">State Senate</h4>
         <div class="entry">
@@ -114,13 +116,52 @@
           <h3 class="name">Cheryl Cook-Kallio (D)</h3>
           <div class="bar" id="cookkallio"></div>
           <div class="bar-label">50</div>
+
+        <h4 class="race senate">State Senate</h4>
+          <div class="entry">
+            <h3 class="name">Kim</h3>
+            <div class="bar" id="kim"></div>
+            <div class="bar-label">50</div>
+          </div>
+          <div class="entry">
+            <h3 class="name">Wiener</h3>
+            <div class="bar" id="wiener"></div>
+            <div class="bar-label">50</div>
+          </div>
+
+        <h4 class="race senate">District 9</h4>
+          <div class="entry">
+            <h3 class="name">Skinner</h3>
+            <div class="bar" id="skinner"></div>
+            <div class="bar-label">50</div>
+          </div>
+          <div class="entry">
+            <h3 class="name">Swanson</h3>
+            <div class="bar" id="swanson"></div>
+            <div class="bar-label">50</div>
+          </div>
+
+        <h4 class="race senate">State Assembly</h4>
+          <div class="entry">
+            <h3 class="name">Baker</h3>
+            <div class="bar" id="baker"></div>
+            <div class="bar-label">50</div>
+          </div>
+          <div class="entry">
+            <h3 class="name">Cook-Kallio</h3>
+            <div class="bar" id="cookkallio"></div>
+            <div class="bar-label">50</div>
+          </div>
+        </div>
         </div>
 
-      <h2 class="propositions">Propositions:</h2>
-      <input type="text" placeholder="&#xf002;  Search by proposition number" id="propositions-search" style="font-family:AntennaExtraLight, FontAwesome">
+      <h2 class="propositions" id="propctrl"><i class="fa fa-caret-right" id="caret" aria-hidden="true"></i>  Propositions:</h2>
+      <div id="propsec"> 
+        <input type="text" placeholder="&#xf002;  Search by proposition number" id="propositions-search" style="font-family:AntennaExtraLight, FontAwesome">
 
-      <div class="propositions-list">
-        <div id="propositions-list"></div>
+        <div class="propositions-list">
+          <div id="propositions-list"></div>
+        </div>
       </div>
 
       <svg viewBox="0 0 167 284" width="700px" height="400px">
@@ -129,20 +170,22 @@
 
       <h1 id="local">Local</h1>
 
-      <h2 class="races">SF Supervisors:</h2>
-
+      <h2 class="races" id="sctrl"><i class="fa fa-caret-right" id="scaret" aria-hidden="true"></i>  SF Supervisors:</h2>
+      <div id="ssec">
       <h4 class="race sup">District 1</h4>
       <h4 class="race sup">District 3</h4>
       <h4 class="race sup">District 5</h4>
       <h4 class="race sup">District 7</h4>
       <h4 class="race sup">District 9</h4>
       <h4 class="race sup">District 11</h4>
+      </div>  
+      <h2 class="sf-propositions" id="sfpropctrl"><i class="fa fa-caret-right" id="sfcaret" aria-hidden="true"></i>  SF Propositions:</h2>
+      <div id="sfpropsec">
+        <input type="text" placeholder="&#xf002;  Search by SF proposition letter" id="sf-propositions-search" style="font-family:AntennaExtraLight, FontAwesome">
 
-      <h2 class="sf-propositions">SF Propositions:</h2>
-      <input type="text" placeholder="&#xf002;  Search by SF proposition letter" id="sf-propositions-search" style="font-family:AntennaExtraLight, FontAwesome">
-
-      <div class="sf-propositions-list">
-        <div id="sf-propositions-list"></div>
+        <div class="sf-propositions-list">
+          <div id="sf-propositions-list"></div>
+        </div>
       </div>
 
       <h1 id="regional">Regional</h1>
