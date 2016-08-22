@@ -119,3 +119,52 @@ sfinput.addEventListener('input', function(){
     class_match = 0;
   });
 });
+
+var propctrl = document.getElementById('propctrl');
+var propsec = document.getElementById('propsec');
+var caret = document.getElementById('caret');
+var sfpropctrl = document.getElementById('sfpropctrl');
+var sfpropsec = document.getElementById('sfpropsec');
+var sfcaret = document.getElementById('sfcaret');
+var racectrl = document.getElementById('racectrl');
+var racesec = document.getElementById('racesec');
+var rcaret = document.getElementById('rcaret');
+
+propctrl.addEventListener("click",function(){
+  if (propsec.style.display == "block") {
+    propsec.style.display = "none";
+    caret.classList.remove('fa-caret-down');
+    caret.classList.add('fa-caret-right');
+  }
+  else {
+    propsec.style.display = "block";
+    caret.classList.remove('fa-caret-right');
+    caret.classList.add('fa-caret-down');
+  }
+})
+
+sfpropctrl.addEventListener("click",function(){
+  if (sfpropsec.style.display == "block") {
+    sfpropsec.style.display = "none";
+    sfcaret.classList.remove('fa-caret-down');
+    sfcaret.classList.add('fa-caret-right');
+  }
+  else {
+    sfpropsec.style.display = "block";
+    sfcaret.classList.remove('fa-caret-right');
+    sfcaret.classList.add('fa-caret-down');
+  }
+})
+
+racectrl.addEventListener("click",function(){
+  if (racesec.style.display == "block") {
+    racesec.style.display = "none";
+    rcaret.classList.remove('fa-caret-down');
+    rcaret.classList.add('fa-caret-right');
+  }
+  else {
+    racesec.style.display = "block";
+    rcaret.classList.remove('fa-caret-right');
+    rcaret.classList.add('fa-caret-down');
+  }
+})
