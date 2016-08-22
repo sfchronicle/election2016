@@ -41,7 +41,7 @@ document.getElementById("uncounted").style.width = String(uncounted_percent)+"%"
 document.getElementById("hillaryclinton").style.width = String(clinton_percent)+"%";
 document.getElementById("donaldtrump").style.width = String(trump_percent)+"%";
 
-// populating propositions list
+// populating state propositions list
 var propID = document.getElementById("propositions-list");
 propList.forEach(function(prop){
   var html = "<div class='prop-group active "+prop.number+"'><div class='prop-name'>Proposition "+prop.number+"</div>"+"<div class='prop-desc'>"+prop.title+"</div><div class='prop-link'><a target='_blank' href='"+prop.link+"'><i class='fa fa-external-link' aria-hidden='true'></i>  Read more</a></div>"
@@ -55,7 +55,7 @@ propList.forEach(function(prop){
   propID.insertAdjacentHTML("beforebegin",html+htmlresult)
 });
 
-// propositions search bar
+// state propositions search bar
 var input = document.querySelector('#propositions-search');
 input.addEventListener('input', function(){
 
@@ -67,7 +67,7 @@ input.addEventListener('input', function(){
     var classes = value.className.split(" ");
     for (var i=0; i<classes.length; i++) {
       var current_class = classes[i].toLowerCase();
-      if (current_class != "prop_group" && current_class != "active") {
+      if (current_class != "prop-group" && current_class != "active") {
         if (current_class.match(filter)){
           class_match = class_match+1;
         }
@@ -80,5 +80,42 @@ input.addEventListener('input', function(){
     }
     class_match = 0;
 
+  });
+});
+
+// populating SF propositions list
+var SFpropID = document.getElementById("sf-propositions-list");
+SFpropList.forEach(function(prop){
+  if (prop.result == "yes") {
+    var html = "<div class='sf-prop-group active "+prop.letter+"'><div class='sf-prop-name'>"+prop.letter+": "+prop.title+"</div>"+"<div class='sfresult'><i class='fa fa-check-square-o' aria-hidden='true'></i>"+"Yes: "+prop.yes+"% / No: "+prop.no+"%"+"</div>"+"<div class='sf-prop-desc'>"+prop.description+"</div><div class='sf-prop-link'><a target='_blank' href='"+prop.link+"'><i class='fa fa-external-link' aria-hidden='true'></i>  Read more</a></div>"
+  } else if (prop.result == "no") {
+    var html = "<div class='sf-prop-group active "+prop.letter+"'><div class='sf-prop-name'>"+prop.letter+": "+prop.title+"</div>"+"<div class='sfresult'>"+"Yes: "+prop.yes+"% /<i class='fa fa-times' aria-hidden='true'></i> No: "+prop.no+"%"+"</div>"+"<div class='sf-prop-desc'>"+prop.description+"</div><div class='sf-prop-link'><a target='_blank' href='"+prop.link+"'><i class='fa fa-external-link' aria-hidden='true'></i>  Read more</a></div>"
+  } else {
+    var html = "<div class='sf-prop-group active "+prop.letter+"'><div class='sf-prop-name'>"+prop.letter+": "+prop.title+"</div>"+"<div class='sfresult'>"+"Yes: "+prop.yes+"% / No: "+prop.no+"%</div>"+"<div class='sf-prop-desc'>"+prop.description+"</div><div class='sf-prop-link'><a target='_blank' href='"+prop.link+"'><i class='fa fa-external-link' aria-hidden='true'></i>  Read more</a></div>"
+  }
+  SFpropID.insertAdjacentHTML("beforebegin",html)
+});
+
+// state propositions search bar
+var sfinput = document.querySelector('#sf-propositions-search');
+sfinput.addEventListener('input', function(){
+  var class_match = 0;
+  var filter = sfinput.value.toLowerCase().replace(/ /g,'');
+  Array.prototype.filter.call(document.querySelectorAll(".sf-prop-group"), function(value,index,array){
+    var classes = value.className.split(" ");
+    for (var i=0; i<classes.length; i++) {
+      var current_class = classes[i].toLowerCase();
+      if (current_class != "sf-prop-group" && current_class != "active") {
+        if (current_class.match(filter)){
+          class_match = class_match+1;
+        }
+      }
+    }
+    if (class_match>0) {
+      value.classList.add("active");
+    } else {
+      value.classList.remove("active");
+    }
+    class_match = 0;
   });
 });

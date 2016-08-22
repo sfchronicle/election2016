@@ -129,6 +129,13 @@
 
       <h1 id="local">Local</h1>
 
+      <h2 class="sf-propositions">SF Propositions:</h2>
+      <input type="text" placeholder="&#xf002;  Search by SF proposition letter" id="sf-propositions-search" style="font-family:AntennaExtraLight, FontAwesome">
+
+      <div class="sf-propositions-list">
+        <div id="sf-propositions-list"></div>
+      </div>
+
       <h1 id="regional">Regional</h1>
 
     </div>
@@ -140,8 +147,8 @@
     <script>
       var presidentialData = <%= JSON.stringify(csv.presidentialData) %>;
       var propList = window.propList = <%= JSON.stringify(csv.StatePropositionsData) %>;
+      var SFpropList = window.SFpropList = <%= JSON.stringify(csv.SFPropositionsData) %>;
       var electoralVotes = <%= JSON.stringify(csv.electoralVotes) %>;
-      console.log(electoralVotes);
     </script>
 
     <script src="app.js" async></script>

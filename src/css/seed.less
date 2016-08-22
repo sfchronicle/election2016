@@ -707,11 +707,11 @@ header {
   background: #F04646;
 }
 
-.propositions-list {
+.propositions-list, .sf-propositions-list {
   font-family: @block-graphics;
   .display-flex;
   .flex-wrap(wrap);
-  .prop-group {
+  .prop-group, .sf-prop-group {
     margin: 10px;
     padding: 10px;
     background: lighten(@light-gray,15%);
@@ -724,16 +724,16 @@ header {
   }
 }
 
-.prop-name {
+.prop-name, .sf-prop-name {
   font-weight: 400;
 }
 
-.prop-desc {
+.prop-desc, .sf-prop-desc {
   font-family: @med-graphics;
   font-style: italic;
   font-size: 14px;
 }
-.prop-link {
+.prop-link, .sf-prop-link {
   font-size: 14px;
 }
 
@@ -754,11 +754,26 @@ header {
   }
 }
 
-#propositions-search {
+#propositions-search, #sf-propositions-search {
   font-size: 18px;
   width: 100%;
   padding: 5px;
   border-radius: 5px;
   border: 1px solid @light-gray;
   margin-bottom: 10px;
+}
+
+.sfresult {
+  font-size: 16px;
+  i {
+    font-size: 20px;
+  }
+  .fa-times {
+    color: red;
+    margin-left: 10px;
+  }
+  .fa-check-square-o {
+    color: green;
+    margin-right: 10px;
+  }
 }
