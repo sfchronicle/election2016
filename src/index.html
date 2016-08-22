@@ -22,38 +22,37 @@
 
       <!-- <img class="icon left" src="./assets/top_hat.jpg"></img> -->
       <!-- <img class="icon right" src="./assets/top_hat.jpg"></img> -->
-      <div class="title">2016 Election Results</div>
-
+      <div class="title">Election <span class="year">2016</span></div>
+      <div class="deck">The Chronicle brings you the culmination of a very tumultuous election season.</div>
 
       <div class="divider"></div>
       <div class="sub-title-links">
-        <div class="sub-title">Federal</div>
-        <div class="sub-title">State</div>
-        <div class="sub-title">Local</div>
-        <div class="sub-title">Regional</div>
+        <div class="sub-title"><a href="#federal">Federal</a></div>
+        <div class="sub-title"><a href="#state">State</a></div>
+        <div class="sub-title"><a href="#local">Local</a></div>
+        <div class="sub-title"><a href="#regional">Regional</a></div>
       </div>
       <div class="divider"></div>
 
-      <h1>Federal</h1>
+      <h1 id="federal">Federal</h1>
 
-        <h2 class="race president">President</h2>
+        <h4 class="race president">President</h4>
 
-          <div class="entry">
-            <h3 class="name">Hillary Clinton</h3>
-            <div class="bar" id="hillaryclinton"></div>
-            <div class="bar-label">100</div>
-          </div>
-          <div class="entry">
-            <h3 class="name">Donald Trump</h3>
-            <div class="bar" id="donaldtrump"></div>
-            <div class="bar-label">10</div>
-          </div>
+        <h3 class="president-name left">Hillary Clinton <span id="electoralhillaryclinton">(100)</span></h3>
+        <h3 class="president-name right">Donald Trump <span id="electoraldonaldtrump">(10)</span></h3>
+        <div class="president-bar">
+          <div class="bar" id="hillaryclinton"></div>
+          <div class="bar" id="uncounted"></div>
+          <div class="bar" id="donaldtrump"></div>
+        </div>
+        <div class="marker270"><i class="fa fa-angle-double-up" aria-hidden="true"></i></div>
+        <div class="marker270label">270 electoral votes</div>
 
           <svg viewBox="0 0 959 593" width="700px" height="400px">
             <%= t.include("assets/states.svg") %>
           </svg>
 
-        <h2 class="race senate">US Senate</h2>
+        <h4 class="race senate">US Senate</h4>
           <div class="entry">
             <h3 class="name">Kamala Harris</h3>
             <div class="bar" id="kamalaharris"></div>
@@ -65,7 +64,7 @@
             <div class="bar-label">50</div>
           </div>
 
-        <h2 class="race senate">Congress</h2>
+        <h4 class="race senate">Congress</h4>
           <div class="entry">
             <h3 class="name">Michael Honda</h3>
             <div class="bar" id="michaelhonda"></div>
@@ -77,21 +76,60 @@
             <div class="bar-label">50</div>
           </div>
 
-      <h1>State</h1>
+      <h1 id="state">State</h1>
 
-      <div class="races">Races:</div>
+      <h2 class="races">Races:</h2>
 
-      <div class="propositions">Propositions:</div>
+      <h4 class="race senate">State Senate</h4>
+        <div class="entry">
+          <h3 class="name">Kim</h3>
+          <div class="bar" id="kim"></div>
+          <div class="bar-label">50</div>
+        </div>
+        <div class="entry">
+          <h3 class="name">Wiener</h3>
+          <div class="bar" id="wiener"></div>
+          <div class="bar-label">50</div>
+        </div>
 
+      <h4 class="race senate">District 9</h4>
+        <div class="entry">
+          <h3 class="name">Skinner</h3>
+          <div class="bar" id="skinner"></div>
+          <div class="bar-label">50</div>
+        </div>
+        <div class="entry">
+          <h3 class="name">Swanson</h3>
+          <div class="bar" id="swanson"></div>
+          <div class="bar-label">50</div>
+        </div>
 
+      <h4 class="race senate">State Assembly</h4>
+        <div class="entry">
+          <h3 class="name">Baker</h3>
+          <div class="bar" id="baker"></div>
+          <div class="bar-label">50</div>
+        </div>
+        <div class="entry">
+          <h3 class="name">Cook-Kallio</h3>
+          <div class="bar" id="cookkallio"></div>
+          <div class="bar-label">50</div>
+        </div>
+
+      <h2 class="propositions">Propositions:</h2>
+      <input type="text" placeholder="&#xf002;  Search by proposition number" id="propositions-search" style="font-family:AntennaExtraLight, FontAwesome">
+
+      <div class="propositions-list">
+        <div id="propositions-list"></div>
+      </div>
 
       <svg viewBox="0 0 167 284" width="700px" height="400px">
         <%= t.include("assets/CAcounties.svg") %>
       </svg>
 
-      <h1>Local</h1>
+      <h1 id="local">Local</h1>
 
-      <h1>Regional</h1>
+      <h1 id="regional">Regional</h1>
 
     </div>
 
@@ -102,7 +140,8 @@
     <script>
       var presidentialData = <%= JSON.stringify(csv.presidentialData) %>;
       var propList = window.propList = <%= JSON.stringify(csv.StatePropositionsData) %>;
-      console.log(propList);
+      var electoralVotes = <%= JSON.stringify(csv.electoralVotes) %>;
+      console.log(electoralVotes);
     </script>
 
     <script src="app.js" async></script>

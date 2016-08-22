@@ -1,9 +1,11 @@
 @import "sfchronicle";
 @import "fonts";
+@import "flexbox";
 
 @block-graphics: "AntennaExtraLight";
 @med-graphics: "AntennaRegular";
 @bold-graphics: "AntennaMedium";
+@black-graphics: "AntennaBlack";
 @body: "FarnhamText";
 @body-bold: "FarnhamTextBold";
 @title: "FarnhamDisplayLight";
@@ -40,11 +42,11 @@ body {
 }
 
 a {
-  color: @gray-blue;
+  color: #92172c;
 }
 
 a:hover {
-  color: darken(@gray-blue,10%);
+  color: darken(#92172c,10%);
 }
 
 hr{
@@ -55,6 +57,9 @@ hr{
 }
 
 h1 {
+  margin-top: 0;
+  padding-top: 40px;
+  margin-bottom: 0;
   color: darken(@red,40%) !important;
 }
 
@@ -62,7 +67,9 @@ h2 {
   font-size: 20px;
   color: @dark-gray;
   font-family: @block-graphics;
-  border-bottom: 1px @light-gray solid;
+  border-bottom: 5px @light-gray solid;
+  padding-top: 40px;
+  margin-bottom: 30px;
 }
 
 h3 {
@@ -71,6 +78,13 @@ h3 {
   padding: 0;
   // color: @dark-gray;
   font-family: @block-graphics;
+}
+
+h4 {
+  font-size: 20px;
+  font-family: @med-graphics;
+  border-bottom: 1px @light-gray solid;
+  margin-bottom: 5px;
 }
 
 .max{
@@ -255,7 +269,8 @@ footer {
 }
 
 .title {
-  font-family: @body-bold;
+  font-family: @block-graphics;
+  text-transform: uppercase;
   font-size: 60px;
   padding: 0 10px;
   text-align: center;
@@ -264,6 +279,9 @@ footer {
   padding-top: 50px;
   padding-bottom: 30px;
   color: darken(@red,40%);
+  .year {
+    font-family: @black-graphics;
+  }
 
   &.long {
     font-size: 50px;
@@ -311,6 +329,15 @@ footer {
   background-color: rgba(0, 0, 0, 0.61);
   max-width: 320px;
   padding: 2px 0px;
+}
+
+.deck {
+  color: @dark-gray;
+  width: 90%;
+  margin: auto;
+  font-family: @block-graphics;
+  margin-bottom: 50px;
+  text-align: center;
 }
 
 // sticky navigation bar -------------------------------
@@ -607,6 +634,7 @@ header {
 }
 
 .entry {
+  width: 100%;
   display: inline-block;
   font-family: @block-graphics;
   font-size: 18px;
@@ -629,4 +657,108 @@ header {
     width: 500px;
     vertical-align: text-top;
   }
+}
+
+.president-name {
+  height: 28px;
+  &.right {
+    float: right;
+  }
+  &.left {
+    float: left;
+  }
+}
+.president-bar {
+  width: 100%;
+  margin-top: 40px;
+}
+
+.bar {
+  display: inline;
+  float: left;
+  height: 20px;
+  // margin-bottom: 20px;
+}
+
+.marker270 {
+  clear:both;
+  display: block;
+  width: 13px;
+  margin: auto;
+  left: 50.18587%;
+  margin-bottom: 20px;
+}
+.marker270label {
+  font-family: @block-graphics;
+  font-size: 14px;
+  position: relative;
+  width: 200px;
+  left: 52%;
+  margin-top: -45px;
+}
+
+#uncounted {
+  background: #ccc;
+}
+#hillaryclinton {
+  background: #62A9CC;
+}
+#donaldtrump {
+  background: #F04646;
+}
+
+.propositions-list {
+  font-family: @block-graphics;
+  .display-flex;
+  .flex-wrap(wrap);
+  .prop-group {
+    margin: 10px;
+    padding: 10px;
+    background: lighten(@light-gray,15%);
+    border-radius: 5px;
+    display: none;
+    &.active {
+      display:block;
+      .flex(0 0 47%);
+    }
+  }
+}
+
+.prop-name {
+  font-weight: 400;
+}
+
+.prop-desc {
+  font-family: @med-graphics;
+  font-style: italic;
+  font-size: 14px;
+}
+.prop-link {
+  font-size: 14px;
+}
+
+.propno, .propyes {
+  margin-left: 20px;
+}
+
+.propyes {
+  i {
+    padding-left: 5px;
+    color: green;
+  }
+}
+.propno {
+  i {
+    padding-left: 5px;
+    color: red;
+  }
+}
+
+#propositions-search {
+  font-size: 18px;
+  width: 100%;
+  padding: 5px;
+  border-radius: 5px;
+  border: 1px solid @light-gray;
+  margin-bottom: 10px;
 }
