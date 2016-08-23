@@ -1,5 +1,5 @@
 
-// color coding states for presidential race
+// color coding states for presidential race------------------------------------
 
 // function for shading colors
 function shadeColor2(color, percent) {
@@ -17,6 +17,8 @@ presidentialData.forEach(function(state){
     document.getElementById(state.state).style.fill = String(new_color);//"darken('red',10)";
   }
 });
+
+// presidential race electoral votes -------------------------------------------
 
 // read in electoral votes
 console.log(electoralVotes);
@@ -40,6 +42,8 @@ document.getElementById("electoraldonaldtrump").innerHTML = "("+trump_electoralv
 document.getElementById("uncounted").style.width = String(uncounted_percent)+"%";
 document.getElementById("hillaryclinton").style.width = String(clinton_percent)+"%";
 document.getElementById("donaldtrump").style.width = String(trump_percent)+"%";
+
+// populating state section ----------------------------------------------------
 
 // populating state propositions list
 var propID = document.getElementById("propositions-list");
@@ -83,6 +87,8 @@ input.addEventListener('input', function(){
   });
 });
 
+// populating SF section -------------------------------------------------------
+
 // populating SF propositions list
 var SFpropID = document.getElementById("sf-propositions-list");
 SFpropList.forEach(function(prop){
@@ -119,6 +125,30 @@ sfinput.addEventListener('input', function(){
     class_match = 0;
   });
 });
+
+
+// populating SF supes
+[1,3,5,7,9,11].forEach(function(d,idx){
+  var html = "";
+  var supeID = document.getElementById("district"+d);
+  var results = SFsupesList.filter(function(supe){
+    return supe.district == d;
+  });
+  for (var ii=0; ii<results.length; ii++) {
+    var name_key = results[ii].name.toLowerCase().replace(/ /g,'').replace(".","").replace("'","");
+    console.log(name_key);
+    html = html+"<div class='entry'><h3 class='name'>"+results[ii].name+" ("+results[ii].party+")</h3><div class='bar' id='"+name_key+"'></div><div class='bar-label'>"+results[ii].vote_percent+"</div></div>";
+  }
+  supeID.insertAdjacentHTML("afterend",html)
+  results = [];
+});
+
+SFsupesList.forEach(function(d){
+  var name_key = d.name.toLowerCase().replace(/ /g,'').replace(".","").replace("'","");
+  document.getElementById(String(name_key)).style.width = String(d.vote_percent)+"%";
+});
+
+// controls for collapsing and expanding sections ------------------------------
 
 var propctrl = document.getElementById('propctrl');
 var propsec = document.getElementById('propsec');
