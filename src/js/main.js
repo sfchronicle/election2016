@@ -214,3 +214,61 @@ sctrl.addEventListener("click",function(){
     scaret.classList.add('fa-caret-down');
   }
 })
+
+var map = document.getElementById('map-container');
+var selectedState;
+var tooltip = document.getElementById('tooltip');
+
+console.log(map, tooltip);
+
+map.querySelector("svg").addEventListener("mouseenter", "g", function() {
+  console.log('whatwhat');
+  var state = this.id;
+  showTooltip();
+});
+
+map.querySelector("svg").addEventListener("mouseleave", "g", function() {
+  console.log('whatwhat');
+  hideTooltip(this);
+});
+
+var showTooltip = function(target) {
+  console.log('whatwhat');
+  tooltip.classList.add("show");
+  var laws = {
+    law1: "Malicious intent and bad faith required",
+    law2: "Riot suppression allowed",
+    law3: "Escapee shooting allowed",
+    law4: "Prior warning required",
+    law5: "No specific laws"
+  };
+  var hasLaw = false;
+  var lawItems = "";
+  for (var key in laws) {
+    if (target[key] == "Y") {
+      hasLaw = true;
+      lawItems += `<li>${laws[key]}</li>`;
+    }
+  }
+  if (!hasLaw) {
+    lawItems = "None of listed laws apply."
+  }
+  tooltip.innerHTML = `
+  <div class='tooltip-name'>${target.name}</div>
+  <ul class="tooltip-ls">${lawItems}</ul>
+  `;
+};
+
+var hideTooltip = function(target) {
+  tooltip.classList.remove("show");
+};
+
+document.querySelector("svg").addEventListener("mousemove", function(e) {
+  var bounds = this.getBoundingClientRect();
+  var x = e.clientX - bounds.left;
+  var y = e.clientY - bounds.top;
+  tooltip.style.left = x + 20 + "px";
+  tooltip.style.top = y + 20 + "px";
+
+  // tooltip.classList[x > bounds.width / 2 ? "add" : "remove"]("flip");
+});
