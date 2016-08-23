@@ -1,6 +1,6 @@
-<?xml version="1.0" encoding="utf-8"?>
+<!-- <?xml version="1.0" encoding="utf-8"?>
 <!-- Generator: Adobe Illustrator 18.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
 	 preserveAspectRatio="xMidYMid slice"
 	 viewBox="104.4 472.6 521.8 339.9" enable-background="new 104.4 472.6 521.8 339.9" xml:space="preserve">
@@ -208,8 +208,8 @@
 		<polygon class="WY" fill="#D1D3D4" stroke="#FFFFFF" points="240.4,629.9 217.7,643.1 195,629.9 195,603.7 217.7,590.7 240.4,603.7 "/>
 		<text transform="matrix(1 0 0 1 207.5913 621.8779)" font-family="'ArialMT'" font-size="12.6099">WY</text>
 	</g>
-</svg>
-<!-- <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+</svg> --> -->
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <svg xmlns="http://www.w3.org/2000/svg" width="959" height="593">
 <title>Blank US states map.svg</title>
 <g id="outlines">
@@ -266,4 +266,4 @@
 	<circle id="DC" fill="#D3D3D3" stroke="#FFFFFF" stroke-width="1.5" cx="801.3" cy="251.8" r="5"/>
 </g>
 <path id="frames" fill="none" stroke="#A9A9A9" stroke-width="2" d="M215,493v55l36,45 M0,425h147l68,68h85l54,54v46"/>
-</svg> -->
+</svg>

@@ -1,29 +1,29 @@
 district,name,party,vote_percent,win
-1,David E. Lee,TK,50,"yes"
-1,Sherman D'Silva,TK,20,
-1,Andy Thornley,TK,10,
-1,Jason Jungreis,TK,10,
-1,Jonathan Lyens,TK,0,
-1,Richie Greenberg,TK,0,
-1,Sandra Lee Fewer,TK,5,
-1,Brian J. Larkin,TK,5,
-1,Marjan Philhour,TK,0,
-1,Samuel Kwong,TK,0,
-3,Aaron Peskin,TK,40,
-3,Tim E. Donnelly,TK,60,"yes"
-5,London Breed,TK,30,
-5,Dean Preston,TK,70,"yes"
-7,Norman Yee,TK,30,"yes"
-7,Ben P Matranga,TK,20,
-7,Joel Engardio,TK,20,
-7,Michael Young,TK,10,
-7,John Farrell,TK,10,
-9,Hillary Ronen,TK,20,
-9,Joshua Arce,TK,50,"yes"
-9,Melissa San Miguel,TK,10,
-9,Iswari Espana,TK,20,
-11,Kimberly Alvarenga,TK,20,
-11,Ahsha Safai,TK,10,
-11,Magdalena De Guzman,TK,10,
-11,Berta Hernandez,TK,50,"yes"
-11,Francisco Herrera,TK,10,
+1,David E. Lee,,50,"yes"
+1,Sherman D'Silva,,20,
+1,Andy Thornley,,10,
+1,Jason Jungreis,,10,
+1,Jonathan Lyens,,0,
+1,Richie Greenberg,,0,
+1,Sandra Lee Fewer,,5,
+1,Brian J. Larkin,,5,
+1,Marjan Philhour,,0,
+1,Samuel Kwong,,0,
+3,Aaron Peskin,,40,
+3,Tim E. Donnelly,,60,"yes"
+5,London Breed,,30,
+5,Dean Preston,,70,"yes"
+7,Norman Yee,,30,"yes"
+7,Ben P Matranga,,20,
+7,Joel Engardio,,20,
+7,Michael Young,,10,
+7,John Farrell,,10,
+9,Hillary Ronen,,20,
+9,Joshua Arce,,50,"yes"
+9,Melissa San Miguel,,10,
+9,Iswari Espana,,20,
+11,Kimberly Alvarenga,,20,
+11,Ahsha Safai,,10,
+11,Magdalena De Guzman,,10,
+11,Berta Hernandez,,50,"yes"
+11,Francisco Herrera,,10,

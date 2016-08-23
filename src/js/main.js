@@ -9,6 +9,7 @@ function shadeColor2(color, percent) {
 
 // looping through the presidential results by state
 presidentialData.forEach(function(state){
+  console.log(state.state);
   if (state.percent_dem > state.percent_rep){
     var new_color = shadeColor2("#62A9CC",1-state.percent_dem);
     document.getElementById(state.state).style.fill = String(new_color);//"darken('blue',10)";
@@ -93,7 +94,7 @@ input.addEventListener('input', function(){
 var SFpropID = document.getElementById("sf-propositions-list");
 SFpropList.forEach(function(prop){
   if (prop.result == "yes") {
-    var html = "<div class='sf-prop-group active "+prop.letter+"'><div class='sf-prop-name'>"+prop.letter+": "+prop.title+"</div>"+"<div class='sfresult'><i class='fa fa-check-square-o' aria-hidden='true'></i>"+"Yes: "+prop.yes+"% / No: "+prop.no+"%"+"</div>"+"<div class='sf-prop-desc'>"+prop.description+"</div><div class='sf-prop-link'><a target='_blank' href='"+prop.link+"'><i class='fa fa-external-link' aria-hidden='true'></i>  Read more</a></div>"
+    var html = "<div class='sf-prop-group active "+prop.letter+"'><div class='sf-prop-name'>"+prop.letter+": "+prop.title+"</div>"+"<div class='sfresult'>"+"Yes: "+prop.yes+"% / No: "+prop.no+"%"+"</div>"+"<div class='sf-prop-desc'>"+prop.description+"</div><div class='sf-prop-link'><a target='_blank' href='"+prop.link+"'><i class='fa fa-external-link' aria-hidden='true'></i>  Read more</a></div>"
   } else if (prop.result == "no") {
     var html = "<div class='sf-prop-group active "+prop.letter+"'><div class='sf-prop-name'>"+prop.letter+": "+prop.title+"</div>"+"<div class='sfresult'>"+"Yes: "+prop.yes+"% /<i class='fa fa-times' aria-hidden='true'></i> No: "+prop.no+"%"+"</div>"+"<div class='sf-prop-desc'>"+prop.description+"</div><div class='sf-prop-link'><a target='_blank' href='"+prop.link+"'><i class='fa fa-external-link' aria-hidden='true'></i>  Read more</a></div>"
   } else {
@@ -135,9 +136,13 @@ sfinput.addEventListener('input', function(){
     return supe.district == d;
   });
   for (var ii=0; ii<results.length; ii++) {
-    var name_key = results[ii].name.toLowerCase().replace(/ /g,'').replace(".","").replace("'","");
-    console.log(name_key);
-    html = html+"<div class='entry'><h3 class='name'>"+results[ii].name+" ("+results[ii].party+")</h3><div class='bar' id='"+name_key+"'></div><div class='bar-label'>"+results[ii].vote_percent+"</div></div>";
+    if (results[ii].win == "yes") {
+      var name_key = results[ii].name.toLowerCase().replace(/ /g,'').replace(".","").replace("'","");
+      html = html+"<div class='entry'><h3 class='name'><i class='fa fa-check-square-o' aria-hidden='true'></i>"+results[ii].name+" ("+results[ii].party+")</h3><div class='bar' id='"+name_key+"'></div><div class='bar-label'>"+results[ii].vote_percent+"</div></div>";
+    } else {
+      var name_key = results[ii].name.toLowerCase().replace(/ /g,'').replace(".","").replace("'","");
+      html = html+"<div class='entry'><h3 class='name'>"+results[ii].name+" ("+results[ii].party+")</h3><div class='bar' id='"+name_key+"'></div><div class='bar-label'>"+results[ii].vote_percent+"</div></div>";
+    }
   }
   supeID.insertAdjacentHTML("afterend",html)
   results = [];
@@ -145,7 +150,16 @@ sfinput.addEventListener('input', function(){
 
 SFsupesList.forEach(function(d){
   var name_key = d.name.toLowerCase().replace(/ /g,'').replace(".","").replace("'","");
-  document.getElementById(String(name_key)).style.width = "calc("+String(d.vote_percent)+"%-300px)";
+  var width = document.getElementById("sctrl").getBoundingClientRect().width;
+  var pixels = (width-250)*(d.vote_percent/100); // THIS WILL NEED AN UPDATE FOR MOBILE!!!!!
+  document.getElementById(String(name_key)).style.width = String(pixels)+"px";
+  if (d.party == "D") {
+    document.getElementById(String(name_key)).style.background = "#62A9CC";
+  } else if (d.party == "R") {
+    document.getElementById(String(name_key)).style.background = "#F04646";
+  } else {
+    document.getElementById(String(name_key)).style.background = "#62A9CC";
+  }
 });
 
 // controls for collapsing and expanding sections ------------------------------
@@ -215,60 +229,60 @@ sctrl.addEventListener("click",function(){
   }
 })
 
-var map = document.getElementById('map-container');
-var selectedState;
-var tooltip = document.getElementById('tooltip');
-
-console.log(map, tooltip);
-
-map.querySelector("svg").addEventListener("mouseenter", "g", function() {
-  console.log('whatwhat');
-  var state = this.id;
-  showTooltip();
-});
-
-map.querySelector("svg").addEventListener("mouseleave", "g", function() {
-  console.log('whatwhat');
-  hideTooltip(this);
-});
-
-var showTooltip = function(target) {
-  console.log('whatwhat');
-  tooltip.classList.add("show");
-  var laws = {
-    law1: "Malicious intent and bad faith required",
-    law2: "Riot suppression allowed",
-    law3: "Escapee shooting allowed",
-    law4: "Prior warning required",
-    law5: "No specific laws"
-  };
-  var hasLaw = false;
-  var lawItems = "";
-  for (var key in laws) {
-    if (target[key] == "Y") {
-      hasLaw = true;
-      lawItems += `<li>${laws[key]}</li>`;
-    }
-  }
-  if (!hasLaw) {
-    lawItems = "None of listed laws apply."
-  }
-  tooltip.innerHTML = `
-  <div class='tooltip-name'>${target.name}</div>
-  <ul class="tooltip-ls">${lawItems}</ul>
-  `;
-};
-
-var hideTooltip = function(target) {
-  tooltip.classList.remove("show");
-};
-
-document.querySelector("svg").addEventListener("mousemove", function(e) {
-  var bounds = this.getBoundingClientRect();
-  var x = e.clientX - bounds.left;
-  var y = e.clientY - bounds.top;
-  tooltip.style.left = x + 20 + "px";
-  tooltip.style.top = y + 20 + "px";
-
-  // tooltip.classList[x > bounds.width / 2 ? "add" : "remove"]("flip");
-});
+// var map = document.getElementById('map-container');
+// var selectedState;
+// var tooltip = document.getElementById('tooltip');
+//
+// console.log(map, tooltip);
+//
+// map.querySelector("svg").addEventListener("mouseenter", "g", function() {
+//   console.log('whatwhat');
+//   var state = this.id;
+//   showTooltip();
+// });
+//
+// map.querySelector("svg").addEventListener("mouseleave", "g", function() {
+//   console.log('whatwhat');
+//   hideTooltip(this);
+// });
+//
+// var showTooltip = function(target) {
+//   console.log('whatwhat');
+//   tooltip.classList.add("show");
+//   var laws = {
+//     law1: "Malicious intent and bad faith required",
+//     law2: "Riot suppression allowed",
+//     law3: "Escapee shooting allowed",
+//     law4: "Prior warning required",
+//     law5: "No specific laws"
+//   };
+//   var hasLaw = false;
+//   var lawItems = "";
+//   for (var key in laws) {
+//     if (target[key] == "Y") {
+//       hasLaw = true;
+//       lawItems += `<li>${laws[key]}</li>`;
+//     }
+//   }
+//   if (!hasLaw) {
+//     lawItems = "None of listed laws apply."
+//   }
+//   tooltip.innerHTML = `
+//   <div class='tooltip-name'>${target.name}</div>
+//   <ul class="tooltip-ls">${lawItems}</ul>
+//   `;
+// };
+//
+// var hideTooltip = function(target) {
+//   tooltip.classList.remove("show");
+// };
+//
+// document.querySelector("svg").addEventListener("mousemove", function(e) {
+//   var bounds = this.getBoundingClientRect();
+//   var x = e.clientX - bounds.left;
+//   var y = e.clientY - bounds.top;
+//   tooltip.style.left = x + 20 + "px";
+//   tooltip.style.top = y + 20 + "px";
+//
+//   // tooltip.classList[x > bounds.width / 2 ? "add" : "remove"]("flip");
+// });
