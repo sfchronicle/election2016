@@ -29,16 +29,18 @@
       <div id="stick-me">
         <div class="sub-title-links outer" style="margin: 0 auto;">
           <div class="long" id="long">ELECTION <span class="year">2016</span></div>
-          <div class="sub-title"><a href="#federal">Federal</a></div>
-          <div class="sub-title"><a href="#state">State</a></div>
-          <div class="sub-title"><a href="#local">Local</a></div>
-          <div class="sub-title"><a href="#regional">Regional</a></div>
+          <div class="sub-title"><a id="f" href="#federal">Federal</a></div>
+          <div class="sub-title"><a id="s" href="#state">State</a></div>
+          <div class="sub-title"><a id="l" href="#local">Local</a></div>
+          <div class="sub-title"><a id="r" href="#regional">Regional</a></div>
         </div>
       </div>
       <div id="stick-ph"></div>
 
       <div class="outer">
-      <h1 id="federal">Federal</h1>
+
+      <section id="federal">
+      <h1>Federal</h1>
 
         <h4 class="race president">President</h4>
 
@@ -84,8 +86,9 @@
             <div class="bar" id="rokhanna"></div>
             <div class="bar-label">50</div>
           </div>
-
-      <h1 id="state">State</h1>
+    </section>
+    <section id="state">
+      <h1>State</h1>
 
       <h2 class="races" id="racectrl"><i class="fa fa-caret-right" id="rcaret" aria-hidden="true"></i>  Races:</h2>
 
@@ -125,6 +128,56 @@
           <h3 class="name">Cheryl Cook-Kallio (D)</h3>
           <div class="bar" id="cookkallio"></div>
           <div class="bar-label">50</div>
+
+        <h4 class="race senate">State Senate</h4>
+          <div class="entry">
+            <h3 class="name">Kim</h3>
+            <div class="bar" id="kim"></div>
+            <div class="bar-label">50</div>
+          </div>
+          <div class="entry">
+            <h3 class="name">Wiener</h3>
+            <div class="bar" id="wiener"></div>
+            <div class="bar-label">50</div>
+          </div>
+
+        <h4 class="race senate">District 9</h4>
+          <div class="entry">
+            <h3 class="name">Skinner</h3>
+            <div class="bar" id="skinner"></div>
+            <div class="bar-label">50</div>
+          </div>
+          <div class="entry">
+            <h3 class="name">Swanson</h3>
+            <div class="bar" id="swanson"></div>
+            <div class="bar-label">50</div>
+          </div>
+
+        <h4 class="race senate">State Senate</h4>
+          <div class="entry">
+            <h3 class="name">Kim</h3>
+            <div class="bar" id="kim"></div>
+            <div class="bar-label">50</div>
+          </div>
+          <div class="entry">
+            <h3 class="name">Wiener</h3>
+            <div class="bar" id="wiener"></div>
+            <div class="bar-label">50</div>
+          </div>
+
+        <h4 class="race senate">District 9</h4>
+          <div class="entry">
+            <h3 class="name">Skinner</h3>
+            <div class="bar" id="skinner"></div>
+            <div class="bar-label">50</div>
+          </div>
+          <div class="entry">
+            <h3 class="name">Swanson</h3>
+            <div class="bar" id="swanson"></div>
+            <div class="bar-label">50</div>
+          </div>
+
+        </div>
         </div>
       </div>
 
@@ -140,8 +193,10 @@
       <svg viewBox="0 0 167 284" width="700px" height="400px">
         <%= t.include("assets/CAcounties.svg") %>
       </svg>
+    </section>
+    <section id="local">
 
-      <h1 id="local">Local</h1>
+      <h1>Local</h1>
 
       <h2 class="races" id="sctrl"><i class="fa fa-caret-right" id="scaret" aria-hidden="true"></i>  SF Supervisors:</h2>
       <div id="ssec">
@@ -161,8 +216,12 @@
           <div id="sf-propositions-list"></div>
         </div>
       </div>
+    </section>
+    <section id="regional">
 
-      <h1 id="regional">Regional</h1>
+      <h1>Regional</h1>
+
+    </section>
 
     </div>
 
