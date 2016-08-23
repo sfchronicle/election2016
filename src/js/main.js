@@ -145,7 +145,7 @@ sfinput.addEventListener('input', function(){
 
 SFsupesList.forEach(function(d){
   var name_key = d.name.toLowerCase().replace(/ /g,'').replace(".","").replace("'","");
-  document.getElementById(String(name_key)).style.width = String(d.vote_percent)+"%";
+  document.getElementById(String(name_key)).style.width = "calc("+String(d.vote_percent)+"%-300px)";
 });
 
 // controls for collapsing and expanding sections ------------------------------
