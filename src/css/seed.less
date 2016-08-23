@@ -268,6 +268,10 @@ footer {
     margin-bottom: 40px;
 }
 
+.year {
+  font-family: @black-graphics;
+}
+
 .title {
   font-family: @block-graphics;
   text-transform: uppercase;
@@ -279,9 +283,6 @@ footer {
   padding-top: 50px;
   padding-bottom: 30px;
   color: darken(@red,40%);
-  .year {
-    font-family: @black-graphics;
-  }
 
   &.long {
     font-size: 50px;
@@ -344,11 +345,24 @@ footer {
 
 .fixed {
   position: fixed;
-  top: 0;
+  top: 0 !important;
+  z-index: 100;
   width: 100%;
-  z-index: 99;
   left: 0;
-  height: 37px;
+  right: 0;
+  border-top: 0 !important;
+}
+
+#stick-me {
+  border-top: 1px @light-gray solid;
+  border-bottom: 1px @light-gray solid;
+  background-color: white;
+  height: 40px;
+}
+
+#stick-ph {
+  display: none;
+  height: 40px;
 }
 
 .link {
@@ -615,6 +629,13 @@ header {
     float: left;
     width: 120px;
     cursor: pointer;
+  }
+  .long {
+    display: none;
+    width: 200px;
+    float: right;
+    color: #92172c;
+    text-align: right;
   }
 }
 
