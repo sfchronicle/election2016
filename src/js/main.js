@@ -354,6 +354,15 @@ sctrl.addEventListener("click",function(){
 
 window.onscroll = function() {activate()};
 
+var targetOffset, currentPosition,
+    body = document.body,
+    f = document.getElementById('f'),
+    s = document.getElementById('s'),
+    l = document.getElementById('l'),
+    r = document.getElementById('r'),
+    scroll = [f, s, l, r],
+    animateTime = 900;
+
 function activate() {
   var sticker = document.getElementById('stick-me');
   var sticker_ph = document.getElementById('stick-ph');
@@ -370,4 +379,72 @@ function activate() {
       sticker_ph.style.display = 'none'; // removes placeholder
       long.style.display = 'none';
   }
+
+  var fsec = document.getElementById('federal');
+  var ssec = document.getElementById('state');
+  var lsec = document.getElementById('local');
+  var rsec = document.getElementById('regional');
+
+  var f_top = fsec.getBoundingClientRect().top + window_top - 40;
+  var s_top = ssec.getBoundingClientRect().top + window_top - 40;
+  var l_top = lsec.getBoundingClientRect().top + window_top - 40;
+  var r_top = rsec.getBoundingClientRect().top + window_top - 40;
+
+  var f_btm = fsec.getBoundingClientRect().bottom + window_top - 40;
+  var s_btm = ssec.getBoundingClientRect().bottom + window_top - 40;
+  var l_btm = lsec.getBoundingClientRect().bottom + window_top - 40;
+  var r_btm = rsec.getBoundingClientRect().bottom + window_top - 40;
+
+  var top = [f_top, s_top, l_top, r_top];
+  var btm = [f_btm, s_btm, l_btm, r_btm];
+
+  console.log(f_btm, f_top, window_top)
+
+  for (var i = 0; i < top.length; i++) {
+    if ((top[i] < window_top) && (btm[i] > window_top)) {
+      scroll[i].classList.add('activelink');
+    }
+    else {
+      scroll[i].classList.remove('activelink');
+    }
+  }
 }
+
+function getPageScroll() {
+  var yScroll;
+
+  if (window.pageYOffset) {
+    yScroll = window.pageYOffset;
+  } else if (document.documentElement && document.documentElement.scrollTop) {
+    yScroll = document.documentElement.scrollTop;
+  } else if (document.body) {
+    yScroll = document.body.scrollTop;
+  }
+  return yScroll;
+}
+
+scroll.forEach(function(d){
+
+  d.addEventListener('click', function (event) {
+
+    targetOffset = document.getElementById(event.target.hash.substr(1)).offsetTop;
+    currentPosition = getPageScroll();
+
+    body.classList.add('in-transition');
+
+    for (var i = 0; i < scroll.length; i++) {
+        body.style.WebkitTransform = "translate(0, " + (currentPosition - targetOffset) + "px)";
+        body.style.MozTransform = "translate(0, " + (currentPosition - targetOffset) + "px)";
+        body.style.transform = "translate(0, " + (currentPosition - targetOffset) + "px)";
+    }
+
+    window.setTimeout(function () {
+      body.classList.remove('in-transition');
+      body.style.cssText = "";
+      window.scrollTo(0, targetOffset);
+    }, animateTime);
+
+    event.preventDefault();
+
+  }, false)
+});
