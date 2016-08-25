@@ -1,3 +1,66 @@
+var d3 = require('d3');
+var topojson = require('topojson');
+
+var width = 960,
+    height = 500;
+
+var projection = d3.geo.albersUsa()
+    .scale(1000)
+    .translate([width / 2, height / 2]);
+
+var path = d3.geo.path()
+    .projection(null);
+
+var svg = d3.select("#topo-map-container").append("svg")
+    .attr("width", width)
+    .attr("height", height);
+
+d3.json("../assets/maps/us_state.topo.albersusa.features.json", function(error, us) {
+  if (error) throw error;
+
+  console.log(us);
+  console.log(topojson.feature(us, us.objects.features));
+
+  // svg.append("g")
+  //   .attr("class", "counties")
+  // .selectAll("path")
+  //   .data(topojson.feature(us, us.objects.features))
+  // .enter().append("path")
+  //   .attr("d", path)
+  //   .style("fill", function(d) { return "red"; });
+  //
+  // svg.append("path")
+  //     .datum(topojson.mesh(us, us.objects.features, function(a, b) { return a.id !== b.id; }))
+  //     .attr("class", "states")
+  //     .attr("d", path);
+
+  svg.append("path")
+      .datum(topojson.feature(us, us.objects.features))
+      .attr("class", "states")
+      .attr("d", path)
+      .style("fill", function(d) {
+        return "#b2b2b2";//fill(path.area(d));
+      });
+  svg.selectAll(".states")
+    .data(topojson.feature(us, us.objects.features).features).enter()
+    .append("path")
+    .attr("class", "states")
+    .attr("d", path)
+});
+
+// d3.select(self.frameElement).style("height", height + "px");
+
+// d3.json("../assets/maps/us_house.topo.albersusa.features.json", function(error, us) {
+//   if (error) throw error;
+//
+//   svg.append("path")
+//       .attr("d", path({
+//         type: "MultiLineString",
+//         coordinates: topojson.feature(us, us.objects.counties).features
+//             .filter(function(d) { return d.geometry && d.geometry.coordinates.length; })
+//             .map(d3.geo.bounds)
+//       }));
+// });
 
 // color coding states for presidential race------------------------------------
 
