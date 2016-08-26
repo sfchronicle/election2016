@@ -1,6 +1,8 @@
-state,percent_dem,percent_rep,electoral_count
+key,percent_dem,percent_rep,electoral_count
 CA,0.9,0.1,55
 WA,0.8,0.1,30
 OR,0.9,0.1,5
 TX,0.1,0.9,30
 FL,0.55,0.45,10
+AZ,0.1,0.9,10
+NM,0.2,0.6,5

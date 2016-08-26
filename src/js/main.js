@@ -1,6 +1,14 @@
 var d3 = require('d3');
 var topojson = require('topojson');
 
+// function for shading colors
+function shadeColor2(color, percent) {
+    var f=parseInt(color.slice(1),16),t=percent<0?0:255,p=percent<0?percent*-1:percent,R=f>>16,G=f>>8&0x00FF,B=f&0x0000FF;
+    return "#"+(0x1000000+(Math.round((t-R)*p)+R)*0x10000+(Math.round((t-G)*p)+G)*0x100+(Math.round((t-B)*p)+B)).toString(16).slice(1);
+}
+
+// loading map of the states ---------------------------------------------------
+
 var width = 960,
     height = 500;
 
@@ -18,69 +26,65 @@ var svg = d3.select("#topo-map-container").append("svg")
 d3.json("../assets/maps/us_state.topo.albersusa.features.json", function(error, us) {
   if (error) throw error;
 
-  console.log(us);
-  console.log(topojson.feature(us, us.objects.features));
-
-  // svg.append("g")
-  //   .attr("class", "counties")
-  // .selectAll("path")
-  //   .data(topojson.feature(us, us.objects.features))
-  // .enter().append("path")
-  //   .attr("d", path)
-  //   .style("fill", function(d) { return "red"; });
-  //
-  // svg.append("path")
-  //     .datum(topojson.mesh(us, us.objects.features, function(a, b) { return a.id !== b.id; }))
-  //     .attr("class", "states")
-  //     .attr("d", path);
-
   svg.append("path")
       .datum(topojson.feature(us, us.objects.features))
       .attr("class", "states")
-      .attr("d", path)
-      .style("fill", function(d) {
-        return "#b2b2b2";//fill(path.area(d));
-      });
+      .attr("d", path);
+      // .style("fill", function(d) {
+      //   return "#b2b2b2";//fill(path.area(d));
+      // });
   svg.selectAll(".states")
     .data(topojson.feature(us, us.objects.features).features).enter()
     .append("path")
     .attr("class", "states")
+    .attr("id",function(d) {
+      return "state"+parseInt(d.id);
+    })
+    .style("fill", function(d) {
+      var stateabbrev = stateCodes[parseInt(d.id)].state;
+      if (presidentialData[String(stateabbrev)]) {
+          var tempvar = presidentialData[String(stateabbrev)];
+          if (tempvar.percent_dem > tempvar.percent_rep){
+            var new_color = shadeColor2("#62A9CC",1-tempvar.percent_dem);
+            return String(new_color);//"darken('blue',10)";
+          } else {
+            var new_color = shadeColor2("#F04646",1-tempvar.percent_rep);
+            return String(new_color);//"darken('red',10)";
+          }
+      } else {
+        return "#b2b2b2";//fill(path.area(d));
+      }
+    })
     .attr("d", path)
 });
 
-// d3.select(self.frameElement).style("height", height + "px");
-
-// d3.json("../assets/maps/us_house.topo.albersusa.features.json", function(error, us) {
-//   if (error) throw error;
-//
-//   svg.append("path")
-//       .attr("d", path({
-//         type: "MultiLineString",
-//         coordinates: topojson.feature(us, us.objects.counties).features
-//             .filter(function(d) { return d.geometry && d.geometry.coordinates.length; })
-//             .map(d3.geo.bounds)
-//       }));
-// });
-
 // color coding states for presidential race------------------------------------
 
-// function for shading colors
-function shadeColor2(color, percent) {
-    var f=parseInt(color.slice(1),16),t=percent<0?0:255,p=percent<0?percent*-1:percent,R=f>>16,G=f>>8&0x00FF,B=f&0x0000FF;
-    return "#"+(0x1000000+(Math.round((t-R)*p)+R)*0x10000+(Math.round((t-G)*p)+G)*0x100+(Math.round((t-B)*p)+B)).toString(16).slice(1);
-}
 
-// looping through the presidential results by state
-presidentialData.forEach(function(state){
-  console.log(state.state);
-  if (state.percent_dem > state.percent_rep){
-    var new_color = shadeColor2("#62A9CC",1-state.percent_dem);
-    document.getElementById(state.state).style.fill = String(new_color);//"darken('blue',10)";
-  } else {
-    var new_color = shadeColor2("#F04646",1-state.percent_rep);
-    document.getElementById(state.state).style.fill = String(new_color);//"darken('red',10)";
-  }
-});
+
+// console.log(stateCodes);
+//
+// // looping through the presidential results by state
+// presidentialData.forEach(function(state){
+//   console.log(state.state);
+//   console.log(stateCodes[state.state].code);
+//   var idname = "#state"+stateCodes[state.state].code;
+//   console.log(idname);
+//   var item = d3.select(String(idname));
+//   console.log(item);
+//   d3.select("path#state06").attr("fill","blue");
+//   if (state.percent_dem > state.percent_rep){
+//     var new_color = shadeColor2("#62A9CC",1-state.percent_dem);
+//     // console.log(new_color);
+//     // console.log(d3.select(idname).attr("fill"));
+//     item.style("fill",String(new_color));//"darken('blue',10)";
+//   } else {
+//     var new_color = shadeColor2("#F04646",1-state.percent_rep);
+//     // console.log(new_color);
+//     // console.log(d3.select(idname).attr("fill"));
+//     item.style("fill",String(new_color));//"darken('red',10)";
+//   }
+// });
 
 // presidential race electoral votes -------------------------------------------
 
@@ -292,64 +296,6 @@ sctrl.addEventListener("click",function(){
   }
 })
 
-// var map = document.getElementById('map-container');
-// var selectedState;
-// var tooltip = document.getElementById('tooltip');
-//
-// console.log(map, tooltip);
-//
-// map.querySelector("svg").addEventListener("mouseenter", "g", function() {
-//   console.log('whatwhat');
-//   var state = this.id;
-//   showTooltip();
-// });
-//
-// map.querySelector("svg").addEventListener("mouseleave", "g", function() {
-//   console.log('whatwhat');
-//   hideTooltip(this);
-// });
-//
-// var showTooltip = function(target) {
-//   console.log('whatwhat');
-//   tooltip.classList.add("show");
-//   var laws = {
-//     law1: "Malicious intent and bad faith required",
-//     law2: "Riot suppression allowed",
-//     law3: "Escapee shooting allowed",
-//     law4: "Prior warning required",
-//     law5: "No specific laws"
-//   };
-//   var hasLaw = false;
-//   var lawItems = "";
-//   for (var key in laws) {
-//     if (target[key] == "Y") {
-//       hasLaw = true;
-//       lawItems += `<li>${laws[key]}</li>`;
-//     }
-//   }
-//   if (!hasLaw) {
-//     lawItems = "None of listed laws apply."
-//   }
-//   tooltip.innerHTML = `
-//   <div class='tooltip-name'>${target.name}</div>
-//   <ul class="tooltip-ls">${lawItems}</ul>
-//   `;
-// };
-//
-// var hideTooltip = function(target) {
-//   tooltip.classList.remove("show");
-// };
-//
-// document.querySelector("svg").addEventListener("mousemove", function(e) {
-//   var bounds = this.getBoundingClientRect();
-//   var x = e.clientX - bounds.left;
-//   var y = e.clientY - bounds.top;
-//   tooltip.style.left = x + 20 + "px";
-//   tooltip.style.top = y + 20 + "px";
-//
-//   // tooltip.classList[x > bounds.width / 2 ? "add" : "remove"]("flip");
-// });
-
 // doing stuff
 
 window.onscroll = function() {activate()};
@@ -397,8 +343,6 @@ function activate() {
 
   var top = [f_top, s_top, l_top, r_top];
   var btm = [f_btm, s_btm, l_btm, r_btm];
-
-  console.log(f_btm, f_top, window_top)
 
   for (var i = 0; i < top.length; i++) {
     if ((top[i] < window_top) && (btm[i] > window_top)) {

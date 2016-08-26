@@ -52,16 +52,12 @@
           <div class="bar" id="donaldtrump"></div>
           <div class="mark270"></div>
         </div>
-<!--         <div class="marker270"><i class="fa fa-angle-double-up" aria-hidden="true"></i></div>
+        <div class="marker270"><i class="fa fa-angle-double-up" aria-hidden="true"></i></div>
         <div class="marker270label">270 electoral votes</div>
- -->
-        <div id="map-container">
-          <div id="tooltip"></div>
-          <div id="map">
-            <svg viewBox="0 0 959 593" width="700px" height="400px">
-              <%= t.include("assets/states.svg") %>
-            </svg>
-          </div>
+
+        <div class="button-container">
+          <div class="button stateview">Results by state</div>
+          <div class="button countyview">Results by county</div>
         </div>
 
         <div id="topo-map-container"></div>
@@ -132,54 +128,6 @@
           <div class="bar" id="cookkallio"></div>
           <div class="bar-label">50</div>
 
-        <h4 class="race senate">State Senate</h4>
-          <div class="entry">
-            <h3 class="name">Kim</h3>
-            <div class="bar" id="kim"></div>
-            <div class="bar-label">50</div>
-          </div>
-          <div class="entry">
-            <h3 class="name">Wiener</h3>
-            <div class="bar" id="wiener"></div>
-            <div class="bar-label">50</div>
-          </div>
-
-        <h4 class="race senate">District 9</h4>
-          <div class="entry">
-            <h3 class="name">Skinner</h3>
-            <div class="bar" id="skinner"></div>
-            <div class="bar-label">50</div>
-          </div>
-          <div class="entry">
-            <h3 class="name">Swanson</h3>
-            <div class="bar" id="swanson"></div>
-            <div class="bar-label">50</div>
-          </div>
-
-        <h4 class="race senate">State Senate</h4>
-          <div class="entry">
-            <h3 class="name">Kim</h3>
-            <div class="bar" id="kim"></div>
-            <div class="bar-label">50</div>
-          </div>
-          <div class="entry">
-            <h3 class="name">Wiener</h3>
-            <div class="bar" id="wiener"></div>
-            <div class="bar-label">50</div>
-          </div>
-
-        <h4 class="race senate">District 9</h4>
-          <div class="entry">
-            <h3 class="name">Skinner</h3>
-            <div class="bar" id="skinner"></div>
-            <div class="bar-label">50</div>
-          </div>
-          <div class="entry">
-            <h3 class="name">Swanson</h3>
-            <div class="bar" id="swanson"></div>
-            <div class="bar-label">50</div>
-          </div>
-
         </div>
         </div>
 
@@ -237,6 +185,7 @@
       var SFpropList = window.SFpropList = <%= JSON.stringify(csv.SFPropositionsData) %>;
       var SFsupesList = <%= JSON.stringify(csv.SFSupesData) %>;
       var electoralVotes = <%= JSON.stringify(csv.electoralVotes) %>;
+      var stateCodes = <%= JSON.stringify(csv.stateCodes) %>;
     </script>
 
     <script src="app.js" async></script>
