@@ -7,10 +7,13 @@ function shadeColor2(color, percent) {
     return "#"+(0x1000000+(Math.round((t-R)*p)+R)*0x10000+(Math.round((t-G)*p)+G)*0x100+(Math.round((t-B)*p)+B)).toString(16).slice(1);
 }
 
-// loading map of the states ---------------------------------------------------
+// PRESIDENTIAL MAP ------------------------------------------------------------
 
 var width = 960,
     height = 500;
+
+var presidentmap_bystate = "../assets/maps/us_state.topo.albersusa.features.json";
+var presidentmap_bycounty = "../assets/maps/us_county.topo.albersusa.features.json";
 
 var projection = d3.geo.albersUsa()
     .scale(1000)
@@ -19,21 +22,37 @@ var projection = d3.geo.albersUsa()
 var path = d3.geo.path()
     .projection(null);
 
-var svg = d3.select("#topo-map-container").append("svg")
-    .attr("width", width)
-    .attr("height", height);
+document.querySelector('#presidentbystate').addEventListener('click', function(){
+  document.querySelector("#presidentbycounty").classList.remove("active");
+  this.classList.add("active");
+  var statesmap = d3.select("#president-map-states-svg");
+  d3.select("#president-map-states-svg").style("display","block");
+  d3.select("#president-map-counties-svg").style("display","none");
+});
+document.querySelector('#presidentbycounty').addEventListener('click', function(){
+  document.querySelector("#presidentbystate").classList.remove("active");
+  this.classList.add("active");
+  var statesmap = d3.select("#president-map-states-svg");
+  d3.select("#president-map-states-svg").style("display","none");
+  d3.select("#president-map-counties-svg").style("display","block");
+});
 
-d3.json("../assets/maps/us_state.topo.albersusa.features.json", function(error, us) {
+// presidential map by states --------------------------------------------------
+
+var svgMapStatesPresident = d3.select("#map-container-president").append("svg")
+    .attr("width", width)
+    .attr("height", height)
+    .attr("id","president-map-states-svg");
+
+d3.json(presidentmap_bystate, function(error, us) {
   if (error) throw error;
 
-  svg.append("path")
+  svgMapStatesPresident.append("path")
       .datum(topojson.feature(us, us.objects.features))
       .attr("class", "states")
       .attr("d", path);
-      // .style("fill", function(d) {
-      //   return "#b2b2b2";//fill(path.area(d));
-      // });
-  svg.selectAll(".states")
+
+  svgMapStatesPresident.selectAll(".states")
     .data(topojson.feature(us, us.objects.features).features).enter()
     .append("path")
     .attr("class", "states")
@@ -58,33 +77,34 @@ d3.json("../assets/maps/us_state.topo.albersusa.features.json", function(error, 
     .attr("d", path)
 });
 
-// color coding states for presidential race------------------------------------
+// presidential map by counties ------------------------------------------------
 
+var svgMapCountiesPresident = d3.select("#map-container-president").append("svg")
+    .attr("width", width)
+    .attr("height", height)
+    .style("display","none")
+    .attr("id","president-map-counties-svg");
 
+d3.json(presidentmap_bycounty, function(error, us) {
+  if (error) throw error;
 
-// console.log(stateCodes);
-//
-// // looping through the presidential results by state
-// presidentialData.forEach(function(state){
-//   console.log(state.state);
-//   console.log(stateCodes[state.state].code);
-//   var idname = "#state"+stateCodes[state.state].code;
-//   console.log(idname);
-//   var item = d3.select(String(idname));
-//   console.log(item);
-//   d3.select("path#state06").attr("fill","blue");
-//   if (state.percent_dem > state.percent_rep){
-//     var new_color = shadeColor2("#62A9CC",1-state.percent_dem);
-//     // console.log(new_color);
-//     // console.log(d3.select(idname).attr("fill"));
-//     item.style("fill",String(new_color));//"darken('blue',10)";
-//   } else {
-//     var new_color = shadeColor2("#F04646",1-state.percent_rep);
-//     // console.log(new_color);
-//     // console.log(d3.select(idname).attr("fill"));
-//     item.style("fill",String(new_color));//"darken('red',10)";
-//   }
-// });
+  svgMapCountiesPresident.append("path")
+      .datum(topojson.feature(us, us.objects.features))
+      .attr("class", "states")
+      .attr("d", path);
+
+  svgMapCountiesPresident.selectAll(".states")
+    .data(topojson.feature(us, us.objects.features).features).enter()
+    .append("path")
+    .attr("class", "states")
+    .attr("id",function(d) {
+      return "county"+parseInt(d.id);
+    })
+    .style("fill", function(d) {
+        return "#b2b2b2";//fill(path.area(d));
+    })
+    .attr("d", path)
+});
 
 // presidential race electoral votes -------------------------------------------
 

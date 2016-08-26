@@ -85,6 +85,7 @@ h4 {
   font-family: @med-graphics;
   border-bottom: 1px @light-gray solid;
   margin-bottom: 5px;
+  margin-top: 10px;
 }
 
 .max{
@@ -831,9 +832,28 @@ header {
 
 //
 
-.buttons {
-
-
+.button-container {
+  text-align: center;
+  margin: 5px auto;
+  .button {
+    color: @dark-blue;
+    width: 200px;
+    font-family: @block-graphics;
+    font-size: 16px;
+    display: inline-block;
+    border: 1px solid @dark-blue;
+    border-radius: 3px;
+    padding: 1px;
+    cursor: pointer;
+    &:hover {
+      color: white;
+      background: @dark-blue;
+    }
+    &.active {
+      color: white;
+      background: @dark-blue;
+    }
+  }
 }
 
 .in-transition {
