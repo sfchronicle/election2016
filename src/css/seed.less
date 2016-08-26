@@ -692,6 +692,7 @@ header {
 .president-bar {
   width: 100%;
   margin-top: 40px;
+  overflow: auto;
 }
 
 .bar {
@@ -702,20 +703,21 @@ header {
 }
 
 .marker270 {
+  left: 50.1859%;
+  transform: translateX(-50.1859%);
+  position: absolute;
   clear:both;
-  display: block;
-  width: 13px;
-  margin: auto;
-  left: 50.18587%;
-  margin-bottom: 20px;
+  margin: 0 auto 20px auto;
+  font-size: 15px;
 }
+
 .marker270label {
   font-family: @block-graphics;
   font-size: 14px;
   position: relative;
   width: 200px;
   left: 52%;
-  margin-top: -45px;
+  //  margin-top: -45px;
 }
 
 #uncounted {
@@ -845,7 +847,8 @@ header {
 }
 
 .mark270 {
-  left: 50.18587%;
+  left: 50.1859%;
+  transform: translateX(-50.1859%);
   width: 1%;
   max-width: 2px;
   position: absolute;
