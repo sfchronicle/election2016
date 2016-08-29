@@ -106,6 +106,50 @@ d3.json(presidentmap_bycounty, function(error, us) {
     .attr("d", path)
 });
 
+// US MAP RACES ----------------------------------------------------------------
+
+// presidential map by states --------------------------------------------------
+
+var svgMapStatesFederal = d3.select("#map-container-federal").append("svg")
+    .attr("width", width)
+    .attr("height", height)
+    .attr("id","federal-map-states-svg");
+
+d3.json(presidentmap_bystate, function(error, us) {
+  if (error) throw error;
+
+  svgMapStatesFederal.append("path")
+      .datum(topojson.feature(us, us.objects.features))
+      .attr("class", "states")
+      .attr("d", path);
+
+  svgMapStatesFederal.selectAll(".states")
+    .data(topojson.feature(us, us.objects.features).features).enter()
+    .append("path")
+    .attr("class", "states")
+    .attr("id",function(d) {
+      return "state"+parseInt(d.id);
+    })
+    .style("fill", function(d) {
+      var stateabbrev = stateCodes[parseInt(d.id)].state;
+      if (presidentialData[String(stateabbrev)]) {
+          var tempvar = presidentialData[String(stateabbrev)];
+          if (tempvar.percent_dem > tempvar.percent_rep){
+            var new_color = shadeColor2("#62A9CC",1-tempvar.percent_dem);
+            return String(new_color);//"darken('blue',10)";
+          } else {
+            var new_color = shadeColor2("#F04646",1-tempvar.percent_rep);
+            return String(new_color);//"darken('red',10)";
+          }
+      } else {
+        return "#b2b2b2";//fill(path.area(d));
+      }
+    })
+    .attr("d", path)
+});
+
+
+
 // presidential race electoral votes -------------------------------------------
 
 // read in electoral votes
