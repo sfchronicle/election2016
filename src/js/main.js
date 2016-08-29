@@ -324,21 +324,23 @@ sfinput.addEventListener('input', function(){
   });
 });
 
-
 // populating SF supes
 [1,3,5,7,9,11].forEach(function(d,idx){
   var html = "";
+  var sort = [];
   var supeID = document.getElementById("district"+d);
   var results = SFsupesList.filter(function(supe){
     return supe.district == d;
   });
+  results.sort(function(a,b){return b.vote_percent-a.vote_percent;});
+
   for (var ii=0; ii<results.length; ii++) {
     if (results[ii].win == "yes") {
       var name_key = results[ii].name.toLowerCase().replace(/ /g,'').replace(".","").replace("'","");
-      html = html+"<div class='entry'><h3 class='name'><i class='fa fa-check-square-o' aria-hidden='true'></i>"+results[ii].name+" ("+results[ii].party+")</h3><div class='bar' id='"+name_key+"'></div><div class='bar-label'>"+results[ii].vote_percent+"</div></div>";
+      html = html+"<div class='entry'><h3 class='name'><i class='fa fa-check-square-o' aria-hidden='true'></i>"+results[ii].name+"</h3><div class='bar' id='"+name_key+"'></div><div class='bar-label'>"+results[ii].vote_percent+"</div></div>";
     } else {
       var name_key = results[ii].name.toLowerCase().replace(/ /g,'').replace(".","").replace("'","");
-      html = html+"<div class='entry'><h3 class='name'>"+results[ii].name+" ("+results[ii].party+")</h3><div class='bar' id='"+name_key+"'></div><div class='bar-label'>"+results[ii].vote_percent+"</div></div>";
+      html = html+"<div class='entry'><h3 class='name'>"+results[ii].name+"</h3><div class='bar' id='"+name_key+"'></div><div class='bar-label'>"+results[ii].vote_percent+"</div></div>";
     }
   }
   supeID.insertAdjacentHTML("afterend",html)
