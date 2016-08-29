@@ -243,6 +243,40 @@ document.getElementById("donaldtrump").style.width = String(trump_percent)+"%";
 
 // populating state section ----------------------------------------------------
 
+// populating SF supes
+["statesenate","statedistrict9","stateassembly"].forEach(function(d,idx){
+  var html = "";
+  var raceID = document.getElementById(d);
+  var results = stateRaces.filter(function(r){
+    return r.race == d;
+  });
+  for (var ii=0; ii<results.length; ii++) {
+    if (results[ii].win == "yes") {
+      var name_key = results[ii].name.toLowerCase().replace(/ /g,'').replace(".","").replace("'","");
+      html = html+"<div class='entry'><h3 class='name'><i class='fa fa-check-square-o' aria-hidden='true'></i>"+results[ii].name+" ("+results[ii].party+")</h3><div class='bar' id='"+name_key+"'></div><div class='bar-label'>"+results[ii].vote_percent+"</div></div>";
+    } else {
+      var name_key = results[ii].name.toLowerCase().replace(/ /g,'').replace(".","").replace("'","");
+      html = html+"<div class='entry'><h3 class='name'>"+results[ii].name+" ("+results[ii].party+")</h3><div class='bar' id='"+name_key+"'></div><div class='bar-label'>"+results[ii].vote_percent+"</div></div>";
+    }
+  }
+  raceID.insertAdjacentHTML("afterend",html)
+  results = [];
+});
+
+stateRaces.forEach(function(d){
+  var name_key = d.name.toLowerCase().replace(/ /g,'').replace(".","").replace("'","");
+  var width = document.getElementById("racectrl").getBoundingClientRect().width;
+  var pixels = (width-250)*(d.vote_percent/100); // THIS WILL NEED AN UPDATE FOR MOBILE!!!!!
+  document.getElementById(String(name_key)).style.width = String(pixels)+"px";
+  if (d.party == "D") {
+    document.getElementById(String(name_key)).style.background = "#62A9CC";
+  } else if (d.party == "R") {
+    document.getElementById(String(name_key)).style.background = "#F04646";
+  } else {
+    document.getElementById(String(name_key)).style.background = "#62A9CC";
+  }
+});
+
 // populating state propositions list
 var propID = document.getElementById("propositions-list");
 propList.forEach(function(prop){

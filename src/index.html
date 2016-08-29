@@ -108,44 +108,10 @@
       <h2 class="races" id="racectrl"><i class="fa fa-caret-right" id="rcaret" aria-hidden="true"></i>  Races:</h2>
 
       <div id="racesec">
-
-      <h4 class="race senate">State Senate</h4>
-        <div class="entry">
-          <h3 class="name">Jane Kim (D)</h3>
-          <div class="bar" id="kim"></div>
-          <div class="bar-label">50</div>
-        </div>
-        <div class="entry">
-          <h3 class="name">Scott Wiener (D)</h3>
-          <div class="bar" id="wiener"></div>
-          <div class="bar-label">50</div>
-        </div>
-
-      <h4 class="race senate">District 9</h4>
-        <div class="entry">
-          <h3 class="name">Nancy Skinner (D)</h3>
-          <div class="bar" id="skinner"></div>
-          <div class="bar-label">50</div>
-        </div>
-        <div class="entry">
-          <h3 class="name">Sandré Swanson (D)</h3>
-          <div class="bar" id="swanson"></div>
-          <div class="bar-label">50</div>
-        </div>
-
-      <h4 class="race senate">State Assembly</h4>
-        <div class="entry">
-          <h3 class="name">Catharine Baker (R)</h3>
-          <div class="bar" id="baker"></div>
-          <div class="bar-label">50</div>
-        </div>
-        <div class="entry">
-          <h3 class="name">Cheryl Cook-Kallio (D)</h3>
-          <div class="bar" id="cookkallio"></div>
-          <div class="bar-label">50</div>
-
-        </div>
-        </div>
+        <h4 class="race statesenate" id="statesenate">State Senate</h4>
+        <h4 class="race statedistrict9" id="statedistrict9">State District 9</h4>
+        <h4 class="race stateassembly" id="stateassembly">State Assembly</h4>
+      </div>
 
       <h2 class="propositions" id="propctrl"><i class="fa fa-caret-right" id="caret" aria-hidden="true"></i>  Propositions:</h2>
       <div id="propsec">
@@ -201,6 +167,7 @@
       var propList = window.propList = <%= JSON.stringify(csv.StatePropositionsData) %>;
       var SFpropList = window.SFpropList = <%= JSON.stringify(csv.SFPropositionsData) %>;
       var SFsupesList = <%= JSON.stringify(csv.SFSupesData) %>;
+      var stateRaces = <%= JSON.stringify(csv.stateRaces) %>;
       var electoralVotes = <%= JSON.stringify(csv.electoralVotes) %>;
       var stateCodes = <%= JSON.stringify(csv.stateCodes) %>;
       var countyCodes = <%= JSON.stringify(json.countyCodesLookup) %>;
