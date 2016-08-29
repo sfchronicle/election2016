@@ -75,7 +75,40 @@ d3.json(presidentmap_bystate, function(error, us) {
       }
     })
     .attr("d", path)
+    .on('mouseover', function(d) {
+      var stateabbrev = stateCodes[parseInt(d.id)].state;
+      if (presidentialData[String(stateabbrev)]) {
+        var tempvar = presidentialData[String(stateabbrev)];
+        var html_str = "<div class='state-name'>"+stateabbrev+"</div><div>% Democrat:"+tempvar.percent_dem+"</div><div>% Republican:"+tempvar.percent_rep+"</div>";
+      } else {
+        var html_str = "<div class='state-name'>"+stateabbrev+"</div><div>No results yet.</div>";
+      }
+      // tooltip.html=(html_str);
+      tooltip.html("This is a string");
+      tooltip.style("visibility", "visible");
+    })
+    .on("mousemove", function() {
+      if (screen.width <= 480) {
+        return tooltip
+          .style("top",(d3.event.pageY+40)+"px")//(d3.event.pageY+40)+"px")
+          .style("left",10+"px");
+      } else {
+        return tooltip
+          .style("top", (d3.event.pageY+20)+"px")
+          .style("left",(d3.event.pageX-80)+"px");
+      }
+    })
+    .on("mouseout", function(){return tooltip.style("visibility", "hidden");
+    });
 });
+
+// show tooltip
+var tooltip = d3.select("#map-container-president")
+    .append("div")
+    .attr("class","tooltip")
+    .style("position", "absolute")
+    .style("z-index", "10")
+    .style("visibility", "hidden")
 
 // presidential map by counties ------------------------------------------------
 
