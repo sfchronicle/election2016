@@ -304,17 +304,20 @@ SFpropList.forEach(function(prop){
 var sfinput = document.querySelector('#sf-propositions-search');
 sfinput.addEventListener('input', function(){
   var class_match = 0;
-  var filter = sfinput.value.toLowerCase().replace(/ /g,'');
+  var filter = sfinput.value.toLowerCase(); // .replace(/\+/g,"");
   Array.prototype.filter.call(document.querySelectorAll(".sf-prop-group"), function(value,index,array){
-    var classes = value.className.split(" ");
+    var classes = value.firstChild.textContent.split(" ");
+    classes.push(value.firstChild.textContent);
     for (var i=0; i<classes.length; i++) {
       var current_class = classes[i].toLowerCase();
-      if (current_class != "sf-prop-group" && current_class != "active") {
+      console.log("CURRENT CLASS: " + current_class);
+      console.log("FILTER: " + filter);
+    //  if (current_class != "sf-prop-group" && current_class != "active") {
         if (current_class.match(filter)){
           class_match = class_match+1;
         }
       }
-    }
+    // }
     if (class_match>0) {
       value.classList.add("active");
     } else {
