@@ -250,6 +250,9 @@ document.getElementById("donaldtrump").style.width = String(trump_percent)+"%";
   var results = stateRaces.filter(function(r){
     return r.race == d;
   });
+
+  results.sort(function(a,b){return b.vote_percent-a.vote_percent;});
+
   for (var ii=0; ii<results.length; ii++) {
     if (results[ii].win == "yes") {
       var name_key = results[ii].name.toLowerCase().replace(/ /g,'').replace(".","").replace("'","");
