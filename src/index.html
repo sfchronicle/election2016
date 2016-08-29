@@ -56,8 +56,8 @@
         <div class="marker270label">270 electoral votes</div>
 
         <div class="button-container" id="pres-button-container">
-          <div class="button button-pres states-pres active" id="presidentbystate">Results by state</div>
-          <div class="button button-pres counties-pres" id="presidentbycounty">Results by county</div>
+          <div class="button race button-pres states-pres active" id="presidentbystate">Results by state</div>
+          <div class="button race button-pres counties-pres" id="presidentbycounty">Results by county</div>
         </div>
 
         <div id="map-container-president"></div>
@@ -91,9 +91,9 @@
         <div class="hed">Federal election results:</div>
 
         <div class="button-container">
-          <div class="button governor">Governor</div>
-          <div class="button senate">Senate</div>
-          <div class="button congress">Congress</div>
+          <div class="button race governor">Governor</div>
+          <div class="button race senate">Senate</div>
+          <div class="button race congress">Congress</div>
         </div>
 
         <div id="map-container-federal"></div>
@@ -104,6 +104,21 @@
     </section>
     <section id="state">
       <h1>State</h1>
+
+      <div class="hed">California results by county:</div>
+      <div class="chatter">Hover over or click on the counties to see how Califnorians voted in each precinct for representatives and propositions.</div>
+
+      <div class="button-container vertical">
+        <div class="button race statesenate">State Senate</div>
+        <div class="button race statedistrict9">State District 9</div>
+        <div class="button race stateassembly">State Assembly</div>
+        <div class="button prop cigarettes">Cigarette Tax</div>
+        <div class="button prop deathpenalty">Death Penalty Ban</div>
+        <div class="button prop bags">Carry-out bags charge</div>
+        <div class="button prop marijuana">Marijuana Legalization</div>
+      </div>
+
+      <div id="map-container-state"></div>
 
       <h2 class="races" id="racectrl"><i class="fa fa-caret-right" id="rcaret" aria-hidden="true"></i>  Races:</h2>
 
@@ -122,9 +137,6 @@
         </div>
       </div>
 
-      <svg viewBox="0 0 167 284" width="700px" height="400px">
-        <%= t.include("assets/CAcounties.svg") %>
-      </svg>
     </section>
     <section id="local">
 

@@ -241,6 +241,79 @@ document.getElementById("uncounted").style.width = String(uncounted_percent)+"%"
 document.getElementById("hillaryclinton").style.width = String(clinton_percent)+"%";
 document.getElementById("donaldtrump").style.width = String(trump_percent)+"%";
 
+// STATE MAP ------------------------------------------------------------
+
+var width = 960,
+    height = 500;
+
+var CAmap_bycounty = "../assets/maps/ca_county.topo.mercator.features.json";
+
+var path = d3.geo.path()
+    .projection(null);
+
+// CA map by county
+
+var svgCACounties = d3.select("#map-container-state").append("svg")
+    .attr("width", width)
+    .attr("height", height)
+    // .style("display","none")
+    .attr("id","map-container-state");
+
+d3.json(CAmap_bycounty, function(error, us) {
+  if (error) throw error;
+
+  svgCACounties.append("path")
+      .datum(topojson.feature(us, us.objects.features))
+      .attr("class", "states")
+      .attr("d", path);
+
+  svgCACounties.selectAll(".states")
+    .data(topojson.feature(us, us.objects.features).features).enter()
+    .append("path")
+    .attr("class", "states")
+    .attr("id",function(d) {
+      return "county"+parseInt(d.id);
+    })
+    .style("fill", function(d) {
+      // if (presidentialCountyData[+d.id]) {
+      //     var tempvar = presidentialCountyData[+d.id];
+      //     if (tempvar.percent_dem > tempvar.percent_rep){
+      //       var new_color = shadeColor2("#62A9CC",1-tempvar.percent_dem);
+      //       return String(new_color);//"darken('blue',10)";
+      //     } else {
+      //       var new_color = shadeColor2("#F04646",1-tempvar.percent_rep);
+      //       return String(new_color);//"darken('red',10)";
+      //     }
+      // } else {
+        return "#b2b2b2";//fill(path.area(d));
+      // }
+    })
+    .attr("d", path)
+    // .on('mouseover', function(d) {
+    //   if (presidentialCountyData[+d.id]) {
+    //     var tempvar = presidentialCountyData[+d.id];
+    //     var html_str = "<div class='state-name'>County: "+d.id+"</div><div>Democrat: "+Math.round(tempvar.percent_dem*1000)/10+"%</div><div>Republican: "+Math.round(tempvar.percent_rep*1000)/10+"%</div><div>Precincts reporting: "+tempvar.reporting+"</div>";
+    //   } else {
+    //     var html_str = "<div class='state-name'>County: "+d.id+"</div><div>No results yet.</div>";
+    //   }
+    //   tooltip.html(html_str);
+    //   tooltip.style("visibility", "visible");
+    // })
+    // .on("mousemove", function() {
+    //   if (screen.width <= 480) {
+    //     return tooltip
+    //       .style("top",(d3.event.pageY+40)+"px")//(d3.event.pageY+40)+"px")
+    //       .style("left",10+"px");
+    //   } else {
+    //     return tooltip
+    //       .style("top", (d3.event.pageY+20)+"px")
+    //       .style("left",(d3.event.pageX-80)+"px");
+    //   }
+    // })
+    // .on("mouseout", function(){return tooltip.style("visibility", "hidden");
+    // });
+});
+
 // populating state section ----------------------------------------------------
 
 // populating SF supes

@@ -17,6 +17,7 @@
 @light-gray: #B2B2B2;
 @black: #191919;
 @dark-blue: #395272;
+@dark-red: lighten(#66101F,20%);
 @redlinks: #EC1C24;
 @white: #fff;
 @light-gray: #ccc;
@@ -843,16 +844,24 @@ header {
 .button-container {
   text-align: center;
   margin: 5px auto;
+  &.vertical {
+    margin-bottom: 20px;
+    // float: left;
+    // width: 30%;
+  }
   .button {
-    color: @dark-blue;
     width: 200px;
     font-family: @block-graphics;
     font-size: 16px;
     display: inline-block;
-    border: 1px solid @dark-blue;
     border-radius: 3px;
     padding: 1px;
     cursor: pointer;
+  }
+  .race {
+    color: @dark-blue;
+    border: 1px solid @dark-blue;
+    background: lighten(@dark-blue,80%);
     &:hover {
       color: white;
       background: @dark-blue;
@@ -860,6 +869,18 @@ header {
     &.active {
       color: white;
       background: @dark-blue;
+    }
+  }
+  .prop {
+    color: @dark-red;
+    border: 1px solid @dark-red;
+    &:hover {
+      color: white;
+      background: @dark-red;
+    }
+    &.active {
+      color: white;
+      background: @dark-red;
     }
   }
 }
