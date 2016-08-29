@@ -91,10 +91,6 @@
         <div class="hed">Federal election results:</div>
 
         <div class="button-container">
-          <div class="button states">Results by state</div>
-          <div class="button counties">Results by county</div>
-        </div>
-        <div class="button-container">
           <div class="button governor">Governor</div>
           <div class="button senate">Senate</div>
           <div class="button congress">Congress</div>
@@ -201,11 +197,13 @@
 
     <script>
       var presidentialData = <%= JSON.stringify(csv.presidentialData) %>;
+      var presidentialCountyData = <%= JSON.stringify(csv.presidentialCountyData) %>;
       var propList = window.propList = <%= JSON.stringify(csv.StatePropositionsData) %>;
       var SFpropList = window.SFpropList = <%= JSON.stringify(csv.SFPropositionsData) %>;
       var SFsupesList = <%= JSON.stringify(csv.SFSupesData) %>;
       var electoralVotes = <%= JSON.stringify(csv.electoralVotes) %>;
       var stateCodes = <%= JSON.stringify(csv.stateCodes) %>;
+      var countyCodes = <%= JSON.stringify(json.countyCodesLookup) %>;
     </script>
 
     <script src="app.js" async></script>
