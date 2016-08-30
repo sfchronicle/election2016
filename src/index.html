@@ -42,6 +42,9 @@
       <section id="federal">
       <h1>Federal</h1>
 
+        <div class="heading">On the Federal level, we've been closely watching the presidential election, which is one of the most unusual in years. Unusual is a nice way of putting it.</div>
+        <div class="br"></div>
+
         <h4 class="race president">President</h4>
 
         <h3 class="president-name left">Hillary Clinton <span id="electoralhillaryclinton">(100)</span></h3>
@@ -62,29 +65,8 @@
 
         <div id="map-container-president"></div>
 
-        <h4 class="race senate">US Senate</h4>
-          <div class="entry">
-            <h3 class="name">Kamala Harris (D)</h3>
-            <div class="bar" id="kamalaharris"></div>
-            <div class="bar-label">50</div>
-          </div>
-          <div class="entry">
-            <h3 class="name">Loretta Sanchez (D)</h3>
-            <div class="bar" id="lorettasanchez"></div>
-            <div class="bar-label">50</div>
-          </div>
-
-        <h4 class="race senate">Congress</h4>
-          <div class="entry">
-            <h3 class="name">Michael Honda (D)</h3>
-            <div class="bar" id="michaelhonda"></div>
-            <div class="bar-label">50</div>
-          </div>
-          <div class="entry">
-            <h3 class="name">Ro Khanna (D)</h3>
-            <div class="bar" id="rokhanna"></div>
-            <div class="bar-label">50</div>
-          </div>
+        <h4 class="race senate" id="senate">US Senate</h4>
+        <h4 class="race congress" id="congress">US Congress</h4>
 
       <div class="outer">
 
@@ -105,20 +87,25 @@
     <section id="state">
       <h1>State</h1>
 
+      <div class="heading">We have some important state races too. We are closely watching the Senate race and some of the initiatives are expected to be close. Now I'm making things up.</div>
+      <div class="br"></div>
+
       <div class="hed">California results by county:</div>
       <div class="chatter">Hover over or click on the counties to see how Califnorians voted in each precinct for representatives and propositions.</div>
 
-      <div class="button-container vertical">
-        <div class="button race statesenate">State Senate</div>
-        <div class="button race statedistrict9">State District 9</div>
-        <div class="button race stateassembly">State Assembly</div>
-        <div class="button prop cigarettes">Cigarette Tax</div>
-        <div class="button prop deathpenalty">Death Penalty Ban</div>
-        <div class="button prop bags">Carry-out bags charge</div>
-        <div class="button prop marijuana">Marijuana Legalization</div>
-      </div>
+      <div class="flex-container">
+        <div class="button-container vertical">
+          <div class="button race statesenate">State Senate</div>
+          <div class="button race statedistrict9">State District 9</div>
+          <div class="button race stateassembly">State Assembly</div>
+          <div class="button prop cigarettes">Cigarette Tax</div>
+          <div class="button prop deathpenalty">Death Penalty Ban</div>
+          <div class="button prop bags">Carry-out bags charge</div>
+          <div class="button prop marijuana">Marijuana Legalization</div>
+        </div>
 
-      <div id="map-container-state"></div>
+        <div id="map-container-state"></div>
+      </div>
 
       <h2 class="races" id="racectrl"><i class="fa fa-caret-right" id="rcaret" aria-hidden="true"></i>  Races:</h2>
 
@@ -142,6 +129,8 @@
 
       <h1>Local</h1>
 
+      <div class="heading">I have no idea what is important at a local level but there are definitely important things at the local level. Also arguably too many propositions. I wish I could vote on the housing ones even though I don't live in SF.</div>
+
       <h2 class="races" id="sctrl"><i class="fa fa-caret-right" id="scaret" aria-hidden="true"></i>  SF Supervisors:</h2>
       <div id="ssec">
         <h4 class="race sup" id="district1">District 1</h4>
@@ -154,7 +143,7 @@
 
       <h2 class="sf-propositions" id="sfpropctrl"><i class="fa fa-caret-right" id="sfcaret" aria-hidden="true"></i>  SF Propositions:</h2>
       <div id="sfpropsec">
-        <input type="text" placeholder="&#xf002;  Search by SF proposition letter" id="sf-propositions-search" style="font-family:AntennaExtraLight, FontAwesome">
+        <input type="text" placeholder="&#xf002;  Search by SF proposition letter or name" id="sf-propositions-search" style="font-family:AntennaExtraLight, FontAwesome">
 
         <div class="sf-propositions-list">
           <div id="sf-propositions-list"></div>
@@ -165,6 +154,9 @@
 
       <h1>Regional</h1>
 
+      <div class="heading">People in San Francisco have a hard time caring about the rest of the peninsula but we are going to find some things that interest them anyway.</div>
+      <div class="br"></div>
+
     </section>
 
     </div>
@@ -174,15 +166,25 @@
     <%= t.include("partials/_footer.html") %>
 
     <script>
+
+      // presidential data
       var presidentialData = <%= JSON.stringify(csv.presidentialData) %>;
       var presidentialCountyData = <%= JSON.stringify(csv.presidentialCountyData) %>;
+      var electoralVotes = <%= JSON.stringify(csv.electoralVotes) %>;
+      var federalRaces = <%= JSON.stringify(csv.federalRaces) %>;
+
+      // state data
+      var stateRaces = <%= JSON.stringify(csv.stateRaces) %>;
       var propList = window.propList = <%= JSON.stringify(csv.StatePropositionsData) %>;
+
+      // SF data
       var SFpropList = window.SFpropList = <%= JSON.stringify(csv.SFPropositionsData) %>;
       var SFsupesList = <%= JSON.stringify(csv.SFSupesData) %>;
-      var stateRaces = <%= JSON.stringify(csv.stateRaces) %>;
-      var electoralVotes = <%= JSON.stringify(csv.electoralVotes) %>;
+
+      // map look-up tables
       var stateCodes = <%= JSON.stringify(csv.stateCodes) %>;
       var countyCodes = <%= JSON.stringify(json.countyCodesLookup) %>;
+
     </script>
 
     <script src="app.js" async></script>

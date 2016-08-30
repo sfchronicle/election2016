@@ -1,5 +1,7 @@
 var d3 = require('d3');
 var topojson = require('topojson');
+var red = "#F04646";
+var blue = "#62A9CC";
 
 // function for shading colors
 function shadeColor2(color, percent) {
@@ -64,10 +66,10 @@ d3.json(presidentmap_bystate, function(error, us) {
       if (presidentialData[String(stateabbrev)]) {
           var tempvar = presidentialData[String(stateabbrev)];
           if (tempvar.percent_dem > tempvar.percent_rep){
-            var new_color = shadeColor2("#62A9CC",1-tempvar.percent_dem);
+            var new_color = shadeColor2(blue,1-tempvar.percent_dem);
             return String(new_color);//"darken('blue',10)";
           } else {
-            var new_color = shadeColor2("#F04646",1-tempvar.percent_rep);
+            var new_color = shadeColor2(red,1-tempvar.percent_rep);
             return String(new_color);//"darken('red',10)";
           }
       } else {
@@ -136,10 +138,10 @@ d3.json(presidentmap_bycounty, function(error, us) {
       if (presidentialCountyData[+d.id]) {
           var tempvar = presidentialCountyData[+d.id];
           if (tempvar.percent_dem > tempvar.percent_rep){
-            var new_color = shadeColor2("#62A9CC",1-tempvar.percent_dem);
+            var new_color = shadeColor2(blue,1-tempvar.percent_dem);
             return String(new_color);//"darken('blue',10)";
           } else {
-            var new_color = shadeColor2("#F04646",1-tempvar.percent_rep);
+            var new_color = shadeColor2(red,1-tempvar.percent_rep);
             return String(new_color);//"darken('red',10)";
           }
       } else {
@@ -201,10 +203,10 @@ d3.json(presidentmap_bystate, function(error, us) {
       if (presidentialData[String(stateabbrev)]) {
           var tempvar = presidentialData[String(stateabbrev)];
           if (tempvar.percent_dem > tempvar.percent_rep){
-            var new_color = shadeColor2("#62A9CC",1-tempvar.percent_dem);
+            var new_color = shadeColor2(blue,1-tempvar.percent_dem);
             return String(new_color);//"darken('blue',10)";
           } else {
-            var new_color = shadeColor2("#F04646",1-tempvar.percent_rep);
+            var new_color = shadeColor2(red,1-tempvar.percent_rep);
             return String(new_color);//"darken('red',10)";
           }
       } else {
@@ -213,8 +215,6 @@ d3.json(presidentmap_bystate, function(error, us) {
     })
     .attr("d", path)
 });
-
-
 
 // presidential race electoral votes -------------------------------------------
 
@@ -241,9 +241,42 @@ document.getElementById("uncounted").style.width = String(uncounted_percent)+"%"
 document.getElementById("hillaryclinton").style.width = String(clinton_percent)+"%";
 document.getElementById("donaldtrump").style.width = String(trump_percent)+"%";
 
+// FEDERAL RACES --------------------------------------------------------
+
+// populating federal races
+["senate","congress"].forEach(function(d,idx){
+  var html = "";
+  var raceID = document.getElementById(d);
+  var results = federalRaces.filter(function(r){
+    return r.race == d;
+  });
+
+  results.sort(function(a,b){return b.vote_percent-a.vote_percent;});
+
+  for (var ii=0; ii<results.length; ii++) {
+    if (results[ii].win == "yes") {
+      var name_key = results[ii].name.toLowerCase().replace(/ /g,'').replace(".","").replace("'","");
+      html = html+"<div class='entry'><h3 class='name'><i class='fa fa-check-square-o' aria-hidden='true'></i>"+results[ii].name+" <span class='"+results[ii].party+"party'>" + results[ii].party + "</span></h3><div class='bar' id='"+name_key+"'></div><div class='bar-label'>"+results[ii].vote_percent+"%</div></div>";
+    } else {
+      var name_key = results[ii].name.toLowerCase().replace(/ /g,'').replace(".","").replace("'","");
+      html = html+"<div class='entry'><h3 class='name'>"+results[ii].name+" <span class='"+results[ii].party+"party'>" + results[ii].party + "</span></h3><div class='bar' id='"+name_key+"'></div><div class='bar-label'>"+results[ii].vote_percent+"%</div></div>";
+    }
+  }
+
+  raceID.insertAdjacentHTML("afterend",html)
+  results = [];
+});
+
+federalRaces.forEach(function(d){
+  var name_key = d.name.toLowerCase().replace(/ /g,'').replace(".","").replace("'","");
+  var width = document.getElementById("federal").getBoundingClientRect().width;
+  var pixels = (width-250)*(d.vote_percent/100); // THIS WILL NEED AN UPDATE FOR MOBILE!!!!!
+  document.getElementById(String(name_key)).style.width = String(pixels)+"px";
+});
+
 // STATE MAP ------------------------------------------------------------
 
-var width = 960,
+var width = 800,
     height = 500;
 
 var CAmap_bycounty = "../assets/maps/ca_county.topo.mercator.features.json";
@@ -278,10 +311,10 @@ d3.json(CAmap_bycounty, function(error, us) {
       // if (presidentialCountyData[+d.id]) {
       //     var tempvar = presidentialCountyData[+d.id];
       //     if (tempvar.percent_dem > tempvar.percent_rep){
-      //       var new_color = shadeColor2("#62A9CC",1-tempvar.percent_dem);
+      //       var new_color = shadeColor2(blue,1-tempvar.percent_dem);
       //       return String(new_color);//"darken('blue',10)";
       //     } else {
-      //       var new_color = shadeColor2("#F04646",1-tempvar.percent_rep);
+      //       var new_color = shadeColor2(red,1-tempvar.percent_rep);
       //       return String(new_color);//"darken('red',10)";
       //     }
       // } else {
@@ -316,7 +349,7 @@ d3.json(CAmap_bycounty, function(error, us) {
 
 // populating state section ----------------------------------------------------
 
-// populating SF supes
+// populating state races
 ["statesenate","statedistrict9","stateassembly"].forEach(function(d,idx){
   var html = "";
   var raceID = document.getElementById(d);
@@ -345,13 +378,6 @@ stateRaces.forEach(function(d){
   var width = document.getElementById("racectrl").getBoundingClientRect().width;
   var pixels = (width-250)*(d.vote_percent/100); // THIS WILL NEED AN UPDATE FOR MOBILE!!!!!
   document.getElementById(String(name_key)).style.width = String(pixels)+"px";
-  // if (d.party == "D") {
-  //   document.getElementById(String(name_key)).style.background = "#62A9CC";
-  // } else if (d.party == "R") {
-  //   document.getElementById(String(name_key)).style.background = "#F04646";
-  // } else {
-  //   document.getElementById(String(name_key)).style.background = "#62A9CC";
-  // }
 });
 
 // populating state propositions list
@@ -467,11 +493,11 @@ SFsupesList.forEach(function(d){
   var pixels = (width-250)*(d.vote_percent/100); // THIS WILL NEED AN UPDATE FOR MOBILE!!!!!
   document.getElementById(String(name_key)).style.width = String(pixels)+"px";
   // if (d.party == "D") {
-  //   document.getElementById(String(name_key)).style.background = "#62A9CC";
+  //   document.getElementById(String(name_key)).style.background = blue;
   // } else if (d.party == "R") {
-  //   document.getElementById(String(name_key)).style.background = "#F04646";
+  //   document.getElementById(String(name_key)).style.background = red;
   // } else {
-  //   document.getElementById(String(name_key)).style.background = "#62A9CC";
+  //   document.getElementById(String(name_key)).style.background = blue;
   // }
 });
 
