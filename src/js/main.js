@@ -11,15 +11,18 @@ function shadeColor2(color, percent) {
 
 // PRESIDENTIAL MAP ------------------------------------------------------------
 
-var width = 960,
-    height = 500;
+// var width = 960,
+//     height = 500;
 
 var presidentmap_bystate = "../assets/maps/us_state.topo.albersusa.features.json";
 var presidentmap_bycounty = "../assets/maps/us_county.topo.albersusa.features.json";
 
-var projection = d3.geo.albersUsa()
-    .scale(1000)
-    .translate([width / 2, height / 2]);
+// var projection = d3.geo.albersUsa()
+//     .scale(width)
+//     .translate([width / 2, height / 2]);
+
+// var path = d3.geo.path()
+//     .projection(projection);
 
 var path = d3.geo.path()
     .projection(null);
@@ -28,23 +31,30 @@ document.querySelector('#presidentbystate').addEventListener('click', function()
   document.querySelector("#presidentbycounty").classList.remove("active");
   this.classList.add("active");
   var statesmap = d3.select("#president-map-states-svg");
-  d3.select("#president-map-states-svg").style("display","block");
-  d3.select("#president-map-counties-svg").style("display","none");
+  d3.select("#states-container").style("display","inline-block");
+  d3.select("#counties-container").style("display","none");
 });
 document.querySelector('#presidentbycounty').addEventListener('click', function(){
   document.querySelector("#presidentbystate").classList.remove("active");
   this.classList.add("active");
   var statesmap = d3.select("#president-map-states-svg");
-  d3.select("#president-map-states-svg").style("display","none");
-  d3.select("#president-map-counties-svg").style("display","block");
+  d3.select("#states-container").style("display","none");
+  d3.select("#counties-container").style("display","inline-block");
 });
 
 // presidential map by states --------------------------------------------------
 
-var svgMapStatesPresident = d3.select("#map-container-president").append("svg")
-    .attr("width", width)
-    .attr("height", height)
-    .attr("id","president-map-states-svg");
+var svgMapStatesPresident = d3.select("#map-container-president")
+   .append("div")
+   .classed("svg-container", true) //container class to make it responsive
+   .attr("id","states-container")
+   .append("svg")
+   //responsive SVG needs these 2 attributes and no width and height attr
+   .attr("preserveAspectRatio", "xMinYMin meet")
+   .attr("viewBox", "0 0 960 500")
+   //class to make it responsive
+   .classed("svg-content-responsive", true)
+  .attr("id","president-map-states-svg");
 
 d3.json(presidentmap_bystate, function(error, us) {
   if (error) throw error;
@@ -113,10 +123,17 @@ var tooltip = d3.select("#map-container-president")
 
 // presidential map by counties ------------------------------------------------
 
-var svgMapCountiesPresident = d3.select("#map-container-president").append("svg")
-    .attr("width", width)
-    .attr("height", height)
+var svgMapCountiesPresident = d3.select("#map-container-president")
+    .append("div")
+    .classed("svg-container", true) //container class to make it responsive
+    .attr("id","counties-container")
     .style("display","none")
+    .append("svg")
+    //responsive SVG needs these 2 attributes and no width and height attr
+    .attr("preserveAspectRatio", "xMinYMin meet")
+    .attr("viewBox", "0 0 960 500")
+    //class to make it responsive
+    .classed("svg-content-responsive", true)
     .attr("id","president-map-counties-svg");
 
 d3.json(presidentmap_bycounty, function(error, us) {
@@ -178,9 +195,17 @@ d3.json(presidentmap_bycounty, function(error, us) {
 
 // presidential map by states --------------------------------------------------
 
-var svgMapStatesFederal = d3.select("#map-container-federal").append("svg")
-    .attr("width", width)
-    .attr("height", height)
+var svgMapStatesFederal = d3.select("#map-container-federal")
+    .append("div")
+    .classed("svg-container", true) //container class to make it responsive
+    .attr("id","federal-container")
+    // .style("display","none")
+    .append("svg")
+    //responsive SVG needs these 2 attributes and no width and height attr
+    .attr("preserveAspectRatio", "xMinYMin meet")
+    .attr("viewBox", "0 0 960 500")
+    //class to make it responsive
+    .classed("svg-content-responsive", true)
     .attr("id","federal-map-states-svg");
 
 d3.json(presidentmap_bystate, function(error, us) {
