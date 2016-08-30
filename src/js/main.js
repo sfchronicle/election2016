@@ -451,10 +451,10 @@ sfinput.addEventListener('input', function(){
   for (var ii=0; ii<results.length; ii++) {
     if (results[ii].win == "yes") {
       var name_key = results[ii].name.toLowerCase().replace(/ /g,'').replace(".","").replace("'","");
-      html = html+"<div class='entry'><h3 class='name'><i class='fa fa-check-square-o' aria-hidden='true'></i>"+results[ii].name+"</h3><div class='bar' id='"+name_key+"'></div><div class='bar-label'>"+results[ii].vote_percent+"</div></div>";
+      html = html+"<div class='entry'><h3 class='name'><i class='fa fa-check-square-o' aria-hidden='true'></i>"+results[ii].name+"</h3><div class='bar' id='"+name_key+"'></div><div class='bar-label'>"+results[ii].vote_percent+"%</div></div>";
     } else {
       var name_key = results[ii].name.toLowerCase().replace(/ /g,'').replace(".","").replace("'","");
-      html = html+"<div class='entry'><h3 class='name'>"+results[ii].name+"</h3><div class='bar' id='"+name_key+"'></div><div class='bar-label'>"+results[ii].vote_percent+"</div></div>";
+      html = html+"<div class='entry'><h3 class='name'>"+results[ii].name+"</h3><div class='bar' id='"+name_key+"'></div><div class='bar-label'>"+results[ii].vote_percent+"%</div></div>";
     }
   }
   supeID.insertAdjacentHTML("afterend",html)
@@ -466,13 +466,13 @@ SFsupesList.forEach(function(d){
   var width = document.getElementById("sctrl").getBoundingClientRect().width;
   var pixels = (width-250)*(d.vote_percent/100); // THIS WILL NEED AN UPDATE FOR MOBILE!!!!!
   document.getElementById(String(name_key)).style.width = String(pixels)+"px";
-  if (d.party == "D") {
-    document.getElementById(String(name_key)).style.background = "#62A9CC";
-  } else if (d.party == "R") {
-    document.getElementById(String(name_key)).style.background = "#F04646";
-  } else {
-    document.getElementById(String(name_key)).style.background = "#62A9CC";
-  }
+  // if (d.party == "D") {
+  //   document.getElementById(String(name_key)).style.background = "#62A9CC";
+  // } else if (d.party == "R") {
+  //   document.getElementById(String(name_key)).style.background = "#F04646";
+  // } else {
+  //   document.getElementById(String(name_key)).style.background = "#62A9CC";
+  // }
 });
 
 // controls for collapsing and expanding sections ------------------------------
