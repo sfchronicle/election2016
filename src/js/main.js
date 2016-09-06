@@ -614,12 +614,14 @@ function activate() {
   var long = document.getElementById('long');
 
   if (window_top > div_top) {
+      sticker.style.display = "block";
       sticker.classList.add('fixed');
-      sticker_ph.style.display = 'block'; // puts in a placeholder for where sticky used to be for smooth scrolling
+      // sticker_ph.style.display = 'block'; // puts in a placeholder for where sticky used to be for smooth scrolling
       long.style.display = 'inline-block';
   } else {
+      sticker.style.display = "none";
       sticker.classList.remove('fixed');
-      sticker_ph.style.display = 'none'; // removes placeholder
+      // sticker_ph.style.display = 'none'; // removes placeholder
       long.style.display = 'none';
   }
 
@@ -644,9 +646,11 @@ function activate() {
   for (var i = 0; i < top.length; i++) {
     if ((top[i] < window_top) && (btm[i] > window_top)) {
       scroll[i].classList.add('activelink');
+      scroll[i].parentElement.classList.add('activediv');
     }
     else {
       scroll[i].classList.remove('activelink');
+      scroll[i].parentElement.classList.remove('activediv');
     }
   }
 }

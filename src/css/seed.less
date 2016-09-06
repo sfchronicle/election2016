@@ -40,6 +40,10 @@ body {
 .outer {
   max-width: 900px;
   margin: auto;
+
+  @media screen and (max-width: 950px) {
+    width: 95%;
+  }
 }
 
 a {
@@ -372,6 +376,7 @@ footer {
   border-bottom: 1px @light-gray solid;
   background-color: white;
   height: 40px;
+  display:none;
 }
 
 #stick-ph {
@@ -643,6 +648,10 @@ header {
     float: left;
     width: 120px;
     cursor: pointer;
+
+    @media @tablet {
+      display: none;
+    }
   }
   .long {
     display: none;
@@ -922,6 +931,13 @@ header {
 .activelink {
   font-family: AntennaRegular;
 }
+
+.activediv {
+  @media @tablet {
+    display: inline-block !important;
+  }
+}
+
 
 .mark270 {
   left: 50.1859%;
