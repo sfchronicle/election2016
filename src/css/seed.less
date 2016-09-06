@@ -767,6 +767,10 @@ header {
     &.active {
       display:block;
       .flex(0 0 47%);
+
+      @media @tablet {
+        .flex(0 0 97%);
+      }
     }
   }
 }
@@ -869,11 +873,16 @@ header {
 }
 
 .flex-container {
-  .display-flex();
+  @media screen and (min-width: 769px) {
+    .display-flex();
+  }
 }
 
 #map-container-state {
-  .flex(0 0 70%);
+  @media screen and (min-width: 769px) {
+    .flex(0 0 70%);
+  }
+
   svg {
     margin-left: -150px;
   }
@@ -883,7 +892,9 @@ header {
   text-align: center;
   margin: 5px auto;
   &.vertical {
-    .flex(0 0 30%);
+    @media screen and (min-width: 769px) {
+      .flex(0 0 30%);
+    }
     // margin-bottom: 20px;
     // float: left;
     // width: 30%;
@@ -974,9 +985,23 @@ header {
     vertical-align: top;
     overflow: hidden;
 }
+
+#state-svg-container {
+  padding-bottom: 77%;
+
+  @media @tablet {
+    padding-bottom: 95%;
+  }
+}
 .svg-content-responsive {
     display: inline-block;
     position: absolute;
     top: 10px;
     left: 0;
+}
+
+@media @tablet {
+  .entry .name {
+    width: 100%;
+  }
 }

@@ -295,14 +295,16 @@ document.getElementById("donaldtrump").style.width = String(trump_percent)+"%";
 federalRaces.forEach(function(d){
   var name_key = d.name.toLowerCase().replace(/ /g,'').replace(".","").replace("'","");
   var width = document.getElementById("federal").getBoundingClientRect().width;
-  var pixels = (width-250)*(d.vote_percent/100); // THIS WILL NEED AN UPDATE FOR MOBILE!!!!!
-  document.getElementById(String(name_key)).style.width = String(pixels)+"px";
+  // var pixels = (width-250)*(d.vote_percent/100); // THIS WILL NEED AN UPDATE FOR MOBILE!!!!!
+  // document.getElementById(String(name_key)).style.width = String(pixels)+"px";
+  var pixels = (d.vote_percent); // THIS WILL NEED AN UPDATE FOR MOBILE!!!!!
+  document.getElementById(String(name_key)).style.width = String(pixels)+"%";
 });
 
 // STATE MAP ------------------------------------------------------------
 
-var width = 800,
-    height = 500;
+// var width = 800,
+//     height = 500;
 
 var CAmap_bycounty = "../assets/maps/ca_county.topo.mercator.features.json";
 
@@ -311,11 +313,18 @@ var path = d3.geo.path()
 
 // CA map by county
 
-var svgCACounties = d3.select("#map-container-state").append("svg")
-    .attr("width", width)
-    .attr("height", height)
+var svgCACounties = d3.select("#map-container-state")
+    .append("div")
+    .classed("svg-container", true) //container class to make it responsive
+    .attr("id","state-svg-container")
     // .style("display","none")
-    .attr("id","map-container-state");
+    .append("svg")
+    //responsive SVG needs these 2 attributes and no width and height attr
+    .attr("preserveAspectRatio", "xMinYMin meet")
+    .attr("viewBox", "-60 0 865 600")
+    //class to make it responsive
+    .classed("svg-content-responsive", true)
+    .attr("id","map-state-container");
 
 d3.json(CAmap_bycounty, function(error, us) {
   if (error) throw error;
@@ -401,8 +410,10 @@ d3.json(CAmap_bycounty, function(error, us) {
 stateRaces.forEach(function(d){
   var name_key = d.name.toLowerCase().replace(/ /g,'').replace(".","").replace("'","");
   var width = document.getElementById("racectrl").getBoundingClientRect().width;
-  var pixels = (width-250)*(d.vote_percent/100); // THIS WILL NEED AN UPDATE FOR MOBILE!!!!!
-  document.getElementById(String(name_key)).style.width = String(pixels)+"px";
+  // var pixels = (width-250)*(d.vote_percent/100); // THIS WILL NEED AN UPDATE FOR MOBILE!!!!!
+  // document.getElementById(String(name_key)).style.width = String(pixels)+"px";
+  var pixels = (d.vote_percent); // THIS WILL NEED AN UPDATE FOR MOBILE!!!!!
+  document.getElementById(String(name_key)).style.width = String(pixels)+"%";
 });
 
 // populating state propositions list
@@ -515,8 +526,10 @@ sfinput.addEventListener('input', function(){
 SFsupesList.forEach(function(d){
   var name_key = d.name.toLowerCase().replace(/ /g,'').replace(".","").replace("'","");
   var width = document.getElementById("sctrl").getBoundingClientRect().width;
-  var pixels = (width-250)*(d.vote_percent/100); // THIS WILL NEED AN UPDATE FOR MOBILE!!!!!
-  document.getElementById(String(name_key)).style.width = String(pixels)+"px";
+  // var pixels = (width-250)*(d.vote_percent/100); // THIS WILL NEED AN UPDATE FOR MOBILE!!!!!
+  // document.getElementById(String(name_key)).style.width = String(pixels)+"px";
+  var pixels = (d.vote_percent); // THIS WILL NEED AN UPDATE FOR MOBILE!!!!!
+  document.getElementById(String(name_key)).style.width = String(pixels)+"%";
   // if (d.party == "D") {
   //   document.getElementById(String(name_key)).style.background = blue;
   // } else if (d.party == "R") {
