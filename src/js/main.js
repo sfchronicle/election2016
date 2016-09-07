@@ -626,7 +626,7 @@ function activate() {
   var div_top = document.getElementById('stick-here').getBoundingClientRect().top + window_top;
   var long = document.getElementById('long');
 
-  if (window_top > div_top) {
+  if (window_top + 10 > div_top) {
       sticker.style.display = "block";
       sticker.classList.add('fixed');
       // sticker_ph.style.display = 'block'; // puts in a placeholder for where sticky used to be for smooth scrolling
@@ -667,42 +667,3 @@ function activate() {
     }
   }
 }
-
-function getPageScroll() {
-  var yScroll;
-
-  if (window.pageYOffset) {
-    yScroll = window.pageYOffset;
-  } else if (document.documentElement && document.documentElement.scrollTop) {
-    yScroll = document.documentElement.scrollTop;
-  } else if (document.body) {
-    yScroll = document.body.scrollTop;
-  }
-  return yScroll;
-}
-
-scroll.forEach(function(d){
-
-  d.addEventListener('click', function (event) {
-
-    targetOffset = document.getElementById(event.target.hash.substr(1)).offsetTop;
-    currentPosition = getPageScroll();
-
-    body.classList.add('in-transition');
-
-    for (var i = 0; i < scroll.length; i++) {
-        body.style.WebkitTransform = "translate(0, " + (currentPosition - targetOffset) + "px)";
-        body.style.MozTransform = "translate(0, " + (currentPosition - targetOffset) + "px)";
-        body.style.transform = "translate(0, " + (currentPosition - targetOffset) + "px)";
-    }
-
-    window.setTimeout(function () {
-      body.classList.remove('in-transition');
-      body.style.cssText = "";
-      window.scrollTo(0, targetOffset);
-    }, animateTime);
-
-    event.preventDefault();
-
-  }, false)
-});
