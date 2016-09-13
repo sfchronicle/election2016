@@ -10,9 +10,9 @@ function shadeColor2(color, percent) {
 }
 
 // map variables
-var presidentmap_bystate = "../assets/maps/us_state.topo.albersusa.features.json";
-var presidentmap_bycounty = "../assets/maps/us_county.topo.albersusa.features.json";
-var map_bycongressdistricts = "../assets/maps/us_house.topo.albersusa.features.json";
+var presidentmap_bystate = "./assets/maps/us_state.json";
+var presidentmap_bycounty = "./assets/maps/us_county.json";
+var map_bycongressdistricts = "./assets/maps/us_house.json";
 
 // PRESIDENTIAL MAP ------------------------------------------------------------
 
@@ -39,9 +39,9 @@ document.querySelector('#presidentbycounty').addEventListener('click', function(
 ["presidentMap_States","presidentMap_Counties"].forEach(function(svg_element,ind){
 
   if (svg_element.split("_")[1] == "States") {
-    var map_file = "../assets/maps/us_state.topo.albersusa.features.json";
+    var map_file = "./assets/maps/us_state.json";
   } else {
-    var map_file = "../assets/maps/us_county.topo.albersusa.features.json";
+    var map_file = "./assets/maps/us_county.json";
   }
 
   svg_element = d3.select("#map-container-president")
@@ -184,9 +184,9 @@ document.querySelector('#congressmap').addEventListener('click', function(){
 ["governormap_States","senatemap_States","congressmap_Districts"].forEach(function(svg_element,ind){
 
   if (svg_element.split("_")[1] == "States") {
-    var map_file = "../assets/maps/us_state.topo.albersusa.features.json";
+    var map_file = "./assets/maps/us_state.json";
   } else {
-    var map_file = "../assets/maps/us_house.topo.albersusa.features.json";
+    var map_file = "./assets/maps/us_house.json";
   }
 
   var svg_element = d3.select("#map-container-federal")
@@ -366,7 +366,7 @@ federalRaces.forEach(function(d){
 var width = 800,
     height = 500;
 
-var CAmap_bycounty = "../assets/maps/ca_county.topo.mercator.features.json";
+var CAmap_bycounty = "./assets/maps/ca_county.json";
 
 var path = d3.geo.path()
     .projection(null);
