@@ -42,7 +42,7 @@
       <section id="federal">
       <h1>Federal</h1>
 
-        <div class="heading">On the Federal level, we've been closely watching the presidential election, which is one of the most unusual in years. Unusual is a nice way of putting it.</div>
+        <div class="heading">The purpose of this project is to create a well-designed, branded and cohesive online presence for the 2016 election results.  Secondarily, we hope to reduce the amount of manual data-entry required to gather local county election results on election night.</div>
         <div class="br"></div>
 
         <h4 class="race president">President</h4>
@@ -65,6 +65,11 @@
 
         <div id="map-container-president"></div>
 
+        <div class="divider"></div>
+        <div class="inline-img">
+          <img src="https://placeholdit.imgix.net/~text?txtsize=33&txt=AD%20SPACE&w=728&h=90"></img>
+        </div>
+
         <h4 class="race senate" id="senate">US Senate</h4>
         <h4 class="race congress" id="congress">US Congress</h4>
 
@@ -73,21 +78,20 @@
         <div class="hed">Federal election results:</div>
 
         <div class="button-container">
-          <div class="button race governor">Governor</div>
-          <div class="button race senate">Senate</div>
-          <div class="button race congress">Congress</div>
+          <div class="button race governor active" id="governormap">Governor</div>
+          <div class="button race senate" id="senatemap">Senate</div>
+          <div class="button race congress" id="congressmap">Congress</div>
         </div>
 
         <div id="map-container-federal"></div>
 
       </div>
 
-
     </section>
     <section id="state">
       <h1>State</h1>
 
-      <div class="heading">We have some important state races too. We are closely watching the Senate race and some of the initiatives are expected to be close. Now I'm making things up.</div>
+      <div class="heading">The purpose of this project is to create a well-designed, branded and cohesive online presence for the 2016 election results.  Secondarily, we hope to reduce the amount of manual data-entry required to gather local county election results on election night.</div>
       <div class="br"></div>
 
       <div class="hed">California results by county:</div>
@@ -129,7 +133,7 @@
 
       <h1>Local</h1>
 
-      <div class="heading">I have no idea what is important at a local level but there are definitely important things at the local level. Also arguably too many propositions. I wish I could vote on the housing ones even though I don't live in SF.</div>
+      <div class="heading">The purpose of this project is to create a well-designed, branded and cohesive online presence for the 2016 election results.  Secondarily, we hope to reduce the amount of manual data-entry required to gather local county election results on election night.</div>
 
       <h2 class="races" id="sctrl"><i class="fa fa-caret-right" id="scaret" aria-hidden="true"></i>  SF Supervisors:</h2>
       <div id="ssec">
@@ -154,10 +158,16 @@
 
       <h1>Regional</h1>
 
-      <div class="heading">People in San Francisco have a hard time caring about the rest of the peninsula but we are going to find some things that interest them anyway.</div>
+      <div class="heading">The purpose of this project is to create a well-designed, branded and cohesive online presence for the 2016 election results.  Secondarily, we hope to reduce the amount of manual data-entry required to gather local county election results on election night.</div>
       <div class="br"></div>
 
     </section>
+
+    <div class="divider"></div>
+
+    <div class="inline-img" style="text-align: center">
+      <img src="https://placeholdit.imgix.net/~text?txtsize=33&txt=AD%20SPACE&w=300&h=250"></img>
+    </div>
 
     </div>
 
@@ -173,6 +183,11 @@
       var electoralVotes = <%= JSON.stringify(csv.electoralVotes) %>;
       var federalRaces = <%= JSON.stringify(csv.federalRaces) %>;
 
+      //country data
+      var governorRaces = <%= JSON.stringify(csv.GovernorData) %>;
+      var senateRaces = <%= JSON.stringify(csv.SenateData) %>;
+      var congressRaces = <%= JSON.stringify(csv.CongressData) %>;
+
       // state data
       var stateRaces = <%= JSON.stringify(csv.stateRaces) %>;
       var propList = window.propList = <%= JSON.stringify(csv.StatePropositionsData) %>;
@@ -184,6 +199,7 @@
       // map look-up tables
       var stateCodes = <%= JSON.stringify(csv.stateCodes) %>;
       var countyCodes = <%= JSON.stringify(json.countyCodesLookup) %>;
+
 
     </script>
 

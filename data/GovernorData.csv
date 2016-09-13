@@ -1,0 +1,13 @@
+key,state,dem_name,rep_name,percent_dem,percent_rep,winner
+DE,Delaware,Person 1,Person 2,0.2,0.8,2
+IN,Indiana,Person 1,Person 2,0.4,0.5,
+MO,Missouri,Person 1,Person 2,0.3,0.3,
+MT,Montana,Person 1,Person 2,0.8,0.2,1
+NH,New Hampshire,Person 1,Person 2,0.4,0.4,
+NC,North Carolina,Person 1,Person 2,0.2,0.2,
+ND,North Dakota,Person 1,Person 2,0.2,0.2,
+OR,Oregon,Person 1,Person 2,0.2,0.2,
+UT,Utah,Person 1,Person 2,0.2,0.2,
+VT,Vermont,Person 1,Person 2,0.2,0.2,
+WA,Washington,Person 1,Person 2,0.2,0.2,
+WV,West Virginia,Person 1,Person 2,0.2,0.2,

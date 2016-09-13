@@ -1,0 +1,18 @@
+key,state,dem_name,rep_name,percent_dem,percent_rep,winner
+AK,Alaska,Person 1,Person 2,0.2,0.8,2
+AZ,Arizona,Person 1,Person 2,0.4,0.5,
+CO,Colorado,Person 1,Person 2,0.3,0.3,
+FL,Florida,Person 1,Person 2,0.8,0.2,1
+GA,Georgia,Person 1,Person 2,0.4,0.4,
+IL,Illinois,Person 1,Person 2,0.2,0.2,
+IN,Indiana,Person 1,Person 2,0.2,0.2,
+IA,Iowa,Person 1,Person 2,0.2,0.2,
+KY,Kentucky,Person 1,Person 2,0.2,0.2,
+LA,Louisiana,Person 1,Person 2,0.2,0.2,
+MO,Missouri,Person 1,Person 2,0.2,0.2,
+NV,Nevada,Person 1,Person 2,0.2,0.2,
+NH,New Hampshire,Person 1,Person 2,0.2,0.2,
+NC,North Carolina,Person 1,Person 2,0.2,0.2,
+OH,Ohio,Person 1,Person 2,0.2,0.2,
+PA,Pennsylvania,Person 1,Person 2,0.2,0.2,
+WI,Wisconsin,Person 1,Person 2,0.2,0.2,

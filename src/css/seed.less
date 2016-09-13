@@ -25,6 +25,9 @@
 @head-color: #9bb5d8;
 @rename-color: #6D6D6D;
 
+@red-map: #8A0000;//"#F04646";
+@blue-map: #004366;//"#62A9CC";
+
 @base-font: 21px;
 @line-height: 1.58;
 @black: #333;
@@ -739,10 +742,10 @@ header {
   background: #ccc;
 }
 #hillaryclinton {
-  background: #62A9CC;
+  background: @blue-map;//#62A9CC;
 }
 #donaldtrump {
-  background: #F04646;
+  background: @red-map;//#F04646;
 }
 
 .propositions-list, .sf-propositions-list {
@@ -758,6 +761,9 @@ header {
     &.active {
       display:block;
       .flex(0 0 47%);
+      @media @mobile {
+        .flex(0 0 98%);
+      }
     }
   }
 }

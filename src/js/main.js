@@ -1,7 +1,7 @@
 var d3 = require('d3');
 var topojson = require('topojson');
-var red = "#F04646";
-var blue = "#62A9CC";
+var red = "#8A0000";//"#F04646";
+var blue = "#004366";//"#62A9CC";
 
 // function for shading colors
 function shadeColor2(color, percent) {
@@ -9,20 +9,12 @@ function shadeColor2(color, percent) {
     return "#"+(0x1000000+(Math.round((t-R)*p)+R)*0x10000+(Math.round((t-G)*p)+G)*0x100+(Math.round((t-B)*p)+B)).toString(16).slice(1);
 }
 
-// PRESIDENTIAL MAP ------------------------------------------------------------
-
-// var width = 960,
-//     height = 500;
-
+// map variables
 var presidentmap_bystate = "../assets/maps/us_state.topo.albersusa.features.json";
 var presidentmap_bycounty = "../assets/maps/us_county.topo.albersusa.features.json";
+var map_bycongressdistricts = "../assets/maps/us_house.topo.albersusa.features.json";
 
-// var projection = d3.geo.albersUsa()
-//     .scale(width)
-//     .translate([width / 2, height / 2]);
-
-// var path = d3.geo.path()
-//     .projection(projection);
+// PRESIDENTIAL MAP ------------------------------------------------------------
 
 var path = d3.geo.path()
     .projection(null);
@@ -31,86 +23,120 @@ document.querySelector('#presidentbystate').addEventListener('click', function()
   document.querySelector("#presidentbycounty").classList.remove("active");
   this.classList.add("active");
   var statesmap = d3.select("#president-map-states-svg");
-  d3.select("#states-container").style("display","inline-block");
-  d3.select("#counties-container").style("display","none");
+  d3.select("#presidentMap_States-container").style("display","inline-block");
+  d3.select("#presidentMap_Counties-container").style("display","none");
 });
 document.querySelector('#presidentbycounty').addEventListener('click', function(){
   document.querySelector("#presidentbystate").classList.remove("active");
   this.classList.add("active");
   var statesmap = d3.select("#president-map-states-svg");
-  d3.select("#states-container").style("display","none");
-  d3.select("#counties-container").style("display","inline-block");
+  d3.select("#presidentMap_States-container").style("display","none");
+  d3.select("#presidentMap_Counties-container").style("display","inline-block");
 });
 
 // presidential map by states --------------------------------------------------
 
-var svgMapStatesPresident = d3.select("#map-container-president")
-   .append("div")
-   .classed("svg-container", true) //container class to make it responsive
-   .attr("id","states-container")
-   .append("svg")
-   //responsive SVG needs these 2 attributes and no width and height attr
-   .attr("preserveAspectRatio", "xMinYMin meet")
-   .attr("viewBox", "0 0 960 500")
-   //class to make it responsive
-   .classed("svg-content-responsive", true)
-  .attr("id","president-map-states-svg");
+["presidentMap_States","presidentMap_Counties"].forEach(function(svg_element,ind){
 
-d3.json(presidentmap_bystate, function(error, us) {
-  if (error) throw error;
+  if (svg_element.split("_")[1] == "States") {
+    var map_file = "../assets/maps/us_state.topo.albersusa.features.json";
+  } else {
+    var map_file = "../assets/maps/us_county.topo.albersusa.features.json";
+  }
 
-  svgMapStatesPresident.append("path")
-      .datum(topojson.feature(us, us.objects.features))
+  svg_element = d3.select("#map-container-president")
+     .append("div")
+     .classed("svg-container", true) //container class to make it responsive
+     .attr("id",svg_element+"-container")
+     .append("svg")
+     //responsive SVG needs these 2 attributes and no width and height attr
+     .attr("preserveAspectRatio", "xMinYMin meet")
+     .attr("viewBox", "0 0 960 500")
+     //class to make it responsive
+     .classed("svg-content-responsive", true)
+    .attr("id","president-map-states-svg");
+
+  d3.json(map_file, function(error, us) {
+    if (error) throw error;
+
+    svg_element.append("path")
+        .datum(topojson.feature(us, us.objects.features))
+        .attr("class", "states")
+        .attr("d", path);
+
+    svg_element.selectAll(".states")
+      .data(topojson.feature(us, us.objects.features).features).enter()
+      .append("path")
       .attr("class", "states")
-      .attr("d", path);
-
-  svgMapStatesPresident.selectAll(".states")
-    .data(topojson.feature(us, us.objects.features).features).enter()
-    .append("path")
-    .attr("class", "states")
-    .attr("id",function(d) {
-      return "state"+parseInt(d.id);
-    })
-    .style("fill", function(d) {
-      var stateabbrev = stateCodes[parseInt(d.id)].state;
-      if (presidentialData[String(stateabbrev)]) {
-          var tempvar = presidentialData[String(stateabbrev)];
-          if (tempvar.percent_dem > tempvar.percent_rep){
-            var new_color = shadeColor2(blue,1-tempvar.percent_dem);
-            return String(new_color);//"darken('blue',10)";
+      .attr("id",function(d) {
+        return "state"+parseInt(d.id);
+      })
+      .style("fill", function(d,index) {
+        if (ind == 0) {
+          var stateabbrev = stateCodes[parseInt(d.id)].state;
+          if (presidentialData[String(stateabbrev)]) {
+              var tempvar = presidentialData[String(stateabbrev)];
+              if (tempvar.percent_dem > tempvar.percent_rep){
+                var new_color = shadeColor2(blue,1-tempvar.percent_dem);
+                return String(new_color);//"darken('blue',10)";
+              } else {
+                var new_color = shadeColor2(red,1-tempvar.percent_rep);
+                return String(new_color);//"darken('red',10)";
+              }
           } else {
-            var new_color = shadeColor2(red,1-tempvar.percent_rep);
-            return String(new_color);//"darken('red',10)";
+            return "#b2b2b2";//fill(path.area(d));
           }
-      } else {
-        return "#b2b2b2";//fill(path.area(d));
-      }
-    })
-    .attr("d", path)
-    .on('mouseover', function(d) {
-      var stateabbrev = stateCodes[parseInt(d.id)].state;
-      if (presidentialData[String(stateabbrev)]) {
-        var tempvar = presidentialData[String(stateabbrev)];
-        var html_str = "<div class='state-name'>"+stateabbrev+"</div><div>Democrat: "+Math.round(tempvar.percent_dem*1000)/10+"%</div><div>Republican: "+Math.round(tempvar.percent_rep*1000)/10+"%</div>";
-      } else {
-        var html_str = "<div class='state-name'>"+stateabbrev+"</div><div>No results yet.</div>";
-      }
-      tooltip.html(html_str);
-      tooltip.style("visibility", "visible");
-    })
-    .on("mousemove", function() {
-      if (screen.width <= 480) {
-        return tooltip
-          .style("top",(d3.event.pageY+40)+"px")//(d3.event.pageY+40)+"px")
-          .style("left",10+"px");
-      } else {
-        return tooltip
-          .style("top", (d3.event.pageY+20)+"px")
-          .style("left",(d3.event.pageX-80)+"px");
-      }
-    })
-    .on("mouseout", function(){return tooltip.style("visibility", "hidden");
-    });
+        } else {
+          if (presidentialCountyData[+d.id]) {
+              var tempvar = presidentialCountyData[+d.id];
+              if (tempvar.percent_dem > tempvar.percent_rep){
+                var new_color = shadeColor2(blue,1-tempvar.percent_dem);
+                return String(new_color);//"darken('blue',10)";
+              } else {
+                var new_color = shadeColor2(red,1-tempvar.percent_rep);
+                return String(new_color);//"darken('red',10)";
+              }
+          } else {
+            return "#b2b2b2";//fill(path.area(d));
+          }
+        }
+      })
+      .attr("d", path)
+      .on('mouseover', function(d,index) {
+        if (ind == 0) {
+          var stateabbrev = stateCodes[parseInt(d.id)].state;
+          if (presidentialData[String(stateabbrev)]) {
+            var tempvar = presidentialData[String(stateabbrev)];
+            var html_str = "<div class='state-name'>"+stateabbrev+"</div><div>Democrat: "+Math.round(tempvar.percent_dem*1000)/10+"%</div><div>Republican: "+Math.round(tempvar.percent_rep*1000)/10+"%</div>";
+          } else {
+            var html_str = "<div class='state-name'>"+stateabbrev+"</div><div>No results yet.</div>";
+          }
+        } else {
+          if (presidentialCountyData[+d.id]) {
+            var tempvar = presidentialCountyData[+d.id];
+            var html_str = "<div class='state-name'>County: "+d.id+"</div><div>Democrat: "+Math.round(tempvar.percent_dem*1000)/10+"%</div><div>Republican: "+Math.round(tempvar.percent_rep*1000)/10+"%</div><div>Precincts reporting: "+tempvar.reporting+"</div>";
+          } else {
+            var html_str = "<div class='state-name'>County: "+d.id+"</div><div>No results yet.</div>";
+          }
+        }
+        tooltip.html(html_str);
+        tooltip.style("visibility", "visible");
+      })
+      .on("mousemove", function() {
+        if (screen.width <= 480) {
+          return tooltip
+            .style("top",(d3.event.pageY+40)+"px")//(d3.event.pageY+40)+"px")
+            .style("left",10+"px");
+        } else {
+          return tooltip
+            .style("top", (d3.event.pageY+20)+"px")
+            .style("left",(d3.event.pageX-80)+"px");
+        }
+      })
+      .on("mouseout", function(){return tooltip.style("visibility", "hidden");
+      });
+  });
+
 });
 
 // show tooltip
@@ -121,92 +147,122 @@ var tooltip = d3.select("#map-container-president")
     .style("z-index", "10")
     .style("visibility", "hidden")
 
+// hide the county map to start
+d3.select("#presidentMap_Counties-container").style("display","none");
+
 // presidential map by counties ------------------------------------------------
-
-var svgMapCountiesPresident = d3.select("#map-container-president")
-    .append("div")
-    .classed("svg-container", true) //container class to make it responsive
-    .attr("id","counties-container")
-    .style("display","none")
-    .append("svg")
-    //responsive SVG needs these 2 attributes and no width and height attr
-    .attr("preserveAspectRatio", "xMinYMin meet")
-    .attr("viewBox", "0 0 960 500")
-    //class to make it responsive
-    .classed("svg-content-responsive", true)
-    .attr("id","president-map-counties-svg");
-
-d3.json(presidentmap_bycounty, function(error, us) {
-  if (error) throw error;
-
-  svgMapCountiesPresident.append("path")
-      .datum(topojson.feature(us, us.objects.features))
-      .attr("class", "states")
-      .attr("d", path);
-
-  svgMapCountiesPresident.selectAll(".states")
-    .data(topojson.feature(us, us.objects.features).features).enter()
-    .append("path")
-    .attr("class", "states")
-    .attr("id",function(d) {
-      return "county"+parseInt(d.id);
-    })
-    .style("fill", function(d) {
-      if (presidentialCountyData[+d.id]) {
-          var tempvar = presidentialCountyData[+d.id];
-          if (tempvar.percent_dem > tempvar.percent_rep){
-            var new_color = shadeColor2(blue,1-tempvar.percent_dem);
-            return String(new_color);//"darken('blue',10)";
-          } else {
-            var new_color = shadeColor2(red,1-tempvar.percent_rep);
-            return String(new_color);//"darken('red',10)";
-          }
-      } else {
-        return "#b2b2b2";//fill(path.area(d));
-      }
-    })
-    .attr("d", path)
-    .on('mouseover', function(d) {
-      if (presidentialCountyData[+d.id]) {
-        var tempvar = presidentialCountyData[+d.id];
-        var html_str = "<div class='state-name'>County: "+d.id+"</div><div>Democrat: "+Math.round(tempvar.percent_dem*1000)/10+"%</div><div>Republican: "+Math.round(tempvar.percent_rep*1000)/10+"%</div><div>Precincts reporting: "+tempvar.reporting+"</div>";
-      } else {
-        var html_str = "<div class='state-name'>County: "+d.id+"</div><div>No results yet.</div>";
-      }
-      tooltip.html(html_str);
-      tooltip.style("visibility", "visible");
-    })
-    .on("mousemove", function() {
-      if (screen.width <= 480) {
-        return tooltip
-          .style("top",(d3.event.pageY+40)+"px")//(d3.event.pageY+40)+"px")
-          .style("left",10+"px");
-      } else {
-        return tooltip
-          .style("top", (d3.event.pageY+20)+"px")
-          .style("left",(d3.event.pageX-80)+"px");
-      }
-    })
-    .on("mouseout", function(){return tooltip.style("visibility", "hidden");
-    });
-});
+//
+// var svgMapCountiesPresident = d3.select("#map-container-president")
+//     .append("div")
+//     .classed("svg-container", true) //container class to make it responsive
+//     .attr("id","counties-container")
+//     .style("display","none")
+//     .append("svg")
+//     //responsive SVG needs these 2 attributes and no width and height attr
+//     .attr("preserveAspectRatio", "xMinYMin meet")
+//     .attr("viewBox", "0 0 960 500")
+//     //class to make it responsive
+//     .classed("svg-content-responsive", true)
+//     .attr("id","president-map-counties-svg");
+//
+// d3.json(presidentmap_bycounty, function(error, us) {
+//   if (error) throw error;
+//
+//   svgMapCountiesPresident.append("path")
+//       .datum(topojson.feature(us, us.objects.features))
+//       .attr("class", "states")
+//       .attr("d", path);
+//
+//   svgMapCountiesPresident.selectAll(".states")
+//     .data(topojson.feature(us, us.objects.features).features).enter()
+//     .append("path")
+//     .attr("class", "states")
+//     .attr("id",function(d) {
+//       return "county"+parseInt(d.id);
+//     })
+//     .style("fill", function(d) {
+//       if (presidentialCountyData[+d.id]) {
+//           var tempvar = presidentialCountyData[+d.id];
+//           if (tempvar.percent_dem > tempvar.percent_rep){
+//             var new_color = shadeColor2(blue,1-tempvar.percent_dem);
+//             return String(new_color);//"darken('blue',10)";
+//           } else {
+//             var new_color = shadeColor2(red,1-tempvar.percent_rep);
+//             return String(new_color);//"darken('red',10)";
+//           }
+//       } else {
+//         return "#b2b2b2";//fill(path.area(d));
+//       }
+//     })
+//     .attr("d", path)
+//     .on('mouseover', function(d) {
+//       if (presidentialCountyData[+d.id]) {
+//         var tempvar = presidentialCountyData[+d.id];
+//         var html_str = "<div class='state-name'>County: "+d.id+"</div><div>Democrat: "+Math.round(tempvar.percent_dem*1000)/10+"%</div><div>Republican: "+Math.round(tempvar.percent_rep*1000)/10+"%</div><div>Precincts reporting: "+tempvar.reporting+"</div>";
+//       } else {
+//         var html_str = "<div class='state-name'>County: "+d.id+"</div><div>No results yet.</div>";
+//       }
+//       tooltip.html(html_str);
+//       tooltip.style("visibility", "visible");
+//     })
+//     .on("mousemove", function() {
+//       if (screen.width <= 480) {
+//         return tooltip
+//           .style("top",(d3.event.pageY+40)+"px")//(d3.event.pageY+40)+"px")
+//           .style("left",10+"px");
+//       } else {
+//         return tooltip
+//           .style("top", (d3.event.pageY+20)+"px")
+//           .style("left",(d3.event.pageX-80)+"px");
+//       }
+//     })
+//     .on("mouseout", function(){return tooltip.style("visibility", "hidden");
+//     });
+// });
 
 // US MAP RACES ----------------------------------------------------------------
 
-// presidential map by states --------------------------------------------------
+// button controls for federal races -------------------------------------------
+
+document.querySelector('#governormap').addEventListener('click', function(){
+  document.querySelector("#senatemap").classList.remove("active");
+  document.querySelector("#congressmap").classList.remove("active");
+  this.classList.add("active");
+  d3.select("#governor-map").style("display","inline-block");
+  d3.select("#senate-map").style("display","none");
+  d3.select("#congress-map").style("display","none");
+});
+document.querySelector('#senatemap').addEventListener('click', function(){
+  document.querySelector("#congressmap").classList.remove("active");
+  document.querySelector("#governormap").classList.remove("active");
+  this.classList.add("active");
+  d3.select("#governor-map").style("display","none");
+  d3.select("#senate-map").style("display","inline-block");
+  d3.select("#congress-map").style("display","none");
+});
+document.querySelector('#congressmap').addEventListener('click', function(){
+  document.querySelector("#governormap").classList.remove("active");
+  document.querySelector("#senatemap").classList.remove("active");
+  this.classList.add("active");
+  d3.select("#governor-map").style("display","none");
+  d3.select("#senate-map").style("display","none");
+  d3.select("#congress-map").style("display","inline-block");
+});
+
+// governor map --------------------------------------------------
 
 var svgMapStatesFederal = d3.select("#map-container-federal")
     .append("div")
     .classed("svg-container", true) //container class to make it responsive
-    .attr("id","federal-container")
+    .attr("id","governor-map")
     // .style("display","none")
     .append("svg")
     //responsive SVG needs these 2 attributes and no width and height attr
     .attr("preserveAspectRatio", "xMinYMin meet")
     .attr("viewBox", "0 0 960 500")
     //class to make it responsive
-    .classed("svg-content-responsive", true)
-    .attr("id","federal-map-states-svg");
+    .classed("svg-content-responsive", true);
+    // .attr("id","governor-map");
 
 d3.json(presidentmap_bystate, function(error, us) {
   if (error) throw error;
@@ -225,8 +281,8 @@ d3.json(presidentmap_bystate, function(error, us) {
     })
     .style("fill", function(d) {
       var stateabbrev = stateCodes[parseInt(d.id)].state;
-      if (presidentialData[String(stateabbrev)]) {
-          var tempvar = presidentialData[String(stateabbrev)];
+      if (governorRaces[String(stateabbrev)]) {
+          var tempvar = governorRaces[String(stateabbrev)];
           if (tempvar.percent_dem > tempvar.percent_rep){
             var new_color = shadeColor2(blue,1-tempvar.percent_dem);
             return String(new_color);//"darken('blue',10)";
@@ -237,6 +293,102 @@ d3.json(presidentmap_bystate, function(error, us) {
       } else {
         return "#b2b2b2";//fill(path.area(d));
       }
+    })
+    .attr("d", path)
+});
+
+// Senate map --------------------------------------------------
+
+var svgMapStatesSenate = d3.select("#map-container-federal")
+    .append("div")
+    .classed("svg-container", true) //container class to make it responsive
+    .attr("id","senate-map")
+    .style("display","none")
+    .append("svg")
+    //responsive SVG needs these 2 attributes and no width and height attr
+    .attr("preserveAspectRatio", "xMinYMin meet")
+    .attr("viewBox", "0 0 960 500")
+    //class to make it responsive
+    .classed("svg-content-responsive", true);
+    // .attr("id","senate-map");
+
+d3.json(presidentmap_bystate, function(error, us) {
+  if (error) throw error;
+
+  svgMapStatesSenate.append("path")
+      .datum(topojson.feature(us, us.objects.features))
+      .attr("class", "states")
+      .attr("d", path);
+
+  svgMapStatesSenate.selectAll(".states")
+    .data(topojson.feature(us, us.objects.features).features).enter()
+    .append("path")
+    .attr("class", "states")
+    .attr("id",function(d) {
+      return "state"+parseInt(d.id);
+    })
+    .style("fill", function(d) {
+      var stateabbrev = stateCodes[parseInt(d.id)].state;
+      if (senateRaces[String(stateabbrev)]) {
+          var tempvar = senateRaces[String(stateabbrev)];
+          if (tempvar.percent_dem > tempvar.percent_rep){
+            var new_color = shadeColor2(blue,1-tempvar.percent_dem);
+            return String(new_color);//"darken('blue',10)";
+          } else {
+            var new_color = shadeColor2(red,1-tempvar.percent_rep);
+            return String(new_color);//"darken('red',10)";
+          }
+      } else {
+        return "#b2b2b2";//fill(path.area(d));
+      }
+    })
+    .attr("d", path)
+});
+
+// Congress map --------------------------------------------------
+
+var svgMapCongress = d3.select("#map-container-federal")
+    .append("div")
+    .classed("svg-container", true) //container class to make it responsive
+    .attr("id","congress-map")
+    .style("display","none")
+    .append("svg")
+    //responsive SVG needs these 2 attributes and no width and height attr
+    .attr("preserveAspectRatio", "xMinYMin meet")
+    .attr("viewBox", "0 0 960 500")
+    //class to make it responsive
+    .classed("svg-content-responsive", true);
+    // .attr("id","congress-map");
+
+d3.json(map_bycongressdistricts, function(error, us) {
+  if (error) throw error;
+
+  svgMapCongress.append("path")
+      .datum(topojson.feature(us, us.objects.features))
+      .attr("class", "states")
+      .attr("d", path);
+
+  svgMapCongress.selectAll(".states")
+    .data(topojson.feature(us, us.objects.features).features).enter()
+    .append("path")
+    .attr("class", "states")
+    .attr("id",function(d) {
+      return "state"+parseInt(d.id);
+    })
+    .style("fill", function(d) {
+      // var stateabbrev = stateCodes[parseInt(d.id)].state;
+      // if (governorRaces[String(stateabbrev)]) {
+      //     var tempvar = governorRaces[String(stateabbrev)];
+      //     if (tempvar.percent_dem > tempvar.percent_rep){
+      //       var new_color = shadeColor2(blue,1-tempvar.percent_dem);
+      //       return String(new_color);//"darken('blue',10)";
+      //     } else {
+      //       var new_color = shadeColor2(red,1-tempvar.percent_rep);
+      //       return String(new_color);//"darken('red',10)";
+      //     }
+      // } else {
+        return "#b2b2b2";//fill(path.area(d));
+      // }
     })
     .attr("d", path)
 });
