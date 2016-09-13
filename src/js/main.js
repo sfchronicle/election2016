@@ -447,14 +447,16 @@ document.getElementById("donaldtrump").style.width = String(trump_percent)+"%";
 federalRaces.forEach(function(d){
   var name_key = d.name.toLowerCase().replace(/ /g,'').replace(".","").replace("'","");
   var width = document.getElementById("federal").getBoundingClientRect().width;
-  var pixels = (width-250)*(d.vote_percent/100); // THIS WILL NEED AN UPDATE FOR MOBILE!!!!!
-  document.getElementById(String(name_key)).style.width = String(pixels)+"px";
+  // var pixels = (width-250)*(d.vote_percent/100); // THIS WILL NEED AN UPDATE FOR MOBILE!!!!!
+  // document.getElementById(String(name_key)).style.width = String(pixels)+"px";
+  var pixels = (d.vote_percent); // THIS WILL NEED AN UPDATE FOR MOBILE!!!!!
+  document.getElementById(String(name_key)).style.width = String(pixels)+"%";
 });
 
 // STATE MAP ------------------------------------------------------------
 
-var width = 800,
-    height = 500;
+// var width = 800,
+//     height = 500;
 
 var CAmap_bycounty = "../assets/maps/ca_county.topo.mercator.features.json";
 
@@ -463,11 +465,18 @@ var path = d3.geo.path()
 
 // CA map by county
 
-var svgCACounties = d3.select("#map-container-state").append("svg")
-    .attr("width", width)
-    .attr("height", height)
+var svgCACounties = d3.select("#map-container-state")
+    .append("div")
+    .classed("svg-container", true) //container class to make it responsive
+    .attr("id","state-svg-container")
     // .style("display","none")
-    .attr("id","map-container-state");
+    .append("svg")
+    //responsive SVG needs these 2 attributes and no width and height attr
+    .attr("preserveAspectRatio", "xMinYMin meet")
+    .attr("viewBox", "-60 0 865 600")
+    //class to make it responsive
+    .classed("svg-content-responsive", true)
+    .attr("id","map-state-container");
 
 d3.json(CAmap_bycounty, function(error, us) {
   if (error) throw error;
@@ -553,8 +562,10 @@ d3.json(CAmap_bycounty, function(error, us) {
 stateRaces.forEach(function(d){
   var name_key = d.name.toLowerCase().replace(/ /g,'').replace(".","").replace("'","");
   var width = document.getElementById("racectrl").getBoundingClientRect().width;
-  var pixels = (width-250)*(d.vote_percent/100); // THIS WILL NEED AN UPDATE FOR MOBILE!!!!!
-  document.getElementById(String(name_key)).style.width = String(pixels)+"px";
+  // var pixels = (width-250)*(d.vote_percent/100); // THIS WILL NEED AN UPDATE FOR MOBILE!!!!!
+  // document.getElementById(String(name_key)).style.width = String(pixels)+"px";
+  var pixels = (d.vote_percent); // THIS WILL NEED AN UPDATE FOR MOBILE!!!!!
+  document.getElementById(String(name_key)).style.width = String(pixels)+"%";
 });
 
 // populating state propositions list
@@ -667,8 +678,10 @@ sfinput.addEventListener('input', function(){
 SFsupesList.forEach(function(d){
   var name_key = d.name.toLowerCase().replace(/ /g,'').replace(".","").replace("'","");
   var width = document.getElementById("sctrl").getBoundingClientRect().width;
-  var pixels = (width-250)*(d.vote_percent/100); // THIS WILL NEED AN UPDATE FOR MOBILE!!!!!
-  document.getElementById(String(name_key)).style.width = String(pixels)+"px";
+  // var pixels = (width-250)*(d.vote_percent/100); // THIS WILL NEED AN UPDATE FOR MOBILE!!!!!
+  // document.getElementById(String(name_key)).style.width = String(pixels)+"px";
+  var pixels = (d.vote_percent); // THIS WILL NEED AN UPDATE FOR MOBILE!!!!!
+  document.getElementById(String(name_key)).style.width = String(pixels)+"%";
   // if (d.party == "D") {
   //   document.getElementById(String(name_key)).style.background = blue;
   // } else if (d.party == "R") {
@@ -765,13 +778,15 @@ function activate() {
   var div_top = document.getElementById('stick-here').getBoundingClientRect().top + window_top;
   var long = document.getElementById('long');
 
-  if (window_top > div_top) {
+  if (window_top + 10 > div_top) {
+      sticker.style.display = "block";
       sticker.classList.add('fixed');
-      sticker_ph.style.display = 'block'; // puts in a placeholder for where sticky used to be for smooth scrolling
+      // sticker_ph.style.display = 'block'; // puts in a placeholder for where sticky used to be for smooth scrolling
       long.style.display = 'inline-block';
   } else {
+      sticker.style.display = "none";
       sticker.classList.remove('fixed');
-      sticker_ph.style.display = 'none'; // removes placeholder
+      // sticker_ph.style.display = 'none'; // removes placeholder
       long.style.display = 'none';
   }
 
@@ -796,48 +811,11 @@ function activate() {
   for (var i = 0; i < top.length; i++) {
     if ((top[i] < window_top) && (btm[i] > window_top)) {
       scroll[i].classList.add('activelink');
+      scroll[i].parentElement.classList.add('activediv');
     }
     else {
       scroll[i].classList.remove('activelink');
+      scroll[i].parentElement.classList.remove('activediv');
     }
   }
 }
-
-function getPageScroll() {
-  var yScroll;
-
-  if (window.pageYOffset) {
-    yScroll = window.pageYOffset;
-  } else if (document.documentElement && document.documentElement.scrollTop) {
-    yScroll = document.documentElement.scrollTop;
-  } else if (document.body) {
-    yScroll = document.body.scrollTop;
-  }
-  return yScroll;
-}
-
-scroll.forEach(function(d){
-
-  d.addEventListener('click', function (event) {
-
-    targetOffset = document.getElementById(event.target.hash.substr(1)).offsetTop;
-    currentPosition = getPageScroll();
-
-    body.classList.add('in-transition');
-
-    for (var i = 0; i < scroll.length; i++) {
-        body.style.WebkitTransform = "translate(0, " + (currentPosition - targetOffset) + "px)";
-        body.style.MozTransform = "translate(0, " + (currentPosition - targetOffset) + "px)";
-        body.style.transform = "translate(0, " + (currentPosition - targetOffset) + "px)";
-    }
-
-    window.setTimeout(function () {
-      body.classList.remove('in-transition');
-      body.style.cssText = "";
-      window.scrollTo(0, targetOffset);
-    }, animateTime);
-
-    event.preventDefault();
-
-  }, false)
-});

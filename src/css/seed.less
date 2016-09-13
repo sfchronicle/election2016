@@ -43,6 +43,10 @@ body {
 .outer {
   max-width: 900px;
   margin: auto;
+
+  @media screen and (max-width: 950px) {
+    width: 95%;
+  }
 }
 
 a {
@@ -375,6 +379,7 @@ footer {
   border-bottom: 1px @light-gray solid;
   background-color: white;
   height: 40px;
+  display:none;
 }
 
 #stick-ph {
@@ -646,6 +651,10 @@ header {
     float: left;
     width: 120px;
     cursor: pointer;
+
+    @media @tablet {
+      display: none;
+    }
   }
   .long {
     display: none;
@@ -762,7 +771,7 @@ header {
       display:block;
       .flex(0 0 47%);
       @media @mobile {
-        .flex(0 0 98%);
+        .flex(0 0 97%);
       }
     }
   }
@@ -866,11 +875,16 @@ header {
 }
 
 .flex-container {
-  .display-flex();
+  @media screen and (min-width: 769px) {
+    .display-flex();
+  }
 }
 
 #map-container-state {
-  .flex(0 0 70%);
+  @media screen and (min-width: 769px) {
+    .flex(0 0 70%);
+  }
+
   svg {
     margin-left: -150px;
   }
@@ -880,7 +894,9 @@ header {
   text-align: center;
   margin: 5px auto;
   &.vertical {
-    .flex(0 0 30%);
+    @media screen and (min-width: 769px) {
+      .flex(0 0 30%);
+    }
     // margin-bottom: 20px;
     // float: left;
     // width: 30%;
@@ -929,6 +945,13 @@ header {
   font-family: AntennaRegular;
 }
 
+.activediv {
+  @media @tablet {
+    display: inline-block !important;
+  }
+}
+
+
 .mark270 {
   left: 50.1859%;
   transform: translateX(-50.1859%);
@@ -964,9 +987,23 @@ header {
     vertical-align: top;
     overflow: hidden;
 }
+
+#state-svg-container {
+  padding-bottom: 77%;
+
+  @media @tablet {
+    padding-bottom: 95%;
+  }
+}
 .svg-content-responsive {
     display: inline-block;
     position: absolute;
     top: 10px;
     left: 0;
+}
+
+@media @tablet {
+  .entry .name {
+    width: 100%;
+  }
 }
