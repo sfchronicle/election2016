@@ -56,18 +56,22 @@ document.querySelector('#presidentbycounty').addEventListener('click', function(
      .classed("svg-content-responsive", true)
     .attr("id","president-map-states-svg");
 
+  //Pattern injection
+  var pattern = svg_element.append("defs")
+  	.append("pattern")
+  		.attr({ id:"hash4_4", width:"8", height:"8", patternUnits:"userSpaceOnUse", patternTransform:"rotate(60)"})
+  	.append("rect")
+  		.attr({ width:"4", height:"8", transform:"translate(0,0)", fill:"#88AAEE" });
+
   d3.json(map_file, function(error, us) {
     if (error) throw error;
 
-    svg_element.append("path")
-        .datum(topojson.feature(us, us.objects.features))
-        .attr("class", "states")
-        .attr("d", path);
-
+    var features = topojson.feature(us,us.objects.features).features;
     svg_element.selectAll(".states")
       .data(topojson.feature(us, us.objects.features).features).enter()
       .append("path")
       .attr("class", "states")
+      .attr("d",path)
       .attr("id",function(d) {
         return "state"+parseInt(d.id);
       })
@@ -79,9 +83,11 @@ document.querySelector('#presidentbycounty').addEventListener('click', function(
               if (tempvar.percent_dem > tempvar.percent_rep){
                 var new_color = shadeColor2(blue,1-tempvar.percent_dem);
                 return String(new_color);//"darken('blue',10)";
-              } else {
+              } else  if (tempvar.percent_rep > tempvar.percent_dem){
                 var new_color = shadeColor2(red,1-tempvar.percent_rep);
                 return String(new_color);//"darken('red',10)";
+              } else {
+                return "url(#hash4_4)"
               }
           } else {
             return "#b2b2b2";//fill(path.area(d));
@@ -92,9 +98,11 @@ document.querySelector('#presidentbycounty').addEventListener('click', function(
               if (tempvar.percent_dem > tempvar.percent_rep){
                 var new_color = shadeColor2(blue,1-tempvar.percent_dem);
                 return String(new_color);//"darken('blue',10)";
-              } else {
+              } else if (tempvar.percent_rep > tempvar.percent_dem){
                 var new_color = shadeColor2(red,1-tempvar.percent_rep);
                 return String(new_color);//"darken('red',10)";
+              } else {
+                return "url(#hash4_4)"
               }
           } else {
             return "#b2b2b2";//fill(path.area(d));
@@ -202,18 +210,22 @@ document.querySelector('#congressmap').addEventListener('click', function(){
       .classed("svg-content-responsive", true);
       // .attr("id","governor-map");
 
+  //Pattern injection
+  var pattern = svg_element.append("defs")
+  	.append("pattern")
+  		.attr({ id:"hash4_4", width:"8", height:"8", patternUnits:"userSpaceOnUse", patternTransform:"rotate(60)"})
+  	.append("rect")
+  		.attr({ width:"4", height:"8", transform:"translate(0,0)", fill:"#88AAEE" });
+
   d3.json(map_file, function(error, us) {
     if (error) throw error;
 
-    svg_element.append("path")
-        .datum(topojson.feature(us, us.objects.features))
-        .attr("class", "states")
-        .attr("d", path);
-
+    var features = topojson.feature(us,us.objects.features).features;
     svg_element.selectAll(".states")
-      .data(topojson.feature(us, us.objects.features).features).enter()
+      .data(features).enter()
       .append("path")
       .attr("class", "states")
+      .attr("d",path)
       .attr("id",function(d) {
         return "state"+parseInt(d.id);
       })
@@ -225,9 +237,11 @@ document.querySelector('#congressmap').addEventListener('click', function(){
               if (tempvar.percent_dem > tempvar.percent_rep){
                 var new_color = shadeColor2(blue,1-tempvar.percent_dem);
                 return String(new_color);//"darken('blue',10)";
-              } else {
+              } else  if (tempvar.percent_dem < tempvar.percent_rep) {
                 var new_color = shadeColor2(red,1-tempvar.percent_rep);
                 return String(new_color);//"darken('red',10)";
+              } else {
+                return "url(#hash4_4)"
               }
           } else {
             return "#b2b2b2";//fill(path.area(d));
@@ -239,9 +253,12 @@ document.querySelector('#congressmap').addEventListener('click', function(){
               if (tempvar.percent_dem > tempvar.percent_rep){
                 var new_color = shadeColor2(blue,1-tempvar.percent_dem);
                 return String(new_color);//"darken('blue',10)";
-              } else {
+              } else if (tempvar.percent_rep > tempvar.percent_dem){
                 var new_color = shadeColor2(red,1-tempvar.percent_rep);
                 return String(new_color);//"darken('red',10)";
+              } else {
+                // return "green";
+                return "url(#hash4_4)"
               }
           } else {
             return "#b2b2b2";//fill(path.area(d));
@@ -382,15 +399,12 @@ var svgCACounties = d3.select("#map-container-state").append("svg")
 d3.json(CAmap_bycounty, function(error, us) {
   if (error) throw error;
 
-  svgCACounties.append("path")
-      .datum(topojson.feature(us, us.objects.features))
-      .attr("class", "states")
-      .attr("d", path);
-
+  var features = topojson.feature(us,us.objects.features).features;
   svgCACounties.selectAll(".states")
     .data(topojson.feature(us, us.objects.features).features).enter()
     .append("path")
     .attr("class", "states")
+    .attr("d",path)
     .attr("id",function(d) {
       return "county"+parseInt(d.id);
     })
