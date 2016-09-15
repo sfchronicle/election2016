@@ -23,15 +23,19 @@ document.querySelector('#presidentbystate').addEventListener('click', function()
   document.querySelector("#presidentbycounty").classList.remove("active");
   this.classList.add("active");
   var statesmap = d3.select("#president-map-states-svg");
-  d3.select("#presidentMap_States-container").style("display","inline-block");
-  d3.select("#presidentMap_Counties-container").style("display","none");
+  d3.select("#presidentMap_States-container").style("visibility","visible");
+  d3.select("#presidentMap_States-container").style("position","relative");
+  d3.select("#presidentMap_Counties-container").style("visibility","collapse");
+  d3.select("#presidentMap_Counties-container").style("position","absolute");
 });
 document.querySelector('#presidentbycounty').addEventListener('click', function(){
   document.querySelector("#presidentbystate").classList.remove("active");
   this.classList.add("active");
   var statesmap = d3.select("#president-map-states-svg");
-  d3.select("#presidentMap_States-container").style("display","none");
-  d3.select("#presidentMap_Counties-container").style("display","inline-block");
+  d3.select("#presidentMap_States-container").style("visibility","collapse");
+  d3.select("#presidentMap_States-container").style("position","absolute");
+  d3.select("#presidentMap_Counties-container").style("visibility","visible");
+  d3.select("#presidentMap_Counties-container").style("position","relative");
 });
 
 // presidential map  -----------------------------------------------------------
@@ -61,7 +65,7 @@ document.querySelector('#presidentbycounty').addEventListener('click', function(
   	.append("pattern")
   		.attr({ id:"hash4_4", width:"8", height:"8", patternUnits:"userSpaceOnUse", patternTransform:"rotate(60)"})
   	.append("rect")
-  		.attr({ width:"4", height:"8", transform:"translate(0,0)", fill:"#88AAEE" });
+  		.attr({ width:"4", height:"8", transform:"translate(0,0)", fill:"#337699" });
 
   d3.json(map_file, function(error, us) {
     if (error) throw error;
@@ -87,7 +91,7 @@ document.querySelector('#presidentbycounty').addEventListener('click', function(
                 var new_color = shadeColor2(red,1-tempvar.percent_rep);
                 return String(new_color);//"darken('red',10)";
               } else {
-                return "url(#hash4_4)"
+                return "url(#hash4_4)";
               }
           } else {
             return "#b2b2b2";//fill(path.area(d));
@@ -102,7 +106,7 @@ document.querySelector('#presidentbycounty').addEventListener('click', function(
                 var new_color = shadeColor2(red,1-tempvar.percent_rep);
                 return String(new_color);//"darken('red',10)";
               } else {
-                return "url(#hash4_4)"
+                return "url(#hash4_4)";
               }
           } else {
             return "#b2b2b2";//fill(path.area(d));
@@ -156,7 +160,9 @@ var tooltip = d3.select("#map-container-president")
     .style("visibility", "hidden")
 
 // hide the county map to start
-d3.select("#presidentMap_Counties-container").style("display","none");
+d3.select("#presidentMap_Counties-container").style("visibility","collapse");
+d3.select("#presidentMap_Counties-container").style("position","absolute");
+
 
 // US MAP RACES ----------------------------------------------------------------
 
@@ -166,25 +172,46 @@ document.querySelector('#governormap').addEventListener('click', function(){
   document.querySelector("#senatemap").classList.remove("active");
   document.querySelector("#congressmap").classList.remove("active");
   this.classList.add("active");
-  d3.select("#governormap_States-container").style("display","inline-block");
-  d3.select("#senatemap_States-container").style("display","none");
-  d3.select("#congressmap_Districts-container").style("display","none");
+
+  d3.select("#governormap_States-container").style("visibility","visible");
+  d3.select("#governormap_States-container").style("position","relative");
+
+  d3.select("#senatemap_States-container").style("visibility","collapse");
+  d3.select("#senatemap_States-container").style("position","absolute");
+
+  d3.select("#congressmap_Districts-container").style("visibility","collapse");
+  d3.select("#congressmap_Districts-container").style("position","absolute");
+
 });
 document.querySelector('#senatemap').addEventListener('click', function(){
   document.querySelector("#congressmap").classList.remove("active");
   document.querySelector("#governormap").classList.remove("active");
   this.classList.add("active");
-  d3.select("#governormap_States-container").style("display","none");
-  d3.select("#senatemap_States-container").style("display","inline-block");
-  d3.select("#congressmap_Districts-container").style("display","none");
+
+  d3.select("#governormap_States-container").style("visibility","collapse");
+  d3.select("#governormap_States-container").style("position","absolute");
+
+  d3.select("#senatemap_States-container").style("visibility","visible");
+  d3.select("#senatemap_States-container").style("position","relative");
+
+  d3.select("#congressmap_Districts-container").style("visibility","collapse");
+  d3.select("#congressmap_Districts-container").style("position","absolute");
+
 });
 document.querySelector('#congressmap').addEventListener('click', function(){
   document.querySelector("#governormap").classList.remove("active");
   document.querySelector("#senatemap").classList.remove("active");
   this.classList.add("active");
-  d3.select("#governormap_States-container").style("display","none");
-  d3.select("#senatemap_States-container").style("display","none");
-  d3.select("#congressmap_Districts-container").style("display","inline-block");
+
+  d3.select("#governormap_States-container").style("visibility","collapse");
+  d3.select("#governormap_States-container").style("position","absolute");
+
+  d3.select("#senatemap_States-container").style("visibility","collapse");
+  d3.select("#senatemap_States-container").style("position","absolute");
+
+  d3.select("#congressmap_Districts-container").style("visibility","visible");
+  d3.select("#congressmap_Districts-container").style("position","relative");
+
 });
 
 // governor map --------------------------------------------------
@@ -215,7 +242,7 @@ document.querySelector('#congressmap').addEventListener('click', function(){
   	.append("pattern")
   		.attr({ id:"hash4_4", width:"8", height:"8", patternUnits:"userSpaceOnUse", patternTransform:"rotate(60)"})
   	.append("rect")
-  		.attr({ width:"4", height:"8", transform:"translate(0,0)", fill:"#88AAEE" });
+  		.attr({ width:"4", height:"8", transform:"translate(0,0)", fill:"#337699" });
 
   d3.json(map_file, function(error, us) {
     if (error) throw error;
@@ -241,7 +268,7 @@ document.querySelector('#congressmap').addEventListener('click', function(){
                 var new_color = shadeColor2(red,1-tempvar.percent_rep);
                 return String(new_color);//"darken('red',10)";
               } else {
-                return "url(#hash4_4)"
+                return "url(#hash4_4)";
               }
           } else {
             return "#b2b2b2";//fill(path.area(d));
@@ -258,7 +285,7 @@ document.querySelector('#congressmap').addEventListener('click', function(){
                 return String(new_color);//"darken('red',10)";
               } else {
                 // return "green";
-                return "url(#hash4_4)"
+                return "url(#hash4_4)";
               }
           } else {
             return "#b2b2b2";//fill(path.area(d));
@@ -317,8 +344,10 @@ var federal_tooltip = d3.select("#map-container-federal")
     .style("visibility", "hidden")
 
 // hide the county map to start
-d3.select("#senatemap_States-container").style("display","none");
-d3.select("#congressmap_Districts-container").style("display","none");
+d3.select("#senatemap_States-container").style("visibility","collapse");
+d3.select("#senatemap_States-container").style("position","absolute");
+d3.select("#congressmap_Districts-container").style("visibility","collapse");
+d3.select("#congressmap_Districts-container").style("position","absolute");
 
 // presidential race electoral votes -------------------------------------------
 
