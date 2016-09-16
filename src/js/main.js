@@ -2,7 +2,8 @@ var d3 = require('d3');
 var topojson = require('topojson');
 var red = "#8A0000";//"#F04646";
 var blue = "#004366";//"#62A9CC";
-// SET COLORS FOR GREEN AND PURPLE HERE INSTEAD OF DEFAULTS, lines 24 and 31
+var green = "#2E655B";
+var purple = "#69586B";
 
 // function for shading colors
 function shadeColor2(color, percent) {
