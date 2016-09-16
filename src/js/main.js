@@ -9,6 +9,24 @@ function shadeColor2(color, percent) {
     return "#"+(0x1000000+(Math.round((t-R)*p)+R)*0x10000+(Math.round((t-G)*p)+G)*0x100+(Math.round((t-B)*p)+B)).toString(16).slice(1);
 }
 
+// function for coloring map
+function code_map(d,r,o){
+  if (o){
+    var total = +d + +r + +o;
+    var winner = Math.max(d,r,o);
+  } else {
+    var total = +d + +r;
+    var winner = Math.max(d,r);
+  }
+  if (winner == d) {
+    return shadeColor2(blue,1-d/total);
+  } else if (winner == r) {
+    return shadeColor2(red,1-r/total);
+  } else {
+    return "purple";
+  }
+}
+
 // map variables
 var presidentmap_bystate = "./assets/maps/us_state.json";
 var presidentmap_bycounty = "./assets/maps/us_county.json";
@@ -80,30 +98,16 @@ document.querySelector('#presidentbycounty').addEventListener('click', function(
           var stateabbrev = stateCodes[parseInt(d.id)].state;
           if (presidentialData[String(stateabbrev)]) {
               var tempvar = presidentialData[String(stateabbrev)];
-              if (tempvar.percent_dem > tempvar.percent_rep){
-                var new_color = shadeColor2(blue,1-tempvar.percent_dem);
-                return String(new_color);//"darken('blue',10)";
-              } else  if (tempvar.percent_rep > tempvar.percent_dem){
-                var new_color = shadeColor2(red,1-tempvar.percent_rep);
-                return String(new_color);//"darken('red',10)";
-              } else {
-                return "url(#hash4_4)";
-              }
+              var new_color = code_map(tempvar.d,tempvar.r,tempvar.o);
+              return new_color;
           } else {
             return "#b2b2b2";//fill(path.area(d));
           }
         } else {
           if (presidentialCountyData[+d.id]) {
               var tempvar = presidentialCountyData[+d.id];
-              if (tempvar.percent_dem > tempvar.percent_rep){
-                var new_color = shadeColor2(blue,1-tempvar.percent_dem);
-                return String(new_color);//"darken('blue',10)";
-              } else if (tempvar.percent_rep > tempvar.percent_dem){
-                var new_color = shadeColor2(red,1-tempvar.percent_rep);
-                return String(new_color);//"darken('red',10)";
-              } else {
-                return "url(#hash4_4)";
-              }
+              var new_color = code_map(tempvar.d,tempvar.r,tempvar.o);
+              return new_color;
           } else {
             return "#b2b2b2";//fill(path.area(d));
           }
@@ -115,14 +119,14 @@ document.querySelector('#presidentbycounty').addEventListener('click', function(
           var stateabbrev = stateCodes[parseInt(d.id)].state;
           if (presidentialData[String(stateabbrev)]) {
             var tempvar = presidentialData[String(stateabbrev)];
-            var html_str = "<div class='state-name'>"+stateabbrev+"</div><div>Democrat: "+Math.round(tempvar.percent_dem*1000)/10+"%</div><div>Republican: "+Math.round(tempvar.percent_rep*1000)/10+"%</div>";
+            var html_str = "<div class='state-name'>"+stateabbrev+"</div><div>Democrat votes: "+tempvar.d+"</div><div>Republican votes: "+tempvar.r+"</div><div>Other votes: "+tempvar.o+"</div><div>"+tempvar.pr+" precincts reporting out of "+tempvar.pt+"</div>";
           } else {
             var html_str = "<div class='state-name'>"+stateabbrev+"</div><div>No results yet.</div>";
           }
         } else {
           if (presidentialCountyData[+d.id]) {
             var tempvar = presidentialCountyData[+d.id];
-            var html_str = "<div class='state-name'>County: "+d.id+"</div><div>Democrat: "+Math.round(tempvar.percent_dem*1000)/10+"%</div><div>Republican: "+Math.round(tempvar.percent_rep*1000)/10+"%</div><div>Precincts reporting: "+tempvar.reporting+"</div>";
+            var html_str = "<div class='state-name'>County: "+d.id+"</div><div>Democrat votes: "+tempvar.d+"</div><div>Republican votes: "+tempvar.r+"</div><div>Other votes: "+tempvar.o+"</div><div>"+tempvar.pr+" precincts reporting out of "+tempvar.pt+"</div>";
           } else {
             var html_str = "<div class='state-name'>County: "+d.id+"</div><div>No results yet.</div>";
           }
@@ -597,13 +601,6 @@ SFsupesList.forEach(function(d){
   var width = document.getElementById("sctrl").getBoundingClientRect().width;
   var pixels = (width-250)*(d.vote_percent/100); // THIS WILL NEED AN UPDATE FOR MOBILE!!!!!
   document.getElementById(String(name_key)).style.width = String(pixels)+"px";
-  // if (d.party == "D") {
-  //   document.getElementById(String(name_key)).style.background = blue;
-  // } else if (d.party == "R") {
-  //   document.getElementById(String(name_key)).style.background = red;
-  // } else {
-  //   document.getElementById(String(name_key)).style.background = blue;
-  // }
 });
 
 // controls for collapsing and expanding sections ------------------------------

@@ -22,9 +22,8 @@
 
       <!-- <img class="icon left" src="./assets/top_hat.jpg"></img> -->
       <!-- <img class="icon right" src="./assets/top_hat.jpg"></img> -->
-      <div class="title">Election <span class="year">2016</span></div>
-      <div class="deck">The Chronicle brings you the culmination of a very tumultuous election season.</div>
-    </div>
+      <div class="title-img"><img src="../assets/election2016banner.png"></div>
+
       <div id="stick-here"></div>
       <div id="stick-me">
         <div class="sub-title-links outer" style="margin: 0 auto;">
@@ -38,12 +37,6 @@
       <div id="stick-ph"></div>
 
       <div class="outer">
-
-      <section id="federal">
-      <h1>Federal</h1>
-
-        <div class="heading">The purpose of this project is to create a well-designed, branded and cohesive online presence for the 2016 election results.  Secondarily, we hope to reduce the amount of manual data-entry required to gather local county election results on election night.</div>
-        <div class="br"></div>
 
         <h4 class="race president">President</h4>
 
@@ -69,9 +62,19 @@
         <div class="inline-img">
           <img src="https://placeholdit.imgix.net/~text?txtsize=33&txt=AD%20SPACE&w=728&h=90"></img>
         </div>
+        <div class="divider"></div>
+
+      </div>
+
+      <section id="federal">
+      <h1>Federal</h1>
+
+        <div class="heading">The purpose of this project is to create a well-designed, branded and cohesive online presence for the 2016 election results.  Secondarily, we hope to reduce the amount of manual data-entry required to gather local county election results on election night.</div>
+        <div class="br"></div>
 
         <h4 class="race senate" id="senate">US Senate</h4>
         <h4 class="race congress" id="congress">US Congress</h4>
+
 
       <div class="outer">
 
@@ -177,9 +180,13 @@
 
     <script>
 
+      // new presidential data
+      var presidentialData = <%= JSON.stringify(json.president_by_state) %>;
+      var presidentialCountyData = <%= JSON.stringify(json.president_by_county) %>;
+
       // presidential data
-      var presidentialData = <%= JSON.stringify(csv.presidentialData) %>;
-      var presidentialCountyData = <%= JSON.stringify(csv.presidentialCountyData) %>;
+      // var presidentialData = <%= JSON.stringify(csv.presidentialData) %>;
+      // var presidentialCountyData = <%= JSON.stringify(csv.presidentialCountyData) %>;
       var electoralVotes = <%= JSON.stringify(csv.electoralVotes) %>;
       var federalRaces = <%= JSON.stringify(csv.federalRaces) %>;
 
