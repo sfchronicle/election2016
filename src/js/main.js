@@ -131,7 +131,7 @@ document.querySelector('#presidentbycounty').addEventListener('click', function(
           if (presidentialData[String(stateabbrev)]) {
             var tempvar = presidentialData[String(stateabbrev)];
             var total = compute_total(tempvar);
-            var html_str = "<div class='state-name'>"+stateabbrev+"</div><div>Democrat: "+Math.round(tempvar.d/total*1000)/10+"%</div><div>Republican: "+Math.round(tempvar.r/total*1000)/10+"%</div><div>3rd party: "+Math.round(tempvar.o/total*1000)/10+"%</div><div>"+tempvar.pr+" precincts reporting out of "+tempvar.pt+"</div>";
+            var html_str = "<div class='state-name'>"+stateabbrev+"</div><div>Democrat: "+Math.round(tempvar.d/total*1000)/10+"%</div><div>Republican: "+Math.round(tempvar.r/total*1000)/10+"%</div><div>3rd party: "+Math.round(tempvar.o/total*1000)/10+"%</div><div>"+tempvar.pr+"/"+tempvar.pt+" precincts reporting</div>";
           } else {
             var html_str = "<div class='state-name'>"+stateabbrev+"</div><div>No results yet.</div>";
           }
@@ -139,7 +139,7 @@ document.querySelector('#presidentbycounty').addEventListener('click', function(
           if (presidentialCountyData[+d.id]) {
             var tempvar = presidentialCountyData[+d.id];
             var total = compute_total(tempvar);
-            var html_str = "<div class='state-name'>County: "+d.id+"</div><div>Democrat votes: "+Math.round(tempvar.d/total*1000)/10+"%</div><div>Republican votes: "+Math.round(tempvar.r/total*1000)/10+"%</div><div>Other votes: "+Math.round(tempvar.o/total*1000)/10+"%</div><div>"+tempvar.pr+" precincts reporting out of "+tempvar.pt+"</div>";
+            var html_str = "<div class='state-name'>County: "+d.id+"</div><div>Democrat votes: "+Math.round(tempvar.d/total*1000)/10+"%</div><div>Republican votes: "+Math.round(tempvar.r/total*1000)/10+"%</div><div>Other votes: "+Math.round(tempvar.o/total*1000)/10+"%</div><div>"+tempvar.pr+"/"+tempvar.pt+" precincts reporting</div>";
           } else {
             var html_str = "<div class='state-name'>County: "+d.id+"</div><div>No results yet.</div>";
           }
