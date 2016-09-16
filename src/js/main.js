@@ -2,6 +2,7 @@ var d3 = require('d3');
 var topojson = require('topojson');
 var red = "#8A0000";//"#F04646";
 var blue = "#004366";//"#62A9CC";
+// SET COLORS FOR GREEN AND PURPLE HERE INSTEAD OF DEFAULTS, lines 24 and 31
 
 // function for shading colors
 function shadeColor2(color, percent) {
@@ -18,12 +19,16 @@ function code_map(d,r,o){
     var total = +d + +r;
     var winner = Math.max(d,r);
   }
-  if (winner == d) {
+  if (winner == d && winner == r){
+    console.log("WE HAVE A TIE");
+    return "purple"
+  } else if (winner == d){
     return shadeColor2(blue,1-d/total);
   } else if (winner == r) {
     return shadeColor2(red,1-r/total);
   } else {
-    return "purple";
+    console.log("THIRD PARTY CANDIDATE WINNER");
+    return "green";
   }
 }
 

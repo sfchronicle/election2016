@@ -27,6 +27,8 @@
 
 @red-map: #8A0000;//"#F04646";
 @blue-map: #004366;//"#62A9CC";
+@green-map: #2E655B;
+@purple-map: #69586B;
 
 @base-font: 21px;
 @line-height: 1.58;
@@ -1027,14 +1029,19 @@ header {
   font-family: @block-graphics;
   border: 1px solid @black;
   border-radius: 6px;
-  width: 200px;
+  width: 300px;
   margin: auto;
   margin-bottom: 10px;
   padding: 4px;
+  .display-flex;
+  .flex-wrap(wrap);
   @media @mobile {
     margin-bottom: 15px;
   }
-  .rep-swath, .dem-swath, .other-swath {
+  .element {
+    .flex(0 0 50%);
+  }
+  .rep-swath, .dem-swath, .other-swath, .tied-swath, .called-swath {
     height: 14px;
     width: 14px;
     margin: 4px;
@@ -1042,7 +1049,9 @@ header {
   }
   .rep-swath {background: lighten(@red-map,5%);}
   .dem-swath {background: lighten(@blue-map,5%);}
-  .other-swath {background: lighten(purple,5%);}
+  .other-swath {background: lighten(@green-map,5%);}
+  .tied-swath {background: lighten(@purple-map,5%);}
+  .called-swath {border: 1px solid black;}
   .legend-text {
     width: 150px;
     padding-left: 20px;
