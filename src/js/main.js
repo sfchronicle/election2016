@@ -27,6 +27,17 @@ function code_map(d,r,o){
   }
 }
 
+// compute total
+function compute_total(data) {
+  if (data.o){
+    var total = +data.d + +data.r + +data.o;
+    return total;
+  } else {
+    var total = +data.d + +data.r;
+    return total;
+  }
+}
+
 // map variables
 var presidentmap_bystate = "./assets/maps/us_state.json";
 var presidentmap_bycounty = "./assets/maps/us_county.json";
@@ -119,14 +130,16 @@ document.querySelector('#presidentbycounty').addEventListener('click', function(
           var stateabbrev = stateCodes[parseInt(d.id)].state;
           if (presidentialData[String(stateabbrev)]) {
             var tempvar = presidentialData[String(stateabbrev)];
-            var html_str = "<div class='state-name'>"+stateabbrev+"</div><div>Democrat votes: "+tempvar.d+"</div><div>Republican votes: "+tempvar.r+"</div><div>Other votes: "+tempvar.o+"</div><div>"+tempvar.pr+" precincts reporting out of "+tempvar.pt+"</div>";
+            var total = compute_total(tempvar);
+            var html_str = "<div class='state-name'>"+stateabbrev+"</div><div>Democrat: "+Math.round(tempvar.d/total*1000)/10+"%</div><div>Republican: "+Math.round(tempvar.r/total*1000)/10+"%</div><div>3rd party: "+Math.round(tempvar.o/total*1000)/10+"%</div><div>"+tempvar.pr+" precincts reporting out of "+tempvar.pt+"</div>";
           } else {
             var html_str = "<div class='state-name'>"+stateabbrev+"</div><div>No results yet.</div>";
           }
         } else {
           if (presidentialCountyData[+d.id]) {
             var tempvar = presidentialCountyData[+d.id];
-            var html_str = "<div class='state-name'>County: "+d.id+"</div><div>Democrat votes: "+tempvar.d+"</div><div>Republican votes: "+tempvar.r+"</div><div>Other votes: "+tempvar.o+"</div><div>"+tempvar.pr+" precincts reporting out of "+tempvar.pt+"</div>";
+            var total = compute_total(tempvar);
+            var html_str = "<div class='state-name'>County: "+d.id+"</div><div>Democrat votes: "+Math.round(tempvar.d/total*1000)/10+"%</div><div>Republican votes: "+Math.round(tempvar.r/total*1000)/10+"%</div><div>Other votes: "+Math.round(tempvar.o/total*1000)/10+"%</div><div>"+tempvar.pr+" precincts reporting out of "+tempvar.pt+"</div>";
           } else {
             var html_str = "<div class='state-name'>County: "+d.id+"</div><div>No results yet.</div>";
           }
