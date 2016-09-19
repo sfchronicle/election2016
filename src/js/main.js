@@ -409,9 +409,6 @@ federalRaces.forEach(function(d){
 
 // STATE MAP ------------------------------------------------------------
 
-var width = 800,
-    height = 500;
-
 var CAmap_bycounty = "./assets/maps/ca_county.json";
 
 var path = d3.geo.path()
@@ -419,11 +416,18 @@ var path = d3.geo.path()
 
 // CA map by county
 
-var svgCACounties = d3.select("#map-container-state").append("svg")
-    .attr("width", width)
-    .attr("height", height)
-    // .style("display","none")
-    .attr("id","map-container-state");
+
+var svgCACounties = d3.select("#map-container-state")
+     .append("div")
+     .classed("svg-container", true) //container class to make it responsive
+     .attr("id","map-container-state")
+     .append("svg")
+     //responsive SVG needs these 2 attributes and no width and height attr
+     .attr("preserveAspectRatio", "xMinYMin meet")
+     .attr("viewBox", "200 0 600 530")
+     //class to make it responsive
+     .classed("svg-content-responsive", true)
+    .attr("id","states-svg");
 
 d3.json(CAmap_bycounty, function(error, us) {
   if (error) throw error;

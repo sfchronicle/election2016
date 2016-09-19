@@ -88,6 +88,9 @@ h3 {
   padding: 0;
   // color: @dark-gray;
   font-family: @block-graphics;
+  @media @mobile {
+    font-size: 14px;
+  }
 }
 
 h4 {
@@ -201,7 +204,8 @@ li {
     margin: 20px;
   }
   @media @mobile {
-    margin: 10px;
+    margin: 0 2.5%;//10px;
+    // padding: 10px;
   }
 }
 .source, .credit {
@@ -266,6 +270,9 @@ footer {
   }
   .entry {
     padding-bottom: 10px;
+    @media @mobile {
+      font-size: 12px;
+    }
   }
 }
 
@@ -381,6 +388,11 @@ footer {
   border-bottom: 1px @light-gray solid;
   background-color: white;
   height: 40px;
+  @media @mobile {
+    height: 35px;
+    // display: none;
+    // width: 100px;
+  }
   // display:none;
 }
 
@@ -437,6 +449,9 @@ header {
   -webkit-box-shadow: 0 0 6px 0 @dark-gray;
   -moz-box-shadow: 0 0 6px 0 @dark-gray;
   box-shadow: 0 0 6px 0 @dark-gray;
+  @media @mobile {
+    height: 35px;
+  }
 
   a {
     text-decoration:none;
@@ -654,8 +669,10 @@ header {
     width: 120px;
     cursor: pointer;
 
-    @media @tablet {
-      display: none;
+    @media @mobile {
+      width: 60px;
+      font-size: 14px;
+      height: 20px;
     }
   }
   .long {
@@ -664,6 +681,10 @@ header {
     float: right;
     color: #92172c;
     text-align: right;
+    @media @mobile {
+      font-size: 14px;
+      width: 140px;
+    }
   }
 }
 
@@ -693,11 +714,17 @@ header {
   }
   .name {
     width: 250px;
+    @media @mobile {
+      width: 180px;
+    }
   }
   .bar-label {
     padding-left: 10px;
     font-size: 14px;
     margin-top: 4px;
+    @media @mobile {
+      margin-top: 0;
+    }
   }
   .bar {
     margin-top: 5px;
@@ -706,6 +733,9 @@ header {
     height: 20px;
     width: 500px;
     vertical-align: text-top;
+    @media @mobile {
+      margin-top: 2px;
+    }
   }
 }
 
@@ -883,12 +913,16 @@ header {
 }
 
 #map-container-state {
+  padding-bottom: 35%;
   @media screen and (min-width: 769px) {
     .flex(0 0 70%);
   }
+  @media @tablet {
+    padding-bottom: 40%;
+  }
 
   svg {
-    margin-left: -150px;
+    margin: auto;
   }
 }
 
@@ -911,6 +945,10 @@ header {
     border-radius: 3px;
     padding: 1px;
     cursor: pointer;
+    @media @mobile {
+      font-size: 14px;
+      width: 100px;
+    }
   }
   .race {
     color: @dark-blue;
@@ -987,7 +1025,7 @@ header {
     width: 100%;
     padding-bottom: 55%; /* aspect ratio */
     vertical-align: top;
-    overflow: hidden;
+    // overflow: hidden;
 }
 
 #state-svg-container {
@@ -1004,11 +1042,11 @@ header {
     left: 0;
 }
 
-@media @tablet {
-  .entry .name {
-    width: 100%;
-  }
-}
+// @media @tablet {
+//   .entry .name {
+//     width: 100%;
+//   }
+// }
 
 .disappear {
   visibility: collapse;
@@ -1022,6 +1060,9 @@ header {
     width: 100%;
   }
   margin-bottom: 40px;
+  @media @mobile {
+    margin: 20px;
+  }
 }
 
 .legend-container {
@@ -1036,7 +1077,7 @@ header {
   .display-flex;
   .flex-wrap(wrap);
   @media @mobile {
-    margin-bottom: 15px;
+    margin: 15px auto;
   }
   .element {
     .flex(0 0 50%);
@@ -1056,5 +1097,17 @@ header {
     width: 150px;
     padding-left: 20px;
     vertical-align: text-top;
+  }
+}
+
+#pres-button-container {
+  @media @mobile {
+    display: none;
+  }
+}
+
+.ad {
+  img {
+    width: 100%;
   }
 }
