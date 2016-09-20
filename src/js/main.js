@@ -49,6 +49,13 @@ var presidentmap_bystate = "./assets/maps/us_state.json";
 var presidentmap_bycounty = "./assets/maps/us_county.json";
 var map_bycongressdistricts = "./assets/maps/us_house.json";
 
+// size of text for bar charts
+if (screen.width < 480){
+  var text_len = 180;
+} else {
+  var text_len = 250;
+}
+
 // PRESIDENTIAL MAP ------------------------------------------------------------
 
 var path = d3.geo.path()
@@ -403,7 +410,7 @@ document.getElementById("donaldtrump").style.width = String(trump_percent)+"%";
 federalRaces.forEach(function(d){
   var name_key = d.name.toLowerCase().replace(/ /g,'').replace(".","").replace("'","");
   var width = document.getElementById("federal").getBoundingClientRect().width;
-  var pixels = (width-250)*(d.vote_percent/100); // THIS WILL NEED AN UPDATE FOR MOBILE!!!!!
+  var pixels = (width-text_len)*(d.vote_percent/100);
   document.getElementById(String(name_key)).style.width = String(pixels)+"px";
 });
 
@@ -509,8 +516,9 @@ d3.json(CAmap_bycounty, function(error, us) {
 
 stateRaces.forEach(function(d){
   var name_key = d.name.toLowerCase().replace(/ /g,'').replace(".","").replace("'","");
+  console.log(name_key);
   var width = document.getElementById("racectrl").getBoundingClientRect().width;
-  var pixels = (width-250)*(d.vote_percent/100); // THIS WILL NEED AN UPDATE FOR MOBILE!!!!!
+  var pixels = (width-text_len)*(d.vote_percent/100);
   document.getElementById(String(name_key)).style.width = String(pixels)+"px";
 });
 
@@ -622,7 +630,7 @@ sfinput.addEventListener('input', function(){
 SFsupesList.forEach(function(d){
   var name_key = d.name.toLowerCase().replace(/ /g,'').replace(".","").replace("'","");
   var width = document.getElementById("sctrl").getBoundingClientRect().width;
-  var pixels = (width-250)*(d.vote_percent/100); // THIS WILL NEED AN UPDATE FOR MOBILE!!!!!
+  var pixels = (width-text_len)*(d.vote_percent/100);
   document.getElementById(String(name_key)).style.width = String(pixels)+"px";
 });
 

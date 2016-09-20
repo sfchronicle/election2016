@@ -796,13 +796,14 @@ header {
   .prop-group, .sf-prop-group {
     margin: 10px;
     padding: 10px;
-    background: lighten(@light-gray,15%);
+    background: lighten(@light-gray,10%);
     border-radius: 5px;
     display: none;
     &.active {
       display:block;
       .flex(0 0 47%);
       @media @mobile {
+        margin: 5px auto;
         .flex(0 0 97%);
       }
     }
@@ -994,7 +995,7 @@ header {
 
 .mark270 {
   left: 50.1859%;
-  transform: translateX(-50.1859%);
+  transform: translateX(50.1859%);
   width: 1%;
   max-width: 2px;
   position: absolute;
