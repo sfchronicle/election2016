@@ -12,37 +12,92 @@ function shadeColor2(color, percent) {
 }
 
 // function for coloring map
-function code_map(d,r,o){
-  if (o){
-    var total = +d + +r + +o;
-    var winner = Math.max(d,r,o);
-  } else {
-    var total = +d + +r;
-    var winner = Math.max(d,r);
+// function code_map(d,r,o){
+//   if (o){
+//     var total = +d + +r + +o;
+//     var winner = Math.max(d,r,o);
+//   } else {
+//     var total = +d + +r;
+//     var winner = Math.max(d,r);
+//   }
+//   if (winner == d && winner == r){
+//     console.log("WE HAVE A TIE");
+//     return "purple"
+//   } else if (winner == d){
+//     return shadeColor2(blue,1-d/total);
+//   } else if (winner == r) {
+//     return shadeColor2(red,1-r/total);
+//   } else {
+//     console.log("THIRD PARTY CANDIDATE WINNER");
+//     return "green";
+//   }
+// }
+
+// function for coloring map
+function code_map_variable(tempvar,num){
+  Array.prototype.max = function() {
+    return Math.max.apply(null, this);
+  };
+  var count = 1; var sum = 0;
+  var list = [];
+  while (count <= num) {
+    var element = +tempvar["c"+count];
+    sum += element;
+    list.push(+tempvar["c"+count]);
+    count++;
   }
-  if (winner == d && winner == r){
-    console.log("WE HAVE A TIE");
-    return "purple"
-  } else if (winner == d){
-    return shadeColor2(blue,1-d/total);
-  } else if (winner == r) {
-    return shadeColor2(red,1-r/total);
-  } else {
-    console.log("THIRD PARTY CANDIDATE WINNER");
-    return "green";
+  var winner = list.max();
+  var count = 1;
+  while (count <= num) {
+    if (+tempvar["c"+count] == winner){
+      if (tempvar["c"+count+"_party"] == "Dem"){
+        return shadeColor2(blue,1-winner/sum);
+      } else if (tempvar["c"+count+"_party"] == "GOP") {
+        return shadeColor2(red,1-winner/sum);
+      } else {
+        return shadeColor2(green,1-winner/sum);
+      }
+    }
+    count++;
   }
 }
 
-// compute total
-function compute_total(data) {
-  if (data.o){
-    var total = +data.d + +data.r + +data.o;
-    return total;
+// function for tooltip
+function tooltip_function(abbrev,races) {
+  if (races[String(abbrev)]) {
+    var tempvar = races[String(abbrev)];
+    var num = (Object.keys(tempvar).length-2)/3;
+    var count = 1; var sum = 0;
+    while (count <= num) {
+      var element = +tempvar["c"+count];
+      sum += element;
+      count++;
+    }
+    var count = 1; var html_str = "<div class='state-name'>"+abbrev+"</div>";
+    while (count <= num) {
+      html_str = html_str + "<div>"+tempvar["c"+count+"_name"]+" ("+tempvar["c"+count+"_party"]+") "+Math.round(tempvar["c"+count]/sum*1000)/10+"%</div>";
+      count ++;
+    }
+    if (tempvar["o"]) {
+      html_str = html_str + "<div>Other: "+Math.round(tempvar["o"]/sum*1000)/10+"%</div>";
+    }
+    html_str = html_str+"<div>"+tempvar.pr+"/"+tempvar.pt+" precincts reporting</div>";
   } else {
-    var total = +data.d + +data.r;
-    return total;
+    var html_str = "<div class='state-name'>"+abbrev+"</div><div>No race.</div>";
   }
+  return html_str;
 }
+
+// compute total
+// function compute_total(data) {
+//   if (data.o){
+//     var total = +data.d + +data.r + +data.o;
+//     return total;
+//   } else {
+//     var total = +data.d + +data.r;
+//     return total;
+//   }
+// }
 
 // map variables
 var presidentmap_bystate = "./assets/maps/us_state.json";
@@ -121,17 +176,19 @@ document.querySelector('#presidentbycounty').addEventListener('click', function(
         if (ind == 0) {
           var stateabbrev = stateCodes[parseInt(d.id)].state;
           if (presidentialData[String(stateabbrev)]) {
-              var tempvar = presidentialData[String(stateabbrev)];
-              var new_color = code_map(tempvar.d,tempvar.r,tempvar.o);
-              return new_color;
+            var tempvar = presidentialData[String(stateabbrev)];
+            var num_candidates = (Object.keys(tempvar).length-2)/3;
+            var new_color = code_map_variable(tempvar,num_candidates);
+            return new_color;
           } else {
             return "#b2b2b2";//fill(path.area(d));
           }
         } else {
-          if (presidentialCountyData[+d.id]) {
-              var tempvar = presidentialCountyData[+d.id];
-              var new_color = code_map(tempvar.d,tempvar.r,tempvar.o);
-              return new_color;
+          if (presidentialCountyData[d.id]) {
+            var tempvar = presidentialCountyData[d.id];
+            var num_candidates = (Object.keys(tempvar).length-2)/3;
+            var new_color = code_map_variable(tempvar,num_candidates);
+            return new_color;
           } else {
             return "#b2b2b2";//fill(path.area(d));
           }
@@ -142,17 +199,13 @@ document.querySelector('#presidentbycounty').addEventListener('click', function(
         if (ind == 0) {
           var stateabbrev = stateCodes[parseInt(d.id)].state;
           if (presidentialData[String(stateabbrev)]) {
-            var tempvar = presidentialData[String(stateabbrev)];
-            var total = compute_total(tempvar);
-            var html_str = "<div class='state-name'>"+stateabbrev+"</div><div>Democrat: "+Math.round(tempvar.d/total*1000)/10+"%</div><div>Republican: "+Math.round(tempvar.r/total*1000)/10+"%</div><div>3rd party: "+Math.round(tempvar.o/total*1000)/10+"%</div><div>"+tempvar.pr+"/"+tempvar.pt+" precincts reporting</div>";
+            var html_str = tooltip_function(stateabbrev,presidentialData);
           } else {
             var html_str = "<div class='state-name'>"+stateabbrev+"</div><div>No results yet.</div>";
           }
         } else {
-          if (presidentialCountyData[+d.id]) {
-            var tempvar = presidentialCountyData[+d.id];
-            var total = compute_total(tempvar);
-            var html_str = "<div class='state-name'>County: "+d.id+"</div><div>Democrat votes: "+Math.round(tempvar.d/total*1000)/10+"%</div><div>Republican votes: "+Math.round(tempvar.r/total*1000)/10+"%</div><div>Other votes: "+Math.round(tempvar.o/total*1000)/10+"%</div><div>"+tempvar.pr+"/"+tempvar.pt+" precincts reporting</div>";
+          if (presidentialCountyData[d.id]) {
+            var html_str = tooltip_function(d.id,presidentialCountyData);
           } else {
             var html_str = "<div class='state-name'>County: "+d.id+"</div><div>No results yet.</div>";
           }
@@ -270,15 +323,9 @@ document.querySelector('#congressmap').addEventListener('click', function(){
           var stateabbrev = stateCodes[parseInt(d.id)].state;
           if (governorRaces[String(stateabbrev)]) {
               var tempvar = governorRaces[String(stateabbrev)];
-              if (tempvar.percent_dem > tempvar.percent_rep){
-                var new_color = shadeColor2(blue,1-tempvar.percent_dem);
-                return String(new_color);//"darken('blue',10)";
-              } else  if (tempvar.percent_dem < tempvar.percent_rep) {
-                var new_color = shadeColor2(red,1-tempvar.percent_rep);
-                return String(new_color);//"darken('red',10)";
-              } else {
-                return "url(#hash4_4)";
-              }
+              var num_candidates = (Object.keys(tempvar).length-2)/3;
+              var new_color = code_map_variable(tempvar,num_candidates);
+              return new_color;
           } else {
             return "#b2b2b2";//fill(path.area(d));
           }
@@ -286,43 +333,34 @@ document.querySelector('#congressmap').addEventListener('click', function(){
           var stateabbrev = stateCodes[parseInt(d.id)].state;
           if (senateRaces[String(stateabbrev)]) {
               var tempvar = senateRaces[String(stateabbrev)];
-              if (tempvar.percent_dem > tempvar.percent_rep){
-                var new_color = shadeColor2(blue,1-tempvar.percent_dem);
-                return String(new_color);//"darken('blue',10)";
-              } else if (tempvar.percent_rep > tempvar.percent_dem){
-                var new_color = shadeColor2(red,1-tempvar.percent_rep);
-                return String(new_color);//"darken('red',10)";
-              } else {
-                // return "green";
-                return "url(#hash4_4)";
-              }
+              var num_candidates = (Object.keys(tempvar).length-2)/3;
+              var new_color = code_map_variable(tempvar,num_candidates);
+              return new_color;
           } else {
             return "#b2b2b2";//fill(path.area(d));
           }
         } else {
-          return "#b2b2b2";
+          var district = d.id;
+          if (congressRaces[String(district)]) {
+              var tempvar = congressRaces[String(district)];
+              var num_candidates = (Object.keys(tempvar).length-2)/3;
+              var new_color = code_map_variable(tempvar,num_candidates);
+              return new_color;
+          } else {
+            return "#b2b2b2";//fill(path.area(d));
+          }
         }
       })
       .attr("d", path)
       .on('mouseover', function(d,index) {
         if (ind == 0) {
           var stateabbrev = stateCodes[parseInt(d.id)].state;
-          if (governorRaces[String(stateabbrev)]) {
-            var tempvar = governorRaces[String(stateabbrev)];
-            var html_str="<div class='state-name'>"+stateabbrev+"</div><div>Democrat: "+Math.round(tempvar.percent_dem*1000)/10+"%</div><div>Republican: "+Math.round(tempvar.percent_rep*1000)/10+"%</div>";
-          } else {
-            var html_str = "<div class='state-name'>"+stateabbrev+"</div><div>No results.</div>";
-          }
+          var html_str = tooltip_function(stateabbrev,governorRaces);
         } else if (ind == 1){
           var stateabbrev = stateCodes[parseInt(d.id)].state;
-          if (senateRaces[String(stateabbrev)]) {
-            var tempvar = senateRaces[String(stateabbrev)];
-            var html_str="<div class='state-name'>"+stateabbrev+"</div><div>Democrat: "+Math.round(tempvar.percent_dem*1000)/10+"%</div><div>Republican: "+Math.round(tempvar.percent_rep*1000)/10+"%</div>";
-          } else {
-            var html_str = "<div class='state-name'>"+stateabbrev+"</div><div>No results.</div>";
-          }
+          var html_str = tooltip_function(stateabbrev,senateRaces);
         } else {
-          var html_str = "Emma needs to work on this."
+          var html_str = tooltip_function(d.id,congressRaces);
         }
         tooltip.html(html_str);
         tooltip.style("visibility", "visible");

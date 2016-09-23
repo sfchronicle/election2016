@@ -30,7 +30,7 @@
           <div class="long" id="long">ELECTION <span class="year">2016</span></div>
           <div class="sub-title"><a id="f" href="#federal">Federal</a></div>
           <div class="sub-title"><a id="s" href="#state">State</a></div>
-          <div class="sub-title"><a id="l" href="#local">Local</a></div>
+          <div class="sub-title"><a id="l" href="#local">SF</a></div>
           <div class="sub-title"><a id="r" href="#regional">Regional</a></div>
         </div>
       </div>
@@ -59,9 +59,9 @@
         <div id="map-container-president"></div>
 
         <div class="legend-container">
-          <div class="element"><div class="dem-swath"><div class="legend-text">Hillary Clinton</div></div></div>
-          <div class="element"><div class="rep-swath"><div class="legend-text">Donald Trump</div></div></div>
-          <div class="element"><div class="other-swath"><div class="legend-text">3rd party candidate</div></div></div>
+          <div class="element"><div class="dem-swath"><div class="legend-text">Democratic winner</div></div></div>
+          <div class="element"><div class="rep-swath"><div class="legend-text">Republican winner</div></div></div>
+          <div class="element"><div class="other-swath"><div class="legend-text">Other winner</div></div></div>
           <div class="element"><div class="tied-swath right"><div class="legend-text">Tied race</div></div></div>
           <div class="element"><div class="called-swath right"><div class="legend-text">Called race</div></div></div>
         </div>
@@ -76,9 +76,7 @@
 
       <section id="federal">
       <h1>Federal</h1>
-
-        <div class="heading">The purpose of this project is to create a well-designed, branded and cohesive online presence for the 2016 election results.  Secondarily, we hope to reduce the amount of manual data-entry required to gather local county election results on election night.</div>
-        <div class="br"></div>
+      <div class="br"></div>
 
         <h4 class="race senate" id="senate">US Senate</h4>
         <h4 class="race congress" id="congress">US Congress</h4>
@@ -91,36 +89,24 @@
         <div class="button-container">
           <div class="button race governor active" id="governormap">Governor</div>
           <div class="button race senate" id="senatemap">Senate</div>
-          <div class="button race congress" id="congressmap">Congress</div>
+          <div class="button race congress" id="congressmap">House</div>
         </div>
 
         <div id="map-container-federal"></div>
+
+        <div class="legend-container">
+          <div class="element"><div class="dem-swath"><div class="legend-text">Democratic winner</div></div></div>
+          <div class="element"><div class="rep-swath"><div class="legend-text">Republican winner</div></div></div>
+          <div class="element"><div class="other-swath"><div class="legend-text">Other winner</div></div></div>
+          <div class="element"><div class="tied-swath right"><div class="legend-text">Tied race</div></div></div>
+          <div class="element"><div class="called-swath right"><div class="legend-text">Called race</div></div></div>
+        </div>
 
       </div>
 
     </section>
     <section id="state">
       <h1>State</h1>
-
-      <div class="heading">The purpose of this project is to create a well-designed, branded and cohesive online presence for the 2016 election results.  Secondarily, we hope to reduce the amount of manual data-entry required to gather local county election results on election night.</div>
-      <div class="br"></div>
-
-      <div class="hed">California results by county:</div>
-      <div class="chatter">Hover over or click on the counties to see how Califnorians voted in each precinct for representatives and propositions.</div>
-
-      <div class="flex-container" style="min-width: 315px;">
-        <div class="button-container vertical">
-          <div class="button race statesenate">State Senate</div>
-          <div class="button race statedistrict9">State District 9</div>
-          <div class="button race stateassembly">State Assembly</div>
-          <div class="button prop cigarettes">Cigarette Tax</div>
-          <div class="button prop deathpenalty">Death Penalty Ban</div>
-          <div class="button prop bags">Carry-out bags charge</div>
-          <div class="button prop marijuana">Marijuana Legalization</div>
-        </div>
-
-        <div id="map-container-state"></div>
-      </div>
 
       <h2 class="races" id="racectrl"><i class="fa fa-caret-right" id="rcaret" aria-hidden="true"></i>  Races:</h2>
 
@@ -139,14 +125,30 @@
         </div>
       </div>
 
+      <div class="br"></div>
+      <div class="hed">California results by county:</div>
+      <div class="chatter">Hover over or click on the counties to see how Califnorians voted in each precinct for representatives and propositions.</div>
+
+      <div class="flex-container" style="min-width: 315px;">
+        <div class="button-container vertical">
+          <div class="button race statesenate">State Senate</div>
+          <div class="button race statedistrict9">State District 9</div>
+          <div class="button race stateassembly">State Assembly</div>
+          <div class="button prop cigarettes">Cigarette Tax</div>
+          <div class="button prop deathpenalty">Death Penalty Ban</div>
+          <div class="button prop bags">Carry-out bags charge</div>
+          <div class="button prop marijuana">Marijuana Legalization</div>
+        </div>
+
+        <div id="map-container-state"></div>
+      </div>
+
     </section>
     <section id="local">
 
-      <h1>Local</h1>
+      <h1>San Francisco</h1>
 
-      <div class="heading">The purpose of this project is to create a well-designed, branded and cohesive online presence for the 2016 election results.  Secondarily, we hope to reduce the amount of manual data-entry required to gather local county election results on election night.</div>
-
-      <h2 class="races" id="sctrl"><i class="fa fa-caret-right" id="scaret" aria-hidden="true"></i>  SF Supervisors:</h2>
+      <h2 class="races" id="sctrl"><i class="fa fa-caret-right" id="scaret" aria-hidden="true"></i>  Supervisors:</h2>
       <div id="ssec">
         <h4 class="race sup" id="district1">District 1</h4>
         <h4 class="race sup" id="district3">District 3</h4>
@@ -156,7 +158,7 @@
         <h4 class="race sup" id="district11">District 11</h4>
       </div>
 
-      <h2 class="sf-propositions" id="sfpropctrl"><i class="fa fa-caret-right" id="sfcaret" aria-hidden="true"></i>  SF Propositions:</h2>
+      <h2 class="sf-propositions" id="sfpropctrl"><i class="fa fa-caret-right" id="sfcaret" aria-hidden="true"></i>  Propositions:</h2>
       <div id="sfpropsec">
         <input type="text" placeholder="&#xf002;  Search by SF proposition letter or name" id="sf-propositions-search" style="font-family:AntennaExtraLight, FontAwesome">
 
@@ -168,8 +170,6 @@
     <section id="regional">
 
       <h1>Regional</h1>
-
-      <div class="heading">The purpose of this project is to create a well-designed, branded and cohesive online presence for the 2016 election results.  Secondarily, we hope to reduce the amount of manual data-entry required to gather local county election results on election night.</div>
       <div class="br"></div>
 
     </section>
@@ -192,16 +192,13 @@
       var presidentialData = <%= JSON.stringify(json.president_by_state) %>;
       var presidentialCountyData = <%= JSON.stringify(json.president_by_county) %>;
 
-      // presidential data
-      // var presidentialData = <%= JSON.stringify(csv.presidentialData) %>;
-      // var presidentialCountyData = <%= JSON.stringify(csv.presidentialCountyData) %>;
       var electoralVotes = <%= JSON.stringify(csv.electoralVotes) %>;
       var federalRaces = <%= JSON.stringify(csv.federalRaces) %>;
 
       //country data
-      var governorRaces = <%= JSON.stringify(csv.GovernorData) %>;
-      var senateRaces = <%= JSON.stringify(csv.SenateData) %>;
-      var congressRaces = <%= JSON.stringify(csv.CongressData) %>;
+      var governorRaces = <%= JSON.stringify(json.governor_by_state) %>;
+      var senateRaces = <%= JSON.stringify(json.senate_by_state) %>;
+      var congressRaces = <%= JSON.stringify(json.house_by_district) %>;
 
       // state data
       var stateRaces = <%= JSON.stringify(csv.stateRaces) %>;
