@@ -75,7 +75,8 @@ function tooltip_function(abbrev,races) {
     }
     var count = 1; var html_str = "<div class='state-name'>"+abbrev+"</div>";
     while (count <= num) {
-      html_str = html_str + "<div>"+tempvar["c"+count+"_name"]+" ("+tempvar["c"+count+"_party"]+") "+Math.round(tempvar["c"+count]/sum*1000)/10+"%</div>";
+      var party = tempvar["c"+count+"_party"];
+      html_str = html_str + "<div>"+tempvar["c"+count+"_name"]+" <span class='"+party+"party'>"+tempvar["c"+count+"_party"]+"</span> "+Math.round(tempvar["c"+count]/sum*1000)/10+"%</div>";
       count ++;
     }
     if (tempvar["o"]) {
@@ -422,35 +423,92 @@ document.getElementById("donaldtrump").style.width = String(trump_percent)+"%";
 // FEDERAL RACES --------------------------------------------------------
 
 // populating federal races
-["senate","congress"].forEach(function(d,idx){
-  var html = "";
-  var raceID = document.getElementById(d);
-  var results = federalRaces.filter(function(r){
-    return r.race == d;
-  });
-
-  results.sort(function(a,b){return b.vote_percent-a.vote_percent;});
-
-  for (var ii=0; ii<results.length; ii++) {
-    if (results[ii].win == "yes") {
-      var name_key = results[ii].name.toLowerCase().replace(/ /g,'').replace(".","").replace("'","");
-      html = html+"<div class='entry'><h3 class='name'><i class='fa fa-check-square-o' aria-hidden='true'></i>"+results[ii].name+" <span class='"+results[ii].party+"party'>" + results[ii].party + "</span></h3><div class='bar' id='"+name_key+"'></div><div class='bar-label'>"+results[ii].vote_percent+"%</div></div>";
-    } else {
-      var name_key = results[ii].name.toLowerCase().replace(/ /g,'').replace(".","").replace("'","");
-      html = html+"<div class='entry'><h3 class='name'>"+results[ii].name+" <span class='"+results[ii].party+"party'>" + results[ii].party + "</span></h3><div class='bar' id='"+name_key+"'></div><div class='bar-label'>"+results[ii].vote_percent+"%</div></div>";
-    }
-  }
-
-  raceID.insertAdjacentHTML("afterend",html)
-  results = [];
-});
-
-federalRaces.forEach(function(d){
-  var name_key = d.name.toLowerCase().replace(/ /g,'').replace(".","").replace("'","");
+// senate race
+var raceID = document.getElementById("senate");
+var senatevar = senateRaces["CA"];
+var num = (Object.keys(senatevar).length-2)/3;
+var count = 1; var sum = 0;
+while (count <= num) {
+  var element = +senatevar["c"+count];
+  sum += element;
+  count++;
+}
+var count = 1; var html = "";
+while (count <= num) {
+  var namekey = senatevar["c"+count+"_name"].toLowerCase().replace(/ /g,'').replace(".","").replace("'","");
+  console.log(namekey);
+  html = html+"<div class='entry'><h3 class='name'>"+senatevar["c"+count+"_name"]+" <span class='"+senatevar["c"+count+"_party"]+"party'>" + senatevar["c"+count+"_party"] + "</span></h3><div class='bar' id='"+namekey+"'></div><div class='bar-label'>"+Math.round(senatevar["c"+count]/sum*100)+"%</div></div>";
+  count ++;
+}
+raceID.insertAdjacentHTML("afterend",html);
+count = 1;
+while (count <= num) {
+  var namekey = senatevar["c"+count+"_name"].toLowerCase().replace(/ /g,'').replace(".","").replace("'","");
   var width = document.getElementById("federal").getBoundingClientRect().width;
-  var pixels = (width-text_len)*(d.vote_percent/100);
-  document.getElementById(String(name_key)).style.width = String(pixels)+"px";
-});
+  var percent = Math.round(senatevar["c"+count]/sum*100);
+  var pixels = (width-text_len)*(percent/100);
+  document.getElementById(String(namekey)).style.width = String(pixels)+"px";
+  count++;
+}
+
+// house race
+var raceID = document.getElementById("congress");
+var congressvar = congressRaces["0617"];
+var num = (Object.keys(congressvar).length-2)/3;
+var count = 1; var sum = 0;
+while (count <= num) {
+  var element = +congressvar["c"+count];
+  sum += element;
+  count++;
+}
+var count = 1; var html = "";
+while (count <= num) {
+  var namekey = congressvar["c"+count+"_name"].toLowerCase().replace(/ /g,'').replace(".","").replace("'","");
+  console.log(namekey);
+  html = html+"<div class='entry'><h3 class='name'>"+congressvar["c"+count+"_name"]+" <span class='"+congressvar["c"+count+"_party"]+"party'>" + congressvar["c"+count+"_party"] + "</span></h3><div class='bar' id='"+namekey+"'></div><div class='bar-label'>"+Math.round(congressvar["c"+count]/sum*100)+"%</div></div>";
+  count ++;
+}
+raceID.insertAdjacentHTML("afterend",html);
+count = 1;
+while (count <= num) {
+  var namekey = congressvar["c"+count+"_name"].toLowerCase().replace(/ /g,'').replace(".","").replace("'","");
+  var width = document.getElementById("federal").getBoundingClientRect().width;
+  var percent = Math.round(congressvar["c"+count]/sum*100);
+  var pixels = (width-text_len)*(percent/100);
+  document.getElementById(String(namekey)).style.width = String(pixels)+"px";
+  count++;
+}
+
+// ["senate","congress"].forEach(function(d,idx){
+//   var html = "";
+//   var raceID = document.getElementById(d);
+//   var results = federalRaces.filter(function(r){
+//     return r.race == d;
+//   });
+//   console.log(senateRaces["CA"]);
+//
+//   results.sort(function(a,b){return b.vote_percent-a.vote_percent;});
+//
+//   for (var ii=0; ii<results.length; ii++) {
+//     if (results[ii].win == "yes") {
+//       var name_key = results[ii].name.toLowerCase().replace(/ /g,'').replace(".","").replace("'","");
+//       html = html+"<div class='entry'><h3 class='name'><i class='fa fa-check-square-o' aria-hidden='true'></i>"+results[ii].name+" <span class='"+results[ii].party+"party'>" + results[ii].party + "</span></h3><div class='bar' id='"+name_key+"'></div><div class='bar-label'>"+results[ii].vote_percent+"%</div></div>";
+//     } else {
+//       var name_key = results[ii].name.toLowerCase().replace(/ /g,'').replace(".","").replace("'","");
+//       html = html+"<div class='entry'><h3 class='name'>"+results[ii].name+" <span class='"+results[ii].party+"party'>" + results[ii].party + "</span></h3><div class='bar' id='"+name_key+"'></div><div class='bar-label'>"+results[ii].vote_percent+"%</div></div>";
+//     }
+//   }
+//
+//   raceID.insertAdjacentHTML("afterend",html)
+//   results = [];
+// });
+//
+// federalRaces.forEach(function(d){
+//   var name_key = d.name.toLowerCase().replace(/ /g,'').replace(".","").replace("'","");
+//   var width = document.getElementById("federal").getBoundingClientRect().width;
+//   var pixels = (width-text_len)*(d.vote_percent/100);
+//   document.getElementById(String(name_key)).style.width = String(pixels)+"px";
+// });
 
 // STATE MAP ------------------------------------------------------------
 
@@ -561,18 +619,18 @@ stateRaces.forEach(function(d){
 });
 
 // populating state propositions list
-var propID = document.getElementById("propositions-list");
-propList.forEach(function(prop){
-  var html = "<div class='prop-group active "+prop.number+"'><div class='prop-name'>Proposition "+prop.number+"</div>"+"<div class='prop-desc'>"+prop.title+"</div><div class='prop-link'><a target='_blank' href='"+prop.link+"'><i class='fa fa-external-link' aria-hidden='true'></i>  Read more</a></div>"
-  if (prop.result == "yes") {
-    var htmlresult = "<div class='propyes'>Yes: "+String(prop.yes)+"%<i class='fa fa-check-square-o' aria-hidden='true'></i></div>"+"<div class='propno'>No: "+String(prop.no)+"%</div></div>"
-  } else if (prop.result == "no") {
-    var htmlresult = "<div class='propyes'>Yes: "+String(prop.yes)+"%</div>"+"<div class='propno'>No: "+String(prop.no)+"%<i class='fa fa-check-square-o' aria-hidden='true'></i></div></div>"
-  } else {
-    var htmlresult = "<div class='propyes'>Yes: "+String(prop.yes)+"%</div>"+"<div class='propno'>No: "+String(prop.no)+"%</div></div>"
-  }
-  propID.insertAdjacentHTML("beforebegin",html+htmlresult)
-});
+// var propID = document.getElementById("propositions-list");
+// propList.forEach(function(prop){
+//   var html = "<div class='prop-group active "+prop.number+"'><div class='prop-name'>Proposition "+prop.number+"</div>"+"<div class='prop-desc'>"+prop.title+"</div><div class='prop-link'><a target='_blank' href='"+prop.link+"'><i class='fa fa-external-link' aria-hidden='true'></i>  Read more</a></div>"
+//   if (prop.result == "yes") {
+//     var htmlresult = "<div class='propyes'>Yes: "+String(prop.yes)+"%<i class='fa fa-check-square-o' aria-hidden='true'></i></div>"+"<div class='propno'>No: "+String(prop.no)+"%</div></div>"
+//   } else if (prop.result == "no") {
+//     var htmlresult = "<div class='propyes'>Yes: "+String(prop.yes)+"%</div>"+"<div class='propno'>No: "+String(prop.no)+"%<i class='fa fa-check-square-o' aria-hidden='true'></i></div></div>"
+//   } else {
+//     var htmlresult = "<div class='propyes'>Yes: "+String(prop.yes)+"%</div>"+"<div class='propno'>No: "+String(prop.no)+"%</div></div>"
+//   }
+//   propID.insertAdjacentHTML("beforebegin",html+htmlresult)
+// });
 
 // state propositions search bar
 var input = document.querySelector('#propositions-search');
@@ -604,18 +662,18 @@ input.addEventListener('input', function(){
 
 // populating SF section -------------------------------------------------------
 
-// populating SF propositions list
-var SFpropID = document.getElementById("sf-propositions-list");
-SFpropList.forEach(function(prop){
-  if (prop.result == "yes") {
-    var html = "<div class='sf-prop-group active "+prop.letter+"'><div class='sf-prop-name'>"+prop.letter+": "+prop.title+"</div>"+"<div class='sfresult'><i class='fa fa-check-square-o' aria-hidden='true'></i>"+"Yes: "+prop.yes+"% / No: "+prop.no+"%"+"</div>"+"<div class='sf-prop-desc'>"+prop.description+"</div><div class='sf-prop-link'><a target='_blank' href='"+prop.link+"'><i class='fa fa-external-link' aria-hidden='true'></i>  Read more</a></div>"
-  } else if (prop.result == "no") {
-    var html = "<div class='sf-prop-group active "+prop.letter+"'><div class='sf-prop-name'>"+prop.letter+": "+prop.title+"</div>"+"<div class='sfresult'>"+"Yes: "+prop.yes+"% /<i class='fa fa-times' aria-hidden='true'></i> No: "+prop.no+"%"+"</div>"+"<div class='sf-prop-desc'>"+prop.description+"</div><div class='sf-prop-link'><a target='_blank' href='"+prop.link+"'><i class='fa fa-external-link' aria-hidden='true'></i>  Read more</a></div>"
-  } else {
-    var html = "<div class='sf-prop-group active "+prop.letter+"'><div class='sf-prop-name'>"+prop.letter+": "+prop.title+"</div>"+"<div class='sfresult'>"+"Yes: "+prop.yes+"% / No: "+prop.no+"%</div>"+"<div class='sf-prop-desc'>"+prop.description+"</div><div class='sf-prop-link'><a target='_blank' href='"+prop.link+"'><i class='fa fa-external-link' aria-hidden='true'></i>  Read more</a></div>"
-  }
-  SFpropID.insertAdjacentHTML("beforebegin",html)
-});
+// // populating SF propositions list
+// var SFpropID = document.getElementById("sf-propositions-list");
+// SFpropList.forEach(function(prop){
+//   if (prop.result == "yes") {
+//     var html = "<div class='sf-prop-group active "+prop.letter+"'><div class='sf-prop-name'>"+prop.letter+": "+prop.title+"</div>"+"<div class='sfresult'><i class='fa fa-check-square-o' aria-hidden='true'></i>"+"Yes: "+prop.yes+"% / No: "+prop.no+"%"+"</div>"+"<div class='sf-prop-desc'>"+prop.description+"</div><div class='sf-prop-link'><a target='_blank' href='"+prop.link+"'><i class='fa fa-external-link' aria-hidden='true'></i>  Read more</a></div>"
+//   } else if (prop.result == "no") {
+//     var html = "<div class='sf-prop-group active "+prop.letter+"'><div class='sf-prop-name'>"+prop.letter+": "+prop.title+"</div>"+"<div class='sfresult'>"+"Yes: "+prop.yes+"% /<i class='fa fa-times' aria-hidden='true'></i> No: "+prop.no+"%"+"</div>"+"<div class='sf-prop-desc'>"+prop.description+"</div><div class='sf-prop-link'><a target='_blank' href='"+prop.link+"'><i class='fa fa-external-link' aria-hidden='true'></i>  Read more</a></div>"
+//   } else {
+//     var html = "<div class='sf-prop-group active "+prop.letter+"'><div class='sf-prop-name'>"+prop.letter+": "+prop.title+"</div>"+"<div class='sfresult'>"+"Yes: "+prop.yes+"% / No: "+prop.no+"%</div>"+"<div class='sf-prop-desc'>"+prop.description+"</div><div class='sf-prop-link'><a target='_blank' href='"+prop.link+"'><i class='fa fa-external-link' aria-hidden='true'></i>  Read more</a></div>"
+//   }
+//   SFpropID.insertAdjacentHTML("beforebegin",html)
+// });
 
 // state propositions search bar
 var sfinput = document.querySelector('#sf-propositions-search');

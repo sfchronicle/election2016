@@ -892,6 +892,7 @@ header {
   // fill: #b2b2b2;
   stroke: white;
   stroke-linejoin: round;
+  stroke-width: 0.3px;
   &:hover {
     opacity: 0.7;
     cursor: pointer;
@@ -1003,7 +1004,7 @@ header {
   height: 20px;
 }
 
-.Dparty, .Rparty {
+.Demparty, .GOPparty, .Grnparty, .Indparty, .NPAparty, .Libparty {
   color: white;
   font-size: 12px;
   padding: 2px 3px;
@@ -1012,12 +1013,15 @@ header {
   vertical-align: middle;
 }
 
-.Dparty {
-  background-color: rgb(98, 169, 204);
+.Demparty {
+  background-color: lighten(@blue-map,10%);//rgb(98, 169, 204);
 }
 
-.Rparty {
-  background-color: rgb(240, 70, 70);
+.GOPparty {
+  background-color: lighten(@red-map,10%);//rgb(240, 70, 70);
+}
+.Grnparty, .Indparty, .NPAparty, .Libparty {
+  background-color: lighten(@green-map,10%);
 }
 
 .svg-container {

@@ -78,8 +78,8 @@
       <h1>Federal</h1>
       <div class="br"></div>
 
-        <h4 class="race senate" id="senate">US Senate</h4>
-        <h4 class="race congress" id="congress">US Congress</h4>
+        <h4 class="race senate" id="senate">U.S. Senate</h4>
+        <h4 class="race congress" id="congress">U.S. House</h4>
 
 
       <div class="outer">
@@ -121,7 +121,18 @@
         <input type="text" placeholder="&#xf002;  Search by proposition number" id="propositions-search" style="font-family:AntennaExtraLight, FontAwesome">
 
         <div class="propositions-list">
-          <div id="propositions-list"></div>
+          <% csv.StatePropositionsData.forEach(function(prop,idx){ %>
+
+            <div class='prop-group active <%=prop.number%>'><div class='prop-name'>Prop. <%=prop.number%>: <%=prop.title%></div>
+              <div class='result'><div id="prop<%=prop.number%>"></div></div>
+              <div class='prop-desc'><%=prop.description%></div>
+
+              <% if (prop.link){ %>
+                <div class='prop-link'><a target='_blank' href='<%=prop.link%>'><i class='fa fa-external-link' aria-hidden='true'></i>  Read more</a></div>
+              <% } %>
+            </div>
+
+          <% }); %>
         </div>
       </div>
 
@@ -163,7 +174,18 @@
         <input type="text" placeholder="&#xf002;  Search by SF proposition letter or name" id="sf-propositions-search" style="font-family:AntennaExtraLight, FontAwesome">
 
         <div class="sf-propositions-list">
-          <div id="sf-propositions-list"></div>
+          <% csv.SFPropositionsData.forEach(function(prop,idx){ %>
+
+            <div class='sf-prop-group active <%=prop.number%>'><div class='prop-name'> <%=prop.letter%>: <%=prop.title%></div>
+              <div class='result'><div id="prop<%=prop.number%>"></div></div>
+              <div class='sf-prop-desc'><%=prop.description%></div>
+
+              <% if (prop.link){ %>
+                <div class='sf-prop-link'><a target='_blank' href='<%=prop.link%>'><i class='fa fa-external-link' aria-hidden='true'></i>  Read more</a></div>
+              <% } %>
+            </div>
+
+          <% }); %>
         </div>
       </div>
     </section>
@@ -193,7 +215,6 @@
       var presidentialCountyData = <%= JSON.stringify(json.president_by_county) %>;
 
       var electoralVotes = <%= JSON.stringify(csv.electoralVotes) %>;
-      var federalRaces = <%= JSON.stringify(csv.federalRaces) %>;
 
       //country data
       var governorRaces = <%= JSON.stringify(json.governor_by_state) %>;
