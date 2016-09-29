@@ -1,7 +1,7 @@
 var d3 = require('d3');
 var topojson = require('topojson');
-var red = "#8A0000";//"#F04646";
-var blue = "#004366";//"#62A9CC";
+var red = "#A41A1A";//"#8A0000";//"#F04646";
+var blue = "#1A5D80";//"#004366";//"#62A9CC";
 var green = "#2E655B";
 var purple = "#69586B";
 
@@ -34,59 +34,91 @@ function shadeColor2(color, percent) {
 // }
 
 // function for coloring map
-function code_map_variable(tempvar,num){
-  Array.prototype.max = function() {
-    return Math.max.apply(null, this);
-  };
-  var count = 1; var sum = 0;
-  var list = [];
-  while (count <= num) {
-    var element = +tempvar["c"+count];
-    sum += element;
-    list.push(+tempvar["c"+count]);
-    count++;
+function code_map_variable(tempvar,num,properties){
+  if (tempvar.r) {
+    if (tempvar.r["Yes"] > tempvar.r["No"]) {
+      return green;
+    } else if (tempvar.r["Yes"] < tempvar.r["No"]){
+      return red;
+    } else {
+      return purple;
+    }
   }
-  var winner = list.max();
-  var count = 1;
+  count = 0;
   while (count <= num) {
-    if (+tempvar["c"+count] == winner){
-      if (tempvar["c"+count+"_party"] == "Dem"){
-        return shadeColor2(blue,1-winner/sum);
+    if (tempvar["c"+count+"_name"] == tempvar.d) {
+      if (tempvar["c"+count+"_party"] == "Dem") {
+        return blue;
       } else if (tempvar["c"+count+"_party"] == "GOP") {
-        return shadeColor2(red,1-winner/sum);
+        return red;
       } else {
-        return shadeColor2(green,1-winner/sum);
+        return green;
       }
     }
     count++;
   }
+  // Array.prototype.max = function() {
+  //   return Math.max.apply(null, this);
+  // };
+  // var count = 1; var sum = 0;
+  // var list = [];
+  // while (count <= num) {
+  //   var element = +tempvar["c"+count];
+  //   sum += element;
+  //   list.push(+tempvar["c"+count]);
+  //   count++;
+  // }
+  // var winner = list.max();
+  // var count = 1;
+  // while (count <= num) {
+  //   if (+tempvar["c"+count] == winner){
+  //     if (tempvar["c"+count+"_party"] == "Dem"){
+  //       return shadeColor2(blue,1-winner/sum);
+  //     } else if (tempvar["c"+count+"_party"] == "GOP") {
+  //       return shadeColor2(red,1-winner/sum);
+  //     } else {
+  //       return shadeColor2(green,1-winner/sum);
+  //     }
+  //   }
+  //   count++;
+  // }
 }
 
 // function for tooltip
-function tooltip_function(abbrev,races) {
+function tooltip_function(abbrev,races,properties) {
   if (races[String(abbrev)]) {
     var tempvar = races[String(abbrev)];
-    var num = (Object.keys(tempvar).length-2)/3;
-    var count = 1; var sum = 0;
-    while (count <= num) {
-      var element = +tempvar["c"+count];
-      sum += element;
-      count++;
+    if (tempvar.r) {
+      var html_str = "<div class='state-name'>"+properties.name+"</div>";
+      html_str = html_str+"<div class='result'>Yes: "+tempvar.r["Yes"]+"% / No: "+tempvar.r["No"]+"%</div>";
+    } else {
+      var num = (Object.keys(tempvar).length-2)/3;
+      var count = 1; var sum = 0;
+      while (count <= num) {
+        var element = +tempvar["c"+count];
+        sum += element;
+        count++;
+      }
+      var count = 1; var html_str = "<div class='state-name'>"+properties.name+"</div>";
+      while (count <= num) {
+        var party = tempvar["c"+count+"_party"];
+        if (tempvar["c"+count+"_name"] == tempvar.d) {
+          html_str = html_str + "<div><i class='fa fa-check-square-o' aria-hidden='true'></i>"+tempvar["c"+count+"_name"]+" <span class='"+party+"party'>"+tempvar["c"+count+"_party"]+"</span> "+Math.round(tempvar["c"+count]/sum*1000)/10+"%</div>";
+        } else {
+          html_str = html_str + "<div>"+tempvar["c"+count+"_name"]+" <span class='"+party+"party'>"+tempvar["c"+count+"_party"]+"</span> "+Math.round(tempvar["c"+count]/sum*1000)/10+"%</div>";
+        }
+        count ++;
+      }
+      if (tempvar["o"]) {
+        html_str = html_str + "<div>Other: "+Math.round(tempvar["o"]/sum*1000)/10+"%</div>";
+      }
+      html_str = html_str+"<div>"+tempvar.p+"/"+properties.precincts+" precincts reporting</div>";
     }
-    var count = 1; var html_str = "<div class='state-name'>"+abbrev+"</div>";
-    while (count <= num) {
-      var party = tempvar["c"+count+"_party"];
-      html_str = html_str + "<div>"+tempvar["c"+count+"_name"]+" <span class='"+party+"party'>"+tempvar["c"+count+"_party"]+"</span> "+Math.round(tempvar["c"+count]/sum*1000)/10+"%</div>";
-      count ++;
-    }
-    if (tempvar["o"]) {
-      html_str = html_str + "<div>Other: "+Math.round(tempvar["o"]/sum*1000)/10+"%</div>";
-    }
-    html_str = html_str+"<div>"+tempvar.pr+"/"+tempvar.pt+" precincts reporting</div>";
   } else {
-    var html_str = "<div class='state-name'>"+abbrev+"</div><div>No race.</div>";
+    var html_str = "<div class='state-name'>"+properties.name+"</div><div>No race.</div>";
   }
   return html_str;
+  // }
 }
 
 // compute total
@@ -176,10 +208,11 @@ document.querySelector('#presidentbycounty').addEventListener('click', function(
       .style("fill", function(d,index) {
         if (ind == 0) {
           var stateabbrev = stateCodes[parseInt(d.id)].state;
-          if (presidentialData[String(stateabbrev)]) {
+          if (presidentialData[String(stateabbrev)].d) {
+            console.log(presidentialData[String(stateabbrev)].d);
             var tempvar = presidentialData[String(stateabbrev)];
             var num_candidates = (Object.keys(tempvar).length-2)/3;
-            var new_color = code_map_variable(tempvar,num_candidates);
+            var new_color = code_map_variable(tempvar,num_candidates,d.properties);
             return new_color;
           } else {
             return "#b2b2b2";//fill(path.area(d));
@@ -187,9 +220,13 @@ document.querySelector('#presidentbycounty').addEventListener('click', function(
         } else {
           if (presidentialCountyData[d.id]) {
             var tempvar = presidentialCountyData[d.id];
-            var num_candidates = (Object.keys(tempvar).length-2)/3;
-            var new_color = code_map_variable(tempvar,num_candidates);
-            return new_color;
+            if (tempvar.d) {
+              var num_candidates = (Object.keys(tempvar).length-2)/3;
+              var new_color = code_map_variable(tempvar,num_candidates,d.properties);
+              return new_color;
+            } else {
+              return "#b2b2b2";
+            }
           } else {
             return "#b2b2b2";//fill(path.area(d));
           }
@@ -200,15 +237,15 @@ document.querySelector('#presidentbycounty').addEventListener('click', function(
         if (ind == 0) {
           var stateabbrev = stateCodes[parseInt(d.id)].state;
           if (presidentialData[String(stateabbrev)]) {
-            var html_str = tooltip_function(stateabbrev,presidentialData);
+            var html_str = tooltip_function(stateabbrev,presidentialData,d.properties);
           } else {
-            var html_str = "<div class='state-name'>"+stateabbrev+"</div><div>No results yet.</div>";
+            var html_str = "<div class='state-name'>"+d.properties.name+"</div><div>No results yet.</div>";
           }
         } else {
           if (presidentialCountyData[d.id]) {
-            var html_str = tooltip_function(d.id,presidentialCountyData);
+            var html_str = tooltip_function(d.id,presidentialCountyData,d.properties);
           } else {
-            var html_str = "<div class='state-name'>County: "+d.id+"</div><div>No results yet.</div>";
+            var html_str = "<div class='state-name'>County: "+d.properties.name+"</div><div>No results yet.</div>";
           }
         }
         tooltip.html(html_str);
@@ -325,7 +362,7 @@ document.querySelector('#congressmap').addEventListener('click', function(){
           if (governorRaces[String(stateabbrev)]) {
               var tempvar = governorRaces[String(stateabbrev)];
               var num_candidates = (Object.keys(tempvar).length-2)/3;
-              var new_color = code_map_variable(tempvar,num_candidates);
+              var new_color = code_map_variable(tempvar,num_candidates,d.properties);
               return new_color;
           } else {
             return "#b2b2b2";//fill(path.area(d));
@@ -335,7 +372,7 @@ document.querySelector('#congressmap').addEventListener('click', function(){
           if (senateRaces[String(stateabbrev)]) {
               var tempvar = senateRaces[String(stateabbrev)];
               var num_candidates = (Object.keys(tempvar).length-2)/3;
-              var new_color = code_map_variable(tempvar,num_candidates);
+              var new_color = code_map_variable(tempvar,num_candidates,d.properties);
               return new_color;
           } else {
             return "#b2b2b2";//fill(path.area(d));
@@ -345,7 +382,7 @@ document.querySelector('#congressmap').addEventListener('click', function(){
           if (congressRaces[String(district)]) {
               var tempvar = congressRaces[String(district)];
               var num_candidates = (Object.keys(tempvar).length-2)/3;
-              var new_color = code_map_variable(tempvar,num_candidates);
+              var new_color = code_map_variable(tempvar,num_candidates,d.properties);
               return new_color;
           } else {
             return "#b2b2b2";//fill(path.area(d));
@@ -356,12 +393,12 @@ document.querySelector('#congressmap').addEventListener('click', function(){
       .on('mouseover', function(d,index) {
         if (ind == 0) {
           var stateabbrev = stateCodes[parseInt(d.id)].state;
-          var html_str = tooltip_function(stateabbrev,governorRaces);
+          var html_str = tooltip_function(stateabbrev,governorRaces,d.properties);
         } else if (ind == 1){
           var stateabbrev = stateCodes[parseInt(d.id)].state;
-          var html_str = tooltip_function(stateabbrev,senateRaces);
+          var html_str = tooltip_function(stateabbrev,senateRaces,d.properties);
         } else {
-          var html_str = tooltip_function(d.id,congressRaces);
+          var html_str = tooltip_function(d.id,congressRaces,d.properties);
         }
         tooltip.html(html_str);
         tooltip.style("visibility", "visible");
@@ -399,15 +436,12 @@ d3.select("#congressmap_Districts-container").classed("disappear",true);
 
 // read in electoral votes
 console.log(electoralVotes);
-var clinton_electoralvotes = electoralVotes[0].votes; // FIX THIS?????????????????????????
-var trump_electoralvotes = electoralVotes[1].votes; // FIX THIS?????????????????????????
+var clinton_electoralvotes = electoralVotes["Hillary Clinton"];
+var trump_electoralvotes = electoralVotes["Donald Trump"];
 var uncounted_electoralvotes = 538-clinton_electoralvotes-trump_electoralvotes;
 var clinton_percent = clinton_electoralvotes/538*100;
 var trump_percent = trump_electoralvotes/538*100;
 var uncounted_percent = 100-trump_percent-clinton_percent;
-
-console.log(clinton_percent);
-console.log(trump_percent);
 
 // filling in electoral vote count
 
@@ -513,76 +547,121 @@ while (count <= num) {
 // STATE MAP ------------------------------------------------------------
 
 var CAmap_bycounty = "./assets/maps/ca_county.json";
+var CAmap_assembly = "./assets/maps/ca_assembly.json";
+var CAmap_house = "./assets/maps/ca_house.json";
+var CAmap_statesenate = "./assets/maps/ca_statesenate.json";
 
 var path = d3.geo.path()
     .projection(null);
 
-// CA map by county
-
-
-var svgCACounties = d3.select("#map-container-state")
-     .append("div")
-     .classed("svg-container", true) //container class to make it responsive
-     .attr("id","map-container-state")
-     .append("svg")
-     //responsive SVG needs these 2 attributes and no width and height attr
-     .attr("preserveAspectRatio", "xMinYMin meet")
-     .attr("viewBox", "200 0 600 530")
-     //class to make it responsive
-     .classed("svg-content-responsive", true)
-    .attr("id","states-svg");
-
-d3.json(CAmap_bycounty, function(error, us) {
-  if (error) throw error;
-
-  var features = topojson.feature(us,us.objects.features).features;
-  svgCACounties.selectAll(".states")
-    .data(topojson.feature(us, us.objects.features).features).enter()
-    .append("path")
-    .attr("class", "states")
-    .attr("d",path)
-    .attr("id",function(d) {
-      return "county"+parseInt(d.id);
-    })
-    .style("fill", function(d) {
-      // if (presidentialCountyData[+d.id]) {
-      //     var tempvar = presidentialCountyData[+d.id];
-      //     if (tempvar.percent_dem > tempvar.percent_rep){
-      //       var new_color = shadeColor2(blue,1-tempvar.percent_dem);
-      //       return String(new_color);//"darken('blue',10)";
-      //     } else {
-      //       var new_color = shadeColor2(red,1-tempvar.percent_rep);
-      //       return String(new_color);//"darken('red',10)";
-      //     }
-      // } else {
-        return "#b2b2b2";//fill(path.area(d));
-      // }
-    })
-    .attr("d", path)
-    // .on('mouseover', function(d) {
-    //   if (presidentialCountyData[+d.id]) {
-    //     var tempvar = presidentialCountyData[+d.id];
-    //     var html_str = "<div class='state-name'>County: "+d.id+"</div><div>Democrat: "+Math.round(tempvar.percent_dem*1000)/10+"%</div><div>Republican: "+Math.round(tempvar.percent_rep*1000)/10+"%</div><div>Precincts reporting: "+tempvar.reporting+"</div>";
-    //   } else {
-    //     var html_str = "<div class='state-name'>County: "+d.id+"</div><div>No results yet.</div>";
-    //   }
-    //   tooltip.html(html_str);
-    //   tooltip.style("visibility", "visible");
-    // })
-    // .on("mousemove", function() {
-    //   if (screen.width <= 480) {
-    //     return tooltip
-    //       .style("top",(d3.event.pageY+40)+"px")//(d3.event.pageY+40)+"px")
-    //       .style("left",10+"px");
-    //   } else {
-    //     return tooltip
-    //       .style("top", (d3.event.pageY+20)+"px")
-    //       .style("left",(d3.event.pageX-80)+"px");
-    //   }
-    // })
-    // .on("mouseout", function(){return tooltip.style("visibility", "hidden");
-    // });
+document.querySelector('.casenate').addEventListener('click', function(){
+  console.log("clicked on senate");
+  // document.querySelector(".camap").classList.remove("active");
+  d3.selectAll(".camap").classed("active",false);
+  this.classList.add("active");
+  var active_data = senateCA;
+  camap("./assets/maps/ca_statesenate.json",active_data);
 });
+
+document.querySelector('.cadistrict').addEventListener('click', function(){
+  console.log("clicked on districts");
+  d3.selectAll(".camap").classed("active",false);
+  // document.querySelector(".camap").classList.remove("active");
+  this.classList.add("active");
+  var active_data = houseCA;
+  camap("./assets/maps/ca_house.json",active_data);
+});
+
+document.querySelector('.prop56').addEventListener('click', function(){
+  console.log("clicked on prop56");
+  d3.selectAll(".camap").classed("active",false);
+  // document.querySelector(".camap").classList.remove("active");
+  this.classList.add("active");
+  var active_data = propsCA[56];
+  console.log(active_data.counties);
+  camap("./assets/maps/ca_county.json",active_data.counties);
+});
+
+document.querySelector('.prop62').addEventListener('click', function(){
+  console.log("clicked on prop62");
+  d3.selectAll(".camap").classed("active",false);
+  // document.querySelector(".camap").classList.remove("active");
+  this.classList.add("active");
+  var active_data = propsCA[62];
+  console.log(active_data.counties);
+  camap("./assets/maps/ca_county.json",active_data.counties);
+});
+
+
+
+function camap(active_map,active_data) {
+
+  d3.select("#map-container-state").select("svg").remove();
+  d3.select("#map-container-state").select(".svg-container").remove();
+
+  // CA map by county
+  var svgCACounties = d3.select("#map-container-state")
+       .append("div")
+       .classed("svg-container", true) //container class to make it responsive
+       .attr("id","map-container-state")
+       .append("svg")
+       //responsive SVG needs these 2 attributes and no width and height attr
+       .attr("preserveAspectRatio", "xMinYMin meet")
+       .attr("viewBox", "200 0 600 530")
+       //class to make it responsive
+       .classed("svg-content-responsive", true)
+      .attr("id","states-svg");
+
+  d3.json(active_map, function(error, us) {
+    if (error) throw error;
+
+    var features = topojson.feature(us,us.objects.features).features;
+    svgCACounties.selectAll(".states")
+      .data(topojson.feature(us, us.objects.features).features).enter()
+      .append("path")
+      .attr("class", "states")
+      .attr("d",path)
+      // .attr("id",function(d) {
+      //   return "county"+parseInt(d.id);
+      // })
+      .style("fill", function(d) {
+        var location = d.id;
+        if (active_data[String(location)]) {
+            var tempvar = active_data[String(location)];
+            var num_candidates = (Object.keys(tempvar).length-2)/3;
+            if (tempvar.r) {
+              var new_color = code_map_variable(tempvar,num_candidates,d.properties);
+              return new_color;
+            } else {
+              return "#b2b2b2";
+            }
+        } else {
+          return "#b2b2b2";//fill(path.area(d));
+        }
+      })
+      .attr("d", path)
+      .on('mouseover', function(d,index) {
+        var html_str = tooltip_function(d.id,active_data,d.properties);
+        tooltip.html(html_str);
+        tooltip.style("visibility", "visible");
+      })
+      .on("mousemove", function() {
+        if (screen.width <= 480) {
+          return tooltip
+            .style("top",(d3.event.pageY+40)+"px")//(d3.event.pageY+40)+"px")
+            .style("left",10+"px");
+        } else {
+          return tooltip
+            .style("top", (d3.event.pageY+20)+"px")
+            .style("left",(d3.event.pageX-80)+"px");
+        }
+      })
+      .on("mouseout", function(){return tooltip.style("visibility", "hidden");
+      });
+  });
+};
+
+camap("./assets/maps/ca_statesenate.json",senateCA);
 
 // populating state section ----------------------------------------------------
 

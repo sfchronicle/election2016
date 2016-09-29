@@ -138,17 +138,17 @@
 
       <div class="br"></div>
       <div class="hed">California results by county:</div>
-      <div class="chatter">Hover over or click on the counties to see how Califnorians voted in each precinct for representatives and propositions.</div>
+      <div class="chatter">Hover over or click on the counties to see how Californians voted in each precinct for representatives and propositions.</div>
 
       <div class="flex-container" style="min-width: 315px;">
-        <div class="button-container vertical">
-          <div class="button race statesenate">State Senate</div>
-          <div class="button race statedistrict9">State District 9</div>
-          <div class="button race stateassembly">State Assembly</div>
-          <div class="button prop cigarettes">Cigarette Tax</div>
-          <div class="button prop deathpenalty">Death Penalty Ban</div>
-          <div class="button prop bags">Carry-out bags charge</div>
-          <div class="button prop marijuana">Marijuana Legalization</div>
+        <div class="button-container vertical" id="ca-map-buttons">
+          <div class="button camap race casenate active">State Senate</div>
+          <div class="button camap race cadistrict">State Districts</div>
+          <!-- <% for (var i=51; i<68; i++)%> -->
+          <div class="button camap prop prop56">Cigarette Tax (Prop. 56)</div>
+          <div class="button camap prop prop62">Death Penalty Ban (Prop. 62)</div>
+          <div class="button camap prop prop67">Carry-out bags charge (Prop. 67)</div>
+          <div class="button camap prop prop64">Marijuana Legalization (Prop. 64)</div>
         </div>
 
         <div id="map-container-state"></div>
@@ -211,10 +211,13 @@
     <script>
 
       // new presidential data
-      var presidentialData = <%= JSON.stringify(json.president_by_state) %>;
-      var presidentialCountyData = <%= JSON.stringify(json.president_by_county) %>;
+      // var presidentialData = <%= JSON.stringify(json.president_by_state) %>;
+      // var presidentialCountyData = <%= JSON.stringify(json.president_by_county) %>;
+      var presidentialData = <%= JSON.stringify(json.emma_pres_state_us) %>;
+      var presidentialCountyData = <%= JSON.stringify(json.emma_pres_county_us) %>;
 
-      var electoralVotes = <%= JSON.stringify(csv.electoralVotes) %>;
+      // var electoralVotes = <%= JSON.stringify(csv.electoralVotes) %>;
+      var electoralVotes = <%= JSON.stringify(json.electoralcount) %>;
 
       //country data
       var governorRaces = <%= JSON.stringify(json.governor_by_state) %>;
@@ -223,10 +226,15 @@
 
       // state data
       var stateRaces = <%= JSON.stringify(csv.stateRaces) %>;
-      var propList = window.propList = <%= JSON.stringify(csv.StatePropositionsData) %>;
+      var propList = <%= JSON.stringify(csv.StatePropositionsData) %>;
+
+      // state map
+      var houseCA = <%= JSON.stringify(json.house_district_ca) %>;
+      var senateCA = <%= JSON.stringify(json.senate_county_ca) %>;
+      var propsCA = <%= JSON.stringify(json.props_county_ca) %>;
 
       // SF data
-      var SFpropList = window.SFpropList = <%= JSON.stringify(csv.SFPropositionsData) %>;
+      var SFpropList = <%= JSON.stringify(csv.SFPropositionsData) %>;
       var SFsupesList = <%= JSON.stringify(csv.SFSupesData) %>;
 
       // map look-up tables
