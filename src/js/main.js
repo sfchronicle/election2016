@@ -1,9 +1,13 @@
 var d3 = require('d3');
 var topojson = require('topojson');
-var red = "#A41A1A";//"#8A0000";//"#F04646";
-var blue = "#1A5D80";//"#004366";//"#62A9CC";
-var green = "#2E655B";
+var red = "#BC1826";//"#BE3434";//"#D91E36";//"#A41A1A";//"#8A0000";//"#F04646";
+var blue = "#265B9B";//"#194E8E";//"#315A8C";//"#004366";//"#62A9CC";
+var green = "#487F75";//"#2E655B";
 var purple = "#69586B";
+var yellow = "#FFCC32";//"#6790B7";//"#EB8F6A";//"#FFFF65";//"#FFCC32";
+var yes_blue = "#705A91";//"#1D75AF";//"#6C85A5";//"#FFE599";
+var no_red = "#EAE667";//"#D13D59";//"#6790B7";
+var undecided_yellow = "#b2b2b2";//"#EB8F6A";//"#FFFF65";
 
 // function for shading colors
 function shadeColor2(color, percent) {
@@ -33,15 +37,43 @@ function shadeColor2(color, percent) {
 //   }
 // }
 
+function code_county(tempvar,num,properties){
+  Array.prototype.max = function() {
+    return Math.max.apply(null, this);
+  };
+  var count = 1; var sum = 0;
+  var list = [];
+  while (count <= num) {
+    var element = +tempvar["c"+count];
+    sum += element;
+    list.push(+tempvar["c"+count]);
+    count++;
+  }
+  var winner = list.max();
+  var count = 1;
+  while (count <= num) {
+    if (+tempvar["c"+count] == winner){
+      if (tempvar["c"+count+"_party"] == "Dem"){
+        return blue;
+      } else if (tempvar["c"+count+"_party"] == "GOP") {
+        return red;
+      } else {
+        return green;
+      }
+    }
+    count++;
+  }
+}
+
 // function for coloring map
 function code_map_variable(tempvar,num,properties){
   if (tempvar.r) {
     if (tempvar.r["Yes"] > tempvar.r["No"]) {
-      return green;
+      return yes_blue;
     } else if (tempvar.r["Yes"] < tempvar.r["No"]){
-      return red;
+      return no_red;
     } else {
-      return purple;
+      return undecided_yellow;
     }
   }
   count = 0;
@@ -89,8 +121,15 @@ function tooltip_function(abbrev,races,properties) {
   if (races[String(abbrev)]) {
     var tempvar = races[String(abbrev)];
     if (tempvar.r) {
-      var html_str = "<div class='state-name'>"+properties.name+"</div>";
-      html_str = html_str+"<div class='result'>Yes: "+tempvar.r["Yes"]+"% / No: "+tempvar.r["No"]+"%</div>";
+      if (+tempvar.r["Yes"] != 0) {
+        var total = +tempvar.r["Yes"] + +tempvar.r["No"];
+        var html_str = "<div class='state-name'>"+properties.name+"</div>";
+        html_str = html_str+"<div class='result'>Yes: "+Math.round(+tempvar.r["Yes"]/total*1000)/10+"% / No: "+Math.round(+tempvar.r["No"]/total*1000)/10+"%</div>";
+        html_str = html_str+"<div>"+tempvar.p+"/"+properties.precincts+" precincts reporting</div>";
+      } else {
+        var html_str = "<div class='state-name'>"+properties.name+"</div>";
+        html_str = html_str+"<div>"+tempvar.p+"/"+properties.precincts+" precincts reporting</div>";
+      }
     } else {
       var num = (Object.keys(tempvar).length-2)/3;
       var count = 1; var sum = 0;
@@ -115,6 +154,7 @@ function tooltip_function(abbrev,races,properties) {
       html_str = html_str+"<div>"+tempvar.p+"/"+properties.precincts+" precincts reporting</div>";
     }
   } else {
+    console.log(properties);
     var html_str = "<div class='state-name'>"+properties.name+"</div><div>No race.</div>";
   }
   return html_str;
@@ -209,7 +249,6 @@ document.querySelector('#presidentbycounty').addEventListener('click', function(
         if (ind == 0) {
           var stateabbrev = stateCodes[parseInt(d.id)].state;
           if (presidentialData[String(stateabbrev)].d) {
-            console.log(presidentialData[String(stateabbrev)].d);
             var tempvar = presidentialData[String(stateabbrev)];
             var num_candidates = (Object.keys(tempvar).length-2)/3;
             var new_color = code_map_variable(tempvar,num_candidates,d.properties);
@@ -220,13 +259,16 @@ document.querySelector('#presidentbycounty').addEventListener('click', function(
         } else {
           if (presidentialCountyData[d.id]) {
             var tempvar = presidentialCountyData[d.id];
-            if (tempvar.d) {
-              var num_candidates = (Object.keys(tempvar).length-2)/3;
-              var new_color = code_map_variable(tempvar,num_candidates,d.properties);
-              return new_color;
-            } else {
-              return "#b2b2b2";
-            }
+            var num_candidates = (Object.keys(tempvar).length-2)/3;
+            var new_color = code_county(tempvar,num_candidates,d.properties);
+            return new_color;
+            // if (tempvar.d) {
+            //   var num_candidates = (Object.keys(tempvar).length-2)/3;
+            //   var new_color = code_map_variable(tempvar,num_candidates,d.properties);
+            //   return new_color;
+            // } else {
+            //   return "#b2b2b2";
+            // }
           } else {
             return "#b2b2b2";//fill(path.area(d));
           }
@@ -435,7 +477,6 @@ d3.select("#congressmap_Districts-container").classed("disappear",true);
 // presidential race electoral votes -------------------------------------------
 
 // read in electoral votes
-console.log(electoralVotes);
 var clinton_electoralvotes = electoralVotes["Hillary Clinton"];
 var trump_electoralvotes = electoralVotes["Donald Trump"];
 var uncounted_electoralvotes = 538-clinton_electoralvotes-trump_electoralvotes;
@@ -470,7 +511,6 @@ while (count <= num) {
 var count = 1; var html = "";
 while (count <= num) {
   var namekey = senatevar["c"+count+"_name"].toLowerCase().replace(/ /g,'').replace(".","").replace("'","");
-  console.log(namekey);
   html = html+"<div class='entry'><h3 class='name'>"+senatevar["c"+count+"_name"]+" <span class='"+senatevar["c"+count+"_party"]+"party'>" + senatevar["c"+count+"_party"] + "</span></h3><div class='bar' id='"+namekey+"'></div><div class='bar-label'>"+Math.round(senatevar["c"+count]/sum*100)+"%</div></div>";
   count ++;
 }
@@ -498,7 +538,6 @@ while (count <= num) {
 var count = 1; var html = "";
 while (count <= num) {
   var namekey = congressvar["c"+count+"_name"].toLowerCase().replace(/ /g,'').replace(".","").replace("'","");
-  console.log(namekey);
   html = html+"<div class='entry'><h3 class='name'>"+congressvar["c"+count+"_name"]+" <span class='"+congressvar["c"+count+"_party"]+"party'>" + congressvar["c"+count+"_party"] + "</span></h3><div class='bar' id='"+namekey+"'></div><div class='bar-label'>"+Math.round(congressvar["c"+count]/sum*100)+"%</div></div>";
   count ++;
 }
@@ -554,45 +593,44 @@ var CAmap_statesenate = "./assets/maps/ca_statesenate.json";
 var path = d3.geo.path()
     .projection(null);
 
-document.querySelector('.casenate').addEventListener('click', function(){
-  console.log("clicked on senate");
-  // document.querySelector(".camap").classList.remove("active");
+document.querySelector('.caassembly').addEventListener('click', function(){
+  console.log("clicked on assembly");
   d3.selectAll(".camap").classed("active",false);
   this.classList.add("active");
-  var active_data = senateCA;
-  camap("./assets/maps/ca_statesenate.json",active_data);
+  camap("./assets/maps/ca_statesenate.json",assemblyCA);
+});
+
+document.querySelector('.casenate').addEventListener('click', function(){
+  console.log("clicked on senate");
+  d3.selectAll(".camap").classed("active",false);
+  this.classList.add("active");
+  camap("./assets/maps/ca_statesenate.json",senateCA);
+});
+
+document.querySelector('.cafeddistrict').addEventListener('click', function(){
+  console.log("clicked on senate federal");
+  d3.selectAll(".camap").classed("active",false);
+  this.classList.add("active");
+  camap("./assets/maps/ca_statesenate.json",federalsenateCA);
 });
 
 document.querySelector('.cadistrict').addEventListener('click', function(){
   console.log("clicked on districts");
   d3.selectAll(".camap").classed("active",false);
-  // document.querySelector(".camap").classList.remove("active");
   this.classList.add("active");
-  var active_data = houseCA;
-  camap("./assets/maps/ca_house.json",active_data);
+  camap("./assets/maps/ca_house.json",houseCA);
 });
 
-document.querySelector('.prop56').addEventListener('click', function(){
-  console.log("clicked on prop56");
-  d3.selectAll(".camap").classed("active",false);
-  // document.querySelector(".camap").classList.remove("active");
-  this.classList.add("active");
-  var active_data = propsCA[56];
-  console.log(active_data.counties);
-  camap("./assets/maps/ca_county.json",active_data.counties);
+// event listeners for props
+var qsa = s => Array.prototype.slice.call(document.querySelectorAll(s));
+qsa(".camapprop").forEach(function(group,index) {
+  group.addEventListener("click", function(e) {
+    d3.selectAll(".camap").classed("active",false);
+    this.classList.add("active");
+    var active_data = propsCA[51+index];
+    camap("./assets/maps/ca_county.json",active_data.counties);
+  });
 });
-
-document.querySelector('.prop62').addEventListener('click', function(){
-  console.log("clicked on prop62");
-  d3.selectAll(".camap").classed("active",false);
-  // document.querySelector(".camap").classList.remove("active");
-  this.classList.add("active");
-  var active_data = propsCA[62];
-  console.log(active_data.counties);
-  camap("./assets/maps/ca_county.json",active_data.counties);
-});
-
-
 
 function camap(active_map,active_data) {
 
@@ -628,14 +666,15 @@ function camap(active_map,active_data) {
         var location = d.id;
         if (active_data[String(location)]) {
             var tempvar = active_data[String(location)];
-            var num_candidates = (Object.keys(tempvar).length-2)/3;
-            if (tempvar.r) {
+            if (tempvar.r || tempvar.d) {
+              var num_candidates = (Object.keys(tempvar).length-2)/3;
               var new_color = code_map_variable(tempvar,num_candidates,d.properties);
               return new_color;
             } else {
               return "#b2b2b2";
             }
         } else {
+          console.log("no color");
           return "#b2b2b2";//fill(path.area(d));
         }
       })
@@ -661,7 +700,7 @@ function camap(active_map,active_data) {
   });
 };
 
-camap("./assets/maps/ca_statesenate.json",senateCA);
+camap("./assets/maps/ca_statesenate.json",assemblyCA);
 
 // populating state section ----------------------------------------------------
 
@@ -691,7 +730,6 @@ camap("./assets/maps/ca_statesenate.json",senateCA);
 
 stateRaces.forEach(function(d){
   var name_key = d.name.toLowerCase().replace(/ /g,'').replace(".","").replace("'","");
-  console.log(name_key);
   var width = document.getElementById("racectrl").getBoundingClientRect().width;
   var pixels = (width-text_len)*(d.vote_percent/100);
   document.getElementById(String(name_key)).style.width = String(pixels)+"px";

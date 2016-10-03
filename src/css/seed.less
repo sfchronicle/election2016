@@ -16,7 +16,7 @@
 @dark-gray: #696969;
 @light-gray: #B2B2B2;
 @black: #191919;
-@dark-blue: #395272;
+@dark-blue: darken(#9C8B9E,20%);//#395272;
 @dark-red: lighten(#66101F,20%);
 @redlinks: #EC1C24;
 @white: #fff;
@@ -25,8 +25,8 @@
 @head-color: #9bb5d8;
 @rename-color: #6D6D6D;
 
-@red-map: #8A0000;//"#F04646";
-@blue-map: #004366;//"#62A9CC";
+@red-map: #BC1826;//#8A0000;//"#F04646";
+@blue-map: #265B9B;//#194E8E;//#004366;//"#62A9CC";
 @green-map: #2E655B;
 @purple-map: #69586B;
 
@@ -921,7 +921,7 @@ header {
 #map-container-state {
   padding-bottom: 35%;
   @media screen and (min-width: 769px) {
-    .flex(0 0 70%);
+    .flex(0 0 65%);
   }
   @media @tablet {
     padding-bottom: 40%;
@@ -937,7 +937,7 @@ header {
   margin: 5px auto;
   &.vertical {
     @media screen and (min-width: 769px) {
-      .flex(0 0 30%);
+      .flex(0 0 45%);
     }
     // margin-bottom: 20px;
     // float: left;
@@ -957,7 +957,19 @@ header {
     }
   }
   .camap {
-    width: 270px;
+    width: 49%;
+    font-size: 14px;
+    margin: 0;
+    padding: 2px;
+    margin: 1px auto;
+    height: 50px;
+    vertical-align: middle;
+    &.prop51{//, &.casenate, &.cadistrict, &.caassembly, &.cafeddistrict {
+      padding: 14px 2px;
+    }
+    &.casenate, &.cadistrict, &.caassembly, &.cafeddistrict {
+      height: 35px;
+    }
   }
   .race {
     color: @dark-blue;

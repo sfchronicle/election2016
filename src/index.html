@@ -123,7 +123,7 @@
         <div class="propositions-list">
           <% csv.StatePropositionsData.forEach(function(prop,idx){ %>
 
-            <div class='prop-group active <%=prop.number%>'><div class='prop-name'>Prop. <%=prop.number%>: <%=prop.title%></div>
+            <div class='prop-group active <%=prop.number%> <%=prop.title%>'><div class='prop-name'>Prop. <%=prop.number%>: <%=prop.title%></div>
               <div class='result'><div id="prop<%=prop.number%>"></div></div>
               <div class='prop-desc'><%=prop.description%></div>
 
@@ -142,13 +142,13 @@
 
       <div class="flex-container" style="min-width: 315px;">
         <div class="button-container vertical" id="ca-map-buttons">
-          <div class="button camap race casenate active">State Senate</div>
+          <div class="button camap race caassembly active">State Assembly</div>
+          <div class="button camap race casenate">State Senate</div>
           <div class="button camap race cadistrict">State Districts</div>
-          <!-- <% for (var i=51; i<68; i++)%> -->
-          <div class="button camap prop prop56">Cigarette Tax (Prop. 56)</div>
-          <div class="button camap prop prop62">Death Penalty Ban (Prop. 62)</div>
-          <div class="button camap prop prop67">Carry-out bags charge (Prop. 67)</div>
-          <div class="button camap prop prop64">Marijuana Legalization (Prop. 64)</div>
+          <div class="button camap race cafeddistrict">Senate (federal) by district</div>
+          <% csv.StatePropositionsData.forEach(function(prop,idx){ %>
+            <div class="button camap prop camapprop prop<%=prop.number%>" id="button<%=prop.number%>"><%=prop.title%> (Prop. <%=prop.number%>)</div>
+          <% }); %>
         </div>
 
         <div id="map-container-state"></div>
@@ -229,8 +229,10 @@
       var propList = <%= JSON.stringify(csv.StatePropositionsData) %>;
 
       // state map
-      var houseCA = <%= JSON.stringify(json.house_district_ca) %>;
-      var senateCA = <%= JSON.stringify(json.senate_county_ca) %>;
+      var houseCA = <%= JSON.stringify(json.emma_house_district_ca) %>;
+      var senateCA = <%= JSON.stringify(json.emma_statesenate_district_ca) %>;
+      var federalsenateCA = <%= JSON.stringify(json.emma_senate_county_ca) %>;
+      var assemblyCA = <%= JSON.stringify(json.emma_assembly_district_id) %>;
       var propsCA = <%= JSON.stringify(json.props_county_ca) %>;
 
       // SF data
