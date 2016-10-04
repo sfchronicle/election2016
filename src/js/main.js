@@ -37,13 +37,13 @@ function shadeColor2(color, percent) {
 //   }
 // }
 
-function code_county(tempvar,num,properties){
+function code_county(tempvar,properties){
   Array.prototype.max = function() {
     return Math.max.apply(null, this);
   };
   var count = 1; var sum = 0;
   var list = [];
-  while (count <= num) {
+  while (tempvar["c"+count]) {
     var element = +tempvar["c"+count];
     sum += element;
     list.push(+tempvar["c"+count]);
@@ -51,7 +51,7 @@ function code_county(tempvar,num,properties){
   }
   var winner = list.max();
   var count = 1;
-  while (count <= num) {
+  while (tempvar["c"+count]) {
     if (+tempvar["c"+count] == winner){
       if (tempvar["c"+count+"_party"] == "Dem"){
         return blue;
@@ -66,7 +66,7 @@ function code_county(tempvar,num,properties){
 }
 
 // function for coloring map
-function code_map_variable(tempvar,num,properties){
+function code_map_variable(tempvar,properties){
   if (tempvar.r) {
     if (tempvar.r["Yes"] > tempvar.r["No"]) {
       return yes_blue;
@@ -76,8 +76,8 @@ function code_map_variable(tempvar,num,properties){
       return undecided_yellow;
     }
   }
-  count = 0;
-  while (count <= num) {
+  count = 1;
+  while (tempvar["c"+count]) {
     if (tempvar["c"+count+"_name"] == tempvar.d) {
       if (tempvar["c"+count+"_party"] == "Dem") {
         return blue;
@@ -131,15 +131,14 @@ function tooltip_function(abbrev,races,properties) {
         html_str = html_str+"<div>"+tempvar.p+"/"+properties.precincts+" precincts reporting</div>";
       }
     } else {
-      var num = (Object.keys(tempvar).length-2)/3;
       var count = 1; var sum = 0;
-      while (count <= num) {
+      while (tempvar["c"+count]) {
         var element = +tempvar["c"+count];
         sum += element;
         count++;
       }
       var count = 1; var html_str = "<div class='state-name'>"+properties.name+"</div>";
-      while (count <= num) {
+      while (tempvar["c"+count]) {
         var party = tempvar["c"+count+"_party"];
         if (tempvar["c"+count+"_name"] == tempvar.d) {
           html_str = html_str + "<div><i class='fa fa-check-square-o' aria-hidden='true'></i>"+tempvar["c"+count+"_name"]+" <span class='"+party+"party'>"+tempvar["c"+count+"_party"]+"</span> "+Math.round(tempvar["c"+count]/sum*1000)/10+"%</div>";
@@ -250,8 +249,7 @@ document.querySelector('#presidentbycounty').addEventListener('click', function(
           var stateabbrev = stateCodes[parseInt(d.id)].state;
           if (presidentialData[String(stateabbrev)].d) {
             var tempvar = presidentialData[String(stateabbrev)];
-            var num_candidates = (Object.keys(tempvar).length-2)/3;
-            var new_color = code_map_variable(tempvar,num_candidates,d.properties);
+            var new_color = code_map_variable(tempvar,d.properties);
             return new_color;
           } else {
             return "#b2b2b2";//fill(path.area(d));
@@ -259,8 +257,7 @@ document.querySelector('#presidentbycounty').addEventListener('click', function(
         } else {
           if (presidentialCountyData[d.id]) {
             var tempvar = presidentialCountyData[d.id];
-            var num_candidates = (Object.keys(tempvar).length-2)/3;
-            var new_color = code_county(tempvar,num_candidates,d.properties);
+            var new_color = code_county(tempvar,d.properties);
             return new_color;
             // if (tempvar.d) {
             //   var num_candidates = (Object.keys(tempvar).length-2)/3;
@@ -403,8 +400,7 @@ document.querySelector('#congressmap').addEventListener('click', function(){
           var stateabbrev = stateCodes[parseInt(d.id)].state;
           if (governorRaces[String(stateabbrev)]) {
               var tempvar = governorRaces[String(stateabbrev)];
-              var num_candidates = (Object.keys(tempvar).length-2)/3;
-              var new_color = code_map_variable(tempvar,num_candidates,d.properties);
+              var new_color = code_map_variable(tempvar,d.properties);
               return new_color;
           } else {
             return "#b2b2b2";//fill(path.area(d));
@@ -413,8 +409,7 @@ document.querySelector('#congressmap').addEventListener('click', function(){
           var stateabbrev = stateCodes[parseInt(d.id)].state;
           if (senateRaces[String(stateabbrev)]) {
               var tempvar = senateRaces[String(stateabbrev)];
-              var num_candidates = (Object.keys(tempvar).length-2)/3;
-              var new_color = code_map_variable(tempvar,num_candidates,d.properties);
+              var new_color = code_map_variable(tempvar,d.properties);
               return new_color;
           } else {
             return "#b2b2b2";//fill(path.area(d));
@@ -423,8 +418,7 @@ document.querySelector('#congressmap').addEventListener('click', function(){
           var district = d.id;
           if (congressRaces[String(district)]) {
               var tempvar = congressRaces[String(district)];
-              var num_candidates = (Object.keys(tempvar).length-2)/3;
-              var new_color = code_map_variable(tempvar,num_candidates,d.properties);
+              var new_color = code_map_variable(tempvar,d.properties);
               return new_color;
           } else {
             return "#b2b2b2";//fill(path.area(d));
@@ -501,22 +495,21 @@ document.getElementById("donaldtrump").style.width = String(trump_percent)+"%";
 // senate race
 var raceID = document.getElementById("senate");
 var senatevar = senateRaces["CA"];
-var num = (Object.keys(senatevar).length-2)/3;
 var count = 1; var sum = 0;
-while (count <= num) {
+while (senatevar["c"+count]) {
   var element = +senatevar["c"+count];
   sum += element;
   count++;
 }
 var count = 1; var html = "";
-while (count <= num) {
+while (senatevar["c"+count]) {
   var namekey = senatevar["c"+count+"_name"].toLowerCase().replace(/ /g,'').replace(".","").replace("'","");
   html = html+"<div class='entry'><h3 class='name'>"+senatevar["c"+count+"_name"]+" <span class='"+senatevar["c"+count+"_party"]+"party'>" + senatevar["c"+count+"_party"] + "</span></h3><div class='bar' id='"+namekey+"'></div><div class='bar-label'>"+Math.round(senatevar["c"+count]/sum*100)+"%</div></div>";
   count ++;
 }
 raceID.insertAdjacentHTML("afterend",html);
 count = 1;
-while (count <= num) {
+while (senatevar["c"+count]) {
   var namekey = senatevar["c"+count+"_name"].toLowerCase().replace(/ /g,'').replace(".","").replace("'","");
   var width = document.getElementById("federal").getBoundingClientRect().width;
   var percent = Math.round(senatevar["c"+count]/sum*100);
@@ -528,22 +521,21 @@ while (count <= num) {
 // house race
 var raceID = document.getElementById("congress");
 var congressvar = congressRaces["0617"];
-var num = (Object.keys(congressvar).length-2)/3;
 var count = 1; var sum = 0;
-while (count <= num) {
+while (congressvar["c"+count]) {
   var element = +congressvar["c"+count];
   sum += element;
   count++;
 }
 var count = 1; var html = "";
-while (count <= num) {
+while (congressvar["c"+count]) {
   var namekey = congressvar["c"+count+"_name"].toLowerCase().replace(/ /g,'').replace(".","").replace("'","");
   html = html+"<div class='entry'><h3 class='name'>"+congressvar["c"+count+"_name"]+" <span class='"+congressvar["c"+count+"_party"]+"party'>" + congressvar["c"+count+"_party"] + "</span></h3><div class='bar' id='"+namekey+"'></div><div class='bar-label'>"+Math.round(congressvar["c"+count]/sum*100)+"%</div></div>";
   count ++;
 }
 raceID.insertAdjacentHTML("afterend",html);
 count = 1;
-while (count <= num) {
+while (congressvar["c"+count]) {
   var namekey = congressvar["c"+count+"_name"].toLowerCase().replace(/ /g,'').replace(".","").replace("'","");
   var width = document.getElementById("federal").getBoundingClientRect().width;
   var percent = Math.round(congressvar["c"+count]/sum*100);
@@ -667,8 +659,7 @@ function camap(active_map,active_data) {
         if (active_data[String(location)]) {
             var tempvar = active_data[String(location)];
             if (tempvar.r || tempvar.d) {
-              var num_candidates = (Object.keys(tempvar).length-2)/3;
-              var new_color = code_map_variable(tempvar,num_candidates,d.properties);
+              var new_color = code_map_variable(tempvar,d.properties);
               return new_color;
             } else {
               return "#b2b2b2";
