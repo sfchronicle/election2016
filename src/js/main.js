@@ -611,7 +611,7 @@ document.querySelector('.cafeddistrict').addEventListener('click', function(){
   console.log("clicked on senate federal");
   d3.selectAll(".camap").classed("active",false);
   this.classList.add("active");
-  camap("./assets/maps/ca_statesenate.json",federalsenateCA);
+  camap("./assets/maps/ca_county.json",federalsenateCA);
 });
 
 document.querySelector('.cadistrict').addEventListener('click', function(){

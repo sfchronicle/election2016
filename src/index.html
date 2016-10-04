@@ -188,11 +188,13 @@
           <% }); %>
         </div>
       </div>
+
     </section>
     <section id="regional">
 
       <h1>Regional</h1>
       <div class="br"></div>
+      <div id="regional-results"></div>
 
     </section>
 
@@ -243,6 +245,10 @@
       var stateCodes = <%= JSON.stringify(csv.stateCodes) %>;
       var countyCodes = <%= JSON.stringify(json.countyCodesLookup) %>;
 
+      // local data
+      var localData = <%= JSON.stringify(json.emma_localresults) %>;
+      console.log(localData);
+      console.log(localData["San Francisco"]);
 
     </script>
 
