@@ -29,6 +29,8 @@
 @blue-map: #265B9B;//#194E8E;//#004366;//"#62A9CC";
 @green-map: #2E655B;
 @purple-map: #69586B;
+@no-map: #EAE667;
+@yes-map: #705A91;
 
 @base-font: 21px;
 @line-height: 1.58;
@@ -817,12 +819,12 @@ header {
 
 .prop-icon {
   display: inline-block;
-  height: 160px;
+  height: 180px;
   // text-align: center;
   float: left;
-  padding-right: 20px;
+  padding-right: 10px;
   img {
-    height: 120px;
+    height: 140px;
   }
   .prop-name {
     height: 40px;
@@ -1123,7 +1125,7 @@ header {
   .element {
     .flex(0 0 50%);
   }
-  .rep-swath, .dem-swath, .other-swath, .tied-swath, .called-swath {
+  .rep-swath, .dem-swath, .other-swath, .tied-swath, .called-swath, .no-swath, .yes-swath  {
     height: 14px;
     width: 14px;
     margin: 4px;
@@ -1134,6 +1136,8 @@ header {
   .other-swath {background: lighten(@green-map,5%);}
   .tied-swath {background: lighten(@purple-map,5%);}
   .called-swath {border: 1px solid black;}
+  .no-swath {background: lighten(@no-map,5%);}
+  .yes-swath {background: lighten(@yes-map,5%);}
   .legend-text {
     width: 150px;
     padding-left: 20px;
