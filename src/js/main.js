@@ -427,6 +427,7 @@ document.querySelector('#congressmap').addEventListener('click', function(){
       })
       .attr("d", path)
       .on('mouseover', function(d,index) {
+        console.log(d.properties);
         if (ind == 0) {
           var stateabbrev = stateCodes[parseInt(d.id)].state;
           var html_str = tooltip_function(stateabbrev,governorRaces,d.properties);

@@ -123,7 +123,12 @@
         <div class="propositions-list">
           <% csv.StatePropositionsData.forEach(function(prop,idx){ %>
 
-            <div class='prop-group active <%=prop.number%> <%=prop.title%>'><div class='prop-name'>Prop. <%=prop.number%>: <%=prop.title%></div>
+            <div class='prop-group active <%=prop.number%> <%=prop.title%>'>
+              <div class='prop-icon'>
+                <img src='../assets/graphics/stateprops/prop<%=prop.number%>.png'></img>
+                <div class='prop-name'>Prop. <%=prop.number%></div>
+              </div>
+              <div class='prop-name'><%=prop.title%></div>
               <div class='result'><div id="prop<%=prop.number%>"></div></div>
               <div class='prop-desc'><%=prop.description%></div>
 
@@ -222,9 +227,9 @@
       var electoralVotes = <%= JSON.stringify(json.electoralcount) %>;
 
       //country data
-      var governorRaces = <%= JSON.stringify(json.governor_by_state) %>;
-      var senateRaces = <%= JSON.stringify(json.senate_by_state) %>;
-      var congressRaces = <%= JSON.stringify(json.house_by_district) %>;
+      var governorRaces = <%= JSON.stringify(json.emma_governor_state_us) %>;
+      var senateRaces = <%= JSON.stringify(json.emma_senate_state_us) %>;
+      var congressRaces = <%= JSON.stringify(json.emma_house_district_us) %>;
 
       // state data
       var stateRaces = <%= JSON.stringify(csv.stateRaces) %>;
