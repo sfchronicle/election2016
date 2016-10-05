@@ -62,8 +62,6 @@
           <div class="element"><div class="dem-swath"><div class="legend-text">Democratic winner</div></div></div>
           <div class="element"><div class="rep-swath"><div class="legend-text">Republican winner</div></div></div>
           <div class="element"><div class="other-swath"><div class="legend-text">Other winner</div></div></div>
-          <div class="element"><div class="tied-swath right"><div class="legend-text">Tied race</div></div></div>
-          <div class="element"><div class="called-swath right"><div class="legend-text">Called race</div></div></div>
         </div>
 
         <div class="divider"></div>
@@ -98,8 +96,6 @@
           <div class="element"><div class="dem-swath"><div class="legend-text">Democratic winner</div></div></div>
           <div class="element"><div class="rep-swath"><div class="legend-text">Republican winner</div></div></div>
           <div class="element"><div class="other-swath"><div class="legend-text">Other winner</div></div></div>
-          <div class="element"><div class="tied-swath right"><div class="legend-text">Tied race</div></div></div>
-          <div class="element"><div class="called-swath right"><div class="legend-text">Called race</div></div></div>
         </div>
 
       </div>
@@ -118,7 +114,7 @@
 
       <h2 class="propositions" id="propctrl"><i class="fa fa-caret-right" id="caret" aria-hidden="true"></i>  Propositions:</h2>
       <div id="propsec">
-        <input type="text" placeholder="&#xf002;  Search by proposition number" id="propositions-search" style="font-family:AntennaExtraLight, FontAwesome">
+        <input type="text" placeholder="&#xf002;  Search by proposition number or title" id="propositions-search" style="font-family:AntennaExtraLight, FontAwesome">
 
         <div class="propositions-list">
           <% csv.StatePropositionsData.forEach(function(prop,idx){ %>
@@ -189,7 +185,7 @@
           <% csv.SFPropositionsData.forEach(function(prop,idx){ %>
 
             <div class='sf-prop-group active <%=prop.number%>'><div class='prop-name'> <%=prop.letter%>: <%=prop.title%></div>
-              <div class='result'><div id="prop<%=prop.number%>"></div></div>
+              <div class='result'><div id="sfprop<%=idx%>"></div></div>
               <div class='sf-prop-desc'><%=prop.description%></div>
 
               <% if (prop.link){ %>
@@ -248,6 +244,7 @@
       var federalsenateCA = <%= JSON.stringify(json.emma_senate_county_ca) %>;
       var assemblyCA = <%= JSON.stringify(json.emma_assembly_district_id) %>;
       var propsCA = <%= JSON.stringify(json.props_county_ca) %>;
+      console.log(propsCA);
 
       // SF data
       var SFpropList = <%= JSON.stringify(csv.SFPropositionsData) %>;

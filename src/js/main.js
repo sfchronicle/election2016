@@ -1,5 +1,7 @@
 var d3 = require('d3');
 var topojson = require('topojson');
+
+// initialize colors
 var red = "#BC1826";//"#BE3434";//"#D91E36";//"#A41A1A";//"#8A0000";//"#F04646";
 var blue = "#265B9B";//"#194E8E";//"#315A8C";//"#004366";//"#62A9CC";
 var green = "#487F75";//"#2E655B";
@@ -14,6 +16,44 @@ function shadeColor2(color, percent) {
     var f=parseInt(color.slice(1),16),t=percent<0?0:255,p=percent<0?percent*-1:percent,R=f>>16,G=f>>8&0x00FF,B=f&0x0000FF;
     return "#"+(0x1000000+(Math.round((t-R)*p)+R)*0x10000+(Math.round((t-G)*p)+G)*0x100+(Math.round((t-B)*p)+B)).toString(16).slice(1);
 }
+
+// function to populate races
+function populateRace(raceID,racevar) {
+
+  var count = 1; var sum = 0;
+  while (racevar["c"+count]) {
+    var element = +racevar["c"+count];
+    sum += element;
+    count++;
+  }
+  // this is a hack for when there are no reported results yet
+  if (sum == 0) { sum = 0.1; }
+  var count = 1; var html = "";
+  while (racevar["c"+count]) {
+    var namekey = racevar["c"+count+"_name"].toLowerCase().replace(/ /g,'').replace(".","").replace("'","");
+    if (racevar["c"+count+"_party"]){
+      html = html+"<div class='entry'><h3 class='name'>"+racevar["c"+count+"_name"]+" <span class='"+racevar["c"+count+"_party"]+"party'>" + racevar["c"+count+"_party"] + "</span></h3><div class='bar' id='"+namekey+"'></div><div class='bar-label'>"+Math.round(racevar["c"+count]/sum*100)+"%</div></div>";
+    } else {
+      html = html+"<div class='entry'><h3 class='name'>"+racevar["c"+count+"_name"]+ "</span></h3><div class='bar' id='"+namekey+"'></div><div class='bar-label'>"+Math.round(racevar["c"+count]/sum*100)+"%</div></div>";
+    }
+    count ++;
+  }
+  raceID.insertAdjacentHTML("afterend",html);
+  count = 1;
+  while (racevar["c"+count]) {
+    var namekey = racevar["c"+count+"_name"].toLowerCase().replace(/ /g,'').replace(".","").replace("'","");
+    if (sum == 0.1) {
+      document.getElementById(String(namekey)).style.width = "0px";
+    } else {
+      var width = document.getElementById("federal").getBoundingClientRect().width;
+      var percent = Math.round(racevar["c"+count]/sum*100);
+      var pixels = (width-text_len)*(percent/100);
+      document.getElementById(String(namekey)).style.width = String(pixels)+"px";
+    }
+    count++;
+  }
+}
+
 
 // function for coloring map
 // function code_map(d,r,o){
@@ -76,7 +116,7 @@ function code_map_variable(tempvar,properties){
       return undecided_yellow;
     }
   }
-  count = 1;
+  var count = 1;
   while (tempvar["c"+count]) {
     if (tempvar["c"+count+"_name"] == tempvar.d) {
       if (tempvar["c"+count+"_party"] == "Dem") {
@@ -353,6 +393,7 @@ document.querySelector('#congressmap').addEventListener('click', function(){
 
 });
 
+
 // governor map --------------------------------------------------
 
 ["governormap_States","senatemap_States","congressmap_Districts"].forEach(function(svg_element,ind){
@@ -469,7 +510,9 @@ var federal_tooltip = d3.select("#map-container-federal")
 d3.select("#senatemap_States-container").classed("disappear",true);
 d3.select("#congressmap_Districts-container").classed("disappear",true);
 
-// presidential race electoral votes -------------------------------------------
+// -----------------------------------------------------------------------------
+// filling in electoral vote count
+// -----------------------------------------------------------------------------
 
 // read in electoral votes
 var clinton_electoralvotes = electoralVotes["Hillary Clinton"];
@@ -479,9 +522,6 @@ var clinton_percent = clinton_electoralvotes/538*100;
 var trump_percent = trump_electoralvotes/538*100;
 var uncounted_percent = 100-trump_percent-clinton_percent;
 
-// filling in electoral vote count
-
-// print number of electoral votes
 document.getElementById("electoralhillaryclinton").innerHTML = "("+clinton_electoralvotes+")";
 document.getElementById("electoraldonaldtrump").innerHTML = "("+trump_electoralvotes+")";
 
@@ -490,93 +530,24 @@ document.getElementById("uncounted").style.width = String(uncounted_percent)+"%"
 document.getElementById("hillaryclinton").style.width = String(clinton_percent)+"%";
 document.getElementById("donaldtrump").style.width = String(trump_percent)+"%";
 
+// -----------------------------------------------------------------------------
 // FEDERAL RACES --------------------------------------------------------
+// -----------------------------------------------------------------------------
 
 // populating federal races
 // senate race
 var raceID = document.getElementById("senate");
 var senatevar = senateRaces["CA"];
-var count = 1; var sum = 0;
-while (senatevar["c"+count]) {
-  var element = +senatevar["c"+count];
-  sum += element;
-  count++;
-}
-var count = 1; var html = "";
-while (senatevar["c"+count]) {
-  var namekey = senatevar["c"+count+"_name"].toLowerCase().replace(/ /g,'').replace(".","").replace("'","");
-  html = html+"<div class='entry'><h3 class='name'>"+senatevar["c"+count+"_name"]+" <span class='"+senatevar["c"+count+"_party"]+"party'>" + senatevar["c"+count+"_party"] + "</span></h3><div class='bar' id='"+namekey+"'></div><div class='bar-label'>"+Math.round(senatevar["c"+count]/sum*100)+"%</div></div>";
-  count ++;
-}
-raceID.insertAdjacentHTML("afterend",html);
-count = 1;
-while (senatevar["c"+count]) {
-  var namekey = senatevar["c"+count+"_name"].toLowerCase().replace(/ /g,'').replace(".","").replace("'","");
-  var width = document.getElementById("federal").getBoundingClientRect().width;
-  var percent = Math.round(senatevar["c"+count]/sum*100);
-  var pixels = (width-text_len)*(percent/100);
-  document.getElementById(String(namekey)).style.width = String(pixels)+"px";
-  count++;
-}
+populateRace(raceID,senatevar);
 
 // house race
 var raceID = document.getElementById("congress");
 var congressvar = congressRaces["0617"];
-var count = 1; var sum = 0;
-while (congressvar["c"+count]) {
-  var element = +congressvar["c"+count];
-  sum += element;
-  count++;
-}
-var count = 1; var html = "";
-while (congressvar["c"+count]) {
-  var namekey = congressvar["c"+count+"_name"].toLowerCase().replace(/ /g,'').replace(".","").replace("'","");
-  html = html+"<div class='entry'><h3 class='name'>"+congressvar["c"+count+"_name"]+" <span class='"+congressvar["c"+count+"_party"]+"party'>" + congressvar["c"+count+"_party"] + "</span></h3><div class='bar' id='"+namekey+"'></div><div class='bar-label'>"+Math.round(congressvar["c"+count]/sum*100)+"%</div></div>";
-  count ++;
-}
-raceID.insertAdjacentHTML("afterend",html);
-count = 1;
-while (congressvar["c"+count]) {
-  var namekey = congressvar["c"+count+"_name"].toLowerCase().replace(/ /g,'').replace(".","").replace("'","");
-  var width = document.getElementById("federal").getBoundingClientRect().width;
-  var percent = Math.round(congressvar["c"+count]/sum*100);
-  var pixels = (width-text_len)*(percent/100);
-  document.getElementById(String(namekey)).style.width = String(pixels)+"px";
-  count++;
-}
+populateRace(raceID,congressvar);
 
-// ["senate","congress"].forEach(function(d,idx){
-//   var html = "";
-//   var raceID = document.getElementById(d);
-//   var results = federalRaces.filter(function(r){
-//     return r.race == d;
-//   });
-//   console.log(senateRaces["CA"]);
-//
-//   results.sort(function(a,b){return b.vote_percent-a.vote_percent;});
-//
-//   for (var ii=0; ii<results.length; ii++) {
-//     if (results[ii].win == "yes") {
-//       var name_key = results[ii].name.toLowerCase().replace(/ /g,'').replace(".","").replace("'","");
-//       html = html+"<div class='entry'><h3 class='name'><i class='fa fa-check-square-o' aria-hidden='true'></i>"+results[ii].name+" <span class='"+results[ii].party+"party'>" + results[ii].party + "</span></h3><div class='bar' id='"+name_key+"'></div><div class='bar-label'>"+results[ii].vote_percent+"%</div></div>";
-//     } else {
-//       var name_key = results[ii].name.toLowerCase().replace(/ /g,'').replace(".","").replace("'","");
-//       html = html+"<div class='entry'><h3 class='name'>"+results[ii].name+" <span class='"+results[ii].party+"party'>" + results[ii].party + "</span></h3><div class='bar' id='"+name_key+"'></div><div class='bar-label'>"+results[ii].vote_percent+"%</div></div>";
-//     }
-//   }
-//
-//   raceID.insertAdjacentHTML("afterend",html)
-//   results = [];
-// });
-//
-// federalRaces.forEach(function(d){
-//   var name_key = d.name.toLowerCase().replace(/ /g,'').replace(".","").replace("'","");
-//   var width = document.getElementById("federal").getBoundingClientRect().width;
-//   var pixels = (width-text_len)*(d.vote_percent/100);
-//   document.getElementById(String(name_key)).style.width = String(pixels)+"px";
-// });
-
+// -----------------------------------------------------------------------------
 // STATE MAP ------------------------------------------------------------
+// -----------------------------------------------------------------------------
 
 var CAmap_bycounty = "./assets/maps/ca_county.json";
 var CAmap_assembly = "./assets/maps/ca_assembly.json";
@@ -587,28 +558,24 @@ var path = d3.geo.path()
     .projection(null);
 
 document.querySelector('.caassembly').addEventListener('click', function(){
-  console.log("clicked on assembly");
   d3.selectAll(".camap").classed("active",false);
   this.classList.add("active");
   camap("./assets/maps/ca_statesenate.json",assemblyCA);
 });
 
 document.querySelector('.casenate').addEventListener('click', function(){
-  console.log("clicked on senate");
   d3.selectAll(".camap").classed("active",false);
   this.classList.add("active");
   camap("./assets/maps/ca_statesenate.json",senateCA);
 });
 
 document.querySelector('.cafeddistrict').addEventListener('click', function(){
-  console.log("clicked on senate federal");
   d3.selectAll(".camap").classed("active",false);
   this.classList.add("active");
   camap("./assets/maps/ca_county.json",federalsenateCA);
 });
 
 document.querySelector('.cadistrict').addEventListener('click', function(){
-  console.log("clicked on districts");
   d3.selectAll(".camap").classed("active",false);
   this.classList.add("active");
   camap("./assets/maps/ca_house.json",houseCA);
@@ -694,54 +661,47 @@ function camap(active_map,active_data) {
 
 camap("./assets/maps/ca_statesenate.json",assemblyCA);
 
+// -----------------------------------------------------------------------------
 // populating state section ----------------------------------------------------
+// -----------------------------------------------------------------------------
 
-// populating state races
-["statesenate","statedistrict9","stateassembly"].forEach(function(d,idx){
-  var html = "";
-  var raceID = document.getElementById(d);
-  var results = stateRaces.filter(function(r){
-    return r.race == d;
-  });
+// Wiener vs Kim race
+var raceID = document.getElementById("statesenate");
+var statesenatevar = senateCA["06011"];
+populateRace(raceID,statesenatevar);
 
-  results.sort(function(a,b){return b.vote_percent-a.vote_percent;});
+// Skinner vs Swanson race
+var raceID = document.getElementById("statedistrict9");
+var statesenatevar = senateCA["06009"];
+populateRace(raceID,statesenatevar);
 
-  for (var ii=0; ii<results.length; ii++) {
-    if (results[ii].win == "yes") {
-      var name_key = results[ii].name.toLowerCase().replace(/ /g,'').replace(".","").replace("'","");
-      html = html+"<div class='entry'><h3 class='name'><i class='fa fa-check-square-o' aria-hidden='true'></i>"+results[ii].name+" <span class='"+results[ii].party+"party'>" + results[ii].party + "</span></h3><div class='bar' id='"+name_key+"'></div><div class='bar-label'>"+results[ii].vote_percent+"%</div></div>";
-    } else {
-      var name_key = results[ii].name.toLowerCase().replace(/ /g,'').replace(".","").replace("'","");
-      html = html+"<div class='entry'><h3 class='name'>"+results[ii].name+" <span class='"+results[ii].party+"party'>" + results[ii].party + "</span></h3><div class='bar' id='"+name_key+"'></div><div class='bar-label'>"+results[ii].vote_percent+"%</div></div>";
-    }
+// Cook-Kallio vs Baker race
+var raceID = document.getElementById("stateassembly");
+var assemblyvar = assemblyCA["06016"];
+populateRace(raceID,assemblyvar);
+
+// -----------------------------------------------------------------------------
+// filling in state propositions results ---------------------------------------
+// -----------------------------------------------------------------------------
+
+for (var propidx=51; propidx<68; propidx++) {
+  var propID = document.getElementById("prop"+propidx);
+  var propResult = propsCA[propidx]["state"];
+  var total = propResult.r["Yes"]+propResult.r["No"]
+  if (propResult.d == "Yes") {
+    var htmlresult = "<span class='propyes'><i class='fa fa-check-square-o' aria-hidden='true'></i>Yes: "+Math.round(propResult.r["Yes"]/total*1000)/10+"% / </span>"+"<span class='propno'>No: "+Math.round(propResult.r["No"]/total*1000)/10+"%</span>"
+  } else if (propResult.d == "Nes") {
+    var htmlresult = "<span class='propyes'>Yes: "+Math.round(propResult.r["Yes"]/total*1000)/10+"% / </span>"+"<span class='propno'><i class='fa fa-check-square-o' aria-hidden='true'>No: "+Math.round(propResult.r["No"]/total*1000)/10+"%</i></span>"
+  } else {
+    var htmlresult = "<span class='propyes'>Yes: "+Math.round(propResult.r["Yes"]/total*1000)/10+"% / </span>"+"<span class='propno'>No: "+Math.round(propResult.r["No"]/total*1000)/10+"%</span>"
   }
+  propID.insertAdjacentHTML("beforebegin",htmlresult)
+}
 
-  raceID.insertAdjacentHTML("afterend",html)
-  results = [];
-});
+// -----------------------------------------------------------------------------
+// state propositions search bar -----------------------------------------------
+// -----------------------------------------------------------------------------
 
-stateRaces.forEach(function(d){
-  var name_key = d.name.toLowerCase().replace(/ /g,'').replace(".","").replace("'","");
-  var width = document.getElementById("racectrl").getBoundingClientRect().width;
-  var pixels = (width-text_len)*(d.vote_percent/100);
-  document.getElementById(String(name_key)).style.width = String(pixels)+"px";
-});
-
-// populating state propositions list
-// var propID = document.getElementById("propositions-list");
-// propList.forEach(function(prop){
-//   var html = "<div class='prop-group active "+prop.number+"'><div class='prop-name'>Proposition "+prop.number+"</div>"+"<div class='prop-desc'>"+prop.title+"</div><div class='prop-link'><a target='_blank' href='"+prop.link+"'><i class='fa fa-external-link' aria-hidden='true'></i>  Read more</a></div>"
-//   if (prop.result == "yes") {
-//     var htmlresult = "<div class='propyes'>Yes: "+String(prop.yes)+"%<i class='fa fa-check-square-o' aria-hidden='true'></i></div>"+"<div class='propno'>No: "+String(prop.no)+"%</div></div>"
-//   } else if (prop.result == "no") {
-//     var htmlresult = "<div class='propyes'>Yes: "+String(prop.yes)+"%</div>"+"<div class='propno'>No: "+String(prop.no)+"%<i class='fa fa-check-square-o' aria-hidden='true'></i></div></div>"
-//   } else {
-//     var htmlresult = "<div class='propyes'>Yes: "+String(prop.yes)+"%</div>"+"<div class='propno'>No: "+String(prop.no)+"%</div></div>"
-//   }
-//   propID.insertAdjacentHTML("beforebegin",html+htmlresult)
-// });
-
-// state propositions search bar
 var input = document.querySelector('#propositions-search');
 input.addEventListener('input', function(){
 
@@ -769,22 +729,11 @@ input.addEventListener('input', function(){
   });
 });
 
+// -----------------------------------------------------------------------------
 // populating SF section -------------------------------------------------------
+// -----------------------------------------------------------------------------
 
-// // populating SF propositions list
-// var SFpropID = document.getElementById("sf-propositions-list");
-// SFpropList.forEach(function(prop){
-//   if (prop.result == "yes") {
-//     var html = "<div class='sf-prop-group active "+prop.letter+"'><div class='sf-prop-name'>"+prop.letter+": "+prop.title+"</div>"+"<div class='sfresult'><i class='fa fa-check-square-o' aria-hidden='true'></i>"+"Yes: "+prop.yes+"% / No: "+prop.no+"%"+"</div>"+"<div class='sf-prop-desc'>"+prop.description+"</div><div class='sf-prop-link'><a target='_blank' href='"+prop.link+"'><i class='fa fa-external-link' aria-hidden='true'></i>  Read more</a></div>"
-//   } else if (prop.result == "no") {
-//     var html = "<div class='sf-prop-group active "+prop.letter+"'><div class='sf-prop-name'>"+prop.letter+": "+prop.title+"</div>"+"<div class='sfresult'>"+"Yes: "+prop.yes+"% /<i class='fa fa-times' aria-hidden='true'></i> No: "+prop.no+"%"+"</div>"+"<div class='sf-prop-desc'>"+prop.description+"</div><div class='sf-prop-link'><a target='_blank' href='"+prop.link+"'><i class='fa fa-external-link' aria-hidden='true'></i>  Read more</a></div>"
-//   } else {
-//     var html = "<div class='sf-prop-group active "+prop.letter+"'><div class='sf-prop-name'>"+prop.letter+": "+prop.title+"</div>"+"<div class='sfresult'>"+"Yes: "+prop.yes+"% / No: "+prop.no+"%</div>"+"<div class='sf-prop-desc'>"+prop.description+"</div><div class='sf-prop-link'><a target='_blank' href='"+prop.link+"'><i class='fa fa-external-link' aria-hidden='true'></i>  Read more</a></div>"
-//   }
-//   SFpropID.insertAdjacentHTML("beforebegin",html)
-// });
-
-// state propositions search bar
+// sf propositions search bar
 var sfinput = document.querySelector('#sf-propositions-search');
 sfinput.addEventListener('input', function(){
   var class_match = 0;
@@ -809,37 +758,49 @@ sfinput.addEventListener('input', function(){
   });
 });
 
+// -----------------------------------------------------------------------------
+// filling in sf propositions results ---------------------------------------
+// -----------------------------------------------------------------------------
+
+for (var propidx=0; propidx<24; propidx++) {
+  var propID = document.getElementById("sfprop"+propidx);
+  console.log(propID);
+  var propResult = localData["San Francisco"]["Measures"][propidx];
+  console.log(propResult);
+  if (propResult.r){
+    console.log("into the loop we go");
+    var total = propResult.r["Yes"]+propResult.r["No"]
+    if (propResult.d == "Yes") {
+      var htmlresult = "<span class='propyes'><i class='fa fa-check-square-o' aria-hidden='true'></i>Yes: "+Math.round(propResult.r["Yes"]/total*1000)/10+"% / </span>"+"<span class='propno'>No: "+Math.round(propResult.r["No"]/total*1000)/10+"%</span>"
+    } else if (propResult.d == "Nes") {
+      var htmlresult = "<span class='propyes'>Yes: "+Math.round(propResult.r["Yes"]/total*1000)/10+"% / </span>"+"<span class='propno'><i class='fa fa-check-square-o' aria-hidden='true'>No: "+Math.round(propResult.r["No"]/total*1000)/10+"%</i></span>"
+    } else {
+      var htmlresult = "<span class='propyes'>Yes: "+Math.round(propResult.r["Yes"]/total*1000)/10+"% / </span>"+"<span class='propno'>No: "+Math.round(propResult.r["No"]/total*1000)/10+"%</span>"
+    }
+  } else {
+      var htmlresult = "<span class='propyes'>Yes: 0% / </span><span class='propno'>No: 0%</span>"
+  }
+  console.log(htmlresult);
+  propID.insertAdjacentHTML("beforebegin",htmlresult)
+}
+
+// -----------------------------------------------------------------------------
 // populating SF supes
+// -----------------------------------------------------------------------------
+
 [1,3,5,7,9,11].forEach(function(d,idx){
   var html = "";
   var sort = [];
   var supeID = document.getElementById("district"+d);
-  var results = SFsupesList.filter(function(supe){
-    return supe.district == d;
-  });
-  results.sort(function(a,b){return b.vote_percent-a.vote_percent;});
-
-  for (var ii=0; ii<results.length; ii++) {
-    if (results[ii].win == "yes") {
-      var name_key = results[ii].name.toLowerCase().replace(/ /g,'').replace(".","").replace("'","");
-      html = html+"<div class='entry'><h3 class='name'><i class='fa fa-check-square-o' aria-hidden='true'></i>"+results[ii].name+"</h3><div class='bar' id='"+name_key+"'></div><div class='bar-label'>"+results[ii].vote_percent+"%</div></div>";
-    } else {
-      var name_key = results[ii].name.toLowerCase().replace(/ /g,'').replace(".","").replace("'","");
-      html = html+"<div class='entry'><h3 class='name'>"+results[ii].name+"</h3><div class='bar' id='"+name_key+"'></div><div class='bar-label'>"+results[ii].vote_percent+"%</div></div>";
-    }
-  }
-  supeID.insertAdjacentHTML("afterend",html)
-  results = [];
+  console.log(supeID);
+  var racevar = localData["San Francisco"]["County"][idx];
+  console.log(racevar);
+  populateRace(supeID,racevar);
 });
 
-SFsupesList.forEach(function(d){
-  var name_key = d.name.toLowerCase().replace(/ /g,'').replace(".","").replace("'","");
-  var width = document.getElementById("sctrl").getBoundingClientRect().width;
-  var pixels = (width-text_len)*(d.vote_percent/100);
-  document.getElementById(String(name_key)).style.width = String(pixels)+"px";
-});
-
+// -----------------------------------------------------------------------------
 // controls for collapsing and expanding sections ------------------------------
+// -----------------------------------------------------------------------------
 
 var propctrl = document.getElementById('propctrl');
 var propsec = document.getElementById('propsec');
@@ -906,7 +867,9 @@ sctrl.addEventListener("click",function(){
   }
 })
 
+// -----------------------------------------------------------------------------
 // doing stuff
+// -----------------------------------------------------------------------------
 
 window.onscroll = function() {activate()};
 
