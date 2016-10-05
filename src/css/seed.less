@@ -27,6 +27,7 @@
 
 @red-map: #BC1826;//#8A0000;//"#F04646";
 @blue-map: #265B9B;//#194E8E;//#004366;//"#62A9CC";
+@light-blue-map: #598ECE;
 @green-map: #2E655B;
 @purple-map: #69586B;
 @no-map: #EAE667;
@@ -1134,7 +1135,7 @@ header {
   .element {
     .flex(0 0 50%);
   }
-  .rep-swath, .dem-swath, .other-swath, .tied-swath, .called-swath, .no-swath, .yes-swath  {
+  .rep-swath, .dem-swath, .dem2-swath, .other-swath, .tied-swath, .called-swath, .no-swath, .yes-swath  {
     height: 14px;
     width: 14px;
     margin: 4px;
@@ -1142,6 +1143,7 @@ header {
   }
   .rep-swath {background: lighten(@red-map,5%);}
   .dem-swath {background: lighten(@blue-map,5%);}
+  .dem2-swath {background: lighten(@light-blue-map,5%);}
   .other-swath {background: lighten(@green-map,5%);}
   .tied-swath {background: lighten(@purple-map,5%);}
   .called-swath {border: 1px solid black;}

@@ -4,6 +4,7 @@ var topojson = require('topojson');
 // initialize colors
 var red = "#BC1826";//"#BE3434";//"#D91E36";//"#A41A1A";//"#8A0000";//"#F04646";
 var blue = "#265B9B";//"#194E8E";//"#315A8C";//"#004366";//"#62A9CC";
+var light_blue = "#598ECE";
 var green = "#487F75";//"#2E655B";
 var purple = "#69586B";
 var yellow = "#FFCC32";//"#6790B7";//"#EB8F6A";//"#FFFF65";//"#FFCC32";
@@ -94,7 +95,11 @@ function code_county(tempvar,properties){
   while (tempvar["c"+count]) {
     if (+tempvar["c"+count] == winner){
       if (tempvar["c"+count+"_party"] == "Dem"){
-        return blue;
+        if (tempvar["c"+count+"_name"] == "Loretta Sanchez") {
+          return light_blue;
+        } else {
+          return blue;
+        }
       } else if (tempvar["c"+count+"_party"] == "GOP") {
         return red;
       } else {
@@ -560,25 +565,25 @@ var path = d3.geo.path()
 document.querySelector('.caassembly').addEventListener('click', function(){
   d3.selectAll(".camap").classed("active",false);
   this.classList.add("active");
-  camap("./assets/maps/ca_statesenate.json",assemblyCA);
+  camap("./assets/maps/ca_statesenate.json",assemblyCA,0);
 });
 
 document.querySelector('.casenate').addEventListener('click', function(){
   d3.selectAll(".camap").classed("active",false);
   this.classList.add("active");
-  camap("./assets/maps/ca_statesenate.json",senateCA);
+  camap("./assets/maps/ca_statesenate.json",senateCA,0);
 });
 
 document.querySelector('.cafeddistrict').addEventListener('click', function(){
   d3.selectAll(".camap").classed("active",false);
   this.classList.add("active");
-  camap("./assets/maps/ca_county.json",federalsenateCA);
+  camap("./assets/maps/ca_county.json",federalsenateCA,1);
 });
 
 document.querySelector('.cadistrict').addEventListener('click', function(){
   d3.selectAll(".camap").classed("active",false);
   this.classList.add("active");
-  camap("./assets/maps/ca_house.json",houseCA);
+  camap("./assets/maps/ca_house.json",houseCA,0);
 });
 
 // event listeners for props
@@ -592,7 +597,7 @@ qsa(".camapprop").forEach(function(group,index) {
   });
 });
 
-function camap(active_map,active_data) {
+function camap(active_map,active_data,flag) {
 
   d3.select("#map-container-state").select("svg").remove();
   d3.select("#map-container-state").select(".svg-container").remove();
@@ -629,6 +634,9 @@ function camap(active_map,active_data) {
             if (tempvar.r || tempvar.d) {
               var new_color = code_map_variable(tempvar,d.properties);
               return new_color;
+            } else if (flag == 1) {
+              var new_color = code_county(tempvar,d.properties);
+              return new_color;
             } else {
               return "#b2b2b2";
             }
@@ -659,7 +667,7 @@ function camap(active_map,active_data) {
   });
 };
 
-camap("./assets/maps/ca_statesenate.json",assemblyCA);
+camap("./assets/maps/ca_statesenate.json",assemblyCA,0);
 
 // -----------------------------------------------------------------------------
 // populating state section ----------------------------------------------------
@@ -764,11 +772,8 @@ sfinput.addEventListener('input', function(){
 
 for (var propidx=0; propidx<24; propidx++) {
   var propID = document.getElementById("sfprop"+propidx);
-  console.log(propID);
   var propResult = localData["San Francisco"]["Measures"][propidx];
-  console.log(propResult);
   if (propResult.r){
-    console.log("into the loop we go");
     var total = propResult.r["Yes"]+propResult.r["No"]
     if (propResult.d == "Yes") {
       var htmlresult = "<span class='propyes'><i class='fa fa-check-square-o' aria-hidden='true'></i>Yes: "+Math.round(propResult.r["Yes"]/total*1000)/10+"% / </span>"+"<span class='propno'>No: "+Math.round(propResult.r["No"]/total*1000)/10+"%</span>"
@@ -780,7 +785,6 @@ for (var propidx=0; propidx<24; propidx++) {
   } else {
       var htmlresult = "<span class='propyes'>Yes: 0% / </span><span class='propno'>No: 0%</span>"
   }
-  console.log(htmlresult);
   propID.insertAdjacentHTML("beforebegin",htmlresult)
 }
 
@@ -792,9 +796,7 @@ for (var propidx=0; propidx<24; propidx++) {
   var html = "";
   var sort = [];
   var supeID = document.getElementById("district"+d);
-  console.log(supeID);
   var racevar = localData["San Francisco"]["County"][idx];
-  console.log(racevar);
   populateRace(supeID,racevar);
 });
 
