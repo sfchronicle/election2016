@@ -198,7 +198,6 @@ function tooltip_function(abbrev,races,properties) {
       html_str = html_str+"<div>"+tempvar.p+"/"+properties.precincts+" precincts reporting</div>";
     }
   } else {
-    console.log(properties);
     var html_str = "<div class='state-name'>"+properties.name+"</div><div>No race.</div>";
   }
   return html_str;
@@ -473,7 +472,6 @@ document.querySelector('#congressmap').addEventListener('click', function(){
       })
       .attr("d", path)
       .on('mouseover', function(d,index) {
-        console.log(d.properties);
         if (ind == 0) {
           var stateabbrev = stateCodes[parseInt(d.id)].state;
           var html_str = tooltip_function(stateabbrev,governorRaces,d.properties);
@@ -641,7 +639,6 @@ function camap(active_map,active_data,flag) {
               return "#b2b2b2";
             }
         } else {
-          console.log("no color");
           return "#b2b2b2";//fill(path.area(d));
         }
       })
@@ -792,11 +789,13 @@ for (var propidx=0; propidx<24; propidx++) {
 // populating SF supes
 // -----------------------------------------------------------------------------
 
-[1,3,5,7,9,11].forEach(function(d,idx){
-  var html = "";
-  var sort = [];
-  var supeID = document.getElementById("district"+d);
-  var racevar = localData["San Francisco"]["County"][idx];
+var sectionID = document.getElementById("sf-section");
+localData["San Francisco"]["County"].forEach(function(d,idx) {
+  var name = d.name;
+  var districtNum = name.substr(name.indexOf("District ") + 9);
+  sectionID.insertAdjacentHTML("afterend","<h4 class='race sup' id='district"+districtNum+"'>"+d.name+"</h4>")
+  var supeID = document.getElementById("district"+districtNum);
+  var racevar = d;
   populateRace(supeID,racevar);
 });
 
