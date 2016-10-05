@@ -800,6 +800,41 @@ localData["San Francisco"]["County"].forEach(function(d,idx) {
 });
 
 // -----------------------------------------------------------------------------
+// populating regional results
+// -----------------------------------------------------------------------------
+
+var sectionID = document.getElementById("regional-results");
+var localKeys = Object.keys(localData);
+localKeys.forEach(function(d,idx){
+  var regionkey = d.toLowerCase().replace(/ /g,'').replace(".","").replace("'","");
+  sectionID.insertAdjacentHTML("beforeend","<h2 class='regionalhed' id='region"+regionkey+"'>"+d+"</h2>");
+  var regionID = document.getElementById("region"+regionkey);
+  var results_types = Object.keys(localData[d]);
+  results_types.forEach(function(d2,idx2) {
+    var racekey = d2.toLowerCase().replace(/ /g,'').replace(".","").replace("'","");
+    regionID.insertAdjacentHTML("beforeend","<h5 class='regionalhed' id='race"+regionkey+racekey+"'>"+d2+"</h5>");
+    var raceID = document.getElementById("race"+regionkey+racekey);
+    localData[d][d2].forEach(function(d3,idx3){
+      console.log(d3);
+      var key = d3.name.toLowerCase().replace(/ /g,'').replace(".","").replace("'","");
+      regionID.insertAdjacentHTML("beforeend","<h4 class='race sup' id='key"+regionkey+racekey+key+"'>"+d3.name+"</h4>")
+      var finalID = document.getElementById("key"+regionkey+racekey+key);
+      populateRace(finalID,d3);
+    });
+  });
+});
+
+var sectionID = document.getElementById("sf-section");
+localData["San Francisco"]["County"].forEach(function(d,idx) {
+  var name = d.name;
+  var districtNum = name.substr(name.indexOf("District ") + 9);
+  sectionID.insertAdjacentHTML("afterend","<h4 class='race sup' id='district"+districtNum+"'>"+d.name+"</h4>")
+  var supeID = document.getElementById("district"+districtNum);
+  var racevar = d;
+  populateRace(supeID,racevar);
+});
+
+// -----------------------------------------------------------------------------
 // controls for collapsing and expanding sections ------------------------------
 // -----------------------------------------------------------------------------
 
