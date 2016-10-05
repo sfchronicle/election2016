@@ -18,6 +18,20 @@ function shadeColor2(color, percent) {
     return "#"+(0x1000000+(Math.round((t-R)*p)+R)*0x10000+(Math.round((t-G)*p)+G)*0x100+(Math.round((t-B)*p)+B)).toString(16).slice(1);
 }
 
+// function to populate measure data
+function populateMeasure(measureID,measurevar) {
+  console.log(measurevar);
+  var total = +measurevar["Yes"] + +measurevar["No"];
+  if (total == 0) { total = 0.1;}
+  var html_str ="<div class='measure-group'><div class='result'>Yes: "+Math.round(+measurevar["Yes"]/total*1000)/10+"% / No: "+Math.round(+measurevar["No"]/total*1000)/10+"%</div>";
+  html_str = html_str+"<div>"+measurevar.p+"/"+measurevar.pt+" precincts reporting</div>";
+  if (measurevar.a && measurevar.a != "50% + 1") {
+    html_str = html_str + "<div class='votes-req'>Vote requirement: "+measurevar.a+"</div>"
+  }
+  html_str = html_str + "</div>"
+  measureID.insertAdjacentHTML("afterend",html_str);
+}
+
 // function to populate races
 function populateRace(raceID,racevar) {
 
@@ -818,7 +832,12 @@ localKeys.forEach(function(d,idx){
       var key = d3.name.toLowerCase().replace(/ /g,'').replace(".","").replace("'","");
       raceID.insertAdjacentHTML("afterend","<h4 class='race sup' id='key"+regionkey+racekey+key+"'>"+d3.name+"</h4>")
       var finalID = document.getElementById("key"+regionkey+racekey+key);
-      populateRace(finalID,d3);
+      // need to do a different thing for measures here
+      if (racekey == "measures") {
+        populateMeasure(finalID,d3);
+      } else {
+        populateRace(finalID,d3);
+      }
     });
   });
 });
