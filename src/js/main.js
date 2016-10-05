@@ -20,7 +20,6 @@ function shadeColor2(color, percent) {
 
 // function to populate measure data
 function populateMeasure(measureID,measurevar) {
-  console.log(measurevar);
   var total = +measurevar["Yes"] + +measurevar["No"];
   if (total == 0) { total = 0.1;}
   var html_str ="<div class='measure-group'><div class='result'>Yes: "+Math.round(+measurevar["Yes"]/total*1000)/10+"% / No: "+Math.round(+measurevar["No"]/total*1000)/10+"%</div>";
