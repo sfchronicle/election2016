@@ -40,6 +40,13 @@
 
         <h4 class="race president">President</h4>
 
+        <div class="icon left">
+          <img src="./assets/graphics/clinton.png">
+        </div>
+        <div class="icon right">
+          <img src="./assets/graphics/trump.png">
+        </div>
+
         <h3 class="president-name left">Hillary Clinton <span id="electoralhillaryclinton">(100)</span></h3>
         <h3 class="president-name right">Donald Trump <span id="electoraldonaldtrump">(10)</span></h3>
         <div class="president-bar">
@@ -180,7 +187,11 @@
         <div class="sf-propositions-list">
           <% csv.SFPropositionsData.forEach(function(prop,idx){ %>
 
-            <div class='sf-prop-group active <%=prop.number%>'><div class='prop-name'> <%=prop.letter%>: <%=prop.title%></div>
+            <div class='sf-prop-group active <%=prop.letter%> <%=prop.title%>'>
+              <div class='sf-prop-icon'>
+                <img src='./assets/graphics/sfprops/prop<%=prop.letter%>.png'></img>
+              </div>
+              <div class='prop-name'><%=prop.title%></div>
               <div class='result'><div id="sfprop<%=idx%>"></div></div>
               <div class='sf-prop-desc'><%=prop.description%></div>
 
@@ -198,6 +209,13 @@
 
       <h1>Regional</h1>
       <div class="br"></div>
+
+      <div class="button-container section-container">
+        <% csv.sections.forEach(function(section,idx){ %>
+          <div class="button sectionbutton <%=section.shortname %>"><%=section.name%></div>
+        <% }); %>
+      </div>
+
       <div id="regional-results"></div>
 
     </section>
@@ -240,7 +258,6 @@
       var federalsenateCA = <%= JSON.stringify(json.emma_senate_county_ca) %>;
       var assemblyCA = <%= JSON.stringify(json.emma_assembly_district_id) %>;
       var propsCA = <%= JSON.stringify(json.props_county_ca) %>;
-      console.log(propsCA);
 
       // SF data
       var SFpropList = <%= JSON.stringify(csv.SFPropositionsData) %>;
@@ -252,8 +269,9 @@
 
       // local data
       var localData = <%= JSON.stringify(json.emma_localresults) %>;
+      var sectionList = <%= JSON.stringify(csv.sections) %>;
       console.log(localData);
-      console.log(localData["San Francisco"]);
+      console.log(sectionList);
 
     </script>
 

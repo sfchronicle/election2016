@@ -83,6 +83,16 @@ h2 {
   border-bottom: 5px @light-gray solid;
   padding-top: 40px;
   margin-bottom: 30px;
+  &.regionalhed {
+    padding: 0;
+    border: 0;
+  }
+}
+
+.section-div {
+  padding-top: 5px;
+  padding-bottom: 20px;
+  padding-left: 20px;
 }
 
 h3 {
@@ -109,6 +119,14 @@ h5 {
   padding: 10px 0;
   padding-left: 10px;
   font-family: @banner;
+  margin: 5px 0;
+  cursor: pointer;
+  .fa {
+    font-size: 20px;
+    padding-right: 10px;
+  }
+  margin-top: 10px !important;
+  margin-bottom: 0 !important;
 }
 
 .max{
@@ -699,8 +717,10 @@ header {
 }
 
 .icon {
-  width: 70px;
-  padding-top: 60px;
+  height: 80px;
+  img {
+    height: 80px;
+  }
   &.right {
     float: right;
   }
@@ -750,6 +770,8 @@ header {
 }
 
 .president-name {
+  margin-top: 20px;
+  padding: 10px;
   height: 28px;
   &.right {
     float: right;
@@ -760,7 +782,7 @@ header {
 }
 .president-bar {
   width: 100%;
-  margin-top: 40px;
+  margin-top: 30px;
   overflow: auto;
 }
 
@@ -803,7 +825,7 @@ header {
   font-family: @block-graphics;
   .display-flex;
   .flex-wrap(wrap);
-  .prop-group, .sf-prop-group {
+  .prop-group {
     margin: 0.5%;
     padding: 10px;
     background: lighten(@light-gray,10%);
@@ -816,6 +838,22 @@ header {
       @media @mobile {
         margin: 5px auto;
         .flex(0 0 98%);
+      }
+    }
+  }
+  .sf-prop-group {
+    margin: 0.5%;
+    padding: 10px;
+    background: lighten(@light-gray,10%);
+    border-radius: 5px;
+    display: none;
+    &.active {
+      display:block;
+      // width: 100%;
+      .flex(0 0 32%);
+      @media @mobile {
+        margin: 5px auto;
+        .flex(0 0 49%);
       }
     }
   }
@@ -839,6 +877,18 @@ header {
     width: 140px;
     text-align: center;
   }
+}
+.sf-prop-icon {
+  display: inline-block;
+  height: 120px;
+  text-align: center;
+  float: center;
+  img {
+    height: 100px;
+  }
+}
+.sf-prop-group {
+  text-align: center;
 }
 
 .prop-desc, .sf-prop-desc {
@@ -982,6 +1032,11 @@ header {
   }
 }
 
+// .section-container {
+//   background: @light-blue-map;
+//   color: white;
+// }
+
 .button-container {
   text-align: center;
   margin: 5px auto;
@@ -1004,6 +1059,13 @@ header {
     @media @mobile {
       font-size: 14px;
       width: 100px;
+    }
+  }
+  .sectionbutton {
+    background: @blue-map;
+    color: white;
+    &:hover {
+      background: @light-blue-map;
     }
   }
   .camap {
@@ -1073,7 +1135,7 @@ header {
   height: 20px;
 }
 
-.Demparty, .GOPparty, .Grnparty, .Indparty, .NPAparty, .Libparty {
+.Demparty, .GOPparty, .party {
   color: white;
   font-size: 12px;
   padding: 2px 3px;
@@ -1081,17 +1143,9 @@ header {
   font-family: AntennaRegular;
   vertical-align: middle;
 }
-
-.Demparty {
-  background-color: lighten(@blue-map,10%);//rgb(98, 169, 204);
-}
-
-.GOPparty {
-  background-color: lighten(@red-map,10%);//rgb(240, 70, 70);
-}
-.Grnparty, .Indparty, .NPAparty, .Libparty {
-  background-color: lighten(@green-map,10%);
-}
+.party {background-color: lighten(@green-map,10%);}
+.Demparty {background-color: lighten(@blue-map,10%) !important;}
+.GOPparty {background-color: lighten(@red-map,10%) !important;}//rgb(240, 70, 70);}
 
 .svg-container {
     display: inline-block;

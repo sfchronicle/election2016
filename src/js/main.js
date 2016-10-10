@@ -68,29 +68,6 @@ function populateRace(raceID,racevar) {
   }
 }
 
-
-// function for coloring map
-// function code_map(d,r,o){
-//   if (o){
-//     var total = +d + +r + +o;
-//     var winner = Math.max(d,r,o);
-//   } else {
-//     var total = +d + +r;
-//     var winner = Math.max(d,r);
-//   }
-//   if (winner == d && winner == r){
-//     console.log("WE HAVE A TIE");
-//     return "purple"
-//   } else if (winner == d){
-//     return shadeColor2(blue,1-d/total);
-//   } else if (winner == r) {
-//     return shadeColor2(red,1-r/total);
-//   } else {
-//     console.log("THIRD PARTY CANDIDATE WINNER");
-//     return "green";
-//   }
-// }
-
 function code_county(tempvar,properties){
   Array.prototype.max = function() {
     return Math.max.apply(null, this);
@@ -147,31 +124,6 @@ function code_map_variable(tempvar,properties){
     }
     count++;
   }
-  // Array.prototype.max = function() {
-  //   return Math.max.apply(null, this);
-  // };
-  // var count = 1; var sum = 0;
-  // var list = [];
-  // while (count <= num) {
-  //   var element = +tempvar["c"+count];
-  //   sum += element;
-  //   list.push(+tempvar["c"+count]);
-  //   count++;
-  // }
-  // var winner = list.max();
-  // var count = 1;
-  // while (count <= num) {
-  //   if (+tempvar["c"+count] == winner){
-  //     if (tempvar["c"+count+"_party"] == "Dem"){
-  //       return shadeColor2(blue,1-winner/sum);
-  //     } else if (tempvar["c"+count+"_party"] == "GOP") {
-  //       return shadeColor2(red,1-winner/sum);
-  //     } else {
-  //       return shadeColor2(green,1-winner/sum);
-  //     }
-  //   }
-  //   count++;
-  // }
 }
 
 // function for tooltip
@@ -199,15 +151,16 @@ function tooltip_function(abbrev,races,properties) {
       while (tempvar["c"+count]) {
         var party = tempvar["c"+count+"_party"];
         if (tempvar["c"+count+"_name"] == tempvar.d) {
-          html_str = html_str + "<div><i class='fa fa-check-square-o' aria-hidden='true'></i>"+tempvar["c"+count+"_name"]+" <span class='"+party+"party'>"+tempvar["c"+count+"_party"]+"</span> "+Math.round(tempvar["c"+count]/sum*1000)/10+"%</div>";
+          html_str = html_str + "<div><i class='fa fa-check-square-o' aria-hidden='true'></i>"+tempvar["c"+count+"_name"]+" <span class='party "+party+"party'>"+tempvar["c"+count+"_party"]+"</span> "+Math.round(tempvar["c"+count]/sum*1000)/10+"%</div>";
         } else {
-          html_str = html_str + "<div>"+tempvar["c"+count+"_name"]+" <span class='"+party+"party'>"+tempvar["c"+count+"_party"]+"</span> "+Math.round(tempvar["c"+count]/sum*1000)/10+"%</div>";
+          html_str = html_str + "<div>"+tempvar["c"+count+"_name"]+" <span class='party "+party+"party'>"+tempvar["c"+count+"_party"]+"</span> "+Math.round(tempvar["c"+count]/sum*1000)/10+"%</div>";
         }
         count ++;
       }
       if (tempvar["o"]) {
         html_str = html_str + "<div>Other: "+Math.round(tempvar["o"]/sum*1000)/10+"%</div>";
       }
+      console.log(properties);
       html_str = html_str+"<div>"+tempvar.p+"/"+properties.precincts+" precincts reporting</div>";
     }
   } else {
@@ -757,7 +710,7 @@ sfinput.addEventListener('input', function(){
   var class_match = 0;
   var filter = sfinput.value.toLowerCase(); // .replace(/\+/g,"");
   Array.prototype.filter.call(document.querySelectorAll(".sf-prop-group"), function(value,index,array){
-    var classes = value.firstChild.textContent.split(" ");
+    var classes = value.className.split(" ");
     classes.push(value.firstChild.textContent);
     for (var i=0; i<classes.length; i++) {
       var current_class = classes[i].toLowerCase();
@@ -803,10 +756,10 @@ for (var propidx=0; propidx<24; propidx++) {
 // -----------------------------------------------------------------------------
 
 var sectionID = document.getElementById("sf-section");
-localData["San Francisco"]["County"].forEach(function(d,idx) {
+localData["San Francisco"]["Supervisors"].forEach(function(d,idx) {
   var name = d.name;
   var districtNum = name.substr(name.indexOf("District ") + 9);
-  sectionID.insertAdjacentHTML("afterend","<h4 class='race sup' id='district"+districtNum+"'>"+d.name+"</h4>")
+  sectionID.insertAdjacentHTML("beforeend","<h4 class='race sup' id='district"+districtNum+"'>"+d.name+"</h4>")
   var supeID = document.getElementById("district"+districtNum);
   var racevar = d;
   populateRace(supeID,racevar);
@@ -817,19 +770,41 @@ localData["San Francisco"]["County"].forEach(function(d,idx) {
 // -----------------------------------------------------------------------------
 
 var sectionID = document.getElementById("regional-results");
-var localKeys = Object.keys(localData);
+// var localKeys = Object.keys(localData);
+var localKeys = sectionList.reverse();
+console.log(localKeys);
 localKeys.forEach(function(d,idx){
-  var regionkey = d.toLowerCase().replace(/ /g,'').replace(".","").replace("'","");
-  sectionID.insertAdjacentHTML("afterend","<h2 class='regionalhed' id='region"+regionkey+"'>"+d+"</h2>");
+  console.log(d.name);
+  var regionkey = d.name.toLowerCase().replace(/ /g,'').replace(".","").replace("'","");
+  sectionID.insertAdjacentHTML("afterend","<h2 class='regionalhed' id='region"+regionkey+"'>"+d.name+"</h2>");
   var regionID = document.getElementById("region"+regionkey);
-  var results_types = Object.keys(localData[d]);
+  var results_types = Object.keys(localData[d.name]);
   results_types.forEach(function(d2,idx2) {
+    console.log(d2);
     var racekey = d2.toLowerCase().replace(/ /g,'').replace(".","").replace("'","");
-    regionID.insertAdjacentHTML("afterend","<h5 class='regionalhed' id='race"+regionkey+racekey+"'>"+d2+"</h5>");
+    regionID.insertAdjacentHTML("beforeend","<h5 class='regionalhed' id='regionalhed"+regionkey+racekey+"'><i class='fa fa-caret-right' id='caret-"+regionkey+racekey+"' aria-hidden='true'></i>  "+d2+"</h5>");
+    regionID.insertAdjacentHTML("beforeend","<div class='section-div' id='race"+regionkey+racekey+"'></div>");
     var raceID = document.getElementById("race"+regionkey+racekey);
-    localData[d][d2].forEach(function(d3,idx3){
+    var hedID = document.getElementById("regionalhed"+regionkey+racekey);
+    var caretID = document.getElementById("caret-"+regionkey+racekey);
+    raceID.style.display = "none";
+    // event listeners for expanding/collapsing regional sections
+    hedID.addEventListener("click",function(){
+      if (raceID.style.display == "block") {
+        raceID.style.display = "none";
+        caretID.classList.remove('fa-caret-down');
+        caretID.classList.add('fa-caret-right');
+      }
+      else {
+        raceID.style.display = "block";
+        caretID.classList.remove('fa-caret-right');
+        caretID.classList.add('fa-caret-down');
+      }
+    });
+    localData[d.name][d2].forEach(function(d3,idx3){
+      console.log(d3.name);
       var key = d3.name.toLowerCase().replace(/ /g,'').replace(".","").replace("'","");
-      raceID.insertAdjacentHTML("afterend","<h4 class='race sup' id='key"+regionkey+racekey+key+"'>"+d3.name+"</h4>")
+      raceID.insertAdjacentHTML("beforeend","<h4 class='race sup' id='key"+regionkey+racekey+key+"'>"+d3.name+"</h4>")
       var finalID = document.getElementById("key"+regionkey+racekey+key);
       // need to do a different thing for measures here
       if (racekey == "measures") {
@@ -839,6 +814,34 @@ localKeys.forEach(function(d,idx){
       }
     });
   });
+});
+
+// event listeners for different Regional regions
+var qsa = s => Array.prototype.slice.call(document.querySelectorAll(s));
+qsa(".sectionbutton").forEach(function(group,index) {
+  group.addEventListener("click", function(e) {
+    var id = this.classList[2];
+    targetOffset = document.getElementById("region"+id).offsetTop-50;
+    currentPosition = getPageScroll();
+
+    body.classList.add('in-transition');
+
+    for (var i = 0; i < scroll.length; i++) {
+        body.style.WebkitTransform = "translate(0, " + (currentPosition - targetOffset) + "px)";
+        body.style.MozTransform = "translate(0, " + (currentPosition - targetOffset) + "px)";
+        body.style.transform = "translate(0, " + (currentPosition - targetOffset) + "px)";
+    }
+
+    window.setTimeout(function () {
+      body.classList.remove('in-transition');
+      body.style.cssText = "";
+      window.scrollTo(0, targetOffset);
+    }, animateTime);
+
+    event.preventDefault();
+
+  }, false);
+
 });
 
 // -----------------------------------------------------------------------------
