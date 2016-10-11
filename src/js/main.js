@@ -171,19 +171,7 @@ function tooltip_function(abbrev,races,properties) {
     var html_str = "<div class='state-name'>"+properties.name+"</div><div>No race.</div>";
   }
   return html_str;
-  // }
 }
-
-// compute total
-// function compute_total(data) {
-//   if (data.o){
-//     var total = +data.d + +data.r + +data.o;
-//     return total;
-//   } else {
-//     var total = +data.d + +data.r;
-//     return total;
-//   }
-// }
 
 // map variables
 var presidentmap_bystate = "./assets/maps/us_state.json";
