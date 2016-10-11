@@ -212,7 +212,11 @@
 
       <div class="button-container section-container">
         <% csv.sections.forEach(function(section,idx){ %>
-          <div class="button sectionbutton <%=section.shortname %>"><%=section.name%></div>
+          <% if (idx == 0) { %>
+            <div class="button sectionbutton <%=section.shortname %> active"><%=section.name%></div>
+          <% } else { %>
+            <div class="button sectionbutton <%=section.shortname %>"><%=section.name%></div>
+          <% } %>
         <% }); %>
       </div>
 

@@ -89,6 +89,13 @@ h2 {
   }
 }
 
+// .regionalhed {
+//   visibility: collapse;
+//   &.active {
+//     visibility: visible;
+//   }
+// }
+
 .section-div {
   padding-top: 5px;
   padding-bottom: 20px;
@@ -1065,6 +1072,9 @@ header {
     background: @blue-map;
     color: white;
     &:hover {
+      background: @light-blue-map;
+    }
+    &.active {
       background: @light-blue-map;
     }
   }
