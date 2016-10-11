@@ -87,6 +87,11 @@ h2 {
     padding: 0;
     border: 0;
   }
+  .fa {
+    font-size: 25px;
+    padding-right: 3px;
+    color: @red-map;
+  }
 }
 
 // .regionalhed {
@@ -99,6 +104,9 @@ h2 {
 .section-div {
   padding-top: 5px;
   padding-bottom: 20px;
+  padding-left: 20px;
+}
+#ssec, #racesec {
   padding-left: 20px;
 }
 
@@ -297,7 +305,7 @@ footer {
   margin: 30px auto;
   padding: 10px;
   text-align: center;
-  font-size: 15px;
+  // font-size: 12px;
   font-family: @body;
   width: 80%;
   @media @mobile {
@@ -305,6 +313,7 @@ footer {
   }
   .entry {
     padding-bottom: 10px;
+    font-size: 14px;
     @media @mobile {
       font-size: 12px;
     }
@@ -756,6 +765,9 @@ header {
     }
   }
   .bar-label {
+    &.long {
+      float: right;
+    }
     padding-left: 10px;
     font-size: 14px;
     margin-top: 4px;

@@ -51,7 +51,7 @@ function populateRace(raceID,racevar) {
     if (racevar["c"+count+"_party"]){
       html = html+"<div class='entry'><h3 class='name'>"+racevar["c"+count+"_name"]+" <span class='"+racevar["c"+count+"_party"]+"party'>" + racevar["c"+count+"_party"] + "</span></h3><div class='bar' id='"+namekey+"'></div><div class='bar-label'>"+Math.round(racevar["c"+count]/sum*100)+"%</div></div>";
     } else {
-      html = html+"<div class='entry'><h3 class='name'>"+racevar["c"+count+"_name"]+ "</span></h3><div class='bar' id='"+namekey+"'></div><div class='bar-label'>"+Math.round(racevar["c"+count]/sum*100)+"%</div></div>";
+      html = html+"<div class='entry'><h3 class='name'>"+racevar["c"+count+"_name"]+ "</span></h3><div class='bar' id='"+namekey+"'></div><div class='bar-label' id='barlabel-"+namekey+"'>"+Math.round(racevar["c"+count]/sum*100)+"%</div></div>";
     }
     count ++;
   }
@@ -66,6 +66,9 @@ function populateRace(raceID,racevar) {
       var percent = Math.round(racevar["c"+count]/sum*100);
       var pixels = (width-text_len)*(percent/100);
       document.getElementById(String(namekey)).style.width = String(pixels)+"px";
+      // if (percent > 90) {
+      //   document.getElementById("barlabel-"+String(namekey)).style.float = "right";
+      // }
     }
     count++;
   }
@@ -164,7 +167,6 @@ function tooltip_function(abbrev,races,properties) {
       if (tempvar["o"]) {
         html_str = html_str + "<div>Other: "+Math.round(tempvar["o"]/sum*1000)/10+"%</div>";
       }
-      console.log(properties);
       html_str = html_str+"<div>"+formatthousands(tempvar.p)+"/"+formatthousands(properties.precincts)+" precincts reporting</div>";
     }
   } else {
@@ -182,7 +184,7 @@ var map_bycongressdistricts = "./assets/maps/us_house.json";
 if (screen.width < 480){
   var text_len = 180;
 } else {
-  var text_len = 250;
+  var text_len = 321;
 }
 
 // function to populate regional data
@@ -191,6 +193,12 @@ function regional_section(this_name,regionkey){
   sectionID.insertAdjacentHTML("afterend","<h2 class='regionalhed active' id='region"+regionkey+"'>"+this_name+"</h2>");
   var regionID = document.getElementById("region"+regionkey);
   var results_types = Object.keys(localData[this_name]);
+  if (this_name == "San Francisco") {
+    var index = results_types.indexOf("Measures");
+    results_types.splice(index,1);
+    var index2 = results_types.indexOf("Supervisors");
+    results_types.splice(index2,1);
+  }
   results_types.forEach(function(d2,idx2) {
     var racekey = d2.toLowerCase().replace(/ /g,'').replace(".","").replace("'","");
     regionID.insertAdjacentHTML("beforeend","<h5 class='regionalhed' id='regionalhed"+regionkey+racekey+"'><i class='fa fa-caret-right' id='caret-"+regionkey+racekey+"' aria-hidden='true'></i>  "+d2+"</h5>");
@@ -651,7 +659,7 @@ function camap(active_map,active_data,flag) {
   });
 };
 
-camap("./assets/maps/ca_statesenate.json",assemblyCA,0);
+camap("./assets/maps/ca_assembly.json",assemblyCA,0);
 
 // -----------------------------------------------------------------------------
 // populating state section ----------------------------------------------------

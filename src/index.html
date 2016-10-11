@@ -83,8 +83,10 @@
       <h1>Federal</h1>
       <div class="br"></div>
 
-        <h4 class="race senate" id="senate">U.S. Senate</h4>
-        <h4 class="race congress" id="congress">U.S. House, District 17</h4>
+        <div id="fsec">
+          <h4 class="race senate" id="senate">U.S. Senate</h4>
+          <h4 class="race congress" id="congress">U.S. House, District 17</h4>
+        </div>
 
 
       <div class="outer">
@@ -274,8 +276,6 @@
       // local data
       var localData = <%= JSON.stringify(json.emma_localresults) %>;
       var sectionList = <%= JSON.stringify(csv.sections) %>;
-      console.log(localData);
-      console.log(sectionList);
 
     </script>
 
