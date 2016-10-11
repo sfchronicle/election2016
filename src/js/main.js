@@ -790,49 +790,6 @@ localData["San Francisco"]["Supervisors"].forEach(function(d,idx) {
 // populating regional results
 // -----------------------------------------------------------------------------
 
-// var sectionID = document.getElementById("regional-results");
-// // var localKeys = Object.keys(localData);
-// var localKeys = sectionList.reverse();
-// localKeys.forEach(function(d,idx){
-//   var regionkey = d.name.toLowerCase().replace(/ /g,'').replace(".","").replace("'","");
-//   sectionID.insertAdjacentHTML("afterend","<h2 class='regionalhed active' id='region"+regionkey+"'>"+d.name+"</h2>");
-//   var regionID = document.getElementById("region"+regionkey);
-//   var results_types = Object.keys(localData[d.name]);
-//   results_types.forEach(function(d2,idx2) {
-//     var racekey = d2.toLowerCase().replace(/ /g,'').replace(".","").replace("'","");
-//     regionID.insertAdjacentHTML("beforeend","<h5 class='regionalhed' id='regionalhed"+regionkey+racekey+"'><i class='fa fa-caret-right' id='caret-"+regionkey+racekey+"' aria-hidden='true'></i>  "+d2+"</h5>");
-//     regionID.insertAdjacentHTML("beforeend","<div class='section-div' id='race"+regionkey+racekey+"'></div>");
-//     var raceID = document.getElementById("race"+regionkey+racekey);
-//     var hedID = document.getElementById("regionalhed"+regionkey+racekey);
-//     var caretID = document.getElementById("caret-"+regionkey+racekey);
-//     raceID.style.display = "none";
-//     // event listeners for expanding/collapsing regional sections
-//     hedID.addEventListener("click",function(){
-//       if (raceID.style.display == "block") {
-//         raceID.style.display = "none";
-//         caretID.classList.remove('fa-caret-down');
-//         caretID.classList.add('fa-caret-right');
-//       }
-//       else {
-//         raceID.style.display = "block";
-//         caretID.classList.remove('fa-caret-right');
-//         caretID.classList.add('fa-caret-down');
-//       }
-//     });
-//     localData[d.name][d2].forEach(function(d3,idx3){
-//       var key = d3.name.toLowerCase().replace(/ /g,'').replace(".","").replace("'","");
-//       raceID.insertAdjacentHTML("beforeend","<h4 class='race sup' id='key"+regionkey+racekey+key+"'>"+d3.name+"</h4>")
-//       var finalID = document.getElementById("key"+regionkey+racekey+key);
-//       // need to do a different thing for measures here
-//       if (racekey == "measures") {
-//         populateMeasure(finalID,d3);
-//       } else {
-//         populateRace(finalID,d3);
-//       }
-//     });
-//   });
-// });
-
 regional_section("Alameda","alameda");
 
 // event listeners for different Regional regions
@@ -850,72 +807,10 @@ qsa(".sectionbutton").forEach(function(group,index) {
     this.classList.add("active");
     var regionsection = document.getElementsByClassName("regionalhed");
     for (var i=0; i<regionsection.length; i++) {
-      console.log(regionsection[i]);
       regionsection[i].remove();
     }
-
-
     regional_section(this_name,regionkey);
-    // var sectionID = document.getElementById("regional-results");
-    // sectionID.insertAdjacentHTML("afterend","<h2 class='regionalhed active' id='region"+regionkey+"'>"+this_name+"</h2>");
-    // var regionID = document.getElementById("region"+regionkey);
-    // var results_types = Object.keys(localData[this_name]);
-    // results_types.forEach(function(d2,idx2) {
-    //   var racekey = d2.toLowerCase().replace(/ /g,'').replace(".","").replace("'","");
-    //   regionID.insertAdjacentHTML("beforeend","<h5 class='regionalhed' id='regionalhed"+regionkey+racekey+"'><i class='fa fa-caret-right' id='caret-"+regionkey+racekey+"' aria-hidden='true'></i>  "+d2+"</h5>");
-    //   regionID.insertAdjacentHTML("beforeend","<div class='section-div' id='race"+regionkey+racekey+"'></div>");
-    //   var raceID = document.getElementById("race"+regionkey+racekey);
-    //   var hedID = document.getElementById("regionalhed"+regionkey+racekey);
-    //   var caretID = document.getElementById("caret-"+regionkey+racekey);
-    //   raceID.style.display = "none";
-    //   // event listeners for expanding/collapsing regional sections
-    //   hedID.addEventListener("click",function(){
-    //     if (raceID.style.display == "block") {
-    //       raceID.style.display = "none";
-    //       caretID.classList.remove('fa-caret-down');
-    //       caretID.classList.add('fa-caret-right');
-    //     }
-    //     else {
-    //       raceID.style.display = "block";
-    //       caretID.classList.remove('fa-caret-right');
-    //       caretID.classList.add('fa-caret-down');
-    //     }
-    //   });
-    //   localData[this_name][d2].forEach(function(d3,idx3){
-    //     var key = d3.name.toLowerCase().replace(/ /g,'').replace(".","").replace("'","");
-    //     raceID.insertAdjacentHTML("beforeend","<h4 class='race sup' id='key"+regionkey+racekey+key+"'>"+d3.name+"</h4>")
-    //     var finalID = document.getElementById("key"+regionkey+racekey+key);
-    //     // need to do a different thing for measures here
-    //     if (racekey == "measures") {
-    //       populateMeasure(finalID,d3);
-    //     } else {
-    //       populateRace(finalID,d3);
-    //     }
-    //   });
-    // });
   });
-  //   var id = this.classList[2];
-  //   targetOffset = document.getElementById("region"+id).offsetTop-50;
-  //   currentPosition = getPageScroll();
-  //
-  //   body.classList.add('in-transition');
-  //
-  //   for (var i = 0; i < scroll.length; i++) {
-  //       body.style.WebkitTransform = "translate(0, " + (currentPosition - targetOffset) + "px)";
-  //       body.style.MozTransform = "translate(0, " + (currentPosition - targetOffset) + "px)";
-  //       body.style.transform = "translate(0, " + (currentPosition - targetOffset) + "px)";
-  //   }
-  //
-  //   window.setTimeout(function () {
-  //     body.classList.remove('in-transition');
-  //     body.style.cssText = "";
-  //     window.scrollTo(0, targetOffset);
-  //   }, animateTime);
-  //
-  //   event.preventDefault();
-  //
-  // }, false);
-
 });
 
 // -----------------------------------------------------------------------------
