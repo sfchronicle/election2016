@@ -31,7 +31,7 @@
           <div class="sub-title"><a id="f" href="#federal">Federal</a></div>
           <div class="sub-title"><a id="s" href="#state">State</a></div>
           <div class="sub-title"><a id="l" href="#local">SF</a></div>
-          <div class="sub-title"><a id="r" href="#regional">Regional</a></div>
+          <div class="sub-title"><a id="r" href="#regional">Bay area</a></div>
         </div>
       </div>
       <div id="stick-ph"></div>
@@ -113,15 +113,15 @@
     <section id="state">
       <h1>State</h1>
 
-      <h2 class="races" id="racectrl"><i class="fa fa-caret-right" id="rcaret" aria-hidden="true"></i>  Races:</h2>
+      <h2 class="races" id="racectrl"><i class="fa fa-caret-down" id="rcaret" aria-hidden="true"></i>  Races:</h2>
 
       <div id="racesec">
-        <h4 class="race statesenate" id="statesenate">State Senate</h4>
-        <h4 class="race statedistrict9" id="statedistrict9">State District 9</h4>
-        <h4 class="race stateassembly" id="stateassembly">State Assembly</h4>
+        <h4 class="race statesenate" id="statesenate">State Senate, District 11</h4>
+        <h4 class="race statedistrict9" id="statedistrict9">State Senate, District 9</h4>
+        <h4 class="race stateassembly" id="stateassembly">State Assembly, District 16</h4>
       </div>
 
-      <h2 class="propositions" id="propctrl"><i class="fa fa-caret-right" id="caret" aria-hidden="true"></i>  Propositions:</h2>
+      <h2 class="propositions" id="propctrl"><i class="fa fa-caret-down" id="caret" aria-hidden="true"></i>  Propositions:</h2>
       <div id="propsec">
         <input type="text" placeholder="&#xf002;  Search by proposition number or title" id="propositions-search" style="font-family:AntennaExtraLight, FontAwesome">
 
@@ -162,8 +162,8 @@
         <div class="button-container vertical" id="ca-map-buttons">
           <div class="button camap race caassembly active">State Assembly</div>
           <div class="button camap race casenate">State Senate</div>
-          <div class="button camap race cadistrict">State Districts</div>
-          <div class="button camap race cafeddistrict">Senate (federal) by district</div>
+          <div class="button camap race cadistrict">U.S. House races</div>
+          <div class="button camap race cafeddistrict">U.S. Senate by district</div>
           <% csv.StatePropositionsData.forEach(function(prop,idx){ %>
             <div class="button camap prop camapprop prop<%=prop.number%>" id="button<%=prop.number%>"><%=prop.title%> (Prop. <%=prop.number%>)</div>
           <% }); %>
@@ -209,8 +209,28 @@
     </section>
     <section id="regional">
 
-      <h1>Regional</h1>
+      <h1>Bay area</h1>
       <div class="br"></div>
+
+      <div class="regional-callouts">
+        <div class="reg-prop-group long">
+          <div class='sf-prop-icon'>
+            <img src='./assets/graphics/regionalprops/measureRR.png'></img>
+          </div>
+          <div class='reg-prop-name'>Measure RR</div>
+          <div class="reg-prop-desc">Authorizes $3.5 billion in bonds for BART to rehabilitation and modernization. Requires cumulative two-thirds vote in San Francisco, Alameda and Contra Costa counties for passage.</div>
+        </div>
+        <% csv.RegionalMeasuresData.forEach(function(prop,idx){ %>
+          <div class='reg-prop-group'>
+            <div class='reg-prop-icon'>
+              <img src='./assets/graphics/regionalprops/measure<%=prop.letter%>.png'></img>
+            </div>
+            <div class='reg-prop-name'><%=prop.title%></div>
+            <div class='result'><div id="regionalprop<%=idx%>"></div></div>
+            <div class='reg-prop-desc'><%=prop.description%></div>
+          </div>
+        <% }); %>
+      </div>
 
       <div class="button-container section-container">
         <% csv.sections.forEach(function(section,idx){ %>

@@ -839,7 +839,7 @@ var ssec = document.getElementById('ssec');
 var scaret = document.getElementById('scaret');
 
 propctrl.addEventListener("click",function(){
-  if (propsec.style.display == "block") {
+  if (propsec.style.display != "none") {
     propsec.style.display = "none";
     caret.classList.remove('fa-caret-down');
     caret.classList.add('fa-caret-right');
@@ -865,7 +865,7 @@ sfpropctrl.addEventListener("click",function(){
 })
 
 racectrl.addEventListener("click",function(){
-  if (racesec.style.display == "block") {
+  if (racesec.style.display != "none") {
     racesec.style.display = "none";
     rcaret.classList.remove('fa-caret-down');
     rcaret.classList.add('fa-caret-right');
