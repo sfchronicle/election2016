@@ -261,13 +261,6 @@ document.querySelector('#presidentbycounty').addEventListener('click', function(
             var tempvar = presidentialCountyData[d.id];
             var new_color = code_county(tempvar,d.properties);
             return new_color;
-            // if (tempvar.d) {
-            //   var num_candidates = (Object.keys(tempvar).length-2)/3;
-            //   var new_color = code_map_variable(tempvar,num_candidates,d.properties);
-            //   return new_color;
-            // } else {
-            //   return "#b2b2b2";
-            // }
           } else {
             return "#b2b2b2";//fill(path.area(d));
           }
@@ -510,18 +503,13 @@ populateRace(raceID,congressvar);
 // STATE MAP ------------------------------------------------------------
 // -----------------------------------------------------------------------------
 
-var CAmap_bycounty = "./assets/maps/ca_county.json";
-var CAmap_assembly = "./assets/maps/ca_assembly.json";
-var CAmap_house = "./assets/maps/ca_house.json";
-var CAmap_statesenate = "./assets/maps/ca_statesenate.json";
-
 var path = d3.geo.path()
     .projection(null);
 
 document.querySelector('.caassembly').addEventListener('click', function(){
   d3.selectAll(".camap").classed("active",false);
   this.classList.add("active");
-  camap("./assets/maps/ca_statesenate.json",assemblyCA,0);
+  camap("./assets/maps/ca_assembly.json",assemblyCA,0);
 });
 
 document.querySelector('.casenate').addEventListener('click', function(){
