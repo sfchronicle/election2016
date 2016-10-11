@@ -1144,7 +1144,12 @@ header {
   vertical-align: middle;
 }
 .party {background-color: lighten(@green-map,10%);}
-.Demparty {background-color: lighten(@blue-map,10%) !important;}
+.Demparty {
+  background-color: lighten(@blue-map,10%) !important;
+  &.lorettasanchez {
+    background-color: lighten(@light-blue-map,10%) !important;
+  }
+}
 .GOPparty {background-color: lighten(@red-map,10%) !important;}//rgb(240, 70, 70);}
 
 .svg-container {

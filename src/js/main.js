@@ -12,6 +12,9 @@ var yes_blue = "#705A91";//"#1D75AF";//"#6C85A5";//"#FFE599";
 var no_red = "#EAE667";//"#D13D59";//"#6790B7";
 var undecided_yellow = "#b2b2b2";//"#EB8F6A";//"#FFFF65";
 
+// helpful functions:
+var formatthousands = d3.format("0,000");
+
 // function for shading colors
 function shadeColor2(color, percent) {
     var f=parseInt(color.slice(1),16),t=percent<0?0:255,p=percent<0?percent*-1:percent,R=f>>16,G=f>>8&0x00FF,B=f&0x0000FF;
@@ -23,7 +26,7 @@ function populateMeasure(measureID,measurevar) {
   var total = +measurevar["Yes"] + +measurevar["No"];
   if (total == 0) { total = 0.1;}
   var html_str ="<div class='measure-group'><div class='result'>Yes: "+Math.round(+measurevar["Yes"]/total*1000)/10+"% / No: "+Math.round(+measurevar["No"]/total*1000)/10+"%</div>";
-  html_str = html_str+"<div>"+measurevar.p+"/"+measurevar.pt+" precincts reporting</div>";
+  html_str = html_str+"<div>"+formatthousands(measurevar.p)+"/"+formatthousands(measurevar.pt)+" precincts reporting</div>";
   if (measurevar.a && measurevar.a != "50% + 1") {
     html_str = html_str + "<div class='votes-req'>Vote requirement: "+measurevar.a+"</div>"
   }
@@ -135,10 +138,10 @@ function tooltip_function(abbrev,races,properties) {
         var total = +tempvar.r["Yes"] + +tempvar.r["No"];
         var html_str = "<div class='state-name'>"+properties.name+"</div>";
         html_str = html_str+"<div class='result'>Yes: "+Math.round(+tempvar.r["Yes"]/total*1000)/10+"% / No: "+Math.round(+tempvar.r["No"]/total*1000)/10+"%</div>";
-        html_str = html_str+"<div>"+tempvar.p+"/"+properties.precincts+" precincts reporting</div>";
+        html_str = html_str+"<div>"+formatthousands(tempvar.p)+"/"+formatthousands(properties.precincts)+" precincts reporting</div>";
       } else {
         var html_str = "<div class='state-name'>"+properties.name+"</div>";
-        html_str = html_str+"<div>"+tempvar.p+"/"+properties.precincts+" precincts reporting</div>";
+        html_str = html_str+"<div>"+formatthousands(tempvar.p)+"/"+formatthousands(properties.precincts)+" precincts reporting</div>";
       }
     } else {
       var count = 1; var sum = 0;
@@ -150,10 +153,11 @@ function tooltip_function(abbrev,races,properties) {
       var count = 1; var html_str = "<div class='state-name'>"+properties.name+"</div>";
       while (tempvar["c"+count]) {
         var party = tempvar["c"+count+"_party"];
+        var key = tempvar["c"+count+"_name"].toLowerCase().replace(/ /g,'');
         if (tempvar["c"+count+"_name"] == tempvar.d) {
-          html_str = html_str + "<div><i class='fa fa-check-square-o' aria-hidden='true'></i>"+tempvar["c"+count+"_name"]+" <span class='party "+party+"party'>"+tempvar["c"+count+"_party"]+"</span> "+Math.round(tempvar["c"+count]/sum*1000)/10+"%</div>";
+          html_str = html_str + "<div><i class='fa fa-check-square-o' aria-hidden='true'></i>"+tempvar["c"+count+"_name"]+" <span class='party "+key+" "+party+"party'>"+tempvar["c"+count+"_party"]+"</span> "+Math.round(tempvar["c"+count]/sum*1000)/10+"%</div>";
         } else {
-          html_str = html_str + "<div>"+tempvar["c"+count+"_name"]+" <span class='party "+party+"party'>"+tempvar["c"+count+"_party"]+"</span> "+Math.round(tempvar["c"+count]/sum*1000)/10+"%</div>";
+          html_str = html_str + "<div>"+tempvar["c"+count+"_name"]+" <span class='party "+key+" "+party+"party'>"+tempvar["c"+count+"_party"]+"</span> "+Math.round(tempvar["c"+count]/sum*1000)/10+"%</div>";
         }
         count ++;
       }
@@ -161,7 +165,7 @@ function tooltip_function(abbrev,races,properties) {
         html_str = html_str + "<div>Other: "+Math.round(tempvar["o"]/sum*1000)/10+"%</div>";
       }
       console.log(properties);
-      html_str = html_str+"<div>"+tempvar.p+"/"+properties.precincts+" precincts reporting</div>";
+      html_str = html_str+"<div>"+formatthousands(tempvar.p)+"/"+formatthousands(properties.precincts)+" precincts reporting</div>";
     }
   } else {
     var html_str = "<div class='state-name'>"+properties.name+"</div><div>No race.</div>";
@@ -772,15 +776,12 @@ localData["San Francisco"]["Supervisors"].forEach(function(d,idx) {
 var sectionID = document.getElementById("regional-results");
 // var localKeys = Object.keys(localData);
 var localKeys = sectionList.reverse();
-console.log(localKeys);
 localKeys.forEach(function(d,idx){
-  console.log(d.name);
   var regionkey = d.name.toLowerCase().replace(/ /g,'').replace(".","").replace("'","");
   sectionID.insertAdjacentHTML("afterend","<h2 class='regionalhed' id='region"+regionkey+"'>"+d.name+"</h2>");
   var regionID = document.getElementById("region"+regionkey);
   var results_types = Object.keys(localData[d.name]);
   results_types.forEach(function(d2,idx2) {
-    console.log(d2);
     var racekey = d2.toLowerCase().replace(/ /g,'').replace(".","").replace("'","");
     regionID.insertAdjacentHTML("beforeend","<h5 class='regionalhed' id='regionalhed"+regionkey+racekey+"'><i class='fa fa-caret-right' id='caret-"+regionkey+racekey+"' aria-hidden='true'></i>  "+d2+"</h5>");
     regionID.insertAdjacentHTML("beforeend","<div class='section-div' id='race"+regionkey+racekey+"'></div>");
