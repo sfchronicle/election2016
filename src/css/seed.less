@@ -855,23 +855,7 @@ header {
   font-family: @block-graphics;
   .display-flex;
   .flex-wrap(wrap);
-  .prop-group {
-    margin: 0.5%;
-    padding: 10px;
-    background: lighten(@light-gray,10%);
-    border-radius: 5px;
-    display: none;
-    &.active {
-      display:block;
-      // width: 100%;
-      .flex(0 0 49%);
-      @media @mobile {
-        margin: 5px auto;
-        .flex(0 0 98%);
-      }
-    }
-  }
-  .sf-prop-group {
+  .sf-prop-group,.prop-group {
     margin: 0.5%;
     padding: 10px;
     background: lighten(@light-gray,10%);
@@ -912,31 +896,7 @@ header {
   font-weight: 400;
 }
 
-.prop-icon {
-  display: inline-block;
-  height: 180px;
-  // text-align: center;
-  float: left;
-  padding-right: 10px;
-  img {
-    height: 140px;
-  }
-  .prop-name {
-    height: 40px;
-    width: 140px;
-    text-align: center;
-  }
-}
-.sf-prop-icon {
-  display: inline-block;
-  height: 120px;
-  text-align: center;
-  float: center;
-  img {
-    height: 100px;
-  }
-}
-.reg-prop-icon {
+.reg-prop-icon, .sf-prop-icon,.prop-icon {
   display: inline-block;
   height: 60px;
   text-align: center;
@@ -945,7 +905,7 @@ header {
     height: 60px;
   }
 }
-.sf-prop-group, .reg-prop-group {
+.sf-prop-group, .reg-prop-group, .prop-group {
   text-align: center;
 }
 
@@ -969,7 +929,7 @@ header {
     padding-right: 5px;
   }
   &.small {
-    font-size: 12px;
+    font-size: 14px;
   }
   // margin-left: 20px;
 }
