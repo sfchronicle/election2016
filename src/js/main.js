@@ -11,6 +11,8 @@ var yellow = "#FFCC32";//"#6790B7";//"#EB8F6A";//"#FFFF65";//"#FFCC32";
 var yes_blue = "#705A91";//"#1D75AF";//"#6C85A5";//"#FFE599";
 var no_red = "#EAE667";//"#D13D59";//"#6790B7";
 var undecided_yellow = "#b2b2b2";//"#EB8F6A";//"#FFFF65";
+var dark_gray = "#8C8C8C";
+var light_gray = "#b2b2b2"
 
 // helpful functions:
 var formatthousands = d3.format("0,000");
@@ -49,7 +51,15 @@ function populateRace(raceID,racevar) {
   while (racevar["c"+count]) {
     var namekey = racevar["c"+count+"_name"].toLowerCase().replace(/ /g,'').replace(".","").replace("'","");
     if (racevar["c"+count+"_party"]){
-      html = html+"<div class='entry'><h3 class='name'>"+racevar["c"+count+"_name"]+" <span class='"+racevar["c"+count+"_party"]+"party'>" + racevar["c"+count+"_party"] + "</span></h3><div class='bar' id='"+namekey+"'></div><div class='bar-label'>"+Math.round(racevar["c"+count]/sum*100)+"%</div></div>";
+      if (racevar["d"]) {
+        if (racevar["c"+count+"_name"] == racevar["d"]) {
+          html = html+"<div class='entry'><h3 class='name'><i class='fa fa-check-square-o' aria-hidden='true'></i>"+racevar["c"+count+"_name"]+" <span class='"+racevar["c"+count+"_party"]+"party'>" + racevar["c"+count+"_party"] + "</span></h3><div class='bar' id='"+namekey+"'></div><div class='bar-label'>"+Math.round(racevar["c"+count]/sum*100)+"%</div></div>";
+        } else {
+          html = html+"<div class='entry'><h3 class='name'>"+racevar["c"+count+"_name"]+" <span class='"+racevar["c"+count+"_party"]+"party'>" + racevar["c"+count+"_party"] + "</span></h3><div class='bar' id='"+namekey+"'></div><div class='bar-label'>"+Math.round(racevar["c"+count]/sum*100)+"%</div></div>";
+        }
+      } else {
+        html = html+"<div class='entry'><h3 class='name'>"+racevar["c"+count+"_name"]+" <span class='"+racevar["c"+count+"_party"]+"party'>" + racevar["c"+count+"_party"] + "</span></h3><div class='bar' id='"+namekey+"'></div><div class='bar-label'>"+Math.round(racevar["c"+count]/sum*100)+"%</div></div>";
+      }
     } else {
       html = html+"<div class='entry'><h3 class='name'>"+racevar["c"+count+"_name"]+ "</span></h3><div class='bar' id='"+namekey+"'></div><div class='bar-label' id='barlabel-"+namekey+"'>"+Math.round(racevar["c"+count]/sum*100)+"%</div></div>";
     }
@@ -73,22 +83,6 @@ function populateRace(raceID,racevar) {
     count++;
   }
 }
-
-// fill in propositions
-// function populate_proposition_results(propResult) {
-//   if (propResult.r){
-//     var total = propResult.r["Yes"]+propResult.r["No"]
-//     if (propResult.d == "Yes") {
-//       var htmlresult = "<span class='propyes'><i class='fa fa-check-square-o' aria-hidden='true'></i>Yes: "+Math.round(propResult.r["Yes"]/total*1000)/10+"% / </span>"+"<span class='propno'>No: "+Math.round(propResult.r["No"]/total*1000)/10+"%</span>"
-//     } else if (propResult.d == "No") {
-//       var htmlresult = "<span class='propyes'>Yes: "+Math.round(propResult.r["Yes"]/total*1000)/10+"% / </span>"+"<span class='propno'><i class='fa fa-check-square-o' aria-hidden='true'>No: "+Math.round(propResult.r["No"]/total*1000)/10+"%</i></span>"
-//     } else {
-//       var htmlresult = "<span class='propyes'>Yes: "+Math.round(propResult.r["Yes"]/total*1000)/10+"% / </span>"+"<span class='propno'>No: "+Math.round(propResult.r["No"]/total*1000)/10+"%</span>"
-//     }
-//   } else {
-//       var htmlresult = "<span class='propyes'>Yes: 0% / </span><span class='propno'>No: 0%</span>"
-//   }
-// }
 
 // color counties on map
 function code_county(tempvar,properties){
@@ -321,7 +315,7 @@ document.querySelector('#presidentbycounty').addEventListener('click', function(
             var new_color = code_map_variable(tempvar,d.properties);
             return new_color;
           } else {
-            return "#b2b2b2";//fill(path.area(d));
+            return dark_gray;//fill(path.area(d));
           }
         } else {
           if (presidentialCountyData[d.id]) {
@@ -329,7 +323,7 @@ document.querySelector('#presidentbycounty').addEventListener('click', function(
             var new_color = code_county(tempvar,d.properties);
             return new_color;
           } else {
-            return "#b2b2b2";//fill(path.area(d));
+            return dark_gray;//fill(path.area(d));
           }
         }
       })
@@ -463,28 +457,40 @@ document.querySelector('#congressmap').addEventListener('click', function(){
           var stateabbrev = stateCodes[parseInt(d.id)].state;
           if (governorRaces[String(stateabbrev)]) {
               var tempvar = governorRaces[String(stateabbrev)];
-              var new_color = code_map_variable(tempvar,d.properties);
-              return new_color;
+              if (tempvar.d){
+                var new_color = code_map_variable(tempvar,d.properties);
+                return new_color;
+              } else {
+                return dark_gray;
+              }
           } else {
-            return "#b2b2b2";//fill(path.area(d));
+            return light_gray;//fill(path.area(d));
           }
         } else if (ind == 1) {
           var stateabbrev = stateCodes[parseInt(d.id)].state;
           if (senateRaces[String(stateabbrev)]) {
               var tempvar = senateRaces[String(stateabbrev)];
-              var new_color = code_map_variable(tempvar,d.properties);
-              return new_color;
+              if (tempvar.d){
+                var new_color = code_map_variable(tempvar,d.properties);
+                return new_color;
+              } else {
+                return dark_gray;
+              }
           } else {
-            return "#b2b2b2";//fill(path.area(d));
+            return light_gray;//fill(path.area(d));
           }
         } else {
           var district = d.id;
           if (congressRaces[String(district)]) {
               var tempvar = congressRaces[String(district)];
-              var new_color = code_map_variable(tempvar,d.properties);
-              return new_color;
+              if (tempvar.d) {
+                var new_color = code_map_variable(tempvar,d.properties);
+                return new_color;
+              } else {
+                return dark_gray;
+              }
           } else {
-            return "#b2b2b2";//fill(path.area(d));
+            return light_gray;//fill(path.area(d));
           }
         }
       })
@@ -559,11 +565,13 @@ document.getElementById("donaldtrump").style.width = String(trump_percent)+"%";
 // senate race
 var raceID = document.getElementById("senate");
 var senatevar = senateRaces["CA"];
+console.log(senatevar);
 populateRace(raceID,senatevar);
 
 // house race
 var raceID = document.getElementById("congress");
 var congressvar = congressRaces["0617"];
+console.log(congressvar);
 populateRace(raceID,congressvar);
 
 // -----------------------------------------------------------------------------
@@ -649,10 +657,10 @@ function camap(active_map,active_data,flag) {
               var new_color = code_county(tempvar,d.properties);
               return new_color;
             } else {
-              return "#b2b2b2";
+              return dark_gray;
             }
         } else {
-          return "#b2b2b2";//fill(path.area(d));
+          return light_gray;//fill(path.area(d));
         }
       })
       .attr("d", path)
@@ -878,7 +886,6 @@ for (var ii=0; ii<6; ii++) {
   } else if (propResult.d == "No") {
     var htmlresult = "<span class='propyes small'>Yes: "+Math.round(propResult["Yes"]/total*1000)/10+"% / </span>"+"<span class='propno small'><i class='fa fa-check-square-o' aria-hidden='true'>No: "+Math.round(propResult["No"]/total*1000)/10+"%</i></span>"
   } else {
-    console.log(propResult["Yes"]);
     var htmlresult = "<span class='propyes small'>Yes: "+Math.round(propResult["Yes"]/total*1000)/10+"% / </span>"+"<span class='propno small'>No: "+Math.round(propResult["No"]/total*1000)/10+"%</span>"
   }
   var htmlresult = htmlresult+ "<div class='prop-precincts'>"+formatthousands(propResult.p)+" / "+formatthousands(propResult.pt)+" precincts reporting</div>"
