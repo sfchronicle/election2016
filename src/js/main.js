@@ -790,9 +790,10 @@ for (var propidx=0; propidx<24; propidx++) {
   var total = +propResult["Yes"]+ +propResult["No"];
   if (total == 0) { total = 0.1;}
   if (propResult.d == "Yes") {
-    var htmlresult = "<span class='propyes'><i class='fa fa-check-square-o' aria-hidden='true'></i>Yes: "+Math.round(propResult["Yes"]/total*1000)/10+"% / </span>"+"<span class='propno'>No: "+Math.round(propResult.r["No"]/total*1000)/10+"%</span>"
+    console.log(propResult);
+    var htmlresult = "<span class='propyes'><i class='fa fa-check-square-o' aria-hidden='true'></i>Yes: "+Math.round(propResult["Yes"]/total*1000)/10+"% / </span>"+"<span class='propno'>No: "+Math.round(propResult["No"]/total*1000)/10+"%</span>"
   } else if (propResult.d == "No") {
-    var htmlresult = "<span class='propyes'>Yes: "+Math.round(propResult["Yes"]/total*1000)/10+"% / </span>"+"<span class='propno'><i class='fa fa-check-square-o' aria-hidden='true'>No: "+Math.round(propResult["No"]/total*1000)/10+"%</i></span>"
+    var htmlresult = "<span class='propyes'>Yes: "+Math.round(propResult["Yes"]/total*1000)/10+"% / </span>"+"<span class='propno'><i class='fa fa-check-square-o' aria-hidden='true'></i>No: "+Math.round(propResult["No"]/total*1000)/10+"%</span>"
   } else {
     var htmlresult = "<span class='propyes'>Yes: "+Math.round(propResult["Yes"]/total*1000)/10+"% / </span>"+"<span class='propno'>No: "+Math.round(propResult["No"]/total*1000)/10+"%</span>"
   }
@@ -845,8 +846,7 @@ qsa(".sectionbutton").forEach(function(group,index) {
 // filling in regional propositions results ---------------------------------------
 // -----------------------------------------------------------------------------
 
-
-// NEED TO UPDATE THIS!!!!
+// NEED TO CHECK THIS!!!!
 console.log(localData);
 var propID_list = ["RR","X","B","T1","O1","HH"];
 var RRPropData = localData["Special Districts"]["Measures"][1];
