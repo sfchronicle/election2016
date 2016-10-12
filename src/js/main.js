@@ -61,7 +61,11 @@ function populateRace(raceID,racevar) {
         html = html+"<div class='entry'><h3 class='name'>"+racevar["c"+count+"_name"]+" <span class='"+racevar["c"+count+"_party"]+"party'>" + racevar["c"+count+"_party"] + "</span></h3><div class='bar' id='"+namekey+"'></div><div class='bar-label'>"+Math.round(racevar["c"+count]/sum*100)+"%</div></div>";
       }
     } else {
-      html = html+"<div class='entry'><h3 class='name'>"+racevar["c"+count+"_name"]+ "</span></h3><div class='bar' id='"+namekey+"'></div><div class='bar-label' id='barlabel-"+namekey+"'>"+Math.round(racevar["c"+count]/sum*100)+"%</div></div>";
+      if (racevar["c"+count+"_i"] == 1) {
+        html = html+"<div class='entry'><h3 class='name'><i class='fa fa-check-square-o' aria-hidden='true'></i>"+racevar["c"+count+"_name"]+ "</span></h3><div class='bar' id='"+namekey+"'></div><div class='bar-label' id='barlabel-"+namekey+"'>"+Math.round(racevar["c"+count]/sum*100)+"%</div></div>";
+      } else {
+        html = html+"<div class='entry'><h3 class='name'>"+racevar["c"+count+"_name"]+ "</span></h3><div class='bar' id='"+namekey+"'></div><div class='bar-label' id='barlabel-"+namekey+"'>"+Math.round(racevar["c"+count]/sum*100)+"%</div></div>";
+      }
     }
     count ++;
   }
@@ -565,13 +569,11 @@ document.getElementById("donaldtrump").style.width = String(trump_percent)+"%";
 // senate race
 var raceID = document.getElementById("senate");
 var senatevar = senateRaces["CA"];
-console.log(senatevar);
 populateRace(raceID,senatevar);
 
 // house race
 var raceID = document.getElementById("congress");
 var congressvar = congressRaces["0617"];
-console.log(congressvar);
 populateRace(raceID,congressvar);
 
 // -----------------------------------------------------------------------------
@@ -798,7 +800,6 @@ for (var propidx=0; propidx<24; propidx++) {
   var total = +propResult["Yes"]+ +propResult["No"];
   if (total == 0) { total = 0.1;}
   if (propResult.d == "Yes") {
-    console.log(propResult);
     var htmlresult = "<span class='propyes'><i class='fa fa-check-square-o' aria-hidden='true'></i>Yes: "+Math.round(propResult["Yes"]/total*1000)/10+"% / </span>"+"<span class='propno'>No: "+Math.round(propResult["No"]/total*1000)/10+"%</span>"
   } else if (propResult.d == "No") {
     var htmlresult = "<span class='propyes'>Yes: "+Math.round(propResult["Yes"]/total*1000)/10+"% / </span>"+"<span class='propno'><i class='fa fa-check-square-o' aria-hidden='true'></i>No: "+Math.round(propResult["No"]/total*1000)/10+"%</span>"
@@ -820,6 +821,7 @@ localData["San Francisco"]["Supervisors"].forEach(function(d,idx) {
   sectionID.insertAdjacentHTML("beforeend","<h4 class='race sup' id='district"+districtNum+"'>"+d.name+"</h4>")
   var supeID = document.getElementById("district"+districtNum);
   var racevar = d;
+  console.log(racevar);
   populateRace(supeID,racevar);
 });
 

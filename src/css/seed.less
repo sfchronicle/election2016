@@ -32,6 +32,8 @@
 @purple-map: #69586B;
 @no-map: #EAE667;
 @yes-map: #705A91;
+@light-gray-map: #b2b2b2;
+@dark-gray-map: #8C8C8C;
 
 @base-font: 21px;
 @line-height: 1.58;
@@ -1047,6 +1049,10 @@ header {
 #regional {
   .name {
     font-size: 16px !important;
+    .fa {
+      font-size: 18px !important;
+      vertical-align: middle;
+    }
   }
 }
 
@@ -1254,7 +1260,7 @@ header {
   .element {
     .flex(0 0 50%);
   }
-  .rep-swath, .dem-swath, .dem2-swath, .other-swath, .tied-swath, .called-swath, .no-swath, .yes-swath  {
+  .rep-swath, .dem-swath, .dem2-swath, .other-swath, .tied-swath, .called-swath, .no-swath, .yes-swath, .uncalled-swath, .no-race-swath  {
     height: 14px;
     width: 14px;
     margin: 4px;
@@ -1268,6 +1274,8 @@ header {
   .called-swath {border: 1px solid black;}
   .no-swath {background: lighten(@no-map,5%);}
   .yes-swath {background: lighten(@yes-map,5%);}
+  .uncalled-swath {background: lighten(@dark-gray-map,5%);}
+  .no-race-swath {background: lighten(@light-gray-map,5%);}
   .legend-text {
     width: 150px;
     padding-left: 20px;
