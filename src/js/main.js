@@ -74,6 +74,23 @@ function populateRace(raceID,racevar) {
   }
 }
 
+// fill in propositions
+// function populate_proposition_results(propResult) {
+//   if (propResult.r){
+//     var total = propResult.r["Yes"]+propResult.r["No"]
+//     if (propResult.d == "Yes") {
+//       var htmlresult = "<span class='propyes'><i class='fa fa-check-square-o' aria-hidden='true'></i>Yes: "+Math.round(propResult.r["Yes"]/total*1000)/10+"% / </span>"+"<span class='propno'>No: "+Math.round(propResult.r["No"]/total*1000)/10+"%</span>"
+//     } else if (propResult.d == "No") {
+//       var htmlresult = "<span class='propyes'>Yes: "+Math.round(propResult.r["Yes"]/total*1000)/10+"% / </span>"+"<span class='propno'><i class='fa fa-check-square-o' aria-hidden='true'>No: "+Math.round(propResult.r["No"]/total*1000)/10+"%</i></span>"
+//     } else {
+//       var htmlresult = "<span class='propyes'>Yes: "+Math.round(propResult.r["Yes"]/total*1000)/10+"% / </span>"+"<span class='propno'>No: "+Math.round(propResult.r["No"]/total*1000)/10+"%</span>"
+//     }
+//   } else {
+//       var htmlresult = "<span class='propyes'>Yes: 0% / </span><span class='propno'>No: 0%</span>"
+//   }
+// }
+
+// color counties on map
 function code_county(tempvar,properties){
   Array.prototype.max = function() {
     return Math.max.apply(null, this);
@@ -687,7 +704,7 @@ populateRace(raceID,assemblyvar);
 for (var propidx=51; propidx<68; propidx++) {
   var propID = document.getElementById("prop"+propidx);
   var propResult = propsCA[propidx]["state"];
-  var total = propResult.r["Yes"]+propResult.r["No"]
+  var total = +propResult.r["Yes"]+ +propResult.r["No"];
   if (propResult.d == "Yes") {
     var htmlresult = "<span class='propyes'><i class='fa fa-check-square-o' aria-hidden='true'></i>Yes: "+Math.round(propResult.r["Yes"]/total*1000)/10+"% / </span>"+"<span class='propno'>No: "+Math.round(propResult.r["No"]/total*1000)/10+"%</span>"
   } else if (propResult.d == "Nes") {
@@ -765,18 +782,20 @@ sfinput.addEventListener('input', function(){
 for (var propidx=0; propidx<24; propidx++) {
   var propID = document.getElementById("sfprop"+propidx);
   var propResult = localData["San Francisco"]["Measures"][propidx];
-  if (propResult.r){
-    var total = propResult.r["Yes"]+propResult.r["No"]
+  console.log(propResult);
+  // if (propResult.r){
+    var total = +propResult["Yes"]+ +propResult["No"];
+    console.log(total);
     if (propResult.d == "Yes") {
-      var htmlresult = "<span class='propyes'><i class='fa fa-check-square-o' aria-hidden='true'></i>Yes: "+Math.round(propResult.r["Yes"]/total*1000)/10+"% / </span>"+"<span class='propno'>No: "+Math.round(propResult.r["No"]/total*1000)/10+"%</span>"
-    } else if (propResult.d == "Nes") {
-      var htmlresult = "<span class='propyes'>Yes: "+Math.round(propResult.r["Yes"]/total*1000)/10+"% / </span>"+"<span class='propno'><i class='fa fa-check-square-o' aria-hidden='true'>No: "+Math.round(propResult.r["No"]/total*1000)/10+"%</i></span>"
+      var htmlresult = "<span class='propyes'><i class='fa fa-check-square-o' aria-hidden='true'></i>Yes: "+Math.round(propResult["Yes"]/total*1000)/10+"% / </span>"+"<span class='propno'>No: "+Math.round(propResult.r["No"]/total*1000)/10+"%</span>"
+    } else if (propResult.d == "No") {
+      var htmlresult = "<span class='propyes'>Yes: "+Math.round(propResult["Yes"]/total*1000)/10+"% / </span>"+"<span class='propno'><i class='fa fa-check-square-o' aria-hidden='true'>No: "+Math.round(propResult["No"]/total*1000)/10+"%</i></span>"
     } else {
-      var htmlresult = "<span class='propyes'>Yes: "+Math.round(propResult.r["Yes"]/total*1000)/10+"% / </span>"+"<span class='propno'>No: "+Math.round(propResult.r["No"]/total*1000)/10+"%</span>"
+      var htmlresult = "<span class='propyes'>Yes: "+Math.round(propResult["Yes"]/total*1000)/10+"% / </span>"+"<span class='propno'>No: "+Math.round(propResult["No"]/total*1000)/10+"%</span>"
     }
-  } else {
-      var htmlresult = "<span class='propyes'>Yes: 0% / </span><span class='propno'>No: 0%</span>"
-  }
+  // } else {
+  //     var htmlresult = "<span class='propyes'>Yes: 0% / </span><span class='propno'>No: 0%</span>"
+  // }
   propID.insertAdjacentHTML("beforebegin",htmlresult)
 }
 
@@ -830,24 +849,35 @@ qsa(".sectionbutton").forEach(function(group,index) {
 console.log(localData);
 var propID_list = ["RR","X","B","T1","O1","HH"];
 var RRPropData = localData["Special Districts"]["Measures"][1];
+console.log("RR");
+console.log(RRPropData);
 var XPropData = localData["Contra Costa"]["Measures"][21];
+console.log("X");
+console.log(XPropData);
 var BPropData = localData["Santa Clara"]["Measures"][1];
-// regionalPropData["T1"] = localData["Berkeley"]["Measures"][]
+console.log("B");
+console.log(BPropData);
+var T1PropData = localData["Alameda"]["Measures"][17];
+console.log("T1");
+console.log(T1PropData);
+var O1PropData = localData["Alameda"]["Measures"][12];
+console.log("O1");
+console.log(O1PropData);
+var HHPropData = localData["Alameda"]["Measures"][27];
+console.log("HH");
+console.log(HHPropData);
 
-for (var ii=0; ii<2; ii++) {
+for (var ii=0; ii<6; ii++) {
   var propID = document.getElementById("regionalprop"+propID_list[ii]);
-  var propResult = propID_list[ii]+"PropData";
-  if (propResult.r){
-    var total = propResult.r["Yes"]+propResult.r["No"]
-    if (propResult.d == "Yes") {
-      var htmlresult = "<span class='propyes small'><i class='fa fa-check-square-o' aria-hidden='true'></i>Yes: "+Math.round(propResult.r["Yes"]/total*1000)/10+"% / </span>"+"<span class='propno small'>No: "+Math.round(propResult.r["No"]/total*1000)/10+"%</span>"
-    } else if (propResult.d == "Nes") {
-      var htmlresult = "<span class='propyes small'>Yes: "+Math.round(propResult.r["Yes"]/total*1000)/10+"% / </span>"+"<span class='propno small'><i class='fa fa-check-square-o' aria-hidden='true'>No: "+Math.round(propResult.r["No"]/total*1000)/10+"%</i></span>"
-    } else {
-      var htmlresult = "<span class='propyes small'>Yes: "+Math.round(propResult.r["Yes"]/total*1000)/10+"% / </span>"+"<span class='propno small'>No: "+Math.round(propResult.r["No"]/total*1000)/10+"%</span>"
-    }
+  var propResult = eval(String(propID_list[ii])+"PropData");
+  var total = +propResult["Yes"]+ +propResult["No"];
+  if (propResult.d == "Yes") {
+    var htmlresult = "<span class='propyes small'><i class='fa fa-check-square-o' aria-hidden='true'></i>Yes: "+Math.round(propResult["Yes"]/total*1000)/10+"% / </span>"+"<span class='propno small'>No: "+Math.round(propResult["No"]/total*1000)/10+"%</span>"
+  } else if (propResult.d == "No") {
+    var htmlresult = "<span class='propyes small'>Yes: "+Math.round(propResult["Yes"]/total*1000)/10+"% / </span>"+"<span class='propno small'><i class='fa fa-check-square-o' aria-hidden='true'>No: "+Math.round(propResult["No"]/total*1000)/10+"%</i></span>"
   } else {
-      var htmlresult = "<span class='propyes small'>Yes: 0% / </span><span class='propno small'>No: 0%</span>"
+    console.log(propResult["Yes"]);
+    var htmlresult = "<span class='propyes small'>Yes: "+Math.round(propResult["Yes"]/total*1000)/10+"% / </span>"+"<span class='propno small'>No: "+Math.round(propResult["No"]/total*1000)/10+"%</span>"
   }
   propID.insertAdjacentHTML("beforebegin",htmlresult)
 }

@@ -840,6 +840,17 @@ header {
   background: @red-map;//#F04646;
 }
 
+.regional-callouts {
+  justify-content: center;
+  .reg-prop-name {
+    font-size: 16px;
+  }
+  .result {
+    height: 40px;
+    margin-top: -10px;
+  }
+}
+
 .propositions-list, .sf-propositions-list, .regional-callouts {
   font-family: @block-graphics;
   .display-flex;
@@ -885,7 +896,7 @@ header {
     display:block;
     border: 2px @light-gray solid;
     // width: 100%;
-    .flex(0 0 19.5%);
+    .flex(0 0 32.5%);
     margin: 0.25%;
     &.long {
       .flex(0 0 99.5%);
