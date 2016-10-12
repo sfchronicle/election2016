@@ -156,6 +156,7 @@ function tooltip_function(abbrev,races,properties) {
     if (tempvar.r) {
       if (+tempvar.r["Yes"] != 0) {
         var total = +tempvar.r["Yes"] + +tempvar.r["No"];
+        if (total == 0) { total = 0.1;}
         var html_str = "<div class='state-name'>"+properties.name+"</div>";
         html_str = html_str+"<div class='result'>Yes: "+Math.round(+tempvar.r["Yes"]/total*1000)/10+"% / No: "+Math.round(+tempvar.r["No"]/total*1000)/10+"%</div>";
         html_str = html_str+"<div>"+formatthousands(tempvar.p)+"/"+formatthousands(properties.precincts)+" precincts reporting</div>";
@@ -705,6 +706,7 @@ for (var propidx=51; propidx<68; propidx++) {
   var propID = document.getElementById("prop"+propidx);
   var propResult = propsCA[propidx]["state"];
   var total = +propResult.r["Yes"]+ +propResult.r["No"];
+  if (total == 0) { total = 0.1;}
   if (propResult.d == "Yes") {
     var htmlresult = "<span class='propyes'><i class='fa fa-check-square-o' aria-hidden='true'></i>Yes: "+Math.round(propResult.r["Yes"]/total*1000)/10+"% / </span>"+"<span class='propno'>No: "+Math.round(propResult.r["No"]/total*1000)/10+"%</span>"
   } else if (propResult.d == "Nes") {
@@ -712,6 +714,9 @@ for (var propidx=51; propidx<68; propidx++) {
   } else {
     var htmlresult = "<span class='propyes'>Yes: "+Math.round(propResult.r["Yes"]/total*1000)/10+"% / </span>"+"<span class='propno'>No: "+Math.round(propResult.r["No"]/total*1000)/10+"%</span>"
   }
+  console.log(propResult);
+  // INSERTING AN ERROR HERE-- CHECK THIS!!!
+  var htmlresult = htmlresult+ "<div class='prop-precincts'>"+formatthousands(propResult.p)+" / "+formatthousands(propResult.p)+" precincts reporting</div>"
   propID.insertAdjacentHTML("beforebegin",htmlresult)
 }
 
@@ -782,20 +787,16 @@ sfinput.addEventListener('input', function(){
 for (var propidx=0; propidx<24; propidx++) {
   var propID = document.getElementById("sfprop"+propidx);
   var propResult = localData["San Francisco"]["Measures"][propidx];
-  console.log(propResult);
-  // if (propResult.r){
-    var total = +propResult["Yes"]+ +propResult["No"];
-    console.log(total);
-    if (propResult.d == "Yes") {
-      var htmlresult = "<span class='propyes'><i class='fa fa-check-square-o' aria-hidden='true'></i>Yes: "+Math.round(propResult["Yes"]/total*1000)/10+"% / </span>"+"<span class='propno'>No: "+Math.round(propResult.r["No"]/total*1000)/10+"%</span>"
-    } else if (propResult.d == "No") {
-      var htmlresult = "<span class='propyes'>Yes: "+Math.round(propResult["Yes"]/total*1000)/10+"% / </span>"+"<span class='propno'><i class='fa fa-check-square-o' aria-hidden='true'>No: "+Math.round(propResult["No"]/total*1000)/10+"%</i></span>"
-    } else {
-      var htmlresult = "<span class='propyes'>Yes: "+Math.round(propResult["Yes"]/total*1000)/10+"% / </span>"+"<span class='propno'>No: "+Math.round(propResult["No"]/total*1000)/10+"%</span>"
-    }
-  // } else {
-  //     var htmlresult = "<span class='propyes'>Yes: 0% / </span><span class='propno'>No: 0%</span>"
-  // }
+  var total = +propResult["Yes"]+ +propResult["No"];
+  if (total == 0) { total = 0.1;}
+  if (propResult.d == "Yes") {
+    var htmlresult = "<span class='propyes'><i class='fa fa-check-square-o' aria-hidden='true'></i>Yes: "+Math.round(propResult["Yes"]/total*1000)/10+"% / </span>"+"<span class='propno'>No: "+Math.round(propResult.r["No"]/total*1000)/10+"%</span>"
+  } else if (propResult.d == "No") {
+    var htmlresult = "<span class='propyes'>Yes: "+Math.round(propResult["Yes"]/total*1000)/10+"% / </span>"+"<span class='propno'><i class='fa fa-check-square-o' aria-hidden='true'>No: "+Math.round(propResult["No"]/total*1000)/10+"%</i></span>"
+  } else {
+    var htmlresult = "<span class='propyes'>Yes: "+Math.round(propResult["Yes"]/total*1000)/10+"% / </span>"+"<span class='propno'>No: "+Math.round(propResult["No"]/total*1000)/10+"%</span>"
+  }
+  var htmlresult = htmlresult+ "<div class='prop-precincts'>"+formatthousands(propResult.p)+" / "+formatthousands(propResult.pt)+" precincts reporting</div>"
   propID.insertAdjacentHTML("beforebegin",htmlresult)
 }
 
@@ -871,6 +872,7 @@ for (var ii=0; ii<6; ii++) {
   var propID = document.getElementById("regionalprop"+propID_list[ii]);
   var propResult = eval(String(propID_list[ii])+"PropData");
   var total = +propResult["Yes"]+ +propResult["No"];
+  if (total == 0) { total = 0.1;}
   if (propResult.d == "Yes") {
     var htmlresult = "<span class='propyes small'><i class='fa fa-check-square-o' aria-hidden='true'></i>Yes: "+Math.round(propResult["Yes"]/total*1000)/10+"% / </span>"+"<span class='propno small'>No: "+Math.round(propResult["No"]/total*1000)/10+"%</span>"
   } else if (propResult.d == "No") {
@@ -879,6 +881,7 @@ for (var ii=0; ii<6; ii++) {
     console.log(propResult["Yes"]);
     var htmlresult = "<span class='propyes small'>Yes: "+Math.round(propResult["Yes"]/total*1000)/10+"% / </span>"+"<span class='propno small'>No: "+Math.round(propResult["No"]/total*1000)/10+"%</span>"
   }
+  var htmlresult = htmlresult+ "<div class='prop-precincts'>"+formatthousands(propResult.p)+" / "+formatthousands(propResult.pt)+" precincts reporting</div>"
   propID.insertAdjacentHTML("beforebegin",htmlresult)
 }
 
