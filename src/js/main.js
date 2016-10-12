@@ -822,6 +822,37 @@ qsa(".sectionbutton").forEach(function(group,index) {
 });
 
 // -----------------------------------------------------------------------------
+// filling in regional propositions results ---------------------------------------
+// -----------------------------------------------------------------------------
+
+
+// NEED TO UPDATE THIS!!!!
+console.log(localData);
+var propID_list = ["RR","X","B","T1","O1","HH"];
+var RRPropData = localData["Special Districts"]["Measures"][1];
+var XPropData = localData["Contra Costa"]["Measures"][21];
+var BPropData = localData["Santa Clara"]["Measures"][1];
+// regionalPropData["T1"] = localData["Berkeley"]["Measures"][]
+
+for (var ii=0; ii<2; ii++) {
+  var propID = document.getElementById("regionalprop"+propID_list[ii]);
+  var propResult = propID_list[ii]+"PropData";
+  if (propResult.r){
+    var total = propResult.r["Yes"]+propResult.r["No"]
+    if (propResult.d == "Yes") {
+      var htmlresult = "<span class='propyes small'><i class='fa fa-check-square-o' aria-hidden='true'></i>Yes: "+Math.round(propResult.r["Yes"]/total*1000)/10+"% / </span>"+"<span class='propno small'>No: "+Math.round(propResult.r["No"]/total*1000)/10+"%</span>"
+    } else if (propResult.d == "Nes") {
+      var htmlresult = "<span class='propyes small'>Yes: "+Math.round(propResult.r["Yes"]/total*1000)/10+"% / </span>"+"<span class='propno small'><i class='fa fa-check-square-o' aria-hidden='true'>No: "+Math.round(propResult.r["No"]/total*1000)/10+"%</i></span>"
+    } else {
+      var htmlresult = "<span class='propyes small'>Yes: "+Math.round(propResult.r["Yes"]/total*1000)/10+"% / </span>"+"<span class='propno small'>No: "+Math.round(propResult.r["No"]/total*1000)/10+"%</span>"
+    }
+  } else {
+      var htmlresult = "<span class='propyes small'>Yes: 0% / </span><span class='propno small'>No: 0%</span>"
+  }
+  propID.insertAdjacentHTML("beforebegin",htmlresult)
+}
+
+// -----------------------------------------------------------------------------
 // controls for collapsing and expanding sections ------------------------------
 // -----------------------------------------------------------------------------
 

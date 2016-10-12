@@ -218,6 +218,7 @@
             <img src='./assets/graphics/regionalprops/measureRR.png'></img>
           </div>
           <div class='reg-prop-name'>Measure RR</div>
+          <div class='result'><div id="regionalpropRR"></div></div>
           <div class="reg-prop-desc">Authorizes $3.5 billion in bonds for BART to rehabilitation and modernization. Requires cumulative two-thirds vote in San Francisco, Alameda and Contra Costa counties for passage.</div>
         </div>
         <% csv.RegionalMeasuresData.forEach(function(prop,idx){ %>
@@ -226,7 +227,7 @@
               <img src='./assets/graphics/regionalprops/measure<%=prop.letter%>.png'></img>
             </div>
             <div class='reg-prop-name'><%=prop.title%></div>
-            <div class='result'><div id="regionalprop<%=idx%>"></div></div>
+            <div class='result'><div id="regionalprop<%=prop.letter%>"></div></div>
             <div class='reg-prop-desc'><%=prop.description%></div>
           </div>
         <% }); %>
