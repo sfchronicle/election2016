@@ -181,6 +181,8 @@ function tooltip_function(abbrev,races,properties) {
         sum += element;
         count++;
       }
+      // this is a hack for when there are no reported results yet
+      if (sum == 0) { sum = 0.1; }
       var count = 1; var html_str = "<div class='state-name'>"+properties.name+"</div>";
       while (tempvar["c"+count]) {
         var party = tempvar["c"+count+"_party"];
@@ -695,8 +697,8 @@ function camap(active_map,active_data,flag) {
             .style("left",10+"px");
         } else {
           return state_tooltip
-            .style("top", (d3.event.pageY+20)+"px")
-            .style("left",(d3.event.pageX-80)+"px");
+            .style("top", (d3.event.pageY+10)+"px")
+            .style("left",(d3.event.pageX-150)+"px");
         }
       })
       .on("mouseout", function(){return state_tooltip.style("visibility", "hidden");
