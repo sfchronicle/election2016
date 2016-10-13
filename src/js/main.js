@@ -751,9 +751,7 @@ for (var propidx=51; propidx<68; propidx++) {
   } else {
     var htmlresult = "<span class='propyes'>Yes: "+Math.round(propResult.r["Yes"]/total*1000)/10+"% / </span>"+"<span class='propno'>No: "+Math.round(propResult.r["No"]/total*1000)/10+"%</span>"
   }
-  console.log(propResult);
-  // INSERTING AN ERROR HERE-- CHECK THIS!!!
-  var htmlresult = htmlresult+ "<div class='prop-precincts'>"+formatthousands(propResult.p)+" / "+formatthousands(propResult.p)+" precincts reporting</div>"
+  var htmlresult = htmlresult+ "<div class='prop-precincts'>"+formatthousands(propResult.p)+" / 24848 precincts reporting</div>"
   propID.insertAdjacentHTML("beforebegin",htmlresult)
 }
 

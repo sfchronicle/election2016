@@ -76,6 +76,9 @@ h1 {
   padding-top: 40px;
   margin-bottom: 0;
   color: darken(@red,40%) !important;
+  @media @mobile {
+    padding-top: 20px;
+  }
 }
 
 h2 {
@@ -85,6 +88,9 @@ h2 {
   border-bottom: 5px @light-gray solid;
   padding-top: 40px;
   margin-bottom: 30px;
+  @media @mobile {
+    padding-top: 0;
+  }
   &.regionalhed {
     padding: 0;
     border: 0;
@@ -115,6 +121,11 @@ h2 {
   padding-left: 20px;
   @media @mobile {
     padding-left: 0;
+  }
+}
+#fsec {
+  @media @mobile {
+    padding-bottom: 20px;
   }
 }
 
@@ -161,6 +172,9 @@ h5 {
 .br {
   height: 30px;
   margin: auto;
+  @media @mobile {
+    height: 5px;
+  }
 }
 
 // text styles -------------------------------------------
@@ -449,10 +463,8 @@ footer {
   height: 40px;
   @media @mobile {
     height: 35px;
-    // display: none;
-    // width: 100px;
+    padding-bottom: 20px;
   }
-  // display:none;
 }
 
 #stick-ph {
@@ -729,7 +741,7 @@ header {
     cursor: pointer;
 
     @media @mobile {
-      width: 60px;
+      width: 80px;
       font-size: 14px;
       height: 20px;
     }
@@ -741,9 +753,16 @@ header {
     color: #92172c;
     text-align: right;
     @media @mobile {
+      // display: none;
       font-size: 14px;
       width: 140px;
     }
+  }
+}
+
+#long {
+  @media @mobile {
+    display: none !important;
   }
 }
 
@@ -1064,6 +1083,9 @@ header {
   @media @tablet {
     font-size: 12px;
   }
+  @media @mobile {
+    line-height: 20px;
+  }
 }
 
 .flex-container {
@@ -1111,7 +1133,7 @@ header {
   @media @mobile {
     clear: both;
     width: 100%;
-    padding-bottom: 43%;
+    padding-bottom: 48%;
   }
   svg {
     margin: auto;
@@ -1350,5 +1372,19 @@ header {
 .ad {
   img {
     width: 100%;
+  }
+  &.mobile {
+    display: none;
+    @media @mobile {
+      display: block;
+      margin: 0 auto;
+      margin-bottom: 10px;
+    }
+  }
+  &.desktop {
+    display: block;
+    @media @mobile {
+      display: none;
+    }
   }
 }
