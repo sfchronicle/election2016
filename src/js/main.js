@@ -29,14 +29,11 @@ function populateMeasure(measureID,measurevar) {
   if (total == 0) { total = 0.1;}
   if (measurevar.d) {
     if (measurevar.d == "Yes") {
-      console.log("should be yes");
       var html_str ="<div class='measure-group'><div class='result yes'><i class='fa fa-check-square-o' aria-hidden='true'></i> Yes: "+Math.round(+measurevar["Yes"]/total*1000)/10+"% / No: "+Math.round(+measurevar["No"]/total*1000)/10+"%</div>";
     } else {
-      console.log("should be no");
       var html_str ="<div class='measure-group'><div class='result no'>Yes: "+Math.round(+measurevar["Yes"]/total*1000)/10+"% / <i class='fa fa-check-square-o' aria-hidden='true'></i> No: "+Math.round(+measurevar["No"]/total*1000)/10+"%</div>";
     }
   } else {
-    console.log("we got nothing");
     var html_str ="<div class='measure-group'><div class='result'>Yes: "+Math.round(+measurevar["Yes"]/total*1000)/10+"% / No: "+Math.round(+measurevar["No"]/total*1000)/10+"%</div>";
   }
   html_str = html_str+"<div>"+formatthousands(measurevar.p)+"/"+formatthousands(measurevar.pt)+" precincts reporting</div>";
@@ -841,7 +838,6 @@ localData["San Francisco"]["Supervisors"].forEach(function(d,idx) {
   sectionID.insertAdjacentHTML("beforeend","<h4 class='race sup' id='district"+districtNum+"'>"+d.name+"</h4>")
   var supeID = document.getElementById("district"+districtNum);
   var racevar = d;
-  console.log(racevar);
   populateRace(supeID,racevar);
 });
 
