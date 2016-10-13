@@ -752,6 +752,12 @@ header {
   img {
     height: 80px;
   }
+  @media @mobile {
+    height: 60px;
+    img {
+      height: 60px;
+    }
+  }
   &.right {
     float: right;
   }
@@ -812,6 +818,11 @@ header {
   }
   &.left {
     float: left;
+  }
+  @media @mobile {
+    margin-top: 0;
+    padding: 0;
+    height: 25px;
   }
 }
 .president-bar {
@@ -1056,9 +1067,11 @@ header {
 }
 
 .flex-container {
-  // @media @tablet {
-    .display-flex();
-  // }
+  .display-flex();
+  @media @mobile {
+    clear: both;
+    display: block;
+  }
 }
 
 .measure-group {
@@ -1091,13 +1104,15 @@ header {
 
 #map-container-state {
   padding-bottom: 35%;
-  // @media @tablet {
-    .flex(0 0 65%);
-  // }
+  .flex(0 0 65%);
   @media @tablet {
     padding-bottom: 40%;
   }
-
+  @media @mobile {
+    clear: both;
+    width: 100%;
+    padding-bottom: 43%;
+  }
   svg {
     margin: auto;
   }
@@ -1119,9 +1134,9 @@ header {
     @media @tablet {
       .flex(0 0 45%);
     }
-    // margin-bottom: 20px;
-    // float: left;
-    // width: 30%;
+    @media @mobile {
+      display: none;
+    }
   }
   .button {
     width: 200px;
