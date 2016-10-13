@@ -61,8 +61,12 @@ function populateRace(raceID,racevar) {
         html = html+"<div class='entry'><h3 class='name'>"+racevar["c"+count+"_name"]+" <span class='"+racevar["c"+count+"_party"]+"party'>" + racevar["c"+count+"_party"] + "</span></h3><div class='bar' id='"+namekey+"'></div><div class='bar-label'>"+Math.round(racevar["c"+count]/sum*100)+"%</div></div>";
       }
     } else {
-      if (racevar["c"+count+"_i"] == 1) {
+      if ((racevar["c"+count+"_d"] == 1) && (racevar["c"+count+"_i"] == 1)) {
+        html = html+"<div class='entry'><h3 class='name'><i class='fa fa-check-square-o' aria-hidden='true'></i>"+racevar["c"+count+"_name"]+ "<i class='fa fa-star' aria-hidden='true'></i></span></h3><div class='bar' id='"+namekey+"'></div><div class='bar-label' id='barlabel-"+namekey+"'>"+Math.round(racevar["c"+count]/sum*100)+"%</div></div>";
+      } else if (racevar["c"+count+"_d"] == 1) {
         html = html+"<div class='entry'><h3 class='name'><i class='fa fa-check-square-o' aria-hidden='true'></i>"+racevar["c"+count+"_name"]+ "</span></h3><div class='bar' id='"+namekey+"'></div><div class='bar-label' id='barlabel-"+namekey+"'>"+Math.round(racevar["c"+count]/sum*100)+"%</div></div>";
+      } else if (racevar["c"+count+"_i"] == 1){
+        html = html+"<div class='entry'><h3 class='name'>"+racevar["c"+count+"_name"]+ "<i class='fa fa-star' aria-hidden='true'></i></span></h3><div class='bar' id='"+namekey+"'></div><div class='bar-label' id='barlabel-"+namekey+"'>"+Math.round(racevar["c"+count]/sum*100)+"%</div></div>";
       } else {
         html = html+"<div class='entry'><h3 class='name'>"+racevar["c"+count+"_name"]+ "</span></h3><div class='bar' id='"+namekey+"'></div><div class='bar-label' id='barlabel-"+namekey+"'>"+Math.round(racevar["c"+count]/sum*100)+"%</div></div>";
       }
@@ -238,7 +242,12 @@ function regional_section(this_name,regionkey){
     });
     localData[this_name][d2].forEach(function(d3,idx3){
       var key = d3.name.toLowerCase().replace(/ /g,'').replace(".","").replace("'","");
-      raceID.insertAdjacentHTML("beforeend","<h4 class='race sup' id='key"+regionkey+racekey+key+"'>"+d3.name+"</h4>")
+      if(d3["n"]) {
+        var h4_html = "<h4 class='race sup' id='key"+regionkey+racekey+key+"'>"+d3.name+" ("+d3["n"]+")</h4>";
+      } else {
+        var h4_html = "<h4 class='race sup' id='key"+regionkey+racekey+key+"'>"+d3.name+"</h4>";
+      }
+      raceID.insertAdjacentHTML("beforeend",h4_html)
       var finalID = document.getElementById("key"+regionkey+racekey+key);
       // need to do a different thing for measures here
       if (racekey == "measures") {
