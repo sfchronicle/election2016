@@ -690,16 +690,16 @@ function camap(active_map,active_data,flag) {
       })
       .on("mousemove", function() {
         if (screen.width <= 480) {
-          return tooltip
+          return state_tooltip
             .style("top",(d3.event.pageY+40)+"px")//(d3.event.pageY+40)+"px")
             .style("left",10+"px");
         } else {
-          return tooltip
+          return state_tooltip
             .style("top", (d3.event.pageY+20)+"px")
             .style("left",(d3.event.pageX-80)+"px");
         }
       })
-      .on("mouseout", function(){return tooltip.style("visibility", "hidden");
+      .on("mouseout", function(){return state_tooltip.style("visibility", "hidden");
       });
   });
 
