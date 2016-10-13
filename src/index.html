@@ -20,15 +20,13 @@
 
     <div class="outer">
 
-      <!-- <img class="icon left" src="./assets/top_hat.jpg"></img> -->
-      <!-- <img class="icon right" src="./assets/top_hat.jpg"></img> -->
       <div class="title-img"><img src="./assets/election2016banner.png"></div>
 
       <div class="inline-img ad desktop">
         <img src="https://placeholdit.imgix.net/~text?txtsize=33&txt=AD%20SPACE&w=728&h=90"></img>
       </div>
       <div class="inline-img ad mobile">
-        <img src="https://placeholdit.imgix.net/~text?txtsize=33&txt=AD%20SPACE&w=320&h=100"></img>
+        <img src="https://placeholdit.imgix.net/~text?txtsize=33&txt=AD%20SPACE&w=320&h=50"></img>
       </div>
 
       <div id="stick-here"></div>
@@ -85,7 +83,7 @@
           <img src="https://placeholdit.imgix.net/~text?txtsize=33&txt=AD%20SPACE&w=728&h=90"></img>
         </div>
         <div class="inline-img ad mobile">
-          <img src="https://placeholdit.imgix.net/~text?txtsize=33&txt=AD%20SPACE&w=320&h=100"></img>
+          <img src="https://placeholdit.imgix.net/~text?txtsize=33&txt=AD%20SPACE&w=320&h=250"></img>
         </div>
         <div class="divider"></div>
 
@@ -129,7 +127,7 @@
       <img src="https://placeholdit.imgix.net/~text?txtsize=33&txt=AD%20SPACE&w=728&h=90"></img>
     </div>
     <div class="inline-img ad mobile">
-      <img src="https://placeholdit.imgix.net/~text?txtsize=33&txt=AD%20SPACE&w=320&h=100"></img>
+      <img src="https://placeholdit.imgix.net/~text?txtsize=33&txt=AD%20SPACE&w=320&h=250"></img>
     </div>
     <div class="divider"></div>
     <section id="state">
@@ -194,13 +192,13 @@
         </div>
         <div class="drop-down">
           <div class="select-text">Select race from the menu:</div>
-          <select name="select">
-            <option value="0">State Assembly</option>
-            <option value="1">State Senate</option>
-            <option value="2">U.S. House races</option>
-            <option value="3">U.S. Senate by district</option>
+          <select name="select" id="select-race">
+            <option value="0" class="option">State Assembly</option>
+            <option value="1" class="option">State Senate</option>
+            <option value="2" class="option">U.S. House races</option>
+            <option value="3" class="option">U.S. Senate by district</option>
             <% csv.StatePropositionsData.forEach(function(prop,idx){ %>
-              <option value='<%=prop.number%>'><%=prop.title%> (Prop. <%=prop.number%>)</div>
+              <option value='<%=prop.number%>' class="option"><%=prop.title%> (Prop. <%=prop.number%>)</div>
             <% }); %>
           </select>
         </div>

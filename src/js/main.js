@@ -599,6 +599,34 @@ populateRace(raceID,congressvar);
 // STATE MAP ------------------------------------------------------------
 // -----------------------------------------------------------------------------
 
+var select_race = document.getElementById("select-race");
+select_race.addEventListener("change",function(){
+  console.log(select_race.value);
+  if (select_race.value == 0) {
+    d3.selectAll(".camap").classed("active",false);
+    this.classList.add("active");
+    camap("./assets/maps/ca_assembly.json",assemblyCA,0);
+  } else if (select_race.value == 1) {
+    d3.selectAll(".camap").classed("active",false);
+    this.classList.add("active");
+    camap("./assets/maps/ca_statesenate.json",senateCA,0);
+  } else if (select_race.value == 2) {
+    d3.selectAll(".camap").classed("active",false);
+    this.classList.add("active");
+    camap("./assets/maps/ca_county.json",federalsenateCA,1);
+  } else if (select_race.value == 3) {
+    d3.selectAll(".camap").classed("active",false);
+    this.classList.add("active");
+    camap("./assets/maps/ca_house.json",houseCA,0);
+  } else {
+    d3.selectAll(".camap").classed("active",false);
+    this.classList.add("active");
+    var active_data = propsCA[select_race.value];
+    camap("./assets/maps/ca_county.json",active_data.counties);
+  }
+});
+
+
 var path = d3.geo.path()
     .projection(null);
 
@@ -693,8 +721,8 @@ function camap(active_map,active_data,flag) {
       .on("mousemove", function() {
         if (screen.width <= 480) {
           return state_tooltip
-            .style("top",(d3.event.pageY+40)+"px")//(d3.event.pageY+40)+"px")
-            .style("left",10+"px");
+            .style("top",(d3.event.pageY+10)+"px")//(d3.event.pageY+40)+"px")
+            .style("left",50+"px");
         } else {
           return state_tooltip
             .style("top", (d3.event.pageY+10)+"px")
