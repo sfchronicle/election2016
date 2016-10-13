@@ -685,8 +685,8 @@ function camap(active_map,active_data,flag) {
       .attr("d", path)
       .on('mouseover', function(d,index) {
         var html_str = tooltip_function(d.id,active_data,d.properties);
-        tooltip.html(html_str);
-        tooltip.style("visibility", "visible");
+        state_tooltip.html(html_str);
+        state_tooltip.style("visibility", "visible");
       })
       .on("mousemove", function() {
         if (screen.width <= 480) {
@@ -702,6 +702,14 @@ function camap(active_map,active_data,flag) {
       .on("mouseout", function(){return tooltip.style("visibility", "hidden");
       });
   });
+
+  // show tooltip
+  var state_tooltip = d3.select("#map-container-state")
+      .append("div")
+      .attr("class","tooltip")
+      .style("position", "absolute")
+      .style("z-index", "10")
+      .style("visibility", "hidden")
 };
 
 camap("./assets/maps/ca_assembly.json",assemblyCA,0);

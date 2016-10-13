@@ -419,6 +419,13 @@ footer {
 
 // sticky navigation bar -------------------------------
 
+.navigation {
+  height: 30px;
+  a {
+    vertical-align: text-bottom;
+  }
+}
+
 .fixed {
   position: fixed;
   top: 0 !important;
@@ -1037,10 +1044,13 @@ header {
     color: green;
     margin-right: 5px;
   }
+  @media @tablet {
+    font-size: 12px;
+  }
 }
 
 .flex-container {
-  @media screen and (min-width: 769px) {
+  @media @tablet {
     .display-flex();
   }
 }
@@ -1075,7 +1085,7 @@ header {
 
 #map-container-state {
   padding-bottom: 35%;
-  @media screen and (min-width: 769px) {
+  @media @tablet {
     .flex(0 0 65%);
   }
   @media @tablet {
@@ -1100,7 +1110,7 @@ header {
   text-align: center;
   margin: 5px auto;
   &.vertical {
-    @media screen and (min-width: 769px) {
+    @media @tablet {
       .flex(0 0 45%);
     }
     // margin-bottom: 20px;
@@ -1123,6 +1133,9 @@ header {
   .sectionbutton {
     background: @blue-map;
     color: white;
+    @media @tablet {
+      font-size: 16px;
+    }
     &:hover {
       background: @light-blue-map;
     }
@@ -1133,6 +1146,9 @@ header {
   .camap {
     width: 49%;
     font-size: 14px;
+    @media @tablet {
+      font-size: 11px;
+    }
     margin: 0;
     padding: 2px;
     margin: 1px auto;
@@ -1208,8 +1224,12 @@ header {
 .party {background-color: lighten(@green-map,10%);}
 .Demparty {
   background-color: lighten(@blue-map,10%) !important;
-  &.lorettasanchez {
-    background-color: lighten(@light-blue-map,10%) !important;
+}
+#map-container-state {
+  .Demparty {
+    &.lorettasanchez {
+      background-color: lighten(@light-blue-map,10%) !important;
+    }
   }
 }
 .GOPparty {background-color: lighten(@red-map,10%) !important;}//rgb(240, 70, 70);}
