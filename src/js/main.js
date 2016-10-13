@@ -27,7 +27,18 @@ function shadeColor2(color, percent) {
 function populateMeasure(measureID,measurevar) {
   var total = +measurevar["Yes"] + +measurevar["No"];
   if (total == 0) { total = 0.1;}
-  var html_str ="<div class='measure-group'><div class='result'>Yes: "+Math.round(+measurevar["Yes"]/total*1000)/10+"% / No: "+Math.round(+measurevar["No"]/total*1000)/10+"%</div>";
+  if (measurevar.d) {
+    if (measurevar.d == "Yes") {
+      console.log("should be yes");
+      var html_str ="<div class='measure-group'><div class='result yes'><i class='fa fa-check-square-o' aria-hidden='true'></i> Yes: "+Math.round(+measurevar["Yes"]/total*1000)/10+"% / No: "+Math.round(+measurevar["No"]/total*1000)/10+"%</div>";
+    } else {
+      console.log("should be no");
+      var html_str ="<div class='measure-group'><div class='result no'>Yes: "+Math.round(+measurevar["Yes"]/total*1000)/10+"% / <i class='fa fa-check-square-o' aria-hidden='true'></i> No: "+Math.round(+measurevar["No"]/total*1000)/10+"%</div>";
+    }
+  } else {
+    console.log("we got nothing");
+    var html_str ="<div class='measure-group'><div class='result'>Yes: "+Math.round(+measurevar["Yes"]/total*1000)/10+"% / No: "+Math.round(+measurevar["No"]/total*1000)/10+"%</div>";
+  }
   html_str = html_str+"<div>"+formatthousands(measurevar.p)+"/"+formatthousands(measurevar.pt)+" precincts reporting</div>";
   if (measurevar.a && measurevar.a != "50% + 1") {
     html_str = html_str + "<div class='votes-req'>Vote requirement: "+measurevar.a+"</div>"
