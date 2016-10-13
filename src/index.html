@@ -192,6 +192,18 @@
             <div class="button camap prop camapprop prop<%=prop.number%>" id="button<%=prop.number%>"><%=prop.title%> (Prop. <%=prop.number%>)</div>
           <% }); %>
         </div>
+        <div class="drop-down">
+          <div class="select-text">Select race from the menu:</div>
+          <select name="select">
+            <option value="0">State Assembly</option>
+            <option value="1">State Senate</option>
+            <option value="2">U.S. House races</option>
+            <option value="3">U.S. Senate by district</option>
+            <% csv.StatePropositionsData.forEach(function(prop,idx){ %>
+              <option value='<%=prop.number%>'><%=prop.title%> (Prop. <%=prop.number%>)</div>
+            <% }); %>
+          </select>
+        </div>
 
         <div id="map-container-state"></div>
       </div>
