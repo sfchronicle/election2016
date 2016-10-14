@@ -25,6 +25,23 @@
       <div id="stick-here"></div>
       <div id="stick-me">
         <div class="sub-title-links outer" style="margin: 0 auto;">
+          <div class="share-block">
+            <div class="link social email">
+              <a id="mail-icon" title="Share via email" href="mailto:?subject=<%= grunt.data.json.project.title %>&body=<%= grunt.data.json.project.description %>%0A%0Ahttp%3A%2F%2Fprojects.sfchronicle.com%2F2016%2F<%= grunt.data.json.project.slug %>">
+                <i class="fa fa-envelope" aria-hidden="true"></i>
+              </a>
+            </div>
+            <div class="link social">
+              <a id="facebook-icon" title="Share on Facebook" href="#" target="_blank" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fprojects.sfchronicle.com%2F2016%2F<%= grunt.data.json.project.slug %>', 'facebook-share-dialog', 'width=626,height=436'); return false;">
+                <i class="fa fa-facebook"></i>
+              </a>
+            </div>
+            <div class="link social">
+              <a id="twitter-icon" title="Share on Twitter" href="https://twitter.com/intent/tweet?url=http%3A%2F%2Fprojects.sfchronicle.com%2F2016%2F<%= grunt.data.json.project.slug %>&text=<%= grunt.data.json.project.twitter_text %>&hashtags=<%= grunt.data.json.project.hashtag %>">
+                <i class="fa fa-twitter"></i>
+              </a>
+            </div>
+          </div>
           <div class="long" id="long">ELECTION <span class="year">2016</span></div>
           <div class="sub-title"><a id="f" href="#federal">Federal</a></div>
           <div class="sub-title"><a id="s" href="#state">State</a></div>

@@ -316,7 +316,7 @@ document.querySelector('#presidentbycounty').addEventListener('click', function(
   	.append("pattern")
   		.attr({ id:"hash4_4", width:"8", height:"8", patternUnits:"userSpaceOnUse", patternTransform:"rotate(60)"})
   	.append("rect")
-  		.attr({ width:"4", height:"8", transform:"translate(0,0)", fill:"#337699" });
+  		.attr({ width:"2", height:"8", transform:"translate(0,0)", fill:blue });
 
   d3.json(map_file, function(error, us) {
     if (error) throw error;
@@ -335,8 +335,19 @@ document.querySelector('#presidentbycounty').addEventListener('click', function(
           var stateabbrev = stateCodes[parseInt(d.id)].state;
           if (presidentialData[String(stateabbrev)].d) {
             var tempvar = presidentialData[String(stateabbrev)];
-            var new_color = code_map_variable(tempvar,d.properties);
-            return new_color;
+            if (stateabbrev[0] == "A") {
+              console.log(tempvar);
+              // return red;
+              // return shadeColor2(blue, 0.5);
+              return "url(#hash4_4)";
+            } else if (stateabbrev[0] == "M"){
+              return blue;
+            } else {
+              return red;
+            }
+
+            // var new_color = code_map_variable(tempvar,d.properties);
+            // return new_color;
           } else {
             return dark_gray;//fill(path.area(d));
           }
