@@ -22,13 +22,6 @@
 
       <div class="title-img"><img src="./assets/election2016banner.png"></div>
 
-      <div class="inline-img ad desktop">
-        <img src="https://placeholdit.imgix.net/~text?txtsize=33&txt=AD%20SPACE&w=728&h=90"></img>
-      </div>
-      <div class="inline-img ad mobile">
-        <img src="https://placeholdit.imgix.net/~text?txtsize=33&txt=AD%20SPACE&w=320&h=50"></img>
-      </div>
-
       <div id="stick-here"></div>
       <div id="stick-me">
         <div class="sub-title-links outer" style="margin: 0 auto;">
@@ -90,7 +83,7 @@
       </div>
 
       <section id="federal">
-      <h1>Federal</h1>
+      <h1 class="section-hed">Federal</h1>
       <div class="br"></div>
 
         <div id="fsec">
@@ -131,7 +124,7 @@
     </div>
     <div class="divider"></div>
     <section id="state">
-      <h1>State</h1>
+      <h1 class="section-hed">State</h1>
 
       <h2 class="races" id="racectrl"><i class="fa fa-caret-down" id="rcaret" aria-hidden="true"></i>  Races:</h2>
 
@@ -156,10 +149,6 @@
               <div class='prop-name'><%=prop.title%></div>
               <div class='result'><div id="prop<%=prop.number%>"></div></div>
               <div class='prop-desc'><%=prop.description%></div>
-
-              <% if (prop.link){ %>
-                <div class='prop-link'><a target='_blank' href='<%=prop.link%>'><i class='fa fa-external-link' aria-hidden='true'></i>  Read more</a></div>
-              <% } %>
             </div>
 
           <% }); %>
@@ -209,12 +198,7 @@
     </section>
     <section id="local">
 
-      <h1>San Francisco</h1>
-
-      <h2 class="races" id="sctrl"><i class="fa fa-caret-right" id="scaret" aria-hidden="true"></i>  Supervisors:</h2>
-      <div id="ssec">
-        <div id="sf-section"></div>
-      </div>
+      <h1 class="section-hed">San Francisco</h1>
 
       <h2 class="sf-propositions" id="sfpropctrl"><i class="fa fa-caret-right" id="sfcaret" aria-hidden="true"></i>  Propositions:</h2>
       <div id="sfpropsec">
@@ -230,20 +214,21 @@
               <div class='prop-name'><%=prop.title%></div>
               <div class='result'><div id="sfprop<%=idx%>"></div></div>
               <div class='sf-prop-desc'><%=prop.description%></div>
-
-              <% if (prop.link){ %>
-                <div class='sf-prop-link'><a target='_blank' href='<%=prop.link%>'><i class='fa fa-external-link' aria-hidden='true'></i>  Read more</a></div>
-              <% } %>
             </div>
 
           <% }); %>
         </div>
       </div>
 
+      <h2 class="races" id="sctrl"><i class="fa fa-caret-right" id="scaret" aria-hidden="true"></i>  Supervisors:</h2>
+      <div id="ssec">
+        <div id="sf-section"></div>
+      </div>
+
     </section>
     <section id="regional">
 
-      <h1>Bay Area</h1>
+      <h1 class="section-hed">Bay Area</h1>
       <div class="br"></div>
 
       <div class="regional-callouts">
@@ -306,6 +291,7 @@
 
       // var electoralVotes = <%= JSON.stringify(csv.electoralVotes) %>;
       var electoralVotes = <%= JSON.stringify(json.electoralcount) %>;
+
 
       //country data
       var governorRaces = <%= JSON.stringify(json.emma_governor_state_us) %>;
