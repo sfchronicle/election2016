@@ -100,6 +100,41 @@ function populateRace(raceID,racevar) {
   }
 }
 
+// color partial results on the map
+function color_partial_results(tempvar,properties){
+  Array.prototype.max = function() {
+    return Math.max.apply(null, this);
+  };
+  var count = 1; var sum = 0;
+  var list = [];
+  while (tempvar["c"+count]) {
+    var element = +tempvar["c"+count];
+    sum += element;
+    list.push(+tempvar["c"+count]);
+    count++;
+  }
+  var winner = list.max();
+  if (winner == 0) {
+    return dark_gray;
+  } else {
+    var count = 1;
+    while (tempvar["c"+count]) {
+      if (+tempvar["c"+count] == winner){
+        if (tempvar["c"+count+"_party"] == "Dem"){
+          // return blue;
+          return "url(#hashblue)";
+        } else if (tempvar["c"+count+"_party"] == "GOP") {
+          // return red;
+          return "url(#hashred)";
+        } else {
+          return green;
+        }
+      }
+      count++;
+    }
+  }
+}
+
 // color counties on map
 function code_county(tempvar,properties){
   Array.prototype.max = function() {
@@ -114,22 +149,26 @@ function code_county(tempvar,properties){
     count++;
   }
   var winner = list.max();
-  var count = 1;
-  while (tempvar["c"+count]) {
-    if (+tempvar["c"+count] == winner){
-      if (tempvar["c"+count+"_party"] == "Dem"){
-        if (tempvar["c"+count+"_name"] == "Loretta Sanchez") {
-          return light_blue;
+  if (winner == 0) {
+    return dark_gray;
+  } else {
+    var count = 1;
+    while (tempvar["c"+count]) {
+      if (+tempvar["c"+count] == winner){
+        if (tempvar["c"+count+"_party"] == "Dem"){
+          if (tempvar["c"+count+"_name"] == "Loretta Sanchez") {
+            return light_blue;
+          } else {
+            return blue;
+          }
+        } else if (tempvar["c"+count+"_party"] == "GOP") {
+          return red;
         } else {
-          return blue;
+          return green;
         }
-      } else if (tempvar["c"+count+"_party"] == "GOP") {
-        return red;
-      } else {
-        return green;
       }
+      count++;
     }
-    count++;
   }
 }
 
@@ -314,9 +353,15 @@ document.querySelector('#presidentbycounty').addEventListener('click', function(
   //Pattern injection
   var pattern = svg_element.append("defs")
   	.append("pattern")
-  		.attr({ id:"hash4_4", width:"8", height:"8", patternUnits:"userSpaceOnUse", patternTransform:"rotate(60)"})
+  		.attr({ id:"hashblue", width:"8", height:"8", patternUnits:"userSpaceOnUse", patternTransform:"rotate(60)"})
   	.append("rect")
-  		.attr({ width:"2", height:"8", transform:"translate(0,0)", fill:blue });
+  		.attr({ width:"6", height:"8", transform:"translate(0,0)", fill:blue });
+
+  var pattern2 = svg_element.append("defs")
+    .append("pattern")
+      .attr({ id:"hashred", width:"8", height:"8", patternUnits:"userSpaceOnUse", patternTransform:"rotate(60)"})
+    .append("rect")
+      .attr({ width:"6", height:"8", transform:"translate(0,0)", fill:red });
 
   d3.json(map_file, function(error, us) {
     if (error) throw error;
@@ -335,21 +380,14 @@ document.querySelector('#presidentbycounty').addEventListener('click', function(
           var stateabbrev = stateCodes[parseInt(d.id)].state;
           if (presidentialData[String(stateabbrev)].d) {
             var tempvar = presidentialData[String(stateabbrev)];
-            if (stateabbrev[0] == "A") {
-              console.log(tempvar);
-              // return red;
-              // return shadeColor2(blue, 0.5);
-              return "url(#hash4_4)";
-            } else if (stateabbrev[0] == "M"){
-              return blue;
-            } else {
-              return red;
-            }
-
-            // var new_color = code_map_variable(tempvar,d.properties);
-            // return new_color;
+            var new_color = code_map_variable(tempvar,d.properties);
+            return new_color;
+          } else if (presidentialData[String(stateabbrev)]){
+            var tempvar = presidentialData[String(stateabbrev)];
+            var new_color = color_partial_results(tempvar,d.properties);
+            return new_color;
           } else {
-            return dark_gray;//fill(path.area(d));
+            return dark_gray;
           }
         } else {
           if (presidentialCountyData[d.id]) {
