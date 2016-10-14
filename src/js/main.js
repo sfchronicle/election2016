@@ -694,10 +694,8 @@ console.log(raceSummaries);
 var governorDem = raceSummaries["governorbalance"]["Dem"];
 var governorRep = raceSummaries["governorbalance"]["GOP"];
 var senateUncounted = raceSummaries["governorbalance"]["other"];
-var governorDem_percent = governorDem;
-console.log(governorDem);
-var governorRep_percent = governorRep;
-console.log(governorRep);
+var governorDem_percent = governorDem/50*100;
+var governorRep_percent = governorRep/50*100;
 var governorUncounted_percent = 100-governorDem_percent-governorRep_percent;
 
 document.getElementById("governor-dem").innerHTML = " ("+governorDem+" seats)";
