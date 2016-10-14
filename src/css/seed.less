@@ -30,7 +30,7 @@
 @light-blue-map: #598ECE;
 @green-map: #2E655B;
 @purple-map: #69586B;
-@no-map: #DE8067;//#EAE667;
+@no-map: #FFDB89;//#EAE667;
 @yes-map: #705A91;
 @light-gray-map: #b2b2b2;
 @dark-gray-map: #8C8C8C;
@@ -184,6 +184,11 @@ h5 {
   @media @mobile {
     height: 5px;
   }
+}
+
+.break-half {
+  height: 10px;
+  margin: auto;
 }
 
 // text styles -------------------------------------------
@@ -829,7 +834,7 @@ header {
   }
   .bar {
     margin-top: 5px;
-    background: #C6D8D3;
+    background: darken(#C6D8D3,10%);//#C6D8D3;
     background-position: 0;
     height: 20px;
     width: 500px;
@@ -932,15 +937,15 @@ header {
     // margin: 0.5%;
     padding: 10px;
     margin-bottom: 20px;
-    // background: lighten(@light-gray,10%);
+    background: lighten(@light-gray,10%);
     border-radius: 5px;
     display:block;
-    border: 2px @light-gray solid;
+    // border: 2px @light-gray solid;
     // width: 100%;
     .flex(0 0 32.5%);
     margin: 0.25%;
     &.long {
-      .flex(0 0 99.5%);
+      .flex(0 0 98.5%);
     }
     @media @mobile {
       margin: 5px auto;
@@ -998,10 +1003,14 @@ header {
   }
 }
 .propno {
+  padding-left: 10px;
   i {
     // padding-left: 5px;
     color: red;
   }
+}
+.no-class{
+  padding-left: 10px;
 }
 
 .fa-star {
@@ -1046,12 +1055,12 @@ header {
 //  display: none;
 // }
 
-#sfpropsec, #ssec {
- display: none;
-}
-#racesec, #propsec {
-  display: block;
-}
+// #sfpropsec, #ssec {
+//  display: none;
+// }
+// #racesec, #propsec {
+//   display: block;
+// }
 
 .propositions, .sf-propositions, .races {
   cursor: pointer;
@@ -1081,6 +1090,11 @@ header {
   &:hover {
     opacity: 0.7;
     cursor: pointer;
+  }
+}
+#map-container-state, #map-container-federal, #presidentMap_States-container {
+  .states {
+    stroke-width: 1px;
   }
 }
 

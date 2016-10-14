@@ -68,7 +68,6 @@
           <div class="element"><div class="rep-swath"><div class="legend-text">Republican winner</div></div></div>
           <div class="element"><div class="other-swath"><div class="legend-text">Other winner</div></div></div>
           <div class="element"><div class="uncalled-swath"><div class="legend-text">Uncalled race</div></div></div>
-          <div class="element"><div class="no-race-swath"><div class="legend-text">No race</div></div></div>
         </div>
 
         <div class="divider"></div>
@@ -83,18 +82,19 @@
       </div>
 
       <section id="federal">
+      <div class="break-half"></div>
       <h1 class="section-hed">Federal</h1>
       <div class="br"></div>
 
         <div id="fsec">
-          <h4 class="race senate" id="senate">U.S. Senate</h4>
+          <h4 class="race senate" id="senate">U.S. Senate, California</h4>
           <h4 class="race congress" id="congress">U.S. House, District 17</h4>
         </div>
 
 
       <div class="outer">
 
-        <div class="hed">Federal election results:</div>
+        <div class="hed">Federal election results</div>
 
         <div class="button-container">
           <div class="button race senate active" id="senatemap">Senate</div>
@@ -124,6 +124,7 @@
     </div>
     <div class="divider"></div>
     <section id="state">
+      <div class="break-half"></div>
       <h1 class="section-hed">State</h1>
 
       <h2 class="races" id="racectrl"><i class="fa fa-caret-down" id="rcaret" aria-hidden="true"></i>  Races:</h2>
@@ -171,10 +172,10 @@
 
       <div class="flex-container" style="min-width: 315px;">
         <div class="button-container vertical" id="ca-map-buttons">
-          <div class="button camap race caassembly active">State Assembly</div>
-          <div class="button camap race casenate">State Senate</div>
-          <div class="button camap race cadistrict">U.S. House races</div>
+          <div class="button camap race cadistrict active">U.S. House races</div>
           <div class="button camap race cafeddistrict">U.S. Senate by district</div>
+          <div class="button camap race caassembly">State Assembly</div>
+          <div class="button camap race casenate">State Senate</div>
           <% csv.StatePropositionsData.forEach(function(prop,idx){ %>
             <div class="button camap prop camapprop prop<%=prop.number%>" id="button<%=prop.number%>"><%=prop.title%> (Prop. <%=prop.number%>)</div>
           <% }); %>
@@ -197,10 +198,10 @@
 
     </section>
     <section id="local">
-
+      <div class="break-half"></div>
       <h1 class="section-hed">San Francisco</h1>
 
-      <h2 class="sf-propositions" id="sfpropctrl"><i class="fa fa-caret-right" id="sfcaret" aria-hidden="true"></i>  Propositions:</h2>
+      <h2 class="sf-propositions" id="sfpropctrl"><i class="fa fa-caret-down" id="sfcaret" aria-hidden="true"></i>  Propositions:</h2>
       <div id="sfpropsec">
         <input type="text" placeholder="&#xf002;  Search by SF proposition letter or name" id="sf-propositions-search" style="font-family:AntennaExtraLight, FontAwesome">
 
@@ -220,7 +221,7 @@
         </div>
       </div>
 
-      <h2 class="races" id="sctrl"><i class="fa fa-caret-right" id="scaret" aria-hidden="true"></i>  Supervisors:</h2>
+      <h2 class="races" id="sctrl"><i class="fa fa-caret-down" id="scaret" aria-hidden="true"></i>  Supervisors:</h2>
       <div id="ssec">
         <div id="sf-section"></div>
       </div>
@@ -228,6 +229,7 @@
     </section>
     <section id="regional">
 
+      <div class="break-half"></div>
       <h1 class="section-hed">Bay Area</h1>
       <div class="br"></div>
 
