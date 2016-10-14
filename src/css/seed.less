@@ -782,19 +782,23 @@ header {
 }
 
 .share-block {
-  vertical-align: text-top;
-  .link {
-    padding-top: 2px !important;
-    margin-top: 0 !important;
-  }
-  i {
-    color: #92172c;
-  }
+  display: none;
 }
 
 .fixed {
   .sub-title-links {
     text-align: left;
+  }
+  .share-block {
+    display: block;
+    vertical-align: text-top;
+    .link {
+      padding-top: 2px !important;
+      margin-top: 0 !important;
+    }
+    i {
+      color: #92172c;
+    }
   }
 }
 
