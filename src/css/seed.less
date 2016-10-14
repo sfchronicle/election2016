@@ -83,9 +83,12 @@ h1 {
 
 .section-hed {
   width: 100%;
-  background: @light-gray;
+  background-color: lighten(@light-gray,15%);
   font-family: @med-graphics;
-  padding: 10px 0;
+  border-top: 1px solid @dark-gray;
+  // border-bottom: 4px solid @light-gray;
+  border-bottom: 1px solid @dark-gray;
+  padding: 5px 0;
   padding-left: 20px;
   font-size: 21px;
 }
@@ -876,7 +879,7 @@ header {
   }
 }
 
-#senate-power-balance, #house-power-balance {
+#senate-power-balance, #house-power-balance, #governor-power-balance {
   .disappear {
     display: none;
   }
@@ -906,7 +909,7 @@ header {
     height: 25px;
   }
 }
-.president-bar, .senate-bar, .house-bar {
+.president-bar, .senate-bar, .house-bar, .governor-bar {
   width: 100%;
   margin-top: 30px;
   overflow: auto;
@@ -937,13 +940,13 @@ header {
   //  margin-top: -45px;
 }
 
-#uncounted, #uncounted-senate, #uncounted-house {
+#uncounted, #uncounted-senate, #uncounted-house, #uncounted-governor {
   background: #ccc;
 }
-#hillaryclinton, #dem-senate, #dem-house {
+#hillaryclinton, #dem-senate, #dem-house, #dem-governor {
   background: @blue-map;//#62A9CC;
 }
-#donaldtrump, #rep-senate, #rep-house {
+#donaldtrump, #rep-senate, #rep-house, #rep-governor {
   background: @red-map;//#F04646;
 }
 

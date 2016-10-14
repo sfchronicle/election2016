@@ -379,6 +379,7 @@ document.querySelector('#presidentbycounty').addEventListener('click', function(
         if (ind == 0) {
           var stateabbrev = stateCodes[parseInt(d.id)].state;
           if (presidentialData[String(stateabbrev)].d) {
+            console.log(presidentialData[String(stateabbrev)].d);
             var tempvar = presidentialData[String(stateabbrev)];
             var new_color = code_map_variable(tempvar,d.properties);
             console.log(new_color);
@@ -465,6 +466,7 @@ document.querySelector('#governormap').addEventListener('click', function(){
 
   d3.select("#house-power-balance").classed("disappear",true);
   d3.select("#senate-power-balance").classed("disappear",true);
+  d3.select("#governor-power-balance").classed("disappear",false);
 
 });
 document.querySelector('#senatemap').addEventListener('click', function(){
@@ -478,6 +480,7 @@ document.querySelector('#senatemap').addEventListener('click', function(){
 
   d3.select("#house-power-balance").classed("disappear",true);
   d3.select("#senate-power-balance").classed("disappear",false);
+  d3.select("#governor-power-balance").classed("disappear",true);
 
 });
 document.querySelector('#congressmap').addEventListener('click', function(){
@@ -490,6 +493,7 @@ document.querySelector('#congressmap').addEventListener('click', function(){
 
   d3.select("#house-power-balance").classed("disappear",false);
   d3.select("#senate-power-balance").classed("disappear",true);
+  d3.select("#governor-power-balance").classed("disappear",true);
 
 });
 
@@ -680,6 +684,29 @@ document.getElementById("senate-rep").innerHTML = " ("+senateRep+" seats)";
 document.getElementById("uncounted-senate").style.width = String(senateUncounted_percent)+"%";
 document.getElementById("dem-senate").style.width = String(senateDem_percent)+"%";
 document.getElementById("rep-senate").style.width = String(senateRep_percent)+"%";
+
+// -----------------------------------------------------------------------------
+// filling in Governor vote count
+// -----------------------------------------------------------------------------
+
+// read in electoral votes
+console.log(raceSummaries);
+var governorDem = raceSummaries["governorbalance"]["Dem"];
+var governorRep = raceSummaries["governorbalance"]["GOP"];
+var senateUncounted = raceSummaries["governorbalance"]["other"];
+var governorDem_percent = governorDem;
+console.log(governorDem);
+var governorRep_percent = governorRep;
+console.log(governorRep);
+var governorUncounted_percent = 100-governorDem_percent-governorRep_percent;
+
+document.getElementById("governor-dem").innerHTML = " ("+governorDem+" seats)";
+document.getElementById("governor-rep").innerHTML = " ("+governorRep+" seats)";
+
+// display electoral votes on bar
+document.getElementById("uncounted-governor").style.width = String(governorUncounted_percent)+"%";
+document.getElementById("dem-governor").style.width = String(governorDem_percent)+"%";
+document.getElementById("rep-governor").style.width = String(governorRep_percent)+"%";
 
 // -----------------------------------------------------------------------------
 // FEDERAL RACES --------------------------------------------------------
