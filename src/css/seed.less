@@ -17,7 +17,7 @@
 @light-gray: #B2B2B2;
 @black: #191919;
 @dark-blue: darken(#9C8B9E,20%);//#395272;
-@dark-red: lighten(#66101F,20%);
+@dark-red: #154C42;//lighten(#66101F,20%);
 @redlinks: #EC1C24;
 @white: #fff;
 @light-gray: #ccc;
@@ -30,8 +30,8 @@
 @light-blue-map: #598ECE;
 @green-map: #2E655B;
 @purple-map: #69586B;
-@no-map: #FFDB89;//#EAE667;
-@yes-map: #705A91;
+@no-map: #EB8F6A;//#FFDB89;//#EAE667;
+@yes-map: #61988E;//#705A91;
 @light-gray-map: #b2b2b2;
 @dark-gray-map: #8C8C8C;
 
@@ -1255,6 +1255,9 @@ header {
     border-radius: 3px;
     padding: 1px;
     cursor: pointer;
+    .bold-button-number {
+      font-family: @bold-graphics;
+    }
     @media @mobile {
       font-size: 14px;
       width: 49%;
@@ -1284,9 +1287,9 @@ header {
     margin: 1px auto;
     height: 50px;
     vertical-align: middle;
-    &.prop51{//, &.casenate, &.cadistrict, &.caassembly, &.cafeddistrict {
-      padding: 14px 2px;
-    }
+    // &.prop51{//, &.casenate, &.cadistrict, &.caassembly, &.cafeddistrict {
+    //   padding: 14px 2px;
+    // }
     &.casenate, &.cadistrict, &.caassembly, &.cafeddistrict {
       height: 35px;
     }
@@ -1433,16 +1436,16 @@ header {
     margin: 4px;
     border-radius: 2px;
   }
-  .rep-swath {background: lighten(@red-map,5%);}
-  .dem-swath {background: lighten(@blue-map,5%);}
-  .dem2-swath {background: lighten(@light-blue-map,5%);}
-  .other-swath {background: lighten(@green-map,5%);}
-  .tied-swath {background: lighten(@purple-map,5%);}
+  .rep-swath {background: @red-map}
+  .dem-swath {background: @blue-map}
+  .dem2-swath {background: @light-blue-map;}
+  .other-swath {background: @green-map;}
+  .tied-swath {background: @purple-map;}
   .called-swath {border: 1px solid black;}
-  .no-swath {background: lighten(@no-map,5%);}
-  .yes-swath {background: lighten(@yes-map,5%);}
-  .uncalled-swath {background: lighten(@dark-gray-map,5%);}
-  .no-race-swath {background: lighten(@light-gray-map,5%);}
+  .no-swath {background: @no-map;}
+  .yes-swath {background: @yes-map;}
+  .uncalled-swath {background: @dark-gray-map;}
+  .no-race-swath {background: @light-gray-map;}
   .legend-text {
     width: 150px;
     padding-left: 20px;

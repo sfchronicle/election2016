@@ -200,7 +200,7 @@
       </div>
 
       <div class="br"></div>
-      <div class="hed">California results by county:</div>
+      <div class="hed">How the counties of California voted</div>
       <div class="chatter">Hover over or click on the counties to see how Californians voted in each precinct for representatives and propositions.</div>
 
       <div class="legend-container">
@@ -220,7 +220,7 @@
           <div class="button camap race casenate">State Senate</div>
           <div class="button camap race caassembly">State Assembly</div>
           <% csv.StatePropositionsData.forEach(function(prop,idx){ %>
-            <div class="button camap prop camapprop prop<%=prop.number%>" id="button<%=prop.number%>"><%=prop.title%> (Prop. <%=prop.number%>)</div>
+            <div class="button camap prop camapprop prop<%=prop.number%>" id="button<%=prop.number%>"><div class='bold-button-number'>Prop. <%=prop.number%></div><div class='button-title'><%=prop.title%></div></div>
           <% }); %>
         </div>
         <div class="drop-down">
