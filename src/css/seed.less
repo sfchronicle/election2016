@@ -473,7 +473,7 @@ footer {
 #stick-me {
   // border-top: 1px @light-gray solid;
   // border-bottom: 1px @light-gray solid;
-  background-color: white;
+  // background-color: white;
   height: 40px;
   @media @mobile {
     height: 35px;
@@ -748,17 +748,14 @@ header {
 .sub-title-links {
   height: 40px;
   padding-top: 5px;
-  font-family: @block-graphics;
-  background: @light-gray;
+  font-family: @bold-graphics;
   text-align: center;
   .sub-title {
     display: inline-block;
-    // float: left;
-    // padding-right: 50px;
-    // padding-left: 20px;
+    border-bottom: 4px solid @light-gray;
     padding: 0 20px;
+    margin: 0 10px;
     float: center;
-
     cursor: pointer;
 
     @media @mobile {
@@ -786,8 +783,16 @@ header {
 }
 
 .fixed {
+  -webkit-box-shadow: 0 0 6px 0 @dark-gray;
+  -moz-box-shadow: 0 0 6px 0 @dark-gray;
+  box-shadow: 0 0 6px 0 @dark-gray;
+  background-color: lighten(@light-gray,10%);
   .sub-title-links {
     text-align: left;
+    font-family: @block-graphics;
+  }
+  .sub-title {
+    border-bottom: 0px;
   }
   .share-block {
     display: block;
@@ -878,6 +883,7 @@ header {
   .party-name {
     margin-top: 0;
     padding-top: 0;
+    font-size: 16px;
   }
   .marker270, .marker270label {
     padding-top: 20px;
@@ -1239,6 +1245,7 @@ header {
 .button-container {
   text-align: center;
   margin: 5px auto;
+  margin-bottom: 10px;
   &.vertical {
     .flex(0 0 45%);
     @media @tablet {
@@ -1340,6 +1347,16 @@ header {
 .mark270 {
   left: 50.1859%;
   transform: translateX(-50.1859%);
+  width: 1%;
+  max-width: 2px;
+  position: absolute;
+  background-color: white;
+  height: 20px;
+}
+
+.mark50 {
+  left: 50%;
+  transform: translateX(-50%);
   width: 1%;
   max-width: 2px;
   position: absolute;

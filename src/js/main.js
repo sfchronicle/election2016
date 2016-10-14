@@ -381,10 +381,12 @@ document.querySelector('#presidentbycounty').addEventListener('click', function(
           if (presidentialData[String(stateabbrev)].d) {
             var tempvar = presidentialData[String(stateabbrev)];
             var new_color = code_map_variable(tempvar,d.properties);
+            console.log(new_color);
             return new_color;
           } else if (presidentialData[String(stateabbrev)]){
             var tempvar = presidentialData[String(stateabbrev)];
             var new_color = color_partial_results(tempvar,d.properties);
+            console.log(new_color);
             return new_color;
           } else {
             return dark_gray;
@@ -393,6 +395,7 @@ document.querySelector('#presidentbycounty').addEventListener('click', function(
           if (presidentialCountyData[d.id]) {
             var tempvar = presidentialCountyData[d.id];
             var new_color = code_county(tempvar,d.properties);
+            // var new_color = color_partial_results(tempvar,d.properties);
             return new_color;
           } else {
             return dark_gray;//fill(path.area(d));

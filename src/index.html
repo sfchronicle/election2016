@@ -126,7 +126,7 @@
             <div class="bar" id="dem-senate"></div>
             <div class="bar" id="uncounted-senate"></div>
             <div class="bar" id="rep-senate"></div>
-            <div class="mark270"></div>
+            <div class="mark50"></div>
             <div class="marker270"><i class="fa fa-angle-double-up" aria-hidden="true"></i></div>
             <div class="marker270label">50%</div>
           </div>
@@ -139,7 +139,7 @@
             <div class="bar" id="dem-house"></div>
             <div class="bar" id="uncounted-house"></div>
             <div class="bar" id="rep-house"></div>
-            <div class="mark270"></div>
+            <div class="mark50"></div>
             <div class="marker270"><i class="fa fa-angle-double-up" aria-hidden="true"></i></div>
             <div class="marker270label">50%</div>
           </div>
@@ -337,15 +337,11 @@
     <script>
 
       // new presidential data
-      // var presidentialData = <%= JSON.stringify(json.president_by_state) %>;
-      // var presidentialCountyData = <%= JSON.stringify(json.president_by_county) %>;
       var presidentialData = <%= JSON.stringify(json.emma_pres_state_us) %>;
       var presidentialCountyData = <%= JSON.stringify(json.emma_pres_county_us) %>;
 
       // var electoralVotes = <%= JSON.stringify(csv.electoralVotes) %>;
-      var electoralVotes = <%= JSON.stringify(json.electoralcount) %>;
       var raceSummaries = <%= JSON.stringify(json.emma_summary) %>;
-      console.log(raceSummaries);
 
       //country data
       var governorRaces = <%= JSON.stringify(json.emma_governor_state_us) %>;
@@ -353,7 +349,7 @@
       var congressRaces = <%= JSON.stringify(json.emma_house_district_us) %>;
 
       // state data
-      var stateRaces = <%= JSON.stringify(csv.stateRaces) %>;
+      // var stateRaces = <%= JSON.stringify(csv.stateRaces) %>;
       var propList = <%= JSON.stringify(csv.StatePropositionsData) %>;
 
       // state map
@@ -365,7 +361,6 @@
 
       // SF data
       var SFpropList = <%= JSON.stringify(csv.SFPropositionsData) %>;
-      var SFsupesList = <%= JSON.stringify(csv.SFSupesData) %>;
 
       // map look-up tables
       var stateCodes = <%= JSON.stringify(csv.stateCodes) %>;
