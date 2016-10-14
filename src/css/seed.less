@@ -845,7 +845,20 @@ header {
   }
 }
 
-.president-name {
+#senate-power-balance, #house-power-balance {
+  .disappear {
+    display: none;
+  }
+  .party-name {
+    margin-top: 0;
+    padding-top: 0;
+  }
+  .marker270, .marker270label {
+    padding-top: 20px;
+  }
+}
+
+.president-name, .party-name {
   margin-top: 20px;
   padding: 10px;
   height: 28px;
@@ -861,7 +874,7 @@ header {
     height: 25px;
   }
 }
-.president-bar {
+.president-bar, .senate-bar, .house-bar {
   width: 100%;
   margin-top: 30px;
   overflow: auto;
@@ -892,13 +905,13 @@ header {
   //  margin-top: -45px;
 }
 
-#uncounted {
+#uncounted, #uncounted-senate, #uncounted-house {
   background: #ccc;
 }
-#hillaryclinton {
+#hillaryclinton, #dem-senate, #dem-house {
   background: @blue-map;//#62A9CC;
 }
-#donaldtrump {
+#donaldtrump, #rep-senate, #rep-house {
   background: @red-map;//#F04646;
 }
 
@@ -1436,4 +1449,28 @@ header {
       display: none;
     }
   }
+}
+
+#select-race:before {
+    content: "";
+    position: absolute;
+    right: 10px;
+    top: 8px;
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-top: 10px solid #f00;
+}
+
+#select-race:after {
+    content: "";
+    position: absolute;
+    right: 10px;
+    top: 3px;
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-top: 10px solid #333;
 }

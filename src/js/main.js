@@ -411,6 +411,9 @@ document.querySelector('#governormap').addEventListener('click', function(){
   d3.select("#senatemap_States-container").classed("disappear",true);
   d3.select("#congressmap_Districts-container").classed("disappear",true);
 
+  d3.select("#house-power-balance").classed("disappear",true);
+  d3.select("#senate-power-balance").classed("disappear",true);
+
 });
 document.querySelector('#senatemap').addEventListener('click', function(){
   document.querySelector("#congressmap").classList.remove("active");
@@ -421,6 +424,9 @@ document.querySelector('#senatemap').addEventListener('click', function(){
   d3.select("#senatemap_States-container").classed("disappear",false);
   d3.select("#congressmap_Districts-container").classed("disappear",true);
 
+  d3.select("#house-power-balance").classed("disappear",true);
+  d3.select("#senate-power-balance").classed("disappear",false);
+
 });
 document.querySelector('#congressmap').addEventListener('click', function(){
   document.querySelector("#governormap").classList.remove("active");
@@ -429,6 +435,9 @@ document.querySelector('#congressmap').addEventListener('click', function(){
   d3.select("#governormap_States-container").classed("disappear",true);
   d3.select("#senatemap_States-container").classed("disappear",true);
   d3.select("#congressmap_Districts-container").classed("disappear",false);
+
+  d3.select("#house-power-balance").classed("disappear",false);
+  d3.select("#senate-power-balance").classed("disappear",true);
 
 });
 
@@ -565,8 +574,8 @@ d3.select("#congressmap_Districts-container").classed("disappear",true);
 // -----------------------------------------------------------------------------
 
 // read in electoral votes
-var clinton_electoralvotes = electoralVotes["Hillary Clinton"];
-var trump_electoralvotes = electoralVotes["Donald Trump"];
+var clinton_electoralvotes = raceSummaries["electoralcount"]["Hillary Clinton"];
+var trump_electoralvotes = raceSummaries["electoralcount"]["Donald Trump"];
 var uncounted_electoralvotes = 538-clinton_electoralvotes-trump_electoralvotes;
 var clinton_percent = clinton_electoralvotes/538*100;
 var trump_percent = trump_electoralvotes/538*100;
@@ -579,6 +588,46 @@ document.getElementById("electoraldonaldtrump").innerHTML = "("+trump_electoralv
 document.getElementById("uncounted").style.width = String(uncounted_percent)+"%";
 document.getElementById("hillaryclinton").style.width = String(clinton_percent)+"%";
 document.getElementById("donaldtrump").style.width = String(trump_percent)+"%";
+
+// -----------------------------------------------------------------------------
+// filling in House vote count
+// -----------------------------------------------------------------------------
+
+// read in electoral votes
+var houseDem = raceSummaries["housebalance"]["Dem"];
+var houseRep = raceSummaries["housebalance"]["GOP"];
+var houseUncounted = raceSummaries["housebalance"]["other"];
+var houseDem_percent = houseDem/435*100;
+var houseRep_percent = houseRep/435*100;
+var houseUncounted_percent = 100-houseDem_percent-houseRep_percent;
+
+document.getElementById("house-dem").innerHTML = " ("+houseDem+" seats)";
+document.getElementById("house-rep").innerHTML = " ("+houseRep+" seats)";
+
+// display electoral votes on bar
+document.getElementById("uncounted-house").style.width = String(houseUncounted_percent)+"%";
+document.getElementById("dem-house").style.width = String(houseDem_percent)+"%";
+document.getElementById("rep-house").style.width = String(houseRep_percent)+"%";
+
+// -----------------------------------------------------------------------------
+// filling in Senate vote count
+// -----------------------------------------------------------------------------
+
+// read in electoral votes
+var senateDem = raceSummaries["senatebalance"]["Dem"];
+var senateRep = raceSummaries["senatebalance"]["GOP"];
+var senateUncounted = raceSummaries["senatebalance"]["other"];
+var senateDem_percent = senateDem;
+var senateRep_percent = senateRep;
+var senateUncounted_percent = 100-senateDem_percent-senateRep_percent;
+
+document.getElementById("senate-dem").innerHTML = " ("+senateDem+" seats)";
+document.getElementById("senate-rep").innerHTML = " ("+senateRep+" seats)";
+
+// display electoral votes on bar
+document.getElementById("uncounted-senate").style.width = String(senateUncounted_percent)+"%";
+document.getElementById("dem-senate").style.width = String(senateDem_percent)+"%";
+document.getElementById("rep-senate").style.width = String(senateRep_percent)+"%";
 
 // -----------------------------------------------------------------------------
 // FEDERAL RACES --------------------------------------------------------
@@ -605,19 +654,19 @@ select_race.addEventListener("change",function(){
   if (select_race.value == 0) {
     d3.selectAll(".camap").classed("active",false);
     this.classList.add("active");
-    camap("./assets/maps/ca_assembly.json",assemblyCA,0);
+    camap("./assets/maps/ca_house.json",houseCA,0);
   } else if (select_race.value == 1) {
     d3.selectAll(".camap").classed("active",false);
     this.classList.add("active");
-    camap("./assets/maps/ca_statesenate.json",senateCA,0);
+    camap("./assets/maps/ca_county.json",federalsenateCA,1);
   } else if (select_race.value == 2) {
     d3.selectAll(".camap").classed("active",false);
     this.classList.add("active");
-    camap("./assets/maps/ca_county.json",federalsenateCA,1);
+    camap("./assets/maps/ca_statesenate.json",senateCA,0);
   } else if (select_race.value == 3) {
     d3.selectAll(".camap").classed("active",false);
     this.classList.add("active");
-    camap("./assets/maps/ca_house.json",houseCA,0);
+    camap("./assets/maps/ca_assembly.json",assemblyCA,0);
   } else {
     d3.selectAll(".camap").classed("active",false);
     this.classList.add("active");
@@ -742,7 +791,8 @@ function camap(active_map,active_data,flag) {
       .style("visibility", "hidden")
 };
 
-camap("./assets/maps/ca_assembly.json",assemblyCA,0);
+// camap("./assets/maps/ca_assembly.json",assemblyCA,0);
+camap("./assets/maps/ca_house.json",houseCA,0);
 
 // -----------------------------------------------------------------------------
 // populating state section ----------------------------------------------------
