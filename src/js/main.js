@@ -871,7 +871,8 @@ function camap(active_map,active_data,flag) {
               var new_color = code_county(tempvar,d.properties);
               return new_color;
             } else {
-              return dark_gray;
+              var new_color = color_partial_results(tempvar,d.properties);
+              return new_color;
             }
         } else {
           return light_gray;//fill(path.area(d));

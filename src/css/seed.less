@@ -1480,7 +1480,15 @@ header {
   .called-swath {border: 1px solid black;}
   .no-swath {background: @no-map;}
   .yes-swath {background: @yes-map;}
-  .uncalled-swath {background: @dark-gray-map;}
+  // .uncalled-swath {background: @dark-gray-map;}
+  .uncalled-swath {background-color: @dark-gray-map;}
+  .uncalled-swath {
+    background-image: -moz-repeating-linear-gradient(-45deg, transparent, transparent 2px, rgba(255,255,255,1) 4px, rgba(255,255,255,1) 5px);
+    background-image: -webkit-repeating-linear-gradient(-45deg, transparent, transparent 2px, rgba(255,255,255,1) 4px, rgba(255,255,255,1) 5px);
+    background-image: -o-repeating-linear-gradient(-45deg, transparent, transparent 2px, rgba(255,255,255,1) 4px, rgba(255,255,255,1) 5px);
+    background-image: -ms-repeating-linear-gradient(-45deg, transparent, transparent 2px, rgba(255,255,255,1) 4px, rgba(255,255,255,1) 5px);
+    background-image: -repeating-linear-gradient(-45deg, transparent, transparent 2px, rgba(255,255,255,1) 4px, rgba(255,255,255,1) 5px);
+  }
   .no-race-swath {background: @light-gray-map;}
   .legend-text {
     width: 150px;
