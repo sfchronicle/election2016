@@ -34,6 +34,8 @@
 @yes-map: #61988E;//#705A91;
 @light-gray-map: #b2b2b2;
 @dark-gray-map: #8C8C8C;
+@orange-map: #DE8067;
+@yellow-map: #FFCC32;
 
 @base-font: 21px;
 @line-height: 1.58;
@@ -521,7 +523,7 @@ footer {
     margin: 0 6px;
     padding: 4px 2px;
     a {
-      color: @gray-blue;
+      color: @gray-blue;//#92172c;
     }
   }
   &.email {
@@ -1386,10 +1388,10 @@ header {
   font-family: AntennaRegular;
   vertical-align: middle;
 }
-.party {background-color: lighten(@green-map,10%);}
-.Demparty {
-  background-color: lighten(@blue-map,10%) !important;
-}
+.party {background-color: lighten(@yellow-map,10%);}
+.Demparty { background-color: lighten(@blue-map,10%) !important;}
+.jillstein { background-color: lighten(@green-map,10%) !important;}
+.garyjohnson { background-color: lighten(@orange-map,10%) !important;}
 #map-container-state {
   .Demparty {
     &.lorettasanchez {
@@ -1462,7 +1464,7 @@ header {
   .element {
     .flex(0 0 50%);
   }
-  .rep-swath, .dem-swath, .dem2-swath, .other-swath, .tied-swath, .called-swath, .no-swath, .yes-swath, .uncalled-swath, .no-race-swath  {
+  .rep-swath, .dem-swath, .dem2-swath, .other-swath, .tied-swath, .called-swath, .no-swath, .yes-swath, .uncalled-swath, .no-race-swath, .stein-swath, .johnson-swath  {
     height: 14px;
     width: 14px;
     margin: 4px;
@@ -1470,8 +1472,10 @@ header {
   }
   .rep-swath {background: @red-map}
   .dem-swath {background: @blue-map}
+  .stein-swath {background: @green-map}
+  .johnson-swath {background: @orange-map}
   .dem2-swath {background: @light-blue-map;}
-  .other-swath {background: @green-map;}
+  .other-swath {background: @yellow-map;}
   .tied-swath {background: @purple-map;}
   .called-swath {border: 1px solid black;}
   .no-swath {background: @no-map;}
