@@ -732,23 +732,33 @@ select_race.addEventListener("change",function(){
     d3.selectAll(".camap").classed("active",false);
     this.classList.add("active");
     camap("./assets/maps/ca_house.json",houseCA,0);
+    d3.selectAll(".ca-legend").classed("active",false);
+    document.getElementById("ca-race-legend").classList.add("active");
   } else if (select_race.value == 1) {
     d3.selectAll(".camap").classed("active",false);
     this.classList.add("active");
     camap("./assets/maps/ca_county.json",federalsenateCA,1);
+    d3.selectAll(".ca-legend").classed("active",false);
+    document.getElementById("ca-sanchez-legend").classList.add("active");
   } else if (select_race.value == 2) {
     d3.selectAll(".camap").classed("active",false);
     this.classList.add("active");
     camap("./assets/maps/ca_statesenate.json",senateCA,0);
+    d3.selectAll(".ca-legend").classed("active",false);
+    document.getElementById("ca-race-legend").classList.add("active");
   } else if (select_race.value == 3) {
     d3.selectAll(".camap").classed("active",false);
     this.classList.add("active");
     camap("./assets/maps/ca_assembly.json",assemblyCA,0);
+    d3.selectAll(".ca-legend").classed("active",false);
+    document.getElementById("ca-race-legend").classList.add("active");
   } else {
     d3.selectAll(".camap").classed("active",false);
     this.classList.add("active");
     var active_data = propsCA[select_race.value];
     camap("./assets/maps/ca_county.json",active_data.counties);
+    d3.selectAll(".ca-legend").classed("active",false);
+    document.getElementById("ca-prop-legend").classList.add("active");
   }
 });
 
@@ -760,24 +770,32 @@ document.querySelector('.caassembly').addEventListener('click', function(){
   d3.selectAll(".camap").classed("active",false);
   this.classList.add("active");
   camap("./assets/maps/ca_assembly.json",assemblyCA,0);
+  d3.selectAll(".ca-legend").classed("active",false);
+  document.getElementById("ca-race-legend").classList.add("active");
 });
 
 document.querySelector('.casenate').addEventListener('click', function(){
   d3.selectAll(".camap").classed("active",false);
   this.classList.add("active");
   camap("./assets/maps/ca_statesenate.json",senateCA,0);
+  d3.selectAll(".ca-legend").classed("active",false);
+  document.getElementById("ca-race-legend").classList.add("active");
 });
 
 document.querySelector('.cafeddistrict').addEventListener('click', function(){
   d3.selectAll(".camap").classed("active",false);
   this.classList.add("active");
   camap("./assets/maps/ca_county.json",federalsenateCA,1);
+  d3.selectAll(".ca-legend").classed("active",false);
+  document.getElementById("ca-sanchez-legend").classList.add("active");
 });
 
 document.querySelector('.cadistrict').addEventListener('click', function(){
   d3.selectAll(".camap").classed("active",false);
   this.classList.add("active");
   camap("./assets/maps/ca_house.json",houseCA,0);
+  d3.selectAll(".ca-legend").classed("active",false);
+  document.getElementById("ca-race-legend").classList.add("active");
 });
 
 // event listeners for props
@@ -788,6 +806,8 @@ qsa(".camapprop").forEach(function(group,index) {
     this.classList.add("active");
     var active_data = propsCA[51+index];
     camap("./assets/maps/ca_county.json",active_data.counties);
+    d3.selectAll(".ca-legend").classed("active",false);
+    document.getElementById("ca-prop-legend").classList.add("active");
   });
 });
 

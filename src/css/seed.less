@@ -94,10 +94,11 @@ h1 {
 }
 
 .section-chatter {
-  font-family: @banner;
+  font-family: @block-graphics;
   font-size: 16px;
   text-align: left;
   padding: 10px 0;
+  padding-right: 10px;
   // font-style: italic;
   color: darken(@dark-gray,10%);
 }
@@ -1480,6 +1481,14 @@ header {
     width: 150px;
     padding-left: 20px;
     vertical-align: text-top;
+  }
+}
+
+.ca-legend {
+  display: none;
+  &.active {
+    .display-flex;
+    .flex-wrap(wrap);
   }
 }
 
