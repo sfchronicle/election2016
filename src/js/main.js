@@ -12,7 +12,7 @@ var yes_blue = '#61988E';//"#705A91";//"#1D75AF";//"#6C85A5";//"#FFE599";
 var no_red = '#EB8F6A';//"#FFDB89";//"#EAE667";//"#D13D59";//"#6790B7";
 var undecided_yellow = "#b2b2b2";//"#EB8F6A";//"#FFFF65";
 var dark_gray = "#8C8C8C";
-var light_gray = "#b2b2b2"
+var light_gray = "#b2b2b2";
 
 // helpful functions:
 var formatthousands = d3.format("0,000");

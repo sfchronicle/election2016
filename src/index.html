@@ -367,40 +367,89 @@
 
     <script>
 
-      // new presidential data
-      var presidentialData = <%= JSON.stringify(json.emma_pres_state_us) %>;
-      var presidentialCountyData = <%= JSON.stringify(json.emma_pres_county_us) %>;
+      // function for reading in JSON files from the web
+      function readTextFile(file, callback) {
+          var rawFile = new XMLHttpRequest();
+          rawFile.overrideMimeType("application/json");
+          rawFile.open("GET", file, true);
+          rawFile.onreadystatechange = function() {
+              if (rawFile.readyState === 4 && rawFile.status == "200") {
+                  callback(rawFile.responseText);
+              }
+          }
+          rawFile.send(null);
+      }
 
-      // var electoralVotes = <%= JSON.stringify(csv.electoralVotes) %>;
-      var raceSummaries = <%= JSON.stringify(json.emma_summary) %>;
+      // loading presidential race data
+      var presidentialData, presidentialCountyData, raceSummaries;
+      readTextFile("http://extras.sfgate.com/editorial/election2016/live/emma_pres_state_us.json",      function(text){
+          presidentialData = JSON.parse(text);
+      });
+      readTextFile("http://extras.sfgate.com/editorial/election2016/live/emma_pres_county_us.json",      function(text){
+          presidentialCountyData = JSON.parse(text);
+      });
+      readTextFile("http://extras.sfgate.com/editorial/election2016/live/emma_summary.json",      function(text){
+          raceSummaries = JSON.parse(text);
+      });
 
       //country data
-      var governorRaces = <%= JSON.stringify(json.emma_governor_state_us) %>;
-      var senateRaces = <%= JSON.stringify(json.emma_senate_state_us) %>;
-      var congressRaces = <%= JSON.stringify(json.emma_house_district_us) %>;
+      var governorRaces, senateRaces, congressRaces;
+      readTextFile("http://extras.sfgate.com/editorial/election2016/live/emma_governor_state_us.json",      function(text){
+          governorRaces = JSON.parse(text);
+      });
+      readTextFile("http://extras.sfgate.com/editorial/election2016/live/emma_senate_state_us.json",      function(text){
+          senateRaces = JSON.parse(text);
+      });
+      readTextFile("http://extras.sfgate.com/editorial/election2016/live/emma_house_district_us.json",      function(text){
+          congressRaces = JSON.parse(text);
+      });
 
       // state data
-      // var stateRaces = <%= JSON.stringify(csv.stateRaces) %>;
       var propList = <%= JSON.stringify(csv.StatePropositionsData) %>;
 
-      // state map
-      var houseCA = <%= JSON.stringify(json.emma_house_district_ca) %>;
-      var senateCA = <%= JSON.stringify(json.emma_statesenate_district_ca) %>;
-      var federalsenateCA = <%= JSON.stringify(json.emma_senate_county_ca) %>;
-      var assemblyCA = <%= JSON.stringify(json.emma_assembly_district_id) %>;
-      var propsCA = <%= JSON.stringify(json.props_county_ca) %>;
+      // // state map
+      var houseCA, senateCA, federalsenateCA, assemblyCA, propsCA;
+      readTextFile("http://extras.sfgate.com/editorial/election2016/live/emma_house_district_ca.json",      function(text){
+          houseCA = JSON.parse(text);
+      });
+      readTextFile("http://extras.sfgate.com/editorial/election2016/live/emma_statesenate_district_ca.json",      function(text){
+          senateCA = JSON.parse(text);
+      });
+      readTextFile("http://extras.sfgate.com/editorial/election2016/live/emma_senate_county_ca.json",      function(text){
+          federalsenateCA = JSON.parse(text);
+      });
+      readTextFile("http://extras.sfgate.com/editorial/election2016/live/emma_assembly_district_id.json",      function(text){
+          assemblyCA = JSON.parse(text);
+      });
+      readTextFile("http://extras.sfgate.com/editorial/election2016/live/props_county_ca.json",      function(text){
+          propsCA = JSON.parse(text);
+      });
+      // var varnames = ["houseCA", "senateCA", "federalsenateCA", "assemblyCA", "propsCA"]
+      // var filenames = ["emma_house_district_ca","emma_statesenate_district_ca","emma_senate_county_ca","emma_assembly_district_id","props_county_ca"];
+      // filenames.forEach(function(f,idx){
+      //   readTextFile("http://extras.sfgate.com/editorial/election2016/live/"+f+".json",function(text){
+      //       varnames[idx] = JSON.parse(text);
+      //       console.log("this is a thing");
+      //       console.log(varnames[idx]);
+      //   });
+      // });
 
       // SF data
       var SFpropList = <%= JSON.stringify(csv.SFPropositionsData) %>;
 
       // map look-up tables
       var stateCodes = <%= JSON.stringify(csv.stateCodes) %>;
-      var countyCodes = <%= JSON.stringify(json.countyCodesLookup) %>;
+      var countyCodes;
+      readTextFile("http://extras.sfgate.com/editorial/election2016/live/emma_house_district_us.json",      function(text){
+          countyCodes = JSON.parse(text);
+      });
 
       // local data
-      var localData = <%= JSON.stringify(json.emma_localresults) %>;
+      var localData;
+      readTextFile("http://extras.sfgate.com/editorial/election2016/live/emma_localresults.json",      function(text){
+          localData = JSON.parse(text);
+      });
       var sectionList = <%= JSON.stringify(csv.sections) %>;
-      console.log(localData);
 
     </script>
 
