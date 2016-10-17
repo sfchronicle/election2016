@@ -243,8 +243,9 @@ function tooltip_function(abbrev,races,properties) {
       if (sum == 0) { sum = 0.1; }
       var count = 1; var html_str = "<div class='state-name'>"+properties.name+"</div>";
       while (tempvar["c"+count]) {
+        console.log(tempvar);
         var party = tempvar["c"+count+"_party"];
-        var key = tempvar["c"+count+"_name"].toLowerCase().replace(/ /g,'');
+        var key = tempvar["c"+count+"_name"].toLowerCase().replace(/ /g,'').replace("'","");
         if (tempvar["c"+count+"_name"] == tempvar.d) {
           html_str = html_str + "<div><i class='fa fa-check-square-o' aria-hidden='true'></i>"+tempvar["c"+count+"_name"]+" <span class='party "+key+" "+party+"party'>"+tempvar["c"+count+"_party"]+"</span> "+Math.round(tempvar["c"+count]/sum*1000)/10+"%</div>";
         } else {
@@ -892,7 +893,7 @@ function camap(active_map,active_data,flag) {
         } else {
           return state_tooltip
             .style("top", (d3.event.pageY+10)+"px")
-            .style("left",(d3.event.pageX-150)+"px");
+            .style("left",(d3.event.pageX-80)+"px");
         }
       })
       .on("mouseout", function(){return state_tooltip.style("visibility", "hidden");
