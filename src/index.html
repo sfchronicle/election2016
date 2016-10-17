@@ -2,6 +2,7 @@
 <html>
   <head>
     <title><%= json.project.title %></title>
+    <script type="text/javascript" id="adPositionManagerScriptTag" src="http://aps.hearstnp.com/Scripts/loadAds.js"></script>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
@@ -90,6 +91,10 @@
         <div class="divider"></div>
         <div class="inline-img ad desktop">
           <img src="https://placeholdit.imgix.net/~text?txtsize=33&txt=AD%20SPACE&w=728&h=90"></img>
+          	<div id="PA728">
+          		<script type="text/javascript">/*<![CDATA[*/hearstPlaceAd("PA728");/*]]>*/</script>
+          	</div>
+
         </div>
         <div class="inline-img ad mobile">
           <img src="https://placeholdit.imgix.net/~text?txtsize=33&txt=AD%20SPACE&w=320&h=250"></img>
@@ -100,7 +105,9 @@
 
       <section id="federal">
       <div class="break-half"></div>
-      <h1 class="section-hed">Federal</h1>
+      <h1 class="section-hed">Federal
+      <div class="section-chatter">This is some text that Tim is going to write, and after he writes it, I am going to paste it in instead of this placeholder text. It will contain some information about how this is a section and everyone should read it.</div>
+      </h1>
       <div class="br"></div>
 
         <div id="fsec">
@@ -218,12 +225,19 @@
 
       <div class="legend-container">
         <div class="element"><div class="dem-swath"><div class="legend-text">Democratic winner</div></div></div>
-        <div class="element"><div class="yes-swath"><div class="legend-text">Yes vote</div></div></div>
         <div class="element"><div class="rep-swath"><div class="legend-text">Republican winner</div></div></div>
-        <div class="element"><div class="no-swath right"><div class="legend-text">No vote</div></div></div>
-        <div class="element"><div class="dem2-swath"><div class="legend-text">Democratic winner 2</div></div></div>
         <div class="element"><div class="uncalled-swath"><div class="legend-text">Uncalled race</div></div></div>
         <div class="element"><div class="no-race-swath"><div class="legend-text">No race</div></div></div>
+      </div>
+      <div class="legend-container">
+        <div class="element"><div class="yes-swath"><div class="legend-text">Yes vote</div></div></div>
+        <div class="element"><div class="no-swath right"><div class="legend-text">No vote</div></div></div>
+        <div class="element"><div class="uncalled-swath"><div class="legend-text">Uncalled race</div></div></div>
+      </div>
+      <div class="legend-container">
+        <div class="element"><div class="dem-swath"><div class="legend-text">Kamala Harris (D)</div></div></div>
+        <div class="element"><div class="dem2-swath"><div class="legend-text">Loretta Sanchez (D)</div></div></div>
+        <div class="element"><div class="uncalled-swath"><div class="legend-text">Uncalled race</div></div></div>
       </div>
 
       <div class="flex-container" style="min-width: 315px;">
