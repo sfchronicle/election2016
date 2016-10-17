@@ -14,6 +14,7 @@ var no_map = '#EB8F6A';//"#FFDB89";//"#EAE667";//"#D13D59";//"#6790B7";
 var undecided_map = "#b2b2b2";//"#EB8F6A";//"#FFFF65";
 var dark_gray = "#8C8C8C";
 var light_gray = "#b2b2b2";
+var lightest_gray = "#D8D8D8";
 
 // helpful functions:
 var formatthousands = d3.format("0,000");
@@ -243,7 +244,6 @@ function tooltip_function(abbrev,races,properties) {
       if (sum == 0) { sum = 0.1; }
       var count = 1; var html_str = "<div class='state-name'>"+properties.name+"</div>";
       while (tempvar["c"+count]) {
-        console.log(tempvar);
         var party = tempvar["c"+count+"_party"];
         var key = tempvar["c"+count+"_name"].toLowerCase().replace(/ /g,'').replace("'","");
         if (tempvar["c"+count+"_name"] == tempvar.d) {
@@ -570,7 +570,7 @@ document.querySelector('#congressmap').addEventListener('click', function(){
                 return new_color;
               }
           } else {
-            return light_gray;//fill(path.area(d));
+            return lightest_gray;//fill(path.area(d));
           }
         } else if (ind == 1) {
           var stateabbrev = stateCodes[parseInt(d.id)].state;
@@ -584,7 +584,7 @@ document.querySelector('#congressmap').addEventListener('click', function(){
                 return new_color;
               }
           } else {
-            return light_gray;//fill(path.area(d));
+            return lightest_gray;//fill(path.area(d));
           }
         } else {
           var district = d.id;
@@ -598,7 +598,7 @@ document.querySelector('#congressmap').addEventListener('click', function(){
                 return new_color;
               }
           } else {
-            return light_gray;//fill(path.area(d));
+            return lightest_gray;//fill(path.area(d));
           }
         }
       })
@@ -662,6 +662,7 @@ document.getElementById("electoraldonaldtrump").innerHTML = "("+trump_electoralv
 
 // display electoral votes on bar
 document.getElementById("uncounted").style.width = String(uncounted_percent)+"%";
+// document.getElementById("other").style.width = String(other_percent)+"%";
 document.getElementById("hillaryclinton").style.width = String(clinton_percent)+"%";
 document.getElementById("donaldtrump").style.width = String(trump_percent)+"%";
 
@@ -672,16 +673,18 @@ document.getElementById("donaldtrump").style.width = String(trump_percent)+"%";
 // read in electoral votes
 var houseDem = raceSummaries["housebalance"]["Dem"];
 var houseRep = raceSummaries["housebalance"]["GOP"];
-var houseUncounted = raceSummaries["housebalance"]["other"];
+var houseOther = raceSummaries["housebalance"]["other"];
 var houseDem_percent = houseDem/435*100;
 var houseRep_percent = houseRep/435*100;
-var houseUncounted_percent = 100-houseDem_percent-houseRep_percent;
+var houseOther_percent = houseOther/435*100;
+var houseUncounted_percent = 100-houseDem_percent-houseRep_percent-houseOther;
 
 document.getElementById("house-dem").innerHTML = " ("+houseDem+" seats)";
 document.getElementById("house-rep").innerHTML = " ("+houseRep+" seats)";
 
 // display electoral votes on bar
 document.getElementById("uncounted-house").style.width = String(houseUncounted_percent)+"%";
+document.getElementById("other-house").style.width = String(houseOther_percent)+"%";
 document.getElementById("dem-house").style.width = String(houseDem_percent)+"%";
 document.getElementById("rep-house").style.width = String(houseRep_percent)+"%";
 
@@ -692,16 +695,18 @@ document.getElementById("rep-house").style.width = String(houseRep_percent)+"%";
 // read in electoral votes
 var senateDem = raceSummaries["senatebalance"]["Dem"];
 var senateRep = raceSummaries["senatebalance"]["GOP"];
-var senateUncounted = raceSummaries["senatebalance"]["other"];
+var senateOther = raceSummaries["senatebalance"]["other"];
 var senateDem_percent = senateDem;
 var senateRep_percent = senateRep;
-var senateUncounted_percent = 100-senateDem_percent-senateRep_percent;
+var senateOther_percent = senateOther;
+var senateUncounted_percent = 100-senateDem_percent-senateRep_percent-senateOther_percent;
 
 document.getElementById("senate-dem").innerHTML = " ("+senateDem+" seats)";
 document.getElementById("senate-rep").innerHTML = " ("+senateRep+" seats)";
 
 // display electoral votes on bar
 document.getElementById("uncounted-senate").style.width = String(senateUncounted_percent)+"%";
+document.getElementById("other-senate").style.width = String(senateOther_percent)+"%";
 document.getElementById("dem-senate").style.width = String(senateDem_percent)+"%";
 document.getElementById("rep-senate").style.width = String(senateRep_percent)+"%";
 
@@ -713,16 +718,18 @@ document.getElementById("rep-senate").style.width = String(senateRep_percent)+"%
 console.log(raceSummaries);
 var governorDem = raceSummaries["governorbalance"]["Dem"];
 var governorRep = raceSummaries["governorbalance"]["GOP"];
-var senateUncounted = raceSummaries["governorbalance"]["other"];
+var governorOther = raceSummaries["governorbalance"]["other"];
 var governorDem_percent = governorDem/50*100;
 var governorRep_percent = governorRep/50*100;
-var governorUncounted_percent = 100-governorDem_percent-governorRep_percent;
+var governorOther_percent = governorOther/50*100;
+var governorUncounted_percent = 100-governorDem_percent-governorRep_percent-governorOther_percent;
 
 document.getElementById("governor-dem").innerHTML = " ("+governorDem+" seats)";
 document.getElementById("governor-rep").innerHTML = " ("+governorRep+" seats)";
 
 // display electoral votes on bar
 document.getElementById("uncounted-governor").style.width = String(governorUncounted_percent)+"%";
+document.getElementById("other-governor").style.width = String(governorOther_percent)+"%";
 document.getElementById("dem-governor").style.width = String(governorDem_percent)+"%";
 document.getElementById("rep-governor").style.width = String(governorRep_percent)+"%";
 
@@ -876,7 +883,7 @@ function camap(active_map,active_data,flag) {
               return new_color;
             }
         } else {
-          return light_gray;//fill(path.area(d));
+          return lightest_gray;//fill(path.area(d));
         }
       })
       .attr("d", path)
@@ -959,7 +966,7 @@ var input = document.querySelector('#propositions-search');
 input.addEventListener('input', function(){
 
   var class_match = 0;
-  var filter = input.value.toLowerCase().replace(/ /g,'');
+  var filter = input.value.toLowerCase().replace(/ /g,'').replace("'","");
 
   Array.prototype.filter.call(document.querySelectorAll(".prop-group"), function(value,index,array){
 

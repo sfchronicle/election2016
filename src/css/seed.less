@@ -32,7 +32,7 @@
 @purple-map: #69586B;
 @no-map: #EB8F6A;//#FFDB89;//#EAE667;
 @yes-map: #61988E;//#705A91;
-@light-gray-map: #b2b2b2;
+@light-gray-map: #D8D8D8;//#b2b2b2;
 @dark-gray-map: #8C8C8C;
 @orange-map: #DE8067;
 @yellow-map: #FFCC32;
@@ -955,12 +955,21 @@ header {
 
 #uncounted, #uncounted-senate, #uncounted-house, #uncounted-governor {
   background: #ccc;
+  background-image: -moz-repeating-linear-gradient(-45deg, transparent, transparent 2px, rgba(255,255,255,1) 4px, rgba(255,255,255,1) 5px);
+  background-image: -webkit-repeating-linear-gradient(-45deg, transparent, transparent 2px, rgba(255,255,255,1) 4px, rgba(255,255,255,1) 5px);
+  background-image: -o-repeating-linear-gradient(-45deg, transparent, transparent 2px, rgba(255,255,255,1) 4px, rgba(255,255,255,1) 5px);
+  background-image: -ms-repeating-linear-gradient(-45deg, transparent, transparent 2px, rgba(255,255,255,1) 4px, rgba(255,255,255,1) 5px);
+  background-image: -repeating-linear-gradient(-45deg, transparent, transparent 2px, rgba(255,255,255,1) 4px, rgba(255,255,255,1) 5px);
 }
 #hillaryclinton, #dem-senate, #dem-house, #dem-governor {
   background: @blue-map;//#62A9CC;
 }
 #donaldtrump, #rep-senate, #rep-house, #rep-governor {
   background: @red-map;//#F04646;
+}
+
+#other, #other-senate, #other-house, #other-governor {
+  background: @yellow-map;
 }
 
 .regional-callouts {
