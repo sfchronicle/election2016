@@ -1,7 +1,7 @@
 letter,title,description,link
-A,School bonds,$744.2 million bond measure for schools. Requires 55 percent vote.,http://www.sfchronicle.com/bayarea/article/Props-A-C-would-build-repair-schools-add-9957045.php
-B,CCSF parcel tax,Imposes parcel tax for City College of San Francisco. Requires two-thirds vote.,http://www.sfchronicle.com/education/article/CCSF-needs-Prop-B-parcel-tax-to-shore-up-faculty-9204117.php
-C,Housing upgrades,"Amends existing $250 million bond loan program for seismic upgrades, to include loans for the acquisition and development of affordable housing. Requires two-thirds vote.",http://www.sfchronicle.com/bayarea/article/Props-A-C-would-build-repair-schools-add-9957045.php
+A,School bonds,$744.2 million bond measure for schools. <p class='vote-req'>Requires 55 percent vote.</p>,http://www.sfchronicle.com/bayarea/article/Props-A-C-would-build-repair-schools-add-9957045.php
+B,CCSF parcel tax,Imposes parcel tax for City College of San Francisco. <p class='vote-req'>Requires two-thirds vote.</p>,http://www.sfchronicle.com/education/article/CCSF-needs-Prop-B-parcel-tax-to-shore-up-faculty-9204117.php
+C,Housing upgrades,"Amends existing $250 million bond loan program for seismic upgrades, to include loans for the acquisition and development of affordable housing. <p class='vote-req'>Requires two-thirds vote.</p>",http://www.sfchronicle.com/bayarea/article/Props-A-C-would-build-repair-schools-add-9957045.php
 D,Board vacancies,Restricts mayor's power to fill vacancies on the Board of Supervisors.,
 E,Street trees,Transfers responsibility for the maintenance of trees from property owners to the city.,http://www.sfchronicle.com/bayarea/article/Proposition-E-would-set-aside-19-million-for-SF-9885762.php
 F,Youth vote,Allows 16- and 17-year-olds to vote in municipal elections.,http://www.sfchronicle.com/politics/article/Supervisors-OK-ballot-measure-to-lower-SF-voting-7458077.php
@@ -17,7 +17,7 @@ O,Hunters Point offices,Exempts commercial development planned for the Hunters P
 P(&M),Competitive bidding,Requires at least three competitive bids for nonprofit affordable housing projects. It is rendered moot if Prop. M wins. (See Prop. M),
 Q,Tent camps,Gives the city the power to close tent camps if it gives 24 hours of notice and has shelter beds for those evicted.,
 R,Neighborhood crime unit,Requires the creation of a neighborhood crime unit in the Police Department.,
-S,Hotel taxes for arts,Ensures that the bulk of the city's hotel tax goes to arts groups. Requires two-thirds vote.,
+S,Hotel taxes for arts,Ensures that the bulk of the city's hotel tax goes to arts groups. <p class='vote-req'>Requires two-thirds vote.</p>,
 T, Campaign ethics,Bans lobbyists from giving unlimited travel gifts to elected officials and restricts their campaign contributions and bundled contributions.,http://www.sfchronicle.com/politics/article/S-F-Proposition-T-bans-lobbyists-gifts-to-9208531.php
 U,Affordable housing,Raises area median income level for qualifying subsidized affordable housing.,
 V,Sugar tax,Taxes sugary beverages at 1 cent per ounce.,
