@@ -230,7 +230,7 @@
       </div>
 
       <div class="br"></div>
-      <div class="hed">How the counties of California voted</div>
+      <div class="hed">How California's counties voted</div>
       <div class="chatter">Hover over or click on the counties to see how Californians voted in each precinct for representatives and propositions.</div>
 
       <div class="legend-container ca-legend active" id="ca-race-legend">
@@ -447,10 +447,7 @@
 
       // map look-up tables
       var stateCodes = <%= JSON.stringify(csv.stateCodes) %>;
-      var countyCodes;
-      readTextFile("http://extras.sfgate.com/editorial/election2016/live/emma_house_district_us.json",      function(text){
-          countyCodes = JSON.parse(text);
-      });
+      var countyCodes = <%= JSON.stringify(json.countyCodesLookup) %>;
 
       // local data
       var localData;
