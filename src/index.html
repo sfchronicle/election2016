@@ -11,7 +11,6 @@
     <%= t.include("partials/_head.html") %>
     <%= t.include("partials/_analytics.html") %>
   </head>
-  <script>  var HDN = HDN || {}  </script>
 
   <body>
 
@@ -375,73 +374,10 @@
 
     <script>
 
-      // function for reading in JSON files from the web
-      function readTextFile(file, callback) {
-          var rawFile = new XMLHttpRequest();
-          rawFile.overrideMimeType("application/json");
-          rawFile.open("GET", file, true);
-          rawFile.onreadystatechange = function() {
-              if (rawFile.readyState === 4 && rawFile.status == "200") {
-                  callback(rawFile.responseText);
-              }
-          }
-          rawFile.send(null);
-      }
-
-      // loading presidential race data
-      var presidentialData, presidentialCountyData, raceSummaries;
-      readTextFile("http://extras.sfgate.com/editorial/election2016/live/emma_pres_state_us.json",      function(text){
-          presidentialData = JSON.parse(text);
-      });
-      readTextFile("http://extras.sfgate.com/editorial/election2016/live/emma_pres_county_us.json",      function(text){
-          presidentialCountyData = JSON.parse(text);
-      });
-      readTextFile("http://extras.sfgate.com/editorial/election2016/live/emma_summary.json",      function(text){
-          raceSummaries = JSON.parse(text);
-      });
-
-      //country data
-      var governorRaces, senateRaces, congressRaces;
-      readTextFile("http://extras.sfgate.com/editorial/election2016/live/emma_governor_state_us.json",      function(text){
-          governorRaces = JSON.parse(text);
-      });
-      readTextFile("http://extras.sfgate.com/editorial/election2016/live/emma_senate_state_us.json",      function(text){
-          senateRaces = JSON.parse(text);
-      });
-      readTextFile("http://extras.sfgate.com/editorial/election2016/live/emma_house_district_us.json",      function(text){
-          congressRaces = JSON.parse(text);
-      });
-
       // state data
       var propList = <%= JSON.stringify(csv.StatePropositionsData) %>;
 
-      // // state map
-      var houseCA, senateCA, federalsenateCA, assemblyCA, propsCA;
-      readTextFile("http://extras.sfgate.com/editorial/election2016/live/emma_house_district_ca.json",      function(text){
-          houseCA = JSON.parse(text);
-      });
-      readTextFile("http://extras.sfgate.com/editorial/election2016/live/emma_statesenate_district_ca.json",      function(text){
-          senateCA = JSON.parse(text);
-      });
-      readTextFile("http://extras.sfgate.com/editorial/election2016/live/emma_senate_county_ca.json",      function(text){
-          federalsenateCA = JSON.parse(text);
-      });
-      readTextFile("http://extras.sfgate.com/editorial/election2016/live/emma_assembly_district_id.json",      function(text){
-          assemblyCA = JSON.parse(text);
-      });
-      readTextFile("http://extras.sfgate.com/editorial/election2016/live/props_county_ca.json",      function(text){
-          propsCA = JSON.parse(text);
-      });
-      // var varnames = ["houseCA", "senateCA", "federalsenateCA", "assemblyCA", "propsCA"]
-      // var filenames = ["emma_house_district_ca","emma_statesenate_district_ca","emma_senate_county_ca","emma_assembly_district_id","props_county_ca"];
-      // filenames.forEach(function(f,idx){
-      //   readTextFile("http://extras.sfgate.com/editorial/election2016/live/"+f+".json",function(text){
-      //       varnames[idx] = JSON.parse(text);
-      //       console.log("this is a thing");
-      //       console.log(varnames[idx]);
-      //   });
-      // });
-
+      
       // SF data
       var SFpropList = <%= JSON.stringify(csv.SFPropositionsData) %>;
 
@@ -450,10 +386,6 @@
       var countyCodes = <%= JSON.stringify(json.countyCodesLookup) %>;
 
       // local data
-      var localData;
-      readTextFile("http://extras.sfgate.com/editorial/election2016/live/emma_localresults.json",      function(text){
-          localData = JSON.parse(text);
-      });
       var sectionList = <%= JSON.stringify(csv.sections) %>;
 
     </script>

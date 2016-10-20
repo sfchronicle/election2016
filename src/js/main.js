@@ -16,6 +16,21 @@ var dark_gray = "#8C8C8C";
 var light_gray = "#b2b2b2";
 var lightest_gray = "#D8D8D8";
 
+// loading data sources
+var presidentialDataURL = "http://extras.sfgate.com/editorial/election2016/live/emma_pres_state_us.json";
+var presidentialCountyDataURL = "http://extras.sfgate.com/editorial/election2016/live/emma_pres_county_us.json";
+var raceSummariesURL = "http://extras.sfgate.com/editorial/election2016/live/emma_summary.json";
+var governorRacesURL = "http://extras.sfgate.com/editorial/election2016/live/emma_governor_state_us.json"; 
+var senateRacesURL = "http://extras.sfgate.com/editorial/election2016/live/emma_senate_state_us.json";
+var congressRacesURL = "http://extras.sfgate.com/editorial/election2016/live/emma_house_district_us.json";
+var houseCAURL = "http://extras.sfgate.com/editorial/election2016/live/emma_house_district_ca.json";
+var senateCAURL = "http://extras.sfgate.com/editorial/election2016/live/emma_statesenate_district_ca.json";
+var federalsenateCAURL = "http://extras.sfgate.com/editorial/election2016/live/emma_senate_county_ca.json";
+var assemblyCAURL = "http://extras.sfgate.com/editorial/election2016/live/emma_assembly_district_id.json";
+var propsCAURL = "http://extras.sfgate.com/editorial/election2016/live/props_county_ca.json";
+var localDataURL = "http://extras.sfgate.com/editorial/election2016/live/emma_localresults.json";
+
+
 // helpful functions:
 var formatthousands = d3.format("0,000");
 
@@ -278,52 +293,55 @@ if (screen.width < 480){
 
 // function to populate regional data
 function regional_section(this_name,regionkey){
-  var sectionID = document.getElementById("regional-results");
-  sectionID.insertAdjacentHTML("afterend","<h2 class='regionalhed active' id='region"+regionkey+"'>"+this_name+"</h2>");
-  var regionID = document.getElementById("region"+regionkey);
-  var results_types = Object.keys(localData[this_name]);
-  if (this_name == "San Francisco") {
-    var index = results_types.indexOf("Measures");
-    results_types.splice(index,1);
-    var index2 = results_types.indexOf("Supervisors");
-    results_types.splice(index2,1);
-  }
-  results_types.forEach(function(d2,idx2) {
-    var racekey = d2.toLowerCase().replace(/ /g,'').replace(".","").replace("'","");
-    regionID.insertAdjacentHTML("beforeend","<h5 class='regionalhed' id='regionalhed"+regionkey+racekey+"'><i class='fa fa-caret-right' id='caret-"+regionkey+racekey+"' aria-hidden='true'></i>  "+d2+"</h5>");
-    regionID.insertAdjacentHTML("beforeend","<div class='section-div' id='race"+regionkey+racekey+"'></div>");
-    var raceID = document.getElementById("race"+regionkey+racekey);
-    var hedID = document.getElementById("regionalhed"+regionkey+racekey);
-    var caretID = document.getElementById("caret-"+regionkey+racekey);
-    raceID.style.display = "none";
-    // event listeners for expanding/collapsing regional sections
-    hedID.addEventListener("click",function(){
-      if (raceID.style.display == "block") {
-        raceID.style.display = "none";
-        caretID.classList.remove('fa-caret-down');
-        caretID.classList.add('fa-caret-right');
-      }
-      else {
-        raceID.style.display = "block";
-        caretID.classList.remove('fa-caret-right');
-        caretID.classList.add('fa-caret-down');
-      }
-    });
-    localData[this_name][d2].forEach(function(d3,idx3){
-      var key = d3.name.toLowerCase().replace(/ /g,'').replace(".","").replace("'","");
-      if(d3["n"]) {
-        var h4_html = "<h4 class='race sup' id='key"+regionkey+racekey+key+"'>"+d3.name+" (elect "+d3["n"]+")</h4>";
-      } else {
-        var h4_html = "<h4 class='race sup' id='key"+regionkey+racekey+key+"'>"+d3.name+"</h4>";
-      }
-      raceID.insertAdjacentHTML("beforeend",h4_html)
-      var finalID = document.getElementById("key"+regionkey+racekey+key);
-      // need to do a different thing for measures here
-      if (racekey == "measures") {
-        populateMeasure(finalID,d3);
-      } else {
-        populateRace(finalID,d3);
-      }
+  d3.json(localDataURL, function(localData){
+  
+    var sectionID = document.getElementById("regional-results");
+    sectionID.insertAdjacentHTML("afterend","<h2 class='regionalhed active' id='region"+regionkey+"'>"+this_name+"</h2>");
+    var regionID = document.getElementById("region"+regionkey);
+    var results_types = Object.keys(localData[this_name]);
+    if (this_name == "San Francisco") {
+      var index = results_types.indexOf("Measures");
+      results_types.splice(index,1);
+      var index2 = results_types.indexOf("Supervisors");
+      results_types.splice(index2,1);
+    }
+    results_types.forEach(function(d2,idx2) {
+      var racekey = d2.toLowerCase().replace(/ /g,'').replace(".","").replace("'","");
+      regionID.insertAdjacentHTML("beforeend","<h5 class='regionalhed' id='regionalhed"+regionkey+racekey+"'><i class='fa fa-caret-right' id='caret-"+regionkey+racekey+"' aria-hidden='true'></i>  "+d2+"</h5>");
+      regionID.insertAdjacentHTML("beforeend","<div class='section-div' id='race"+regionkey+racekey+"'></div>");
+      var raceID = document.getElementById("race"+regionkey+racekey);
+      var hedID = document.getElementById("regionalhed"+regionkey+racekey);
+      var caretID = document.getElementById("caret-"+regionkey+racekey);
+      raceID.style.display = "none";
+      // event listeners for expanding/collapsing regional sections
+      hedID.addEventListener("click",function(){
+        if (raceID.style.display == "block") {
+          raceID.style.display = "none";
+          caretID.classList.remove('fa-caret-down');
+          caretID.classList.add('fa-caret-right');
+        }
+        else {
+          raceID.style.display = "block";
+          caretID.classList.remove('fa-caret-right');
+          caretID.classList.add('fa-caret-down');
+        }
+      });
+      localData[this_name][d2].forEach(function(d3,idx3){
+        var key = d3.name.toLowerCase().replace(/ /g,'').replace(".","").replace("'","");
+        if(d3["n"]) {
+          var h4_html = "<h4 class='race sup' id='key"+regionkey+racekey+key+"'>"+d3.name+" (elect "+d3["n"]+")</h4>";
+        } else {
+          var h4_html = "<h4 class='race sup' id='key"+regionkey+racekey+key+"'>"+d3.name+"</h4>";
+        }
+        raceID.insertAdjacentHTML("beforeend",h4_html)
+        var finalID = document.getElementById("key"+regionkey+racekey+key);
+        // need to do a different thing for measures here
+        if (racekey == "measures") {
+          populateMeasure(finalID,d3);
+        } else {
+          populateRace(finalID,d3);
+        }
+      });
     });
   });
 };
@@ -359,15 +377,15 @@ document.querySelector('#presidentbycounty').addEventListener('click', function(
   }
 
   svg_element = d3.select("#map-container-president")
-     .append("div")
-     .classed("svg-container", true) //container class to make it responsive
-     .attr("id",svg_element+"-container")
-     .append("svg")
-     //responsive SVG needs these 2 attributes and no width and height attr
-     .attr("preserveAspectRatio", "xMinYMin meet")
-     .attr("viewBox", "0 0 960 500")
-     //class to make it responsive
-     .classed("svg-content-responsive", true)
+    .append("div")
+    .classed("svg-container", true) //container class to make it responsive
+    .attr("id",svg_element+"-container")
+    .append("svg")
+    //responsive SVG needs these 2 attributes and no width and height attr
+    .attr("preserveAspectRatio", "xMinYMin meet")
+    .attr("viewBox", "0 0 960 500")
+    //class to make it responsive
+    .classed("svg-content-responsive", true)
     .attr("id","president-map-states-svg");
 
   //Pattern injection
@@ -386,83 +404,88 @@ document.querySelector('#presidentbycounty').addEventListener('click', function(
   d3.json(map_file, function(error, us) {
     if (error) throw error;
 
-    var features = topojson.feature(us,us.objects.features).features;
-    svg_element.selectAll(".states")
-      .data(topojson.feature(us, us.objects.features).features).enter()
-      .append("path")
-      .attr("class", "states")
-      .attr("d",path)
-      .attr("id",function(d) {
-        return "state"+parseInt(d.id);
-      })
-      .style("fill", function(d,index) {
-        if (ind == 0) {
-          var stateabbrev = stateCodes[parseInt(d.id)].state;
-          if (presidentialData[String(stateabbrev)].d) {
-            var tempvar = presidentialData[String(stateabbrev)];
-            var new_color = code_map_variable(tempvar,d.properties);
-            return new_color;
-          } else if (presidentialData[String(stateabbrev)]){
-            var tempvar = presidentialData[String(stateabbrev)];
-            var new_color = color_partial_results(tempvar,d.properties);
-            return new_color;
-          } else {
-            return dark_gray;
-          }
-        } else {
-          if (presidentialCountyData[d.id]) {
-            var tempvar = presidentialCountyData[d.id];
-            var new_color = code_county(tempvar,d.properties);
-            // var new_color = color_partial_results(tempvar,d.properties);
-            return new_color;
-          } else {
-            return dark_gray;//fill(path.area(d));
-          }
-        }
-      })
-      .attr("d", path)
-      .on('mouseover', function(d,index) {
-        if (ind == 0) {
-          var stateabbrev = stateCodes[parseInt(d.id)].state;
-          if (presidentialData[String(stateabbrev)]) {
-            var html_str = tooltip_function(stateabbrev,presidentialData,d.properties);
-          } else {
-            var html_str = "<div class='state-name'>"+d.properties.name+"</div><div>No results yet.</div>";
-          }
-        } else {
-          if (presidentialCountyData[d.id]) {
-            var html_str = tooltip_function(d.id,presidentialCountyData,d.properties);
-          } else {
-            var html_str = "<div class='state-name'>County: "+d.properties.name+"</div><div>No results yet.</div>";
-          }
-        }
-        tooltip.html(html_str);
-        tooltip.style("visibility", "visible");
-      })
-      .on("mousemove", function() {
-        if (screen.width <= 480) {
-          return tooltip
-            .style("top",(d3.event.pageY+40)+"px")//(d3.event.pageY+40)+"px")
-            .style("left",10+"px");
-        } else {
-          return tooltip
-            .style("top", (d3.event.pageY+20)+"px")
-            .style("left",(d3.event.pageX-80)+"px");
-        }
-      })
-      .on("mouseout", function(){return tooltip.style("visibility", "hidden");
-      });
-  });
+    d3.json(presidentialDataURL, function(presidentialData){
 
+      d3.json(presidentialCountyDataURL, function(presidentialCountyData){
+
+        var features = topojson.feature(us,us.objects.features).features;
+        svg_element.selectAll(".states")
+          .data(topojson.feature(us, us.objects.features).features).enter()
+          .append("path")
+          .attr("class", "states")
+          .attr("d",path)
+          .attr("id",function(d) {
+            return "state"+parseInt(d.id);
+          })
+        .style("fill", function(d,index) {
+          if (ind == 0) {
+            var stateabbrev = stateCodes[parseInt(d.id)].state;
+            if (presidentialData[String(stateabbrev)].d) {
+              var tempvar = presidentialData[String(stateabbrev)];
+              var new_color = code_map_variable(tempvar,d.properties);
+              return new_color;
+            } else if (presidentialData[String(stateabbrev)]){
+              var tempvar = presidentialData[String(stateabbrev)];
+              var new_color = color_partial_results(tempvar,d.properties);
+              return new_color;
+            } else {
+              return dark_gray;
+            }
+          } else {
+            if (presidentialCountyData[d.id]) {
+              var tempvar = presidentialCountyData[d.id];
+              var new_color = code_county(tempvar,d.properties);
+              // var new_color = color_partial_results(tempvar,d.properties);
+              return new_color;
+            } else {
+              return dark_gray;//fill(path.area(d));
+            }
+          }
+        })
+        .attr("d", path)
+        .on('mouseover', function(d,index) {
+          if (ind == 0) {
+            var stateabbrev = stateCodes[parseInt(d.id)].state;
+            if (presidentialData[String(stateabbrev)]) {
+              var html_str = tooltip_function(stateabbrev,presidentialData,d.properties);
+            } else {
+              var html_str = "<div class='state-name'>"+d.properties.name+"</div><div>No results yet.</div>";
+            }
+          } else {
+            if (presidentialCountyData[d.id]) {
+              var html_str = tooltip_function(d.id,presidentialCountyData,d.properties);
+            } else {
+              var html_str = "<div class='state-name'>County: "+d.properties.name+"</div><div>No results yet.</div>";
+            }
+          }
+          tooltip.html(html_str);
+          tooltip.style("visibility", "visible");
+        })
+        .on("mousemove", function() {
+          if (screen.width <= 480) {
+            return tooltip
+              .style("top",(d3.event.pageY+40)+"px")//(d3.event.pageY+40)+"px")
+              .style("left",10+"px");
+          } else {
+            return tooltip
+              .style("top", (d3.event.pageY+20)+"px")
+              .style("left",(d3.event.pageX-80)+"px");
+          }
+        })
+        .on("mouseout", function(){return tooltip.style("visibility", "hidden");
+        });
+      });
+    });
+  });
 });
 
 // show tooltip
 var tooltip = d3.select("#map-container-president")
-    .append("div")
-    .attr("class","tooltip")
-    .style("position", "absolute")
-    .style("z-index", "10")
-    .style("visibility", "hidden")
+  .append("div")
+  .attr("class","tooltip")
+  .style("position", "absolute")
+  .style("z-index", "10")
+  .style("visibility", "hidden")
 
 // hide the county map to start
 d3.select("#presidentMap_Counties-container").classed("disappear",true);
@@ -548,89 +571,98 @@ document.querySelector('#congressmap').addEventListener('click', function(){
   d3.json(map_file, function(error, us) {
     if (error) throw error;
 
-    var features = topojson.feature(us,us.objects.features).features;
-    svg_element.selectAll(".states")
-      .data(features).enter()
-      .append("path")
-      .attr("class", "states")
-      .attr("d",path)
-      .attr("id",function(d) {
-        return "state"+parseInt(d.id);
-      })
-      .style("fill", function(d,index) {
-        if (ind == 0) {
-          var stateabbrev = stateCodes[parseInt(d.id)].state;
-          if (governorRaces[String(stateabbrev)]) {
-              var tempvar = governorRaces[String(stateabbrev)];
-              if (tempvar.d){
-                var new_color = code_map_variable(tempvar,d.properties);
-                return new_color;
-              } else {
-                var new_color = color_partial_results(tempvar,d.properties);
-                return new_color;
-              }
-          } else {
-            return lightest_gray;//fill(path.area(d));
-          }
-        } else if (ind == 1) {
-          var stateabbrev = stateCodes[parseInt(d.id)].state;
-          if (senateRaces[String(stateabbrev)]) {
-              var tempvar = senateRaces[String(stateabbrev)];
-              if (tempvar.d){
-                var new_color = code_map_variable(tempvar,d.properties);
-                return new_color;
-              } else {
-                var new_color = color_partial_results(tempvar,d.properties);
-                return new_color;
-              }
-          } else {
-            return lightest_gray;//fill(path.area(d));
-          }
-        } else {
-          var district = d.id;
-          if (congressRaces[String(district)]) {
-              var tempvar = congressRaces[String(district)];
-              if (tempvar.d) {
-                var new_color = code_map_variable(tempvar,d.properties);
-                return new_color;
-              } else {
-                var new_color = color_partial_results(tempvar,d.properties);
-                return new_color;
-              }
-          } else {
-            return lightest_gray;//fill(path.area(d));
-          }
-        }
-      })
-      .attr("d", path)
-      .on('mouseover', function(d,index) {
-        if (ind == 0) {
-          var stateabbrev = stateCodes[parseInt(d.id)].state;
-          var html_str = tooltip_function(stateabbrev,governorRaces,d.properties);
-        } else if (ind == 1){
-          var stateabbrev = stateCodes[parseInt(d.id)].state;
-          var html_str = tooltip_function(stateabbrev,senateRaces,d.properties);
-        } else {
-          var html_str = tooltip_function(d.id,congressRaces,d.properties);
-        }
-        tooltip.html(html_str);
-        tooltip.style("visibility", "visible");
-      })
-      .on("mousemove", function() {
-        if (screen.width <= 480) {
-          return tooltip
-            .style("top",(d3.event.pageY+40)+"px")//(d3.event.pageY+40)+"px")
-            .style("left",10+"px");
-        } else {
-          return tooltip
-            .style("top", (d3.event.pageY+20)+"px")
-            .style("left",(d3.event.pageX-80)+"px");
-        }
-      })
-      .on("mouseout", function(){return tooltip.style("visibility", "hidden");
-      });
-  });
+    d3.json(governorRacesURL, function(governorRaces){
 
+      d3.json(senateRacesURL, function(senateRaces){
+
+        d3.json(congressRacesURL, function(congressRaces){
+
+          var features = topojson.feature(us,us.objects.features).features;
+          svg_element.selectAll(".states")
+            .data(features).enter()
+            .append("path")
+            .attr("class", "states")
+            .attr("d",path)
+            .attr("id",function(d) {
+              return "state"+parseInt(d.id);
+            })
+          .style("fill", function(d,index) {
+            if (ind == 0) {
+              var stateabbrev = stateCodes[parseInt(d.id)].state;
+              if (governorRaces[String(stateabbrev)]) {
+                  var tempvar = governorRaces[String(stateabbrev)];
+                  if (tempvar.d){
+                    var new_color = code_map_variable(tempvar,d.properties);
+                    return new_color;
+                  } else {
+                    var new_color = color_partial_results(tempvar,d.properties);
+                    return new_color;
+                  }
+              } else {
+                return lightest_gray;//fill(path.area(d));
+              }
+            } else if (ind == 1) {
+              var stateabbrev = stateCodes[parseInt(d.id)].state;
+              if (senateRaces[String(stateabbrev)]) {
+                  var tempvar = senateRaces[String(stateabbrev)];
+                  if (tempvar.d){
+                    var new_color = code_map_variable(tempvar,d.properties);
+                    return new_color;
+                  } else {
+                    var new_color = color_partial_results(tempvar,d.properties);
+                    return new_color;
+                  }
+              } else {
+                return lightest_gray;//fill(path.area(d));
+              }
+            } else {
+              var district = d.id;
+              if (congressRaces[String(district)]) {
+                  var tempvar = congressRaces[String(district)];
+                  if (tempvar.d) {
+                    var new_color = code_map_variable(tempvar,d.properties);
+                    return new_color;
+                  } else {
+                    var new_color = color_partial_results(tempvar,d.properties);
+                    return new_color;
+                  }
+              } else {
+                return lightest_gray;//fill(path.area(d));
+              }
+            }
+          })
+          .attr("d", path)
+          .on('mouseover', function(d,index) {
+            if (ind == 0) {
+              var stateabbrev = stateCodes[parseInt(d.id)].state;
+              var html_str = tooltip_function(stateabbrev,governorRaces,d.properties);
+            } else if (ind == 1){
+              var stateabbrev = stateCodes[parseInt(d.id)].state;
+              var html_str = tooltip_function(stateabbrev,senateRaces,d.properties);
+            } else {
+              var html_str = tooltip_function(d.id,congressRaces,d.properties);
+            }
+            tooltip.html(html_str);
+            tooltip.style("visibility", "visible");
+          })
+          .on("mousemove", function() {
+            if (screen.width <= 480) {
+              return tooltip
+                .style("top",(d3.event.pageY+40)+"px")//(d3.event.pageY+40)+"px")
+                .style("left",10+"px");
+            } else {
+              return tooltip
+                .style("top", (d3.event.pageY+20)+"px")
+                .style("left",(d3.event.pageX-80)+"px");
+            }
+          })
+          .on("mouseout", function(){
+            return tooltip.style("visibility", "hidden");
+          });
+        });
+      });
+    });
+  });
 });
 
 // show tooltip
@@ -649,314 +681,349 @@ d3.select("#congressmap_Districts-container").classed("disappear",true);
 // filling in electoral vote count
 // -----------------------------------------------------------------------------
 
-// read in electoral votes
-var clinton_electoralvotes = raceSummaries["electoralcount"]["Hillary Clinton"];
-var trump_electoralvotes = raceSummaries["electoralcount"]["Donald Trump"];
-var uncounted_electoralvotes = 538-clinton_electoralvotes-trump_electoralvotes;
-var clinton_percent = clinton_electoralvotes/538*100;
-var trump_percent = trump_electoralvotes/538*100;
-var uncounted_percent = 100-trump_percent-clinton_percent;
+d3.json(raceSummariesURL, function(raceSummaries){
+  // read in electoral votes
+  var clinton_electoralvotes = raceSummaries["electoralcount"]["Dem"];
+  var trump_electoralvotes = raceSummaries["electoralcount"]["GOP"];
+  var other_electoralvotes = raceSummaries["electoralcount"]["Other"];
+  var uncounted_electoralvotes = 538-clinton_electoralvotes-trump_electoralvotes-other_electoralvotes;
+  var clinton_percent = clinton_electoralvotes/538*100;
+  var trump_percent = trump_electoralvotes/538*100;
+  var other_percent = other_electoralvotes/538*100;
+  var uncounted_percent = 100-trump_percent-clinton_percent-other_percent;
 
-document.getElementById("electoralhillaryclinton").innerHTML = "("+clinton_electoralvotes+")";
-document.getElementById("electoraldonaldtrump").innerHTML = "("+trump_electoralvotes+")";
+  document.getElementById("electoralhillaryclinton").innerHTML = "("+clinton_electoralvotes+")";
+  document.getElementById("electoraldonaldtrump").innerHTML = "("+trump_electoralvotes+")";
 
-// display electoral votes on bar
-document.getElementById("uncounted").style.width = String(uncounted_percent)+"%";
-// document.getElementById("other").style.width = String(other_percent)+"%";
-document.getElementById("hillaryclinton").style.width = String(clinton_percent)+"%";
-document.getElementById("donaldtrump").style.width = String(trump_percent)+"%";
+  // display electoral votes on bar
+  document.getElementById("uncounted").style.width = String(uncounted_percent)+"%";
+  document.getElementById("other").style.width = String(other_percent)+"%";
+  document.getElementById("hillaryclinton").style.width = String(clinton_percent)+"%";
+  document.getElementById("donaldtrump").style.width = String(trump_percent)+"%";
+});
 
 // -----------------------------------------------------------------------------
 // filling in House vote count
 // -----------------------------------------------------------------------------
 
-// read in electoral votes
-var houseDem = raceSummaries["housebalance"]["Dem"];
-var houseRep = raceSummaries["housebalance"]["GOP"];
-var houseOther = raceSummaries["housebalance"]["other"];
-var houseDem_percent = houseDem/435*100;
-var houseRep_percent = houseRep/435*100;
-var houseOther_percent = houseOther/435*100;
-var houseUncounted_percent = 100-houseDem_percent-houseRep_percent-houseOther;
+d3.json(raceSummariesURL, function(raceSummaries){
+  // read in electoral votes
+  var houseDem = raceSummaries["housebalance"]["Dem"];
+  var houseRep = raceSummaries["housebalance"]["GOP"];
+  var houseOther = raceSummaries["housebalance"]["other"];
+  var houseDem_percent = houseDem/435*100;
+  var houseRep_percent = houseRep/435*100;
+  var houseOther_percent = houseOther/435*100;
+  var houseUncounted_percent = 100-houseDem_percent-houseRep_percent-houseOther;
 
-document.getElementById("house-dem").innerHTML = " ("+houseDem+" seats)";
-document.getElementById("house-rep").innerHTML = " ("+houseRep+" seats)";
+  document.getElementById("house-dem").innerHTML = " ("+houseDem+" seats)";
+  document.getElementById("house-rep").innerHTML = " ("+houseRep+" seats)";
 
-// display electoral votes on bar
-document.getElementById("uncounted-house").style.width = String(houseUncounted_percent)+"%";
-document.getElementById("other-house").style.width = String(houseOther_percent)+"%";
-document.getElementById("dem-house").style.width = String(houseDem_percent)+"%";
-document.getElementById("rep-house").style.width = String(houseRep_percent)+"%";
+  // display electoral votes on bar
+  document.getElementById("uncounted-house").style.width = String(houseUncounted_percent)+"%";
+  document.getElementById("other-house").style.width = String(houseOther_percent)+"%";
+  document.getElementById("dem-house").style.width = String(houseDem_percent)+"%";
+  document.getElementById("rep-house").style.width = String(houseRep_percent)+"%";
+
+});
 
 // -----------------------------------------------------------------------------
 // filling in Senate vote count
 // -----------------------------------------------------------------------------
 
-// read in electoral votes
-var senateDem = raceSummaries["senatebalance"]["Dem"];
-var senateRep = raceSummaries["senatebalance"]["GOP"];
-var senateOther = raceSummaries["senatebalance"]["other"];
-var senateDem_percent = senateDem;
-var senateRep_percent = senateRep;
-var senateOther_percent = senateOther;
-var senateUncounted_percent = 100-senateDem_percent-senateRep_percent-senateOther_percent;
+d3.json(raceSummariesURL, function(raceSummaries){
+  // read in electoral votes
+  var senateDem = raceSummaries["senatebalance"]["Dem"];
+  var senateRep = raceSummaries["senatebalance"]["GOP"];
+  var senateOther = raceSummaries["senatebalance"]["other"];
+  var senateDem_percent = senateDem;
+  var senateRep_percent = senateRep;
+  var senateOther_percent = senateOther;
+  var senateUncounted_percent = 100-senateDem_percent-senateRep_percent-senateOther_percent;
 
-document.getElementById("senate-dem").innerHTML = " ("+senateDem+" seats)";
-document.getElementById("senate-rep").innerHTML = " ("+senateRep+" seats)";
+  document.getElementById("senate-dem").innerHTML = " ("+senateDem+" seats)";
+  document.getElementById("senate-rep").innerHTML = " ("+senateRep+" seats)";
 
-// display electoral votes on bar
-document.getElementById("uncounted-senate").style.width = String(senateUncounted_percent)+"%";
-document.getElementById("other-senate").style.width = String(senateOther_percent)+"%";
-document.getElementById("dem-senate").style.width = String(senateDem_percent)+"%";
-document.getElementById("rep-senate").style.width = String(senateRep_percent)+"%";
+  // display electoral votes on bar
+  document.getElementById("uncounted-senate").style.width = String(senateUncounted_percent)+"%";
+  document.getElementById("other-senate").style.width = String(senateOther_percent)+"%";
+  document.getElementById("dem-senate").style.width = String(senateDem_percent)+"%";
+  document.getElementById("rep-senate").style.width = String(senateRep_percent)+"%";
+});
 
 // -----------------------------------------------------------------------------
 // filling in Governor vote count
 // -----------------------------------------------------------------------------
 
-// read in electoral votes
-console.log(raceSummaries);
-var governorDem = raceSummaries["governorbalance"]["Dem"];
-var governorRep = raceSummaries["governorbalance"]["GOP"];
-var governorOther = raceSummaries["governorbalance"]["other"];
-var governorDem_percent = governorDem/50*100;
-var governorRep_percent = governorRep/50*100;
-var governorOther_percent = governorOther/50*100;
-var governorUncounted_percent = 100-governorDem_percent-governorRep_percent-governorOther_percent;
+d3.json(raceSummariesURL, function(raceSummaries){
+  // read in electoral votes
+  console.log(raceSummaries);
+  var governorDem = raceSummaries["governorbalance"]["Dem"];
+  var governorRep = raceSummaries["governorbalance"]["GOP"];
+  var governorOther = raceSummaries["governorbalance"]["other"];
+  var governorDem_percent = governorDem/50*100;
+  var governorRep_percent = governorRep/50*100;
+  var governorOther_percent = governorOther/50*100;
+  var governorUncounted_percent = 100-governorDem_percent-governorRep_percent-governorOther_percent;
 
-document.getElementById("governor-dem").innerHTML = " ("+governorDem+" seats)";
-document.getElementById("governor-rep").innerHTML = " ("+governorRep+" seats)";
+  document.getElementById("governor-dem").innerHTML = " ("+governorDem+" seats)";
+  document.getElementById("governor-rep").innerHTML = " ("+governorRep+" seats)";
 
-// display electoral votes on bar
-document.getElementById("uncounted-governor").style.width = String(governorUncounted_percent)+"%";
-document.getElementById("other-governor").style.width = String(governorOther_percent)+"%";
-document.getElementById("dem-governor").style.width = String(governorDem_percent)+"%";
-document.getElementById("rep-governor").style.width = String(governorRep_percent)+"%";
+  // display electoral votes on bar
+  document.getElementById("uncounted-governor").style.width = String(governorUncounted_percent)+"%";
+  document.getElementById("other-governor").style.width = String(governorOther_percent)+"%";
+  document.getElementById("dem-governor").style.width = String(governorDem_percent)+"%";
+  document.getElementById("rep-governor").style.width = String(governorRep_percent)+"%";
+});
 
 // -----------------------------------------------------------------------------
 // FEDERAL RACES --------------------------------------------------------
 // -----------------------------------------------------------------------------
 
-// populating federal races
-// senate race
-var raceID = document.getElementById("senate");
-var senatevar = senateRaces["CA"];
-populateRace(raceID,senatevar);
+d3.json(senateRacesURL, function(senateRaces){
+  d3.json(congressRacesURL, function(congressRaces){
+    // populating federal races
+    // senate race
+    var raceID = document.getElementById("senate");
+    var senatevar = senateRaces["CA"];
+    populateRace(raceID,senatevar);
 
-// house race
-var raceID = document.getElementById("congress");
-var congressvar = congressRaces["0617"];
-populateRace(raceID,congressvar);
+    // house race
+    var raceID = document.getElementById("congress");
+    var congressvar = congressRaces["0617"];
+    populateRace(raceID,congressvar);
+  });
+});
 
 // -----------------------------------------------------------------------------
 // STATE MAP ------------------------------------------------------------
 // -----------------------------------------------------------------------------
+d3.json(houseCAURL, function(houseCA){
 
-var select_race = document.getElementById("select-race");
-select_race.addEventListener("change",function(){
-  console.log(select_race.value);
-  if (select_race.value == 0) {
-    d3.selectAll(".camap").classed("active",false);
-    this.classList.add("active");
-    camap("./assets/maps/ca_house.json",houseCA,0);
-    d3.selectAll(".ca-legend").classed("active",false);
-    document.getElementById("ca-race-legend").classList.add("active");
-  } else if (select_race.value == 1) {
-    d3.selectAll(".camap").classed("active",false);
-    this.classList.add("active");
-    camap("./assets/maps/ca_county.json",federalsenateCA,1);
-    d3.selectAll(".ca-legend").classed("active",false);
-    document.getElementById("ca-sanchez-legend").classList.add("active");
-  } else if (select_race.value == 2) {
-    d3.selectAll(".camap").classed("active",false);
-    this.classList.add("active");
-    camap("./assets/maps/ca_statesenate.json",senateCA,0);
-    d3.selectAll(".ca-legend").classed("active",false);
-    document.getElementById("ca-race-legend").classList.add("active");
-  } else if (select_race.value == 3) {
-    d3.selectAll(".camap").classed("active",false);
-    this.classList.add("active");
-    camap("./assets/maps/ca_assembly.json",assemblyCA,0);
-    d3.selectAll(".ca-legend").classed("active",false);
-    document.getElementById("ca-race-legend").classList.add("active");
-  } else {
-    d3.selectAll(".camap").classed("active",false);
-    this.classList.add("active");
-    var active_data = propsCA[select_race.value];
-    camap("./assets/maps/ca_county.json",active_data.counties);
-    d3.selectAll(".ca-legend").classed("active",false);
-    document.getElementById("ca-prop-legend").classList.add("active");
-  }
-});
+  d3.json(federalsenateCAURL, function(federalsenateCA){
 
+    d3.json(assemblyCAURL, function(assemblyCA){
 
-var path = d3.geo.path()
-    .projection(null);
+      d3.json(propsCAURL, function(propsCA){
+  
+        var select_race = document.getElementById("select-race");
+        select_race.addEventListener("change",function(){
+          console.log(select_race.value);
+          if (select_race.value == 0) {
+            d3.selectAll(".camap").classed("active",false);
+            this.classList.add("active");
+            camap("./assets/maps/ca_house.json",houseCA,0);
+            d3.selectAll(".ca-legend").classed("active",false);
+            document.getElementById("ca-race-legend").classList.add("active");
+          } else if (select_race.value == 1) {
+            d3.selectAll(".camap").classed("active",false);
+            this.classList.add("active");
+            camap("./assets/maps/ca_county.json",federalsenateCA,1);
+            d3.selectAll(".ca-legend").classed("active",false);
+            document.getElementById("ca-sanchez-legend").classList.add("active");
+          } else if (select_race.value == 2) {
+            d3.selectAll(".camap").classed("active",false);
+            this.classList.add("active");
+            camap("./assets/maps/ca_statesenate.json",senateCA,0);
+            d3.selectAll(".ca-legend").classed("active",false);
+            document.getElementById("ca-race-legend").classList.add("active");
+          } else if (select_race.value == 3) {
+            d3.selectAll(".camap").classed("active",false);
+            this.classList.add("active");
+            camap("./assets/maps/ca_assembly.json",assemblyCA,0);
+            d3.selectAll(".ca-legend").classed("active",false);
+            document.getElementById("ca-race-legend").classList.add("active");
+          } else {
+            d3.selectAll(".camap").classed("active",false);
+            this.classList.add("active");
+            var active_data = propsCA[select_race.value];
+            camap("./assets/maps/ca_county.json",active_data.counties);
+            d3.selectAll(".ca-legend").classed("active",false);
+            document.getElementById("ca-prop-legend").classList.add("active");
+          }
+        });
 
-document.querySelector('.caassembly').addEventListener('click', function(){
-  d3.selectAll(".camap").classed("active",false);
-  this.classList.add("active");
-  camap("./assets/maps/ca_assembly.json",assemblyCA,0);
-  d3.selectAll(".ca-legend").classed("active",false);
-  document.getElementById("ca-race-legend").classList.add("active");
-});
+        var path = d3.geo.path()
+          .projection(null);
 
-document.querySelector('.casenate').addEventListener('click', function(){
-  d3.selectAll(".camap").classed("active",false);
-  this.classList.add("active");
-  camap("./assets/maps/ca_statesenate.json",senateCA,0);
-  d3.selectAll(".ca-legend").classed("active",false);
-  document.getElementById("ca-race-legend").classList.add("active");
-});
+        document.querySelector('.caassembly').addEventListener('click', function(){
+          d3.selectAll(".camap").classed("active",false);
+          this.classList.add("active");
+          camap("./assets/maps/ca_assembly.json",assemblyCA,0);
+          d3.selectAll(".ca-legend").classed("active",false);
+          document.getElementById("ca-race-legend").classList.add("active");
+        });
 
-document.querySelector('.cafeddistrict').addEventListener('click', function(){
-  d3.selectAll(".camap").classed("active",false);
-  this.classList.add("active");
-  camap("./assets/maps/ca_county.json",federalsenateCA,1);
-  d3.selectAll(".ca-legend").classed("active",false);
-  document.getElementById("ca-sanchez-legend").classList.add("active");
-});
+        document.querySelector('.casenate').addEventListener('click', function(){
+          d3.selectAll(".camap").classed("active",false);
+          this.classList.add("active");
+          camap("./assets/maps/ca_statesenate.json",senateCA,0);
+          d3.selectAll(".ca-legend").classed("active",false);
+          document.getElementById("ca-race-legend").classList.add("active");
+        });
 
-document.querySelector('.cadistrict').addEventListener('click', function(){
-  d3.selectAll(".camap").classed("active",false);
-  this.classList.add("active");
-  camap("./assets/maps/ca_house.json",houseCA,0);
-  d3.selectAll(".ca-legend").classed("active",false);
-  document.getElementById("ca-race-legend").classList.add("active");
-});
+        document.querySelector('.cafeddistrict').addEventListener('click', function(){
+          d3.selectAll(".camap").classed("active",false);
+          this.classList.add("active");
+          camap("./assets/maps/ca_county.json",federalsenateCA,1);
+          d3.selectAll(".ca-legend").classed("active",false);
+          document.getElementById("ca-sanchez-legend").classList.add("active");
+        });
 
-// event listeners for props
-var qsa = s => Array.prototype.slice.call(document.querySelectorAll(s));
-qsa(".camapprop").forEach(function(group,index) {
-  group.addEventListener("click", function(e) {
-    d3.selectAll(".camap").classed("active",false);
-    this.classList.add("active");
-    var active_data = propsCA[51+index];
-    camap("./assets/maps/ca_county.json",active_data.counties);
-    d3.selectAll(".ca-legend").classed("active",false);
-    document.getElementById("ca-prop-legend").classList.add("active");
-  });
-});
+        document.querySelector('.cadistrict').addEventListener('click', function(){
+          d3.selectAll(".camap").classed("active",false);
+          this.classList.add("active");
+          camap("./assets/maps/ca_house.json",houseCA,0);
+          d3.selectAll(".ca-legend").classed("active",false);
+          document.getElementById("ca-race-legend").classList.add("active");
+        });
 
-function camap(active_map,active_data,flag) {
+        // event listeners for props
+        var qsa = s => Array.prototype.slice.call(document.querySelectorAll(s));
+        qsa(".camapprop").forEach(function(group,index) {
+          group.addEventListener("click", function(e) {
+            d3.selectAll(".camap").classed("active",false);
+            this.classList.add("active");
+            var active_data = propsCA[51+index];
+            camap("./assets/maps/ca_county.json",active_data.counties);
+            d3.selectAll(".ca-legend").classed("active",false);
+            document.getElementById("ca-prop-legend").classList.add("active");
+          });
+        });
 
-  d3.select("#map-container-state").select("svg").remove();
-  d3.select("#map-container-state").select(".svg-container").remove();
+        function camap(active_map,active_data,flag) {
 
-  // CA map by county
-  var svgCACounties = d3.select("#map-container-state")
-       .append("div")
-       .classed("svg-container", true) //container class to make it responsive
-       .attr("id","map-container-state")
-       .append("svg")
-       //responsive SVG needs these 2 attributes and no width and height attr
-       .attr("preserveAspectRatio", "xMinYMin meet")
-       .attr("viewBox", "200 0 600 530")
-       //class to make it responsive
-       .classed("svg-content-responsive", true)
-      .attr("id","states-svg");
+          d3.select("#map-container-state").select("svg").remove();
+          d3.select("#map-container-state").select(".svg-container").remove();
 
-  d3.json(active_map, function(error, us) {
-    if (error) throw error;
+          // CA map by county
+          var svgCACounties = d3.select("#map-container-state")
+            .append("div")
+            .classed("svg-container", true) //container class to make it responsive
+            .attr("id","map-container-state")
+            .append("svg")
+            //responsive SVG needs these 2 attributes and no width and height attr
+            .attr("preserveAspectRatio", "xMinYMin meet")
+            .attr("viewBox", "200 0 600 530")
+            //class to make it responsive
+            .classed("svg-content-responsive", true)
+            .attr("id","states-svg");
 
-    var features = topojson.feature(us,us.objects.features).features;
-    svgCACounties.selectAll(".states")
-      .data(topojson.feature(us, us.objects.features).features).enter()
-      .append("path")
-      .attr("class", "states")
-      .attr("d",path)
-      // .attr("id",function(d) {
-      //   return "county"+parseInt(d.id);
-      // })
-      .style("fill", function(d) {
-        var location = d.id;
-        if (active_data[String(location)]) {
-            var tempvar = active_data[String(location)];
-            if (tempvar.r || tempvar.d) {
-              var new_color = code_map_variable(tempvar,d.properties);
-              return new_color;
-            } else if (flag == 1) {
-              var new_color = code_county(tempvar,d.properties);
-              return new_color;
-            } else {
-              var new_color = color_partial_results(tempvar,d.properties);
-              return new_color;
-            }
-        } else {
-          return lightest_gray;//fill(path.area(d));
-        }
-      })
-      .attr("d", path)
-      .on('mouseover', function(d,index) {
-        var html_str = tooltip_function(d.id,active_data,d.properties);
-        state_tooltip.html(html_str);
-        state_tooltip.style("visibility", "visible");
-      })
-      .on("mousemove", function() {
-        if (screen.width <= 480) {
-          return state_tooltip
-            .style("top",(d3.event.pageY+10)+"px")//(d3.event.pageY+40)+"px")
-            .style("left",50+"px");
-        } else {
-          return state_tooltip
-            .style("top", (d3.event.pageY+10)+"px")
-            .style("left",(d3.event.pageX-80)+"px");
-        }
-      })
-      .on("mouseout", function(){return state_tooltip.style("visibility", "hidden");
+          d3.json(active_map, function(error, us) {
+            if (error) throw error;
+
+            var features = topojson.feature(us,us.objects.features).features;
+            svgCACounties.selectAll(".states")
+            .data(topojson.feature(us, us.objects.features).features).enter()
+            .append("path")
+            .attr("class", "states")
+            .attr("d",path)
+            // .attr("id",function(d) {
+            //   return "county"+parseInt(d.id);
+            // })
+            .style("fill", function(d) {
+              var location = d.id;
+              if (active_data[String(location)]) {
+                var tempvar = active_data[String(location)];
+                if (tempvar.r || tempvar.d) {
+                  var new_color = code_map_variable(tempvar,d.properties);
+                  return new_color;
+                } else if (flag == 1) {
+                  var new_color = code_county(tempvar,d.properties);
+                  return new_color;
+                } else {
+                  var new_color = color_partial_results(tempvar,d.properties);
+                  return new_color;
+                }
+              } else {
+                return lightest_gray;//fill(path.area(d));
+              }
+            })
+            .attr("d", path)
+            .on('mouseover', function(d,index) {
+              var html_str = tooltip_function(d.id,active_data,d.properties);
+              state_tooltip.html(html_str);
+              state_tooltip.style("visibility", "visible");
+            })
+            .on("mousemove", function() {
+              if (screen.width <= 480) {
+                return state_tooltip
+                  .style("top",(d3.event.pageY+10)+"px")//(d3.event.pageY+40)+"px")
+                  .style("left",50+"px");
+              } else {
+                return state_tooltip
+                  .style("top", (d3.event.pageY+10)+"px")
+                  .style("left",(d3.event.pageX-80)+"px");
+              }
+            })
+            .on("mouseout", function(){
+              return state_tooltip.style("visibility", "hidden");
+            });
+          });
+
+          // show tooltip
+          var state_tooltip = d3.select("#map-container-state")
+          .append("div")
+          .attr("class","tooltip")
+          .style("position", "absolute")
+          .style("z-index", "10")
+          .style("visibility", "hidden")
+        };
+
+        // camap("./assets/maps/ca_assembly.json",assemblyCA,0);
+        camap("./assets/maps/ca_house.json",houseCA,0);
+
       });
+    });
   });
-
-  // show tooltip
-  var state_tooltip = d3.select("#map-container-state")
-      .append("div")
-      .attr("class","tooltip")
-      .style("position", "absolute")
-      .style("z-index", "10")
-      .style("visibility", "hidden")
-};
-
-// camap("./assets/maps/ca_assembly.json",assemblyCA,0);
-camap("./assets/maps/ca_house.json",houseCA,0);
+});
 
 // -----------------------------------------------------------------------------
 // populating state section ----------------------------------------------------
 // -----------------------------------------------------------------------------
+d3.json(senateCAURL, function(senateCA){
 
-// Wiener vs Kim race
-var raceID = document.getElementById("statesenate");
-var statesenatevar = senateCA["06011"];
-populateRace(raceID,statesenatevar);
+  d3.json(assemblyCAURL, function(assemblyCA){
 
-// Skinner vs Swanson race
-var raceID = document.getElementById("statedistrict9");
-var statesenatevar = senateCA["06009"];
-populateRace(raceID,statesenatevar);
+    // Wiener vs Kim race
+    var raceID = document.getElementById("statesenate");
+    var statesenatevar = senateCA["06011"];
+    populateRace(raceID,statesenatevar);
 
-// Cook-Kallio vs Baker race
-var raceID = document.getElementById("stateassembly");
-var assemblyvar = assemblyCA["06016"];
-populateRace(raceID,assemblyvar);
+    // Skinner vs Swanson race
+    var raceID = document.getElementById("statedistrict9");
+    var statesenatevar = senateCA["06009"];
+    populateRace(raceID,statesenatevar);
+
+    // Cook-Kallio vs Baker race
+    var raceID = document.getElementById("stateassembly");
+    var assemblyvar = assemblyCA["06016"];
+    populateRace(raceID,assemblyvar);
+
+  });
+});
 
 // -----------------------------------------------------------------------------
 // filling in state propositions results ---------------------------------------
 // -----------------------------------------------------------------------------
 
-for (var propidx=51; propidx<68; propidx++) {
-  var propID = document.getElementById("prop"+propidx);
-  var propResult = propsCA[propidx]["state"];
-  var total = +propResult.r["Yes"]+ +propResult.r["No"];
-  if (total == 0) { total = 0.1;}
-  if (propResult.d == "Yes") {
-    var htmlresult = "<span class='propyes'><i class='fa fa-check-circle-o' aria-hidden='true'></i>Yes: "+Math.round(propResult.r["Yes"]/total*1000)/10+"%</span><span class='propno'>No: "+Math.round(propResult.r["No"]/total*1000)/10+"%</span>"
-  } else if (propResult.d == "No") {
-    var htmlresult = "<span class='propyes'>Yes: "+Math.round(propResult.r["Yes"]/total*1000)/10+"%</span><span class='propno'><i class='fa fa-times-circle-o' aria-hidden='true'></i>No: "+Math.round(propResult.r["No"]/total*1000)/10+"%</span>"
-  } else {
-    var htmlresult = "<span class='propyes'>Yes: "+Math.round(propResult.r["Yes"]/total*1000)/10+"%</span><span class='propno'>No: "+Math.round(propResult.r["No"]/total*1000)/10+"%</span>"
+d3.json(propsCAURL, function(propsCA){
+  for (var propidx=51; propidx<68; propidx++) {
+    var propID = document.getElementById("prop"+propidx);
+    var propResult = propsCA[propidx]["state"];
+    var total = +propResult.r["Yes"]+ +propResult.r["No"];
+    if (total == 0) { total = 0.1;}
+    if (propResult.d == "Yes") {
+      var htmlresult = "<span class='propyes'><i class='fa fa-check-circle-o' aria-hidden='true'></i>Yes: "+Math.round(propResult.r["Yes"]/total*1000)/10+"%</span><span class='propno'>No: "+Math.round(propResult.r["No"]/total*1000)/10+"%</span>"
+    } else if (propResult.d == "No") {
+      var htmlresult = "<span class='propyes'>Yes: "+Math.round(propResult.r["Yes"]/total*1000)/10+"%</span><span class='propno'><i class='fa fa-times-circle-o' aria-hidden='true'></i>No: "+Math.round(propResult.r["No"]/total*1000)/10+"%</span>"
+    } else {
+      var htmlresult = "<span class='propyes'>Yes: "+Math.round(propResult.r["Yes"]/total*1000)/10+"%</span><span class='propno'>No: "+Math.round(propResult.r["No"]/total*1000)/10+"%</span>"
+    }
+    var htmlresult = htmlresult+ "<div class='prop-precincts'>"+formatthousands(propResult.p)+" / 24,848 precincts reporting</div>"
+    propID.insertAdjacentHTML("beforebegin",htmlresult)
   }
-  var htmlresult = htmlresult+ "<div class='prop-precincts'>"+formatthousands(propResult.p)+" / 24,848 precincts reporting</div>"
-  propID.insertAdjacentHTML("beforebegin",htmlresult)
-}
+});
 
 // -----------------------------------------------------------------------------
 // state propositions search bar -----------------------------------------------
@@ -1021,37 +1088,41 @@ sfinput.addEventListener('input', function(){
 // -----------------------------------------------------------------------------
 // filling in sf propositions results ---------------------------------------
 // -----------------------------------------------------------------------------
+d3.json(localDataURL, function(localData){
 
-for (var propidx=0; propidx<24; propidx++) {
-  var propID = document.getElementById("sfprop"+propidx);
-  var propResult = localData["San Francisco"]["Measures"][propidx];
-  var htmlresult = "";
-  var total = +propResult["Yes"]+ +propResult["No"];
-  if (total == 0) { total = 0.1;}
-  if (propResult.d == "Yes") {
-    var htmlresult = "<span class='propyes'><i class='fa fa-check-circle-o' aria-hidden='true'></i>Yes: "+Math.round(propResult["Yes"]/total*1000)/10+"%</span><span class='propno'>No: "+Math.round(propResult["No"]/total*1000)/10+"%</span>"
-  } else if (propResult.d == "No") {
-    var htmlresult = "<span class='propyes'>Yes: "+Math.round(propResult["Yes"]/total*1000)/10+"%</span><span class='propno'><i class='fa fa-times-circle-o' aria-hidden='true'></i>No: "+Math.round(propResult["No"]/total*1000)/10+"%</span>"
-  } else {
-    var htmlresult = "<span class='propyes'>Yes: "+Math.round(propResult["Yes"]/total*1000)/10+"%</span><span class='propno'>No: "+Math.round(propResult["No"]/total*1000)/10+"%</span>"
+  for (var propidx=0; propidx<24; propidx++) {
+    var propID = document.getElementById("sfprop"+propidx);
+    var propResult = localData["San Francisco"]["Measures"][propidx];
+    var htmlresult = "";
+    var total = +propResult["Yes"]+ +propResult["No"];
+    if (total == 0) { total = 0.1;}
+    if (propResult.d == "Yes") {
+      var htmlresult = "<span class='propyes'><i class='fa fa-check-circle-o' aria-hidden='true'></i>Yes: "+Math.round(propResult["Yes"]/total*1000)/10+"%</span><span class='propno'>No: "+Math.round(propResult["No"]/total*1000)/10+"%</span>"
+    } else if (propResult.d == "No") {
+      var htmlresult = "<span class='propyes'>Yes: "+Math.round(propResult["Yes"]/total*1000)/10+"%</span><span class='propno'><i class='fa fa-times-circle-o' aria-hidden='true'></i>No: "+Math.round(propResult["No"]/total*1000)/10+"%</span>"
+    } else {
+      var htmlresult = "<span class='propyes'>Yes: "+Math.round(propResult["Yes"]/total*1000)/10+"%</span><span class='propno'>No: "+Math.round(propResult["No"]/total*1000)/10+"%</span>"
+    }
+    var htmlresult = htmlresult+ "<div class='prop-precincts'>"+formatthousands(propResult.p)+" / "+formatthousands(propResult.pt)+" precincts reporting</div>"
+    propID.insertAdjacentHTML("beforebegin",htmlresult)
   }
-  var htmlresult = htmlresult+ "<div class='prop-precincts'>"+formatthousands(propResult.p)+" / "+formatthousands(propResult.pt)+" precincts reporting</div>"
-  propID.insertAdjacentHTML("beforebegin",htmlresult)
-}
+});
 
 // -----------------------------------------------------------------------------
 // populating SF supes
 // -----------------------------------------------------------------------------
+d3.json(localDataURL, function(localData){
 
-var sectionID = document.getElementById("sf-section");
-localData["San Francisco"]["Supervisors"].forEach(function(d,idx) {
-  var name = d.name;
-  var districtNum = name.substr(name.indexOf("District ") + 9);
-  sectionID.insertAdjacentHTML("beforeend","<h4 class='race sup' id='district"+districtNum+"'>"+d.name+"</h4>")
-  var supeID = document.getElementById("district"+districtNum);
-  var racevar = d;
-  populateRace(supeID,racevar);
-});
+  var sectionID = document.getElementById("sf-section");
+  localData["San Francisco"]["Supervisors"].forEach(function(d,idx) {
+    var name = d.name;
+    var districtNum = name.substr(name.indexOf("District ") + 9);
+    sectionID.insertAdjacentHTML("beforeend","<h4 class='race sup' id='district"+districtNum+"'>"+d.name+"</h4>")
+    var supeID = document.getElementById("district"+districtNum);
+    var racevar = d;
+    populateRace(supeID,racevar);
+  });
+});f
 
 // -----------------------------------------------------------------------------
 // populating regional results
@@ -1083,44 +1154,46 @@ qsa(".sectionbutton").forEach(function(group,index) {
 // -----------------------------------------------------------------------------
 // filling in regional propositions results ---------------------------------------
 // -----------------------------------------------------------------------------
+d3.json(localDataURL, function(localData){
 
-// NEED TO CHECK THIS!!!!
-console.log(localData);
-var propID_list = ["RR","X","B","T1","O1","HH"];
-var RRPropData = localData["Special Districts"]["Measures"][1];
-console.log("RR");
-console.log(RRPropData);
-var XPropData = localData["Contra Costa"]["Measures"][21];
-console.log("X");
-console.log(XPropData);
-var BPropData = localData["Santa Clara"]["Measures"][1];
-console.log("B");
-console.log(BPropData);
-var T1PropData = localData["Alameda"]["Measures"][17];
-console.log("T1");
-console.log(T1PropData);
-var O1PropData = localData["Alameda"]["Measures"][12];
-console.log("O1");
-console.log(O1PropData);
-var HHPropData = localData["Alameda"]["Measures"][27];
-console.log("HH");
-console.log(HHPropData);
+  // NEED TO CHECK THIS!!!!
+  console.log(localData);
+  var propID_list = ["RR","X","B","T1","O1","HH"];
+  var RRPropData = localData["Special Districts"]["Measures"][1];
+  console.log("RR");
+  console.log(RRPropData);
+  var XPropData = localData["Contra Costa"]["Measures"][21];
+  console.log("X");
+  console.log(XPropData);
+  var BPropData = localData["Santa Clara"]["Measures"][1];
+  console.log("B");
+  console.log(BPropData);
+  var T1PropData = localData["Alameda"]["Measures"][17];
+  console.log("T1");
+  console.log(T1PropData);
+  var O1PropData = localData["Alameda"]["Measures"][12];
+  console.log("O1");
+  console.log(O1PropData);
+  var HHPropData = localData["Alameda"]["Measures"][27];
+  console.log("HH");
+  console.log(HHPropData);
 
-for (var ii=0; ii<6; ii++) {
-  var propID = document.getElementById("regionalprop"+propID_list[ii]);
-  var propResult = eval(String(propID_list[ii])+"PropData");
-  var total = +propResult["Yes"]+ +propResult["No"];
-  if (total == 0) { total = 0.1;}
-  if (propResult.d == "Yes") {
-    var htmlresult = "<span class='propyes small'><i class='fa fa-check-circle-o' aria-hidden='true'></i>Yes: "+Math.round(propResult["Yes"]/total*1000)/10+"%</span><span class='propno small'>No: "+Math.round(propResult["No"]/total*1000)/10+"%</span>"
-  } else if (propResult.d == "No") {
-    var htmlresult = "<span class='propyes small'>Yes: "+Math.round(propResult["Yes"]/total*1000)/10+"%</span><span class='propno small'><i class='fa fa-check-circle-o' aria-hidden='true'>No: "+Math.round(propResult["No"]/total*1000)/10+"%</i></span>"
-  } else {
-    var htmlresult = "<span class='propyes small'>Yes: "+Math.round(propResult["Yes"]/total*1000)/10+"%</span><span class='propno small'>No: "+Math.round(propResult["No"]/total*1000)/10+"%</span>"
+  for (var ii=0; ii<6; ii++) {
+    var propID = document.getElementById("regionalprop"+propID_list[ii]);
+    var propResult = eval(String(propID_list[ii])+"PropData");
+    var total = +propResult["Yes"]+ +propResult["No"];
+    if (total == 0) { total = 0.1;}
+    if (propResult.d == "Yes") {
+      var htmlresult = "<span class='propyes small'><i class='fa fa-check-circle-o' aria-hidden='true'></i>Yes: "+Math.round(propResult["Yes"]/total*1000)/10+"%</span><span class='propno small'>No: "+Math.round(propResult["No"]/total*1000)/10+"%</span>"
+    } else if (propResult.d == "No") {
+      var htmlresult = "<span class='propyes small'>Yes: "+Math.round(propResult["Yes"]/total*1000)/10+"%</span><span class='propno small'><i class='fa fa-check-circle-o' aria-hidden='true'>No: "+Math.round(propResult["No"]/total*1000)/10+"%</i></span>"
+    } else {
+      var htmlresult = "<span class='propyes small'>Yes: "+Math.round(propResult["Yes"]/total*1000)/10+"%</span><span class='propno small'>No: "+Math.round(propResult["No"]/total*1000)/10+"%</span>"
+    }
+    var htmlresult = htmlresult+ "<div class='prop-precincts'>"+formatthousands(propResult.p)+" / "+formatthousands(propResult.pt)+" precincts reporting</div>"
+    propID.insertAdjacentHTML("beforebegin",htmlresult)
   }
-  var htmlresult = htmlresult+ "<div class='prop-precincts'>"+formatthousands(propResult.p)+" / "+formatthousands(propResult.pt)+" precincts reporting</div>"
-  propID.insertAdjacentHTML("beforebegin",htmlresult)
-}
+});
 
 // -----------------------------------------------------------------------------
 // controls for collapsing and expanding sections ------------------------------
