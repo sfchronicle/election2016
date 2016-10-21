@@ -85,18 +85,18 @@ h1 {
 
 .section-hed {
   width: 100%;
-  background-color: lighten(@light-gray,15%);
+  background-color: lighten(@light-gray,10%);
   font-family: @med-graphics;
-  border-top: 1px solid @dark-gray;
+  // border-top: 1px solid @dark-gray;
   // border-bottom: 4px solid @light-gray;
-  border-bottom: 1px solid @dark-gray;
+  // border-bottom: 1px solid @dark-gray;
   padding: 5px 0;
   padding-left: 20px;
-  font-size: 21px;
+  font-size: 30px;
 }
 
 .section-chatter {
-  font-family: @block-graphics;
+  font-family: @med-graphics;
   font-size: 16px;
   text-align: left;
   padding: 10px 0;
@@ -170,6 +170,10 @@ h4 {
   border-bottom: 1px @light-gray solid;
   margin-bottom: 5px;
   margin-top: 10px;
+  &.president {
+    margin-bottom: 15px;
+    text-align: center;
+  }
 }
 
 h5 {
@@ -467,6 +471,12 @@ footer {
   font-size: 18px;
 }
 
+.deck-sub {
+  padding-top: 20px;
+  font-size: 16px;
+  font-family: @med-graphics;
+}
+
 // sticky navigation bar -------------------------------
 
 .navigation {
@@ -498,7 +508,7 @@ footer {
 }
 
 #stick-ph {
-  // display: none;
+  display: none;
   height: 40px;
 }
 

@@ -22,7 +22,10 @@
 
       <div class="title-img"><img src="./assets/election2016banner.png"></div>
 
-      <div class="deck">What a tumultuous election cycle this has been! We've been covering it every step of the way, and now you can explore our amazing elections page and see what new leaders and policies will shape our communities! Click on the section headers below or scroll to see all the results.</div>
+      <div class="deck">The voters’ voices are being heard, from the presidential race to local school boards. This is your one-stop guide to the Nov. 8 ballot, with results for the presidency and dozens of races in San Francisco, the rest of the Bay Area and around the state.
+
+      <div class="deck-sub">Click on the section headers below to navigate the page or scroll down to see all the races.</div>
+      </div>
 
       <div id="stick-here"></div>
       <div id="stick-me">
@@ -44,10 +47,10 @@
               </a>
             </div>
           </div>
-          <div class="long" id="long">ELECTION <span class="year">2016</span></div>
-          <div class="sub-title"><a id="f" href="#federal">Federal</a></div>
+          <div class="sub-title"><a id="p" href="#president">President</a></div>
+          <div class="sub-title"><a id="f" href="#federal">Nation</a></div>
           <div class="sub-title"><a id="s" href="#state">State</a></div>
-          <div class="sub-title"><a id="l" href="#local">SF</a></div>
+          <div class="sub-title"><a id="l" href="#local">S.F.</a></div>
           <div class="sub-title"><a id="r" href="#regional">Bay Area</a></div>
         </div>
       </div>
@@ -55,7 +58,7 @@
 
       <div class="outer">
 
-        <h4 class="race president">President</h4>
+        <h4 class="race president" id="president">President</h4>
 
         <div class="icon left">
           <img src="./assets/graphics/clinton.png">
@@ -109,7 +112,7 @@
 
       <section id="federal">
       <div class="break-half"></div>
-      <h1 class="section-hed">Federal
+      <h1 class="section-hed">Nation
         <div class="section-chatter">This is some text that Tim is going to write, and after he writes it, I am going to paste it in instead of this placeholder text. It will contain some information about how this is a section and everyone should read it.</div>
       </h1>
       <div class="br"></div>
@@ -122,7 +125,7 @@
 
       <div class="outer">
 
-        <div class="hed">Federal election results</div>
+        <div class="hed">National election results</div>
 
         <div class="button-container">
           <div class="button race senate active" id="senatemap">Senate</div>
@@ -321,7 +324,7 @@
           </div>
           <div class='reg-prop-name'>Measure RR</div>
           <div class='result'><div id="regionalpropRR"></div></div>
-          <div class="reg-prop-desc">Authorizes $3.5 billion in bonds for BART to rehabilitation and modernization. Requires cumulative two-thirds vote in San Francisco, Alameda and Contra Costa counties for passage.</div>
+          <div class="reg-prop-desc">Authorizes $3.5 billion in bonds for BART rehabilitation and modernization. Requires cumulative two-thirds vote in San Francisco, Alameda and Contra Costa counties for passage.</div>
         </div>
         <% csv.RegionalMeasuresData.forEach(function(prop,idx){ %>
           <div class='reg-prop-group'>
@@ -377,7 +380,7 @@
       // state data
       var propList = <%= JSON.stringify(csv.StatePropositionsData) %>;
 
-      
+
       // SF data
       var SFpropList = <%= JSON.stringify(csv.SFPropositionsData) %>;
 
