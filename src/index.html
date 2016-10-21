@@ -14,13 +14,23 @@
 
   <body>
 
-    <responsive-child>
-
-    <%= t.include("partials/_nav.html") %>
 
     <div class="outer">
 
-      <div class="title-img"><img src="./assets/election2016banner.png"></div>
+      <div class="title-img">
+
+
+          <div class="desk-logo">
+            <a href="http://www.sfchronicle.com" target="_blank">
+              <img src="http://projects.sfchronicle.com/shared/logos/sfcg_logo_color.png">
+            </a>
+          </div>
+        
+        <img src="./assets/election2016banner.png">
+        
+        <%= t.include("partials/_social-links.html") %>
+        
+      </div>
 
       <div class="deck">The voters’ voices are being heard, from the presidential race to local school boards. This is your one-stop guide to the Nov. 8 ballot, with results for the presidency and dozens of races in San Francisco, the rest of the Bay Area and around the state.
 

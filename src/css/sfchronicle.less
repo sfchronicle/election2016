@@ -150,12 +150,12 @@ li {
 }
 .outer {
   max-width: 900px;
-  margin: 30px auto;
+  margin: 20px auto;
   @media @tablet {
-    margin: 20px;
+    margin: 0 15px;
   }
   @media @mobile {
-    margin: 10px;
+    margin: 0 15px;
   }
 }
 .source, .credit {
@@ -357,8 +357,34 @@ footer {
 
 
 .desk-logo {
-  @media (max-width:490px) {
-    display:none;
+  max-width: 300px;
+  width: 100%;
+  margin: 0 auto -30px;
+
+  @media @tablet {
+    margin: 0 auto -15px;
+  }
+  @media @mobile{
+    max-width:235px;
+  }
+}
+
+#social-links{
+  text-align:center;
+  margin-top: -30px;
+  a{
+  color: #4c4c4c;
+  }
+
+  .link{
+  font-size:1.2em;
+  @media @mobile{
+  font-size:0.9em;
+  }
+  }
+
+  @media @mobile{
+  margin-top:-15px;
   }
 }
 

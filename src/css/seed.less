@@ -49,15 +49,6 @@ body {
   font-family: @body;
 }
 
-.outer {
-  max-width: 900px;
-  margin: auto;
-
-  @media screen and (max-width: 950px) {
-    width: 95%;
-  }
-}
-
 a {
   color: #92172c;
 }
@@ -295,17 +286,7 @@ li {
     padding: 5px;
   }
 }
-.outer {
-  max-width: 900px;
-  margin: 30px auto;
-  @media @tablet {
-    margin: 20px;
-  }
-  @media @mobile {
-    margin: 0 2.5%;//10px;
-    // padding: 10px;
-  }
-}
+
 .source, .credit {
   clear: left;
   padding-top: 10px;
@@ -463,12 +444,17 @@ footer {
 
 .deck {
   color: @dark-gray;
-  width: 90%;
+  width: 100%;
+  max-width:780px;
   margin: auto;
   font-family: @block-graphics;
   margin-bottom: 50px;
   text-align: center;
   font-size: 18px;
+
+  @media @mobile{
+  font-size: 15px;
+  }
 }
 
 .deck-sub {
@@ -500,9 +486,7 @@ footer {
   // border-top: 1px @light-gray solid;
   // border-bottom: 1px @light-gray solid;
   // background-color: white;
-  height: 40px;
   @media @mobile {
-    height: 35px;
     padding-bottom: 20px;
   }
 }
@@ -772,7 +756,6 @@ header {
 // election styles ----------------------------------
 
 .sub-title-links {
-  height: 40px;
   padding-top: 5px;
   font-family: @bold-graphics;
   text-align: center;
@@ -785,9 +768,7 @@ header {
     cursor: pointer;
 
     @media @mobile {
-      width: 80px;
       font-size: 14px;
-      height: 20px;
     }
   }
   .long {
@@ -799,7 +780,6 @@ header {
     @media @mobile {
       // display: none;
       font-size: 14px;
-      width: 140px;
     }
   }
 }
@@ -1469,10 +1449,7 @@ header {
   img {
     width: 100%;
   }
-  margin-bottom: 40px;
-  @media @mobile {
-    margin: 20px;
-  }
+  margin-bottom: 10px;
 }
 
 .legend-container {
