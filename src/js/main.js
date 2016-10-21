@@ -149,10 +149,8 @@ function color_partial_results(tempvar,properties){
           // return red;
           return "url(#hashred)";
         } else if (tempvar["c"+count+"_name"] == "Jill Stein"){
-          console.log("Jill!!!");
           return green;
         } else if (tempvar["c"+count+"_name"] == "Gary Johnson"){
-          console.log("Gary!!!");
           return orange;
         } else {
           return yellow;
@@ -192,10 +190,8 @@ function code_county(tempvar,properties){
         } else if (tempvar["c"+count+"_party"] == "GOP") {
           return red;
         } else if (tempvar["c"+count+"_name"] == "Jill Stein"){
-          console.log("Jill!!!");
           return green;
         } else if (tempvar["c"+count+"_name"] == "Gary Johnson"){
-          console.log("Gary!!!");
           return orange;
         } else {
           return yellow;
@@ -225,10 +221,8 @@ function code_map_variable(tempvar,properties){
       } else if (tempvar["c"+count+"_party"] == "GOP") {
         return red;
       } else if (tempvar["c"+count+"_name"] == "Jill Stein"){
-        console.log("Jill!!!");
         return green;
       } else if (tempvar["c"+count+"_name"] == "Gary Johnson"){
-        console.log("Gary!!!");
         return orange;
       } else {
         return yellow;
@@ -763,7 +757,6 @@ d3.json(raceSummariesURL, function(raceSummaries){
 
 d3.json(raceSummariesURL, function(raceSummaries){
   // read in electoral votes
-  console.log(raceSummaries);
   var governorDem = raceSummaries["governorbalance"]["Dem"];
   var governorRep = raceSummaries["governorbalance"]["GOP"];
   var governorOther = raceSummaries["governorbalance"]["other"];
@@ -816,7 +809,6 @@ d3.json(houseCAURL, function(houseCA){
 
           var select_race = document.getElementById("select-race");
           select_race.addEventListener("change",function(){
-            console.log(select_race.value);
             if (select_race.value == 0) {
               d3.selectAll(".camap").classed("active",false);
               this.classList.add("active");
@@ -1294,16 +1286,16 @@ function activate() {
   var sticker_ph = document.getElementById('stick-ph');
   var window_top = document.body.scrollTop;
   var div_top = document.getElementById('stick-here').getBoundingClientRect().top + window_top;
-  var long = document.getElementById('long');
+  // var long = document.getElementById('long');
 
   if (window_top > div_top) {
       sticker.classList.add('fixed');
       sticker_ph.style.display = 'block'; // puts in a placeholder for where sticky used to be for smooth scrolling
-      long.style.display = 'inline-block';
+      // long.style.display = 'inline-block';
   } else {
       sticker.classList.remove('fixed');
       sticker_ph.style.display = 'none'; // removes placeholder
-      long.style.display = 'none';
+      // long.style.display = 'none';
   }
 
   var psec = document.getElementById('president');
