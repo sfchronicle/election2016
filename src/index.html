@@ -16,13 +16,24 @@
 
     <responsive-child>
 
-    <%= t.include("partials/_nav.html") %>
 
     <div class="outer">
 
-      <div class="title-img"><img src="./assets/election2016banner.png"></div>
+      <div class="title-img">
 
-      <div class="deck">What a tumultuous election cycle this has been! We've been covering it every step of the way, and now you can explore our amazing elections page and see what new leaders and policies will shape our communities! Click on the section headers below or scroll to see all the results.</div>
+          <div class="desk-logo">
+            <a href="http://www.sfchronicle.com" target="_blank">
+              <img src="http://projects.sfchronicle.com/shared/logos/sfcg_logo_color.png">
+            </a>
+          </div>
+        
+        <img src="./assets/election2016banner.png">
+        
+        <%= t.include("partials/_social-links.html") %>
+        
+      </div>
+
+      <div class="deck">What a tumultuous election cycle this has been! We've been covering it every step of the way, and now you can explore our amazing elections page and see what new leaders and policies will shape our communities!</div>
 
       <div id="stick-here"></div>
       <div id="stick-me">

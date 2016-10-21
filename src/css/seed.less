@@ -49,15 +49,6 @@ body {
   font-family: @body;
 }
 
-.outer {
-  max-width: 900px;
-  margin: auto;
-
-  @media screen and (max-width: 950px) {
-    width: 95%;
-  }
-}
-
 a {
   color: #92172c;
 }
@@ -291,17 +282,7 @@ li {
     padding: 5px;
   }
 }
-.outer {
-  max-width: 900px;
-  margin: 30px auto;
-  @media @tablet {
-    margin: 20px;
-  }
-  @media @mobile {
-    margin: 0 2.5%;//10px;
-    // padding: 10px;
-  }
-}
+
 .source, .credit {
   clear: left;
   padding-top: 10px;
@@ -459,7 +440,8 @@ footer {
 
 .deck {
   color: @dark-gray;
-  width: 90%;
+  width: 100%;
+  max-width:700px;
   margin: auto;
   font-family: @block-graphics;
   margin-bottom: 50px;
@@ -1455,10 +1437,7 @@ header {
   img {
     width: 100%;
   }
-  margin-bottom: 40px;
-  @media @mobile {
-    margin: 20px;
-  }
+  margin-bottom: 10px;
 }
 
 .legend-container {
