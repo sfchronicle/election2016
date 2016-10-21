@@ -78,9 +78,13 @@ function populateRace(raceID,racevar) {
   // this is a hack for when there are no reported results yet
   if (sum == 0) { sum = 0.1; }
   var count = 1;
-  console.log(racevar);
-  var html = "";
-  // var html = "<div class='candidate-precincts'>"+racevar.pt+" / "+racevar.p+" precincts reporting</div>";
+  if (racevar.pt && racevar.p) {
+    var html = "<div class='candidate-precincts'>"+racevar.pt+" / "+racevar.p+" precincts reporting</div>";
+  } else {
+    console.log("THIS IS AN ERROR!!!!!!")
+    console.log(racevar);
+    var html = "<div class='candidate-precincts'>"+racevar.p+" / "+racevar.p+" precincts reporting</div>";
+  }
   while (racevar["c"+count]) {
     var namekey = racevar["c"+count+"_name"].toLowerCase().replace(/ /g,'').replace(".","").replace("'","");
     if (racevar["c"+count+"_party"]){
@@ -684,6 +688,8 @@ d3.select("#congressmap_Districts-container").classed("disappear",true);
 // -----------------------------------------------------------------------------
 
 d3.json(raceSummariesURL, function(raceSummaries){
+
+  console.log(raceSummaries);
 
   // read in electoral votes
   var clinton_electoralvotes = raceSummaries["electoralcount"]["Dem"];
