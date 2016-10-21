@@ -328,7 +328,7 @@ function regional_section(this_name,regionkey){
       localData[this_name][d2].forEach(function(d3,idx3){
         var key = d3.name.toLowerCase().replace(/ /g,'').replace(".","").replace("'","");
         if(d3["n"]) {
-          var h4_html = "<h4 class='race sup' id='key"+regionkey+racekey+key+"'>"+d3.name+" (elect "+d3["n"]+")</h4>";
+          var h4_html = "<h4 class='race sup' id='key"+regionkey+racekey+key+"'>"+d3.name+" ("+d3["n"]+" seats)</h4>";
         } else {
           var h4_html = "<h4 class='race sup' id='key"+regionkey+racekey+key+"'>"+d3.name+"</h4>";
         }
