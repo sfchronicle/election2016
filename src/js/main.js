@@ -12,7 +12,7 @@ var orange = "#DE8067";
 var yellow = "#FFCC32";//"#6790B7";//"#EB8F6A";//"#FFFF65";//"#FFCC32";
 var yes_map = '#61988E';//"#705A91";//"#1D75AF";//"#6C85A5";//"#FFE599";
 var no_map = '#EB8F6A';//"#FFDB89";//"#EAE667";//"#D13D59";//"#6790B7";
-var undecided_map = "#b2b2b2";//"#EB8F6A";//"#FFFF65";
+var undecided_map = "#8C8C8C";//"#b2b2b2";//"#EB8F6A";//"#FFFF65";
 var dark_gray = "#8C8C8C";
 var light_gray = "#b2b2b2";
 var lightest_gray = "#D8D8D8";
@@ -77,7 +77,10 @@ function populateRace(raceID,racevar) {
   }
   // this is a hack for when there are no reported results yet
   if (sum == 0) { sum = 0.1; }
-  var count = 1; var html = "";
+  var count = 1;
+  console.log(racevar);
+  var html = "";
+  // var html = "<div class='candidate-precincts'>"+racevar.pt+" / "+racevar.p+" precincts reporting</div>";
   while (racevar["c"+count]) {
     var namekey = racevar["c"+count+"_name"].toLowerCase().replace(/ /g,'').replace(".","").replace("'","");
     if (racevar["c"+count+"_party"]){
