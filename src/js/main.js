@@ -67,7 +67,7 @@ function populateMeasure(measureID,measurevar) {
 }
 
 // function to populate races
-function populateRace(raceID,racevar) {
+function populateRace(raceID,racevar,p) {
 
   var count = 1; var sum = 0;
   while (racevar["c"+count]) {
@@ -81,9 +81,10 @@ function populateRace(raceID,racevar) {
   if (racevar.pt && racevar.p) {
     var html = "<div class='candidate-precincts'>"+racevar.pt+" / "+racevar.p+" precincts reporting</div>";
   } else {
-    console.log("THIS IS AN ERROR!!!!!!")
-    console.log(racevar);
-    var html = "<div class='candidate-precincts'>"+racevar.p+" / "+racevar.p+" precincts reporting</div>";
+    if (p == 0) {
+      console.log("ERROR!! CORRECT ME!!")
+    }
+    var html = "<div class='candidate-precincts'>"+racevar.p+" / "+p+" precincts reporting</div>";
   }
   while (racevar["c"+count]) {
     var namekey = racevar["c"+count+"_name"].toLowerCase().replace(/ /g,'').replace(".","").replace("'","");
@@ -345,7 +346,7 @@ function regional_section(this_name,regionkey){
         if (racekey == "measures") {
           populateMeasure(finalID,d3);
         } else {
-          populateRace(finalID,d3);
+          populateRace(finalID,d3,0);
         }
       });
     });
@@ -794,12 +795,12 @@ d3.json(senateRacesURL, function(senateRaces){
     // senate race
     var raceID = document.getElementById("senate");
     var senatevar = senateRaces["CA"];
-    populateRace(raceID,senatevar);
+    populateRace(raceID,senatevar,24848);
 
     // house race
     var raceID = document.getElementById("congress");
     var congressvar = congressRaces["0617"];
-    populateRace(raceID,congressvar);
+    populateRace(raceID,congressvar,345);
   });
 });
 
@@ -998,17 +999,17 @@ d3.json(senateCAURL, function(senateCA){
     // Wiener vs Kim race
     var raceID = document.getElementById("statesenate");
     var statesenatevar = senateCA["06011"];
-    populateRace(raceID,statesenatevar);
+    populateRace(raceID,statesenatevar,645);
 
     // Skinner vs Swanson race
     var raceID = document.getElementById("statedistrict9");
     var statesenatevar = senateCA["06009"];
-    populateRace(raceID,statesenatevar);
+    populateRace(raceID,statesenatevar,651);
 
     // Cook-Kallio vs Baker race
     var raceID = document.getElementById("stateassembly");
     var assemblyvar = assemblyCA["06016"];
-    populateRace(raceID,assemblyvar);
+    populateRace(raceID,assemblyvar,337);
 
   });
 });
@@ -1130,7 +1131,7 @@ d3.json(localDataURL, function(localData){
     sectionID.insertAdjacentHTML("beforeend","<h4 class='race sup' id='district"+districtNum+"'>"+d.name+"</h4>")
     var supeID = document.getElementById("district"+districtNum);
     var racevar = d;
-    populateRace(supeID,racevar);
+    populateRace(supeID,racevar,0);
   });
 });f
 
