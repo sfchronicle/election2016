@@ -25,11 +25,11 @@
               <img src="http://projects.sfchronicle.com/shared/logos/sfcg_logo_color.png">
             </a>
           </div>
-        
+
         <img src="./assets/election2016banner.png">
-        
+
         <%= t.include("partials/_social-links.html") %>
-        
+
       </div>
 
       <div class="deck">The voters’ voices are being heard, from the presidential race to local school boards. This is your one-stop guide to the Nov. 8 ballot, with results for the presidency and dozens of races in San Francisco, the rest of the Bay Area and around the state.
@@ -77,8 +77,12 @@
           <img src="./assets/graphics/trump.png">
         </div>
 
-        <h3 class="president-name left">Hillary Clinton <span id="electoralhillaryclinton">(100)</span></h3>
-        <h3 class="president-name right">Donald Trump <span id="electoraldonaldtrump">(10)</span></h3>
+        <h3 class="president-name left">Hillary Clinton <span id="electoralhillaryclinton">(100)</span>
+          <div class="president-votes"><span id="total-pres-votes-dem">100</span> votes</div>
+        </h3>
+        <h3 class="president-name right">Donald Trump <span id="electoraldonaldtrump">(10)</span>
+          <div class="president-votes"><span id="total-pres-votes-rep">100</span> votes</div>
+        </h3>
         <div class="president-bar">
           <div class="bar" id="hillaryclinton"></div>
           <div class="bar" id="other"></div>

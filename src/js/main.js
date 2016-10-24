@@ -79,12 +79,12 @@ function populateRace(raceID,racevar,p) {
   if (sum == 0) { sum = 0.1; }
   var count = 1;
   if (racevar.pt && racevar.p) {
-    var html = "<div class='candidate-precincts'>"+racevar.pt+" / "+racevar.p+" precincts reporting</div>";
+    var html = "<div class='candidate-precincts'>"+formatthousands(racevar.pt)+" / "+formatthousands(racevar.p)+" precincts reporting</div>";
   } else {
     if (p == 0) {
       console.log("ERROR!! CORRECT ME!!")
     }
-    var html = "<div class='candidate-precincts'>"+racevar.p+" / "+p+" precincts reporting</div>";
+    var html = "<div class='candidate-precincts'>"+formatthousands(racevar.p)+" / "+formatthousands(p)+" precincts reporting</div>";
   }
   while (racevar["c"+count]) {
     var namekey = racevar["c"+count+"_name"].toLowerCase().replace(/ /g,'').replace(".","").replace("'","");
@@ -704,6 +704,8 @@ d3.json(raceSummariesURL, function(raceSummaries){
 
   document.getElementById("electoralhillaryclinton").innerHTML = "("+clinton_electoralvotes+")";
   document.getElementById("electoraldonaldtrump").innerHTML = "("+trump_electoralvotes+")";
+  document.getElementById("total-pres-votes-dem").innerHTML = formatthousands(raceSummaries["presvote"]["Dem"]);
+  document.getElementById("total-pres-votes-rep").innerHTML = formatthousands(raceSummaries["presvote"]["GOP"]);
 
   // display electoral votes on bar
   document.getElementById("uncounted").style.width = String(uncounted_percent)+"%";
