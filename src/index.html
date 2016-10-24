@@ -14,7 +14,6 @@
 
   <body>
 
-
     <div class="outer">
 
       <div class="title-img">
@@ -32,9 +31,7 @@
 
       </div>
 
-      <div class="deck">The voters’ voices are being heard, from the presidential race to local school boards. This is your one-stop guide to the Nov. 8 ballot, with results for the presidency and dozens of races in San Francisco, the rest of the Bay Area and around the state.
-
-      <div class="deck-sub">Click on the section headers below to navigate the page or scroll down to see all the races.</div>
+      <div class="deck">The voters’ voices are being heard, from the presidential race to local school boards. This is your one-stop guide to the Nov. 8 ballot, with results for the presidency and dozens of races in San Francisco, the rest of the Bay Area and around the state.<div class="deck-sub">Click on the section headers below to navigate the page or scroll down to see all the races.</div>
       </div>
 
       <div id="stick-here"></div>
@@ -109,21 +106,19 @@
           <div class="element"><div class="uncalled-swath"><div class="legend-text">Uncalled race</div></div></div>
           <div class="element"><div class="noresults-swath"><div class="legend-text">No results</div></div></div>
         </div>
+      </div>
 
-        <div class="divider"></div>
-        <div class="inline-img ad desktop">
+      <div class="divider"></div>
+      <div class="inline-img ad desktop">
           <img src="https://placeholdit.imgix.net/~text?txtsize=33&txt=AD%20SPACE&w=728&h=90"></img>
           	<div id="PA728">
           		<script type="text/javascript">/*<![CDATA[*/hearstPlaceAd("PA728");/*]]>*/</script>
           	</div>
-
-        </div>
-        <div class="inline-img ad mobile">
-          <img src="https://placeholdit.imgix.net/~text?txtsize=33&txt=AD%20SPACE&w=320&h=250"></img>
-        </div>
-        <div class="divider"></div>
-
       </div>
+      <div class="inline-img ad mobile">
+          <img src="https://placeholdit.imgix.net/~text?txtsize=33&txt=AD%20SPACE&w=320&h=250"></img>
+      </div>
+      <div class="divider"></div>
 
       <section id="federal">
       <div class="break-half"></div>
@@ -202,8 +197,8 @@
         </div>
 
       </div>
-
     </section>
+
     <div class="divider"></div>
     <div class="inline-img ad desktop">
       <img src="https://placeholdit.imgix.net/~text?txtsize=33&txt=AD%20SPACE&w=728&h=90"></img>
@@ -384,13 +379,30 @@
       <img src="https://placeholdit.imgix.net/~text?txtsize=33&txt=AD%20SPACE&w=320&h=100"></img>
     </div>
 
-    <div class="divider">
+    <div class="divider"></div>
+
+    <%= t.include("partials/_credits.html") %>
+
+    <div class="divider"></div>
+    <div class="br"></div>
+
+    <div class="hed">About the data:</div>
+    <div class="chatter">This is some information about how we collected the data and how we called results and everything that anyone could possibly want to know about the data. Clint is going to write this so this is my stand-in text.
     </div>
 
+    <div class="symbol-container">
+      <div class="symbol"><i class='fa fa-check-circle-o' aria-hidden='true'></i>Winner / Yes vote</div>
+      <div class="symbol"><i class='fa fa-times-circle-o' aria-hidden='true'></i>No vote</div>
+      <div class="symbol"><i class='fa fa-star' aria-hidden='true'></i>Incumbent</div>
     </div>
 
-    </responsive-child>
+    <div class="party-abbrev-container">
+      <% csv.abbreviations_code.forEach(function(abbrev,idx){ %>
+        <div class="abbrev"><span class="abbrev-symbol"><%=abbrev.abbrev%></span>  <%=abbrev.name%></div>
+      <% }); %>
+    </div>
 
+  </div>
 
     <%= t.include("partials/_footer.html") %>
 

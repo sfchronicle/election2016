@@ -917,6 +917,9 @@ header {
     padding: 0;
     height: 25px;
   }
+  .fa {
+    color: green;
+  }
 }
 .president-bar, .senate-bar, .house-bar, .governor-bar {
   width: 100%;
@@ -1550,4 +1553,44 @@ header {
   padding-bottom: 10px;
   // border-bottom: 1px solid @light-gray;
   width: 500px;
+}
+
+.symbol-container, .party-abbrev-container {
+  font-family: @block-graphics;
+  text-align: center;
+}
+
+.symbol-container {
+  .display-flex;
+  .flex-wrap(wrap);
+  .symbol {
+    font-size: 14px;
+    .flex(0 0 33%);
+    padding: 2px 0;
+  }
+  padding-bottom: 30px;
+  .fa {
+    padding-right: 10px;
+    font-size: 16px;
+  }
+  .fa-times-circle-o {
+    color: @red-map;
+  }
+  .fa-check-circle-o {
+    color: green;
+  }
+}
+
+.party-abbrev-container {
+  .display-flex;
+  .flex-wrap(wrap);
+  .abbrev {
+    font-size: 14px;
+    .flex(0 0 33%);
+    padding: 2px 0;
+  }
+  .abbrev-symbol {
+    font-family: @med-graphics;
+  }
+  padding-bottom: 50px;
 }
