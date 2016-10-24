@@ -702,8 +702,19 @@ d3.json(raceSummariesURL, function(raceSummaries){
   var other_percent = other_electoralvotes/538*100;
   var uncounted_percent = 100-trump_percent-clinton_percent-other_percent;
 
-  document.getElementById("electoralhillaryclinton").innerHTML = "("+clinton_electoralvotes+")";
-  document.getElementById("electoraldonaldtrump").innerHTML = "("+trump_electoralvotes+")";
+  if (raceSummaries["electoralcount"]["d"]){
+    console.log("we have a winner!")
+    if (raceSummaries["electoralcount"]["d"] == "Dem") {
+      document.getElementById("electoralhillaryclinton").innerHTML = "Hillary Clinton ("+clinton_electoralvotes+") <i class='fa fa-check-circle-o' aria-hidden='true'></i>";
+      document.getElementById("electoraldonaldtrump").innerHTML = "Donald Trump ("+trump_electoralvotes+")";
+    } else {
+      document.getElementById("electoralhillaryclinton").innerHTML = "Hillary Clinton ("+clinton_electoralvotes+")";
+      document.getElementById("electoraldonaldtrump").innerHTML = "<i class='fa fa-check-circle-o' aria-hidden='true'></i>  Donald Trump ("+trump_electoralvotes+")";
+    }
+  } else {
+    document.getElementById("electoralhillaryclinton").innerHTML = "Hillary Clinton ("+clinton_electoralvotes+")";
+    document.getElementById("electoraldonaldtrump").innerHTML = "Donald Trump ("+trump_electoralvotes+")";
+  }
   document.getElementById("total-pres-votes-dem").innerHTML = formatthousands(raceSummaries["presvote"]["Dem"]);
   document.getElementById("total-pres-votes-rep").innerHTML = formatthousands(raceSummaries["presvote"]["GOP"]);
 
