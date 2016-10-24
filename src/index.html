@@ -228,7 +228,7 @@
         <div class="propositions-list">
           <% csv.StatePropositionsData.forEach(function(prop,idx){ %>
 
-            <div class='prop-group active <%=prop.number%> <%=prop.title%>'>
+            <div class='prop-group active prop.<%=prop.number%> proposition<%=prop.number%> measure<%=prop.number%> <%=prop.number%> <%=prop.title.replace(/ /g,'').replace("-","")%>'>
               <div class='prop-icon'>
                 <img src='./assets/graphics/stateprops/prop<%=prop.number%>.png'></img>
                 <div class='prop-name'>Prop. <%=prop.number%></div>
@@ -304,7 +304,7 @@
         <div class="sf-propositions-list">
           <% csv.SFPropositionsData.forEach(function(prop,idx){ %>
 
-            <div class='sf-prop-group active <%=prop.letter%> <%=prop.title%>'>
+            <div class='sf-prop-group active prop.<%=prop.letter%> proposition<%=prop.letter%> measure<%=prop.letter%> <%=prop.letter%> <%=prop.title.replace(/ /g,'').replace("-","")%>'>
               <div class='sf-prop-icon'>
                 <img src='./assets/graphics/sfprops/prop<%=prop.letter%>.png'></img>
               </div>
