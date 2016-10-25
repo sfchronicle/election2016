@@ -448,7 +448,7 @@ footer {
   max-width:780px;
   margin: auto;
   font-family: @block-graphics;
-  margin-bottom: 50px;
+  margin-bottom: 1em;
   text-align: center;
   font-size: 18px;
 
@@ -483,12 +483,7 @@ footer {
 }
 
 #stick-me {
-  // border-top: 1px @light-gray solid;
-  // border-bottom: 1px @light-gray solid;
-  // background-color: white;
-  @media @mobile {
-    padding-bottom: 20px;
-  }
+  
 }
 
 #stick-ph {
@@ -756,16 +751,28 @@ header {
 // election styles ----------------------------------
 
 .sub-title-links {
-  padding-top: 5px;
+  margin:0 auto;
   font-family: @bold-graphics;
   text-align: center;
+  
   .sub-title {
     display: inline-block;
     border-bottom: 4px solid @light-gray;
-    padding: 0 20px;
+    padding: 15px 5px 0px;
     margin: 0 10px;
-    float: center;
     cursor: pointer;
+
+    &:nth-child(1){
+    margin-left:0;
+    }
+
+    &:hover{
+      border-bottom-color: #92175a; 
+    }
+
+    @media @tablet{
+      font-size:18px;
+    }
 
     @media @mobile {
       font-size: 14px;
@@ -777,8 +784,8 @@ header {
     float: right;
     color: #92172c;
     text-align: right;
+    
     @media @mobile {
-      // display: none;
       font-size: 14px;
     }
   }
@@ -793,20 +800,27 @@ header {
   -moz-box-shadow: 0 0 6px 0 @dark-gray;
   box-shadow: 0 0 6px 0 @dark-gray;
   background-color: lighten(@light-gray,10%);
+  
   .sub-title-links {
     text-align: left;
     font-family: @block-graphics;
   }
+  
   .sub-title {
     border-bottom: 0px;
+    padding: 1px 10px 0;
+    margin: 0;
   }
+  
   .share-block {
     display: block;
     vertical-align: text-top;
+    
     .link {
       padding-top: 2px !important;
       margin-top: 0 !important;
     }
+    
     i {
       color: #92172c;
     }
@@ -896,6 +910,10 @@ header {
   }
 }
 
+#president{
+  margin-top:3em;
+}
+
 .president-votes {
   color: @dark-gray;
   font-style: italic;
@@ -905,9 +923,9 @@ header {
 .president-name, .party-name {
   margin-top: 10px;
   padding: 10px;
-  height: 28px;
   &.right {
     float: right;
+    text-align:right;
   }
   &.left {
     float: left;
@@ -915,7 +933,6 @@ header {
   @media @mobile {
     margin-top: 0;
     padding: 0;
-    height: 25px;
   }
   .fa {
     color: green;
@@ -947,9 +964,9 @@ header {
   font-family: @block-graphics;
   font-size: 14px;
   position: relative;
-  width: 200px;
   left: 52%;
-  //  margin-top: -45px;
+  display:inline;
+  vertical-align:7px;
 }
 
 #uncounted, #uncounted-senate, #uncounted-house, #uncounted-governor {
@@ -1233,7 +1250,7 @@ header {
 
 #map-container-state {
   padding-bottom: 35%;
-  .flex(0 0 65%);
+  .flex(0 0 55%);
   @media @tablet {
     padding-bottom: 40%;
   }
@@ -1367,7 +1384,7 @@ header {
 }
 
 .activelink {
-  font-family: AntennaRegular;
+  background-color:#fff;
 }
 
 .activediv {
@@ -1551,8 +1568,8 @@ header {
   font-family: @block-graphics;
   font-style: italic;
   padding-bottom: 10px;
-  // border-bottom: 1px solid @light-gray;
-  width: 500px;
+  max-width: 500px;
+  width:100%;
 }
 
 .symbol-container, .party-abbrev-container {

@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="style.css">
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+    <script src="http://projects.sfchronicle.com/shared/js/jquery.min.js"></script>
     <%= t.include("partials/_head.html") %>
     <%= t.include("partials/_analytics.html") %>
   </head>
@@ -31,12 +32,14 @@
 
       </div>
 
-      <div class="deck">The voters’ voices are being heard, from the presidential race to local school boards. This is your one-stop guide to the Nov. 8 ballot, with results for the presidency and dozens of races in San Francisco, the rest of the Bay Area and around the state.<div class="deck-sub">Click on the section headers below to navigate the page or scroll down to see all the races.</div>
+      <div class="deck">The voters’ voices are being heard, from the presidential race to local school boards. This is your one-stop guide to the Nov. 8 ballot, with results for the presidency and dozens of races in San Francisco, the rest of the Bay Area and around the state.
+
+      <div class="deck-sub">Click on the section headers below to navigate the page or scroll down to see all the races.</div>
       </div>
 
       <div id="stick-here"></div>
       <div id="stick-me">
-        <div class="sub-title-links outer" style="margin: 0 auto;">
+        <div class="sub-title-links">
           <div class="share-block">
             <div class="link social email">
               <a id="mail-icon" title="Share via email" href="mailto:?subject=<%= grunt.data.json.project.title %>&body=<%= grunt.data.json.project.description %>%0A%0Ahttp%3A%2F%2Fprojects.sfchronicle.com%2F2016%2F<%= grunt.data.json.project.slug %>">
@@ -54,16 +57,16 @@
               </a>
             </div>
           </div>
-          <div class="sub-title"><a id="p" href="#president">President</a></div>
-          <div class="sub-title"><a id="f" href="#federal">Nation</a></div>
-          <div class="sub-title"><a id="s" href="#state">State</a></div>
-          <div class="sub-title"><a id="l" href="#local">S.F.</a></div>
-          <div class="sub-title"><a id="r" href="#regional">Bay Area</a></div>
+          <div id="p" class="sub-title"><a href="#president">President</a></div>
+          <div id="f" class="sub-title"><a href="#federal">Nation</a></div>
+          <div id="s" class="sub-title"><a href="#state">State</a></div>
+          <div id="l" class="sub-title"><a href="#local">S.F.</a></div>
+          <div id="r" class="sub-title"><a href="#regional">Bay Area</a></div>
         </div>
       </div>
       <div id="stick-ph"></div>
 
-      <div class="outer" id="president">
+      <div class="" id="president">
 
         <h4 class="race president">President</h4>
 
@@ -78,7 +81,7 @@
           <div class="president-votes"><span id="total-pres-votes-dem">0</span> votes</div>
         </h3>
         <h3 class="president-name right"><span id="electoraldonaldtrump">Donald Trump</span>
-          <div class="president-votes"><span id="total-pres-votes-rep">0</span> votes</div>
+          <div class="president-votes right"><span id="total-pres-votes-rep">0</span> votes</div>
         </h3>
         <div class="president-bar">
           <div class="bar" id="hillaryclinton"></div>

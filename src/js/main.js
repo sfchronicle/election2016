@@ -1354,41 +1354,22 @@ function activate() {
   }
 }
 
-function getPageScroll() {
-  var yScroll;
+$(document).on('click', 'a[href^="#"]', function(e) {
+    // target element id
+    var id = $(this).attr('href');
 
-  if (window.pageYOffset) {
-    yScroll = window.pageYOffset;
-  } else if (document.documentElement && document.documentElement.scrollTop) {
-    yScroll = document.documentElement.scrollTop;
-  } else if (document.body) {
-    yScroll = document.body.scrollTop;
-  }
-  return yScroll;
-}
-
-scroll.forEach(function(d){
-
-  d.addEventListener('click', function (event) {
-
-    targetOffset = document.getElementById(event.target.hash.substr(1)).offsetTop;
-    currentPosition = getPageScroll();
-
-    body.classList.add('in-transition');
-
-    for (var i = 0; i < scroll.length; i++) {
-        body.style.WebkitTransform = "translate(0, " + (currentPosition - targetOffset) + "px)";
-        body.style.MozTransform = "translate(0, " + (currentPosition - targetOffset) + "px)";
-        body.style.transform = "translate(0, " + (currentPosition - targetOffset) + "px)";
+    // target element
+    var $id = $(id);
+    if ($id.length === 0) {
+        return;
     }
 
-    window.setTimeout(function () {
-      body.classList.remove('in-transition');
-      body.style.cssText = "";
-      window.scrollTo(0, targetOffset);
-    }, animateTime);
+    // prevent standard hash navigation (avoid blinking in IE)
+    e.preventDefault();
 
-    event.preventDefault();
+    // top position relative to the document
+    var pos = $(id).offset().top;
 
-  }, false)
+    // animated top scrolling
+    $('body, html').animate({scrollTop: pos});
 });
