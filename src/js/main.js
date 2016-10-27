@@ -79,7 +79,7 @@ function populateRace(raceID,racevar,p) {
   if (sum == 0) { sum = 0.1; }
   var count = 1;
   if (racevar.pt && racevar.p) {
-    var html = "<div class='candidate-precincts'>"+formatthousands(racevar.pt)+" / "+formatthousands(racevar.p)+" precincts reporting</div>";
+    var html = "<div class='candidate-precincts'>"+formatthousands(racevar.p)+" / "+formatthousands(racevar.pt)+" precincts reporting</div>";
   } else {
     if (p == 0) {
       console.log("ERROR!! CORRECT ME!!")
