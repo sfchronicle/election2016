@@ -828,49 +828,11 @@ d3.json(houseCAURL, function(houseCA){
 
       d3.json(assemblyCAURL, function(assemblyCA){
 
-        d3.json(propsCAURL, function(propsCA){
-
-          var select_race = document.getElementById("select-race");
-          select_race.addEventListener("change",function(){
-            if (select_race.value == 0) {
-              d3.selectAll(".camap").classed("active",false);
-              this.classList.add("active");
-              camap("./assets/maps/ca_house.json",houseCA,0);
-              d3.selectAll(".ca-legend").classed("active",false);
-              document.getElementById("ca-race-legend").classList.add("active");
-            } else if (select_race.value == 1) {
-              d3.selectAll(".camap").classed("active",false);
-              this.classList.add("active");
-              camap("./assets/maps/ca_county.json",federalsenateCA,1);
-              d3.selectAll(".ca-legend").classed("active",false);
-              document.getElementById("ca-sanchez-legend").classList.add("active");
-            } else if (select_race.value == 2) {
-              d3.selectAll(".camap").classed("active",false);
-              this.classList.add("active");
-              camap("./assets/maps/ca_statesenate.json",senateCA,0);
-              d3.selectAll(".ca-legend").classed("active",false);
-              document.getElementById("ca-race-legend").classList.add("active");
-            } else if (select_race.value == 3) {
-              d3.selectAll(".camap").classed("active",false);
-              this.classList.add("active");
-              camap("./assets/maps/ca_assembly.json",assemblyCA,0);
-              d3.selectAll(".ca-legend").classed("active",false);
-              document.getElementById("ca-race-legend").classList.add("active");
-            } else {
-              d3.selectAll(".camap").classed("active",false);
-              this.classList.add("active");
-              var active_data = propsCA[select_race.value];
-              camap("./assets/maps/ca_county.json",active_data.counties);
-              d3.selectAll(".ca-legend").classed("active",false);
-              document.getElementById("ca-prop-legend").classList.add("active");
-            }
-          });
-
           var path = d3.geo.path()
             .projection(null);
 
           document.querySelector('.caassembly').addEventListener('click', function(){
-            d3.selectAll(".camap").classed("active",false);
+            d3.selectAll(".camapinset").classed("active",false);
             this.classList.add("active");
             camap("./assets/maps/ca_assembly.json",assemblyCA,0);
             d3.selectAll(".ca-legend").classed("active",false);
@@ -878,7 +840,7 @@ d3.json(houseCAURL, function(houseCA){
           });
 
           document.querySelector('.casenate').addEventListener('click', function(){
-            d3.selectAll(".camap").classed("active",false);
+            d3.selectAll(".camapinset").classed("active",false);
             this.classList.add("active");
             camap("./assets/maps/ca_statesenate.json",senateCA,0);
             d3.selectAll(".ca-legend").classed("active",false);
@@ -886,7 +848,7 @@ d3.json(houseCAURL, function(houseCA){
           });
 
           document.querySelector('.cafeddistrict').addEventListener('click', function(){
-            d3.selectAll(".camap").classed("active",false);
+            d3.selectAll(".camapinset").classed("active",false);
             this.classList.add("active");
             camap("./assets/maps/ca_county.json",federalsenateCA,1);
             d3.selectAll(".ca-legend").classed("active",false);
@@ -894,24 +856,11 @@ d3.json(houseCAURL, function(houseCA){
           });
 
           document.querySelector('.cadistrict').addEventListener('click', function(){
-            d3.selectAll(".camap").classed("active",false);
+            d3.selectAll(".camapinset").classed("active",false);
             this.classList.add("active");
             camap("./assets/maps/ca_house.json",houseCA,0);
             d3.selectAll(".ca-legend").classed("active",false);
             document.getElementById("ca-race-legend").classList.add("active");
-          });
-
-          // event listeners for props
-          var qsa = s => Array.prototype.slice.call(document.querySelectorAll(s));
-          qsa(".camapprop").forEach(function(group,index) {
-            group.addEventListener("click", function(e) {
-              d3.selectAll(".camap").classed("active",false);
-              this.classList.add("active");
-              var active_data = propsCA[51+index];
-              camap("./assets/maps/ca_county.json",active_data.counties);
-              d3.selectAll(".ca-legend").classed("active",false);
-              document.getElementById("ca-prop-legend").classList.add("active");
-            });
           });
 
           function camap(active_map,active_data,flag) {
@@ -996,10 +945,125 @@ d3.json(houseCAURL, function(houseCA){
           // camap("./assets/maps/ca_assembly.json",assemblyCA,0);
           camap("./assets/maps/ca_house.json",houseCA,0);
 
-        });
       });
     });
   });
+});
+
+// -----------------------------------------------------------------------------
+// STATE MAP PROPOSITIONS ------------------------------------------------------
+// -----------------------------------------------------------------------------
+
+d3.json(propsCAURL, function(propsCA){
+
+  var select_race = document.getElementById("select-race");
+  select_race.addEventListener("change",function(){
+    d3.selectAll(".camap").classed("active",false);
+    this.classList.add("active");
+    var active_data = propsCA[select_race.value];
+    camap("./assets/maps/ca_county.json",active_data.counties);
+    d3.selectAll(".ca-legend").classed("active",false);
+    document.getElementById("ca-prop-legend").classList.add("active");
+  });
+
+  var path = d3.geo.path()
+    .projection(null);
+
+  // event listeners for props
+  var qsa = s => Array.prototype.slice.call(document.querySelectorAll(s));
+  qsa(".camapprop").forEach(function(group,index) {
+    group.addEventListener("click", function(e) {
+      d3.selectAll(".camap").classed("active",false);
+      this.classList.add("active");
+      var active_data = propsCA[51+index];
+      camap("./assets/maps/ca_county.json",active_data.counties);
+      d3.selectAll(".ca-legend").classed("active",false);
+      document.getElementById("ca-prop-legend").classList.add("active");
+    });
+  });
+
+  function camap(active_map,active_data,flag) {
+
+    d3.select("#map-container-state-props").select("svg").remove();
+    d3.select("#map-container-state-props").select(".svg-container").remove();
+
+    // CA map by county
+    var svgCACounties = d3.select("#map-container-state-props")
+      .append("div")
+      .classed("svg-container", true) //container class to make it responsive
+      .attr("id","map-container-state-props")
+      .append("svg")
+      //responsive SVG needs these 2 attributes and no width and height attr
+      .attr("preserveAspectRatio", "xMinYMin meet")
+      .attr("viewBox", "200 0 600 530")
+      //class to make it responsive
+      .classed("svg-content-responsive", true)
+      .attr("id","states-props-svg");
+
+    d3.json(active_map, function(error, us) {
+      if (error) throw error;
+
+      var features = topojson.feature(us,us.objects.features).features;
+      svgCACounties.selectAll(".states")
+      .data(topojson.feature(us, us.objects.features).features).enter()
+      .append("path")
+      .attr("class", "states")
+      .attr("d",path)
+      // .attr("id",function(d) {
+      //   return "county"+parseInt(d.id);
+      // })
+      .style("fill", function(d) {
+        var location = d.id;
+        if (active_data[String(location)]) {
+          var tempvar = active_data[String(location)];
+          if (tempvar.r || tempvar.d) {
+            var new_color = code_map_variable(tempvar,d.properties);
+            return new_color;
+          } else if (flag == 1) {
+            var new_color = code_county(tempvar,d.properties);
+            return new_color;
+          } else {
+            var new_color = color_partial_results(tempvar,d.properties);
+            return new_color;
+          }
+        } else {
+          return lightest_gray;//fill(path.area(d));
+        }
+      })
+      .attr("d", path)
+      .on('mouseover', function(d,index) {
+        var html_str = tooltip_function(d.id,active_data,d.properties);
+        state_tooltip.html(html_str);
+        state_tooltip.style("visibility", "visible");
+      })
+      .on("mousemove", function() {
+        if (screen.width <= 480) {
+          return state_tooltip
+            .style("top",(d3.event.pageY+10)+"px")//(d3.event.pageY+40)+"px")
+            .style("left",50+"px");
+        } else {
+          return state_tooltip
+            .style("top", (d3.event.pageY+10)+"px")
+            .style("left",(d3.event.pageX-80)+"px");
+        }
+      })
+      .on("mouseout", function(){
+        return state_tooltip.style("visibility", "hidden");
+      });
+    });
+
+    // show tooltip
+    var state_tooltip = d3.select("#map-container-state")
+    .append("div")
+    .attr("class","tooltip")
+    .style("position", "absolute")
+    .style("z-index", "10")
+    .style("visibility", "hidden")
+  };
+
+  var active_data = propsCA[51];
+  camap("./assets/maps/ca_county.json",active_data.counties);
+
 });
 
 // -----------------------------------------------------------------------------

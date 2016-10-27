@@ -483,7 +483,7 @@ footer {
 }
 
 #stick-me {
-  
+
 }
 
 #stick-ph {
@@ -754,7 +754,7 @@ header {
   margin:0 auto;
   font-family: @bold-graphics;
   text-align: center;
-  
+
   .sub-title {
     display: inline-block;
     border-bottom: 4px solid @light-gray;
@@ -767,7 +767,7 @@ header {
     }
 
     &:hover{
-      border-bottom-color: #92175a; 
+      border-bottom-color: #92175a;
     }
 
     @media @tablet{
@@ -784,7 +784,7 @@ header {
     float: right;
     color: #92172c;
     text-align: right;
-    
+
     @media @mobile {
       font-size: 14px;
     }
@@ -800,27 +800,27 @@ header {
   -moz-box-shadow: 0 0 6px 0 @dark-gray;
   box-shadow: 0 0 6px 0 @dark-gray;
   background-color: lighten(@light-gray,10%);
-  
+
   .sub-title-links {
     text-align: left;
     font-family: @block-graphics;
   }
-  
+
   .sub-title {
     border-bottom: 0px;
     padding: 1px 10px 0;
     margin: 0;
   }
-  
+
   .share-block {
     display: block;
     vertical-align: text-top;
-    
+
     .link {
       padding-top: 2px !important;
       margin-top: 0 !important;
     }
-    
+
     i {
       color: #92172c;
     }
@@ -1249,21 +1249,22 @@ header {
 }
 
 #map-container-state {
-  padding-bottom: 35%;
-  .flex(0 0 55%);
-  @media @tablet {
-    padding-bottom: 40%;
-  }
+  margin:auto;
+  text-align: center;
+  max-width: 600px;
+  margin-bottom: 15%;
   @media @mobile {
-    clear: both;
-    width: 100%;
-    padding-bottom: 48%;
+    margin-bottom: 20%;
   }
-  svg {
-    margin: auto;
-  }
+  // padding-bottom:
 }
 
+#map-container-state-props {
+  .flex(0 0 55%);
+  @media @mobile {
+    margin-bottom: 20%;
+  }
+}
 // .section-container {
 //   background: @light-blue-map;
 //   color: white;
@@ -1348,9 +1349,9 @@ header {
     // &.prop51{//, &.casenate, &.cadistrict, &.caassembly, &.cafeddistrict {
     //   padding: 14px 2px;
     // }
-    &.casenate, &.cadistrict, &.caassembly, &.cafeddistrict {
-      height: 35px;
-    }
+    // &.casenate, &.cadistrict, &.caassembly, &.cafeddistrict {
+    //   height: 35px;
+    // }
   }
   .race {
     color: @dark-blue;
