@@ -834,7 +834,7 @@ d3.json(houseCAURL, function(houseCA){
           document.querySelector('.caassembly').addEventListener('click', function(){
             d3.selectAll(".camapinset").classed("active",false);
             this.classList.add("active");
-            camap("./assets/maps/ca_assembly.json",assemblyCA,0);
+            camap("./assets/maps/ca_assembly_insets.json",assemblyCA,0);
             d3.selectAll(".ca-legend").classed("active",false);
             document.getElementById("ca-race-legend").classList.add("active");
           });
@@ -842,7 +842,7 @@ d3.json(houseCAURL, function(houseCA){
           document.querySelector('.casenate').addEventListener('click', function(){
             d3.selectAll(".camapinset").classed("active",false);
             this.classList.add("active");
-            camap("./assets/maps/ca_statesenate.json",senateCA,0);
+            camap("./assets/maps/ca_statesenate_insets.json",senateCA,0);
             d3.selectAll(".ca-legend").classed("active",false);
             document.getElementById("ca-race-legend").classList.add("active");
           });
@@ -850,7 +850,7 @@ d3.json(houseCAURL, function(houseCA){
           document.querySelector('.cafeddistrict').addEventListener('click', function(){
             d3.selectAll(".camapinset").classed("active",false);
             this.classList.add("active");
-            camap("./assets/maps/ca_county.json",federalsenateCA,1);
+            camap("./assets/maps/ca_county_insets.json",federalsenateCA,1);
             d3.selectAll(".ca-legend").classed("active",false);
             document.getElementById("ca-sanchez-legend").classList.add("active");
           });
@@ -858,7 +858,7 @@ d3.json(houseCAURL, function(houseCA){
           document.querySelector('.cadistrict').addEventListener('click', function(){
             d3.selectAll(".camapinset").classed("active",false);
             this.classList.add("active");
-            camap("./assets/maps/ca_house.json",houseCA,0);
+            camap("./assets/maps/ca_house_insets.json",houseCA,0);
             d3.selectAll(".ca-legend").classed("active",false);
             document.getElementById("ca-race-legend").classList.add("active");
           });
@@ -876,7 +876,7 @@ d3.json(houseCAURL, function(houseCA){
               .append("svg")
               //responsive SVG needs these 2 attributes and no width and height attr
               .attr("preserveAspectRatio", "xMinYMin meet")
-              .attr("viewBox", "200 0 600 530")
+              .attr("viewBox", "50 0 860 530")
               //class to make it responsive
               .classed("svg-content-responsive", true)
               .attr("id","states-svg");
@@ -943,7 +943,7 @@ d3.json(houseCAURL, function(houseCA){
           };
 
           // camap("./assets/maps/ca_assembly.json",assemblyCA,0);
-          camap("./assets/maps/ca_house.json",houseCA,0);
+          camap("./assets/maps/ca_house_insets.json",houseCA,0);
 
       });
     });
