@@ -6,7 +6,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
-    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" type="text/css" href="../style.css">
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
     <script src="http://projects.sfchronicle.com/shared/js/jquery.min.js"></script>
     <%= t.include("partials/_head.html") %>
@@ -26,7 +26,7 @@
             </a>
           </div>
 
-        <img src="./assets/election2016banner.png">
+        <img src="../assets/election2016banner.png">
 
         <%= t.include("partials/_social-links.html") %>
 
@@ -71,10 +71,10 @@
         <h4 class="race president">President</h4>
 
         <div class="icon left">
-          <img src="./assets/graphics/clinton.png">
+          <img src="../assets/graphics/clinton.png">
         </div>
         <div class="icon right">
-          <img src="./assets/graphics/trump.png">
+          <img src="../assets/graphics/trump.png">
         </div>
 
         <h3 class="president-name left"><span id="electoralhillaryclinton">Hillary Clinton</span>
@@ -233,7 +233,7 @@
 
             <div class='prop-group active prop.<%=prop.number%> proposition<%=prop.number%> measure<%=prop.number%> <%=prop.number%> <%=prop.title.replace(/ /g,'').replace("-","")%>'>
               <div class='prop-icon'>
-                <img src='./assets/graphics/stateprops/prop<%=prop.number%>.png'></img>
+                <img src='../assets/graphics/stateprops/prop<%=prop.number%>.png'></img>
                 <div class='prop-name'>Prop. <%=prop.number%></div>
               </div>
               <div class='prop-name'><%=prop.title%></div>
@@ -320,7 +320,7 @@
 
             <div class='sf-prop-group active prop.<%=prop.letter%> proposition<%=prop.letter%> measure<%=prop.letter%> <%=prop.letter%> <%=prop.title.replace(/ /g,'').replace("-","")%>'>
               <div class='sf-prop-icon'>
-                <img src='./assets/graphics/sfprops/prop<%=prop.letter%>.png'></img>
+                <img src='../assets/graphics/sfprops/prop<%=prop.letter%>.png'></img>
               </div>
               <div class='prop-name'><%=prop.title%></div>
               <div class='result'><div id="sfprop<%=idx%>"></div></div>
@@ -348,7 +348,7 @@
       <div class="regional-callouts">
         <div class="reg-prop-group long">
           <div class='sf-prop-icon'>
-            <img src='./assets/graphics/regionalprops/measureRR.png'></img>
+            <img src='../assets/graphics/regionalprops/measureRR.png'></img>
           </div>
           <div class='reg-prop-name'>Measure RR</div>
           <div class='result'><div id="regionalpropRR"></div></div>
@@ -357,7 +357,7 @@
         <% csv.RegionalMeasuresData.forEach(function(prop,idx){ %>
           <div class='reg-prop-group'>
             <div class='reg-prop-icon'>
-              <img src='./assets/graphics/regionalprops/measure<%=prop.letter%>.png'></img>
+              <img src='../assets/graphics/regionalprops/measure<%=prop.letter%>.png'></img>
             </div>
             <div class='reg-prop-name'><%=prop.title%></div>
             <div class='result'><div id="regionalprop<%=prop.letter%>"></div></div>
@@ -438,7 +438,7 @@
 
     </script>
 
-    <script src="app.js" async></script>
+    <script src="../main_app.js" async></script>
     <%= t.include("partials/_helloSFC.html") %>
 
   </body>

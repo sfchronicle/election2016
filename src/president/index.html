@@ -1,0 +1,92 @@
+<!doctype html>
+<html>
+  <head>
+    <title><%= json.project.title %></title>
+    <!-- <script type="text/javascript" id="adPositionManagerScriptTag" src="http://aps.hearstnp.com/Scripts/loadAds.js"></script> -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="../style.css">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+    <script src="http://projects.sfchronicle.com/shared/js/jquery.min.js"></script>
+    <%= t.include("partials/_head.html") %>
+    <%= t.include("partials/_analytics.html") %>
+    <script src="http://projects.sfchronicle.com/shared/js/responsive-child.js"></script>
+  </head>
+
+  <body is="responsive-body">
+
+    <div class="outer">
+
+      <div class="title-img widget">
+
+          <div class="desk-logo">
+            <a href="http://www.sfchronicle.com" target="_blank">
+              <img src="http://projects.sfchronicle.com/shared/logos/sfcg_logo_color.png">
+            </a>
+          </div>
+
+        <img src="../assets/election2016banner.png">
+
+        <%= t.include("partials/_social-links.html") %>
+
+      </div>
+
+      <div class="deck widget">Live presidential election results
+      </div>
+
+      <div class="icon left">
+        <img src="../assets/graphics/clinton.png">
+      </div>
+      <div class="icon right">
+        <img src="../assets/graphics/trump.png">
+      </div>
+
+      <h3 class="president-name left"><span id="electoralhillaryclinton">Hillary Clinton</span>
+        <div class="president-votes"><span id="total-pres-votes-dem">0</span> votes</div>
+      </h3>
+      <h3 class="president-name right"><span id="electoraldonaldtrump">Donald Trump</span>
+        <div class="president-votes right"><span id="total-pres-votes-rep">0</span> votes</div>
+      </h3>
+      <div class="president-bar">
+        <div class="bar" id="hillaryclinton"></div>
+        <div class="bar" id="other"></div>
+        <div class="bar" id="uncounted"></div>
+        <div class="bar" id="donaldtrump"></div>
+        <div class="mark270"></div>
+      </div>
+      <div class="marker270"><i class="fa fa-angle-double-up" aria-hidden="true"></i></div>
+      <div class="marker270label">270 electoral votes</div>
+
+      <div class="button-container" id="pres-button-container">
+        <div class="button race button-pres states-pres active" id="presidentbystate">Results by state</div>
+        <div class="button race button-pres counties-pres" id="presidentbycounty">Results by county</div>
+      </div>
+
+      <div id="map-container-president"></div>
+
+      <div class="legend-container">
+        <div class="element"><div class="dem-swath"><div class="legend-text">Hillary Clinton</div></div></div>
+        <div class="element"><div class="rep-swath"><div class="legend-text">Donald Trump</div></div></div>
+        <div class="element"><div class="stein-swath"><div class="legend-text">Jill Stein</div></div></div>
+        <div class="element"><div class="johnson-swath"><div class="legend-text">Gary Johnson</div></div></div>
+        <div class="element"><div class="other-swath"><div class="legend-text">Other winner</div></div></div>
+        <div class="element"><div class="uncalled-swath"><div class="legend-text">Uncalled race</div></div></div>
+        <div class="element"><div class="noresults-swath"><div class="legend-text">No results</div></div></div>
+      </div>
+
+    </div>
+
+    <script>
+
+      // map look-up tables
+      var stateCodes = <%= JSON.stringify(csv.stateCodes) %>;
+      var countyCodes = <%= JSON.stringify(json.countyCodesLookup) %>;
+
+    </script>
+
+    <script src="../president_app.js" async></script>
+    <%= t.include("partials/_helloSFC.html") %>
+
+  </body>
+</html>

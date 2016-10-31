@@ -754,6 +754,7 @@ header {
   margin:0 auto;
   font-family: @bold-graphics;
   text-align: center;
+  max-width:900px;
 
   .sub-title {
     display: inline-block;
@@ -1611,4 +1612,23 @@ header {
     font-family: @med-graphics;
   }
   padding-bottom: 50px;
+}
+
+// ----------------------------------------------------------------------------------
+// styles for widgets ---------------------------------------------------------------
+// ----------------------------------------------------------------------------------
+
+.title-img {
+  &.widget {
+    max-width: 500px;
+    margin: auto;
+  }
+}
+
+.deck {
+  &.widget {
+    color: black;
+    font-size: 30px;
+    font-family: @med-graphics;
+  }
 }

@@ -16,7 +16,8 @@ module.exports = function(grunt) {
 
     //specify starter files here - if you need additionally built JS, just add it.
     var seeds = {
-      "./src/js/main.js": "build/app.js"
+      "./src/js/main.js": "build/main_app.js",
+      "./src/js/president.js": "build/president_app.js"
     };
 
     async.forEachOf(seeds, function(dest, src, c) {
@@ -47,7 +48,7 @@ module.exports = function(grunt) {
         var sourcemap = grunt.file.readJSON(mapFile);
         sourcemap.sources = sourcemap.sources.map(function(s) { return s.replace(/\\/g, "/") });
         grunt.file.write(mapFile, JSON.stringify(sourcemap, null, 2));
-        
+
         c();
       });
     }, done);
