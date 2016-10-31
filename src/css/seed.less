@@ -844,10 +844,7 @@ header {
     height: 80px;
   }
   @media @mobile {
-    height: 60px;
-    img {
-      height: 60px;
-    }
+    display: none;
   }
   &.right {
     float: right;
@@ -916,6 +913,9 @@ header {
 
 #president{
   margin-top:3em;
+  @media @mobile {
+    margin-top: 1.5em;
+  }
 }
 
 .president-votes {
@@ -1264,9 +1264,9 @@ header {
 }
 
 #map-container-state-props {
-  .flex(0 0 55%);
+  .flex(0 0 45%);
   @media @mobile {
-    margin-bottom: 20%;
+    margin-bottom: 30%;
   }
 }
 // .section-container {
@@ -1320,6 +1320,7 @@ header {
     cursor: pointer;
     .bold-button-number {
       font-family: @bold-graphics;
+      font-size: 14px;
     }
     @media @mobile {
       font-size: 14px;

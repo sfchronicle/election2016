@@ -995,7 +995,7 @@ d3.json(propsCAURL, function(propsCA){
       .append("svg")
       //responsive SVG needs these 2 attributes and no width and height attr
       .attr("preserveAspectRatio", "xMinYMin meet")
-      .attr("viewBox", "200 0 600 530")
+      .attr("viewBox", "245 0 475 530")
       //class to make it responsive
       .classed("svg-content-responsive", true)
       .attr("id","states-props-svg");
