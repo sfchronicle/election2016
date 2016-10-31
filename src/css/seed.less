@@ -1,6 +1,7 @@
 @import "sfchronicle";
 @import "fonts";
 @import "flexbox";
+@import "widgets";
 
 @block-graphics: "AntennaExtraLight";
 @med-graphics: "AntennaRegular";
@@ -41,6 +42,8 @@
 @line-height: 1.58;
 @black: #333;
 
+@dark-red: #92172c;
+
 body {
   background-color: @white;
   font-size: @base-font;
@@ -50,11 +53,11 @@ body {
 }
 
 a {
-  color: #92172c;
+  color: @dark-red;
 }
 
 a:hover {
-  color: darken(#92172c,10%);
+  color: darken(@dark-red,10%);
 }
 
 hr{
@@ -768,7 +771,7 @@ header {
     }
 
     &:hover{
-      border-bottom-color: #92175a;
+      border-bottom-color: darken(@dark-red,10%);
     }
 
     @media @tablet{
@@ -783,7 +786,7 @@ header {
     display: none;
     padding-right: 30px;
     float: right;
-    color: #92172c;
+    color: @dark-red;
     text-align: right;
 
     @media @mobile {
@@ -823,7 +826,7 @@ header {
     }
 
     i {
-      color: #92172c;
+      color: @dark-red;
     }
   }
 }
@@ -1612,23 +1615,4 @@ header {
     font-family: @med-graphics;
   }
   padding-bottom: 50px;
-}
-
-// ----------------------------------------------------------------------------------
-// styles for widgets ---------------------------------------------------------------
-// ----------------------------------------------------------------------------------
-
-.title-img {
-  &.widget {
-    max-width: 500px;
-    margin: auto;
-  }
-}
-
-.deck {
-  &.widget {
-    color: black;
-    font-size: 30px;
-    font-family: @med-graphics;
-  }
 }
