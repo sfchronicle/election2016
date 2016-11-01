@@ -230,7 +230,7 @@
         <div class="propositions-list">
           <% csv.StatePropositionsData.forEach(function(prop,idx){ %>
 
-            <div class='prop-group active prop.<%=prop.number%> proposition<%=prop.number%> measure<%=prop.number%> <%=prop.number%> <%=prop.title.replace(/ /g,'').replace("-","")%>'>
+            <div class='prop-group active prop<%=prop.number%> prop.<%=prop.number%> proposition<%=prop.number%> measure<%=prop.number%> <%=prop.number%> <%=prop.title.replace(/ /g,'').replace("-","")%>'>
               <div class='prop-icon'>
                 <img src='../assets/graphics/stateprops/prop<%=prop.number%>.png'></img>
                 <div class='prop-name'>Prop. <%=prop.number%></div>
@@ -317,7 +317,7 @@
         <div class="sf-propositions-list">
           <% csv.SFPropositionsData.forEach(function(prop,idx){ %>
 
-            <div class='sf-prop-group active prop.<%=prop.letter%> proposition<%=prop.letter%> measure<%=prop.letter%> <%=prop.letter%> <%=prop.title.replace(/ /g,'').replace("-","")%>'>
+            <div class='sf-prop-group active prop<%=prop.number%> prop.<%=prop.letter%> proposition<%=prop.letter%> measure<%=prop.letter%> <%=prop.letter%> <%=prop.title.replace(/ /g,'').replace("-","")%>'>
               <div class='sf-prop-icon'>
                 <img src='../assets/graphics/sfprops/prop<%=prop.letter%>.png'></img>
               </div>
@@ -407,7 +407,7 @@
 
       <p>Except for certain state and local races, which are called by a San Francisco Chronicle senior editor, race winners and electoral votes are called by AP state and Washington bureaus.</p>
 
-      <p>Read more about <a href="www.ap.org/products-services/elections/FAQs" target="_blank">how the AP reports results and calls races</a>.</p>
+      <p>Read more about <a href="http://www.ap.org/products-services/elections/FAQs" target="_blank">how the AP reports results and calls races</a>.</p>
     </div>
 
     <div class="symbol-container">

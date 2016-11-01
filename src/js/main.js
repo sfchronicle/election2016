@@ -1131,6 +1131,7 @@ input.addEventListener('input', function(){
 
   var class_match = 0;
   var filter = input.value.toLowerCase().replace(/ /g,'').replace("'","").replace("-","");
+  console.log(filter);
 
   Array.prototype.filter.call(document.querySelectorAll(".prop-group"), function(value,index,array){
 
