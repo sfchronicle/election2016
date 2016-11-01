@@ -868,6 +868,8 @@ d3.json(houseCAURL, function(houseCA){
 
             d3.select("#map-container-state").select("svg").remove();
             d3.select("#map-container-state").select(".svg-container").remove();
+            d3.select("#map-container-state").select(".label-LA").remove();
+            d3.select("#map-container-state").select(".label-SF").remove();
 
             // CA map by county
             var svgCACounties = d3.select("#map-container-state")
@@ -925,10 +927,9 @@ d3.json(houseCAURL, function(houseCA){
               .on("mousemove", function() {
                 if (screen.width <= 480) {
                   return state_tooltip
-                    .style("top",(d3.event.pageY+10)+"px")//(d3.event.pageY+40)+"px")
+                    .style("top",(d3.event.pageY/3+10)+"px")//(d3.event.pageY+40)+"px")
                     .style("left",50+"px");
                 } else {
-                  console.log(state_tooltip);
                   return state_tooltip
                     .style("top", (d3.event.pageY+10)+"px")
                     .style("left",(d3.event.pageX-80)+"px");

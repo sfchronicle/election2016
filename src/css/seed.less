@@ -81,12 +81,15 @@ h1 {
   width: 100%;
   background-color: lighten(@light-gray,10%);
   font-family: @med-graphics;
-  // border-top: 1px solid @dark-gray;
-  // border-bottom: 4px solid @light-gray;
-  // border-bottom: 1px solid @dark-gray;
   padding: 5px 0;
   padding-left: 20px;
   font-size: 30px;
+  @media @mobile {
+    font-size: 25px;
+    padding: 15px;
+    // padding-left: -5px;
+    // padding-right: 5px;
+  }
 }
 
 .section-chatter {
@@ -97,6 +100,9 @@ h1 {
   padding-right: 10px;
   // font-style: italic;
   color: darken(@dark-gray,10%);
+  @media @mobile {
+    font-size: 14px;
+  }
 }
 
 h2 {
@@ -107,7 +113,7 @@ h2 {
   padding-top: 40px;
   margin-bottom: 30px;
   @media @mobile {
-    padding-top: 0;
+    padding-top: 20px;
   }
   &.regionalhed {
     padding: 0;
@@ -142,6 +148,7 @@ h2 {
   }
 }
 #fsec {
+  padding-bottom: 20px;
   @media @mobile {
     padding-bottom: 20px;
   }
@@ -167,6 +174,9 @@ h4 {
   &.president {
     margin-bottom: 15px;
     text-align: center;
+  }
+  @media @mobile {
+    font-size: 16px;
   }
 }
 
@@ -195,7 +205,7 @@ h5 {
   height: 30px;
   margin: auto;
   @media @mobile {
-    height: 5px;
+    height: 10px;
   }
 }
 
@@ -261,6 +271,12 @@ li {
   font-weight: bold;
   @media @mobile {
     padding: 0 10px;
+  }
+  &.padded {
+    padding-top: 60px;
+    @media @mobile {
+      padding-top: 30px;
+    }
   }
 }
 .chart-hed {
@@ -461,9 +477,14 @@ footer {
 }
 
 .deck-sub {
-  padding-top: 20px;
+  // padding-top: 20px;
   font-size: 16px;
   font-family: @med-graphics;
+  @media @mobile {
+    margin-bottom: 0;
+    padding: 0 5px;
+    font-size: 14px;
+  }
 }
 
 // sticky navigation bar -------------------------------
@@ -774,12 +795,8 @@ header {
       border-bottom-color: darken(@dark-red,10%);
     }
 
-    @media @tablet{
+    @media @mobile{
       font-size:18px;
-    }
-
-    @media @mobile {
-      font-size: 14px;
     }
   }
   .long {
@@ -905,6 +922,9 @@ header {
     margin-top: 0;
     padding-top: 0;
     font-size: 16px;
+    @media @mobile {
+      font-size: 14px;
+    }
   }
   .marker270, .marker270label {
     padding-top: 20px;
@@ -1253,12 +1273,14 @@ header {
 }
 
 #presidentMap_States-container, #presidentMap_Counties-container, #map-container-federal {
-  // max-width: 700px;
-  // svg {
-  //   display: block;
-  //   margin: auto;
-  // }
   margin-bottom: 5%;
+  @media @mobile {
+    margin-top: -15px;
+  }
+}
+
+#map-container-federal {
+  margin-bottom: 10%;
 }
 
 .label-SF, .label-LA {
@@ -1313,6 +1335,7 @@ header {
   display: none;
   @media @mobile {
     display: block;
+    text-align: center;
     .select-text {
       font-family: @block-graphics;
       font-size: 15px;
@@ -1323,7 +1346,7 @@ header {
       background: lighten(@light-gray,5%);
       width: 90%;
       padding: 5px;
-      margin-left: 5%;
+      margin-bottom: 10px;
     }
   }
 }
@@ -1642,9 +1665,18 @@ header {
     font-size: 14px;
     .flex(0 0 33%);
     padding: 2px 0;
+    @media @mobile {
+      font-size: 12px;
+      .flex(0 0 50%);
+      text-align: left;
+      padding: 4px;
+    }
   }
   .abbrev-symbol {
     font-family: @med-graphics;
   }
   padding-bottom: 50px;
+  @media @mobile {
+    padding-bottom: 40px;
+  }
 }
