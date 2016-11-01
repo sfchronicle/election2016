@@ -262,14 +262,6 @@ function tooltip_function(abbrev,races,properties) {
         sum += element;
         count++;
       }
-      // CHECK ON THIS!!!!!!!--------------------------------------------------
-      //-------------------------------------------------------------------------
-      if (tempvar["o"]){
-        sum += +tempvar["o"]
-      }
-      // CHECK ON THIS!!!!!!!--------------------------------------------------
-      //-------------------------------------------------------------------------
-
       // this is a hack for when there are no reported results yet
       if (sum == 0) { sum = 0.1; }
       var count = 1; var html_str = "<div class='state-name'>"+properties.name+"</div>";
@@ -904,7 +896,9 @@ d3.json(houseCAURL, function(houseCA){
               // })
               .style("fill", function(d) {
                 var location = d.id;
-                if (active_data[String(location)]) {
+                if (d.id == 0) {
+                  return "#fff";
+                } else if (active_data[String(location)]) {
                   var tempvar = active_data[String(location)];
                   if (tempvar.r || tempvar.d) {
                     var new_color = code_map_variable(tempvar,d.properties);
@@ -922,9 +916,11 @@ d3.json(houseCAURL, function(houseCA){
               })
               .attr("d", path)
               .on('mouseover', function(d,index) {
-                var html_str = tooltip_function(d.id,active_data,d.properties);
-                state_tooltip.html(html_str);
-                state_tooltip.style("visibility", "visible");
+                if (d.id != 0) {
+                  var html_str = tooltip_function(d.id,active_data,d.properties);
+                  state_tooltip.html(html_str);
+                  state_tooltip.style("visibility", "visible");
+                }
               })
               .on("mousemove", function() {
                 if (screen.width <= 480) {
