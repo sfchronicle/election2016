@@ -398,7 +398,7 @@ document.querySelector('#presidentbycounty').addEventListener('click', function(
     .append("svg")
     //responsive SVG needs these 2 attributes and no width and height attr
     .attr("preserveAspectRatio", "xMinYMin meet")
-    .attr("viewBox", "0 0 960 500")
+    .attr("viewBox", "0 0 960 525")
     // .attr("viewBox", "90 0 780 500")
     //class to make it responsive
     .classed("svg-content-responsive", true)
@@ -572,7 +572,7 @@ document.querySelector('#congressmap').addEventListener('click', function(){
       .append("svg")
       //responsive SVG needs these 2 attributes and no width and height attr
       .attr("preserveAspectRatio", "xMinYMin meet")
-      .attr("viewBox", "0 0 960 500")
+      .attr("viewBox", "0 0 960 525")
       //class to make it responsive
       .classed("svg-content-responsive", true);
       // .attr("id","governor-map");
