@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
   <head>
-    <title><%= json.project.title %></title>
+    <title>Election 2016 results: Presidential, national, California, Bay Area, San Francisco</title>
     <script type="text/javascript" id="adPositionManagerScriptTag" src="http://aps.hearstnp.com/Scripts/loadAds.js"></script>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -271,7 +271,6 @@
 
       <div id="map-container-state"></div>
 
-
       <div class="br"></div>
       <div class="hed">How California's counties voted</div>
       <div class="chatter">Hover over or click on the counties to see how Californians voted in each precinct for propositions.</div>
@@ -342,6 +341,23 @@
       <h1 class="section-hed">Bay Area
         <div class="section-chatter">Voters around the region decide the fate of a major BART bond measure and sort through dozens of other propositions and races that will affect lives at the local level. Scroll to see the biggest issues and click the geographic buttons below to check races in your neighborhood.</div>
       </h1>
+
+      <div class="br"></div>
+      <div class="hed">Find results for all Bay Area measures and races</div>
+      <div class="chatter">Choose your county and click on the ballot category to see all the races and propositions for your neighborhood.</div>
+
+      <div class="button-container section-container">
+        <% csv.sections.forEach(function(section,idx){ %>
+          <% if (idx == 0) { %>
+            <div class="button sectionbutton <%=section.shortname %> active"><%=section.name%></div>
+          <% } else { %>
+            <div class="button sectionbutton <%=section.shortname %>"><%=section.name%></div>
+          <% } %>
+        <% }); %>
+      </div>
+
+      <div id="regional-results"></div>
+
       <div class="br"></div>
 
       <div class="regional-callouts">
@@ -364,22 +380,7 @@
           </div>
         <% }); %>
       </div>
-
       <div class="br"></div>
-      <div class="hed">Find results for all Bay Area measures and races</div>
-      <div class="chatter">Choose your county and click on the ballot category to see all the races and propositions for your neighborhood.</div>
-
-      <div class="button-container section-container">
-        <% csv.sections.forEach(function(section,idx){ %>
-          <% if (idx == 0) { %>
-            <div class="button sectionbutton <%=section.shortname %> active"><%=section.name%></div>
-          <% } else { %>
-            <div class="button sectionbutton <%=section.shortname %>"><%=section.name%></div>
-          <% } %>
-        <% }); %>
-      </div>
-
-      <div id="regional-results"></div>
 
     </section>
 
