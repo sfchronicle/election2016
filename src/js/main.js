@@ -1156,18 +1156,15 @@ input.addEventListener('input', function(){
 
   var class_match = 0;
   var filter = input.value.toLowerCase().replace(/ /g,'').replace("'","").replace("-","");
-  console.log(filter);
 
   Array.prototype.filter.call(document.querySelectorAll(".prop-group"), function(value,index,array){
 
     var classes = value.className.split(" ");
-    console.log(classes);
     for (var i=0; i<classes.length; i++) {
       var current_class = classes[i].toLowerCase();
       if (current_class != "prop-group" && current_class != "active") {
         if (current_class.match(filter)){
           class_match = class_match+1;
-          console.log(class_match);
         }
       }
     }
@@ -1195,12 +1192,12 @@ sfinput.addEventListener('input', function(){
     classes.push(value.firstChild.textContent);
     for (var i=0; i<classes.length; i++) {
       var current_class = classes[i].toLowerCase();
-    //  if (current_class != "sf-prop-group" && current_class != "active") {
+     if (current_class != "sf-prop-group" && current_class != "active") {
         if (current_class.match(filter)){
           class_match = class_match+1;
         }
       }
-    // }
+    }
     if (class_match>0) {
       value.classList.add("active");
     } else {
