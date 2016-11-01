@@ -262,6 +262,14 @@ function tooltip_function(abbrev,races,properties) {
         sum += element;
         count++;
       }
+      // CHECK ON THIS!!!!!!!--------------------------------------------------
+      //-------------------------------------------------------------------------
+      if (tempvar["o"]){
+        sum += +tempvar["o"]
+      }
+      // CHECK ON THIS!!!!!!!--------------------------------------------------
+      //-------------------------------------------------------------------------
+
       // this is a hack for when there are no reported results yet
       if (sum == 0) { sum = 0.1; }
       var count = 1; var html_str = "<div class='state-name'>"+properties.name+"</div>";
@@ -391,6 +399,7 @@ document.querySelector('#presidentbycounty').addEventListener('click', function(
     //responsive SVG needs these 2 attributes and no width and height attr
     .attr("preserveAspectRatio", "xMinYMin meet")
     .attr("viewBox", "0 0 960 500")
+    // .attr("viewBox", "90 0 780 500")
     //class to make it responsive
     .classed("svg-content-responsive", true)
     .attr("id","president-map-states-svg");
