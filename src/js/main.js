@@ -891,9 +891,9 @@ d3.json(houseCAURL, function(houseCA){
               .append("path")
               .attr("class", "states")
               .attr("d",path)
-              // .attr("id",function(d) {
-              //   return "county"+parseInt(d.id);
-              // })
+              .attr("id",function(d) {
+                return "id"+parseInt(d.id);
+              })
               .style("fill", function(d) {
                 var location = d.id;
                 if (d.id == 0) {
@@ -936,7 +936,27 @@ d3.json(houseCAURL, function(houseCA){
               .on("mouseout", function(){
                 return state_tooltip.style("visibility", "hidden");
               });
+
             });
+
+            // add layer with labels
+            var labels = d3.select("#map-container-state")
+            .append("div")
+            .attr("class","label-LA")
+            .style("position", "absolute")
+            .style("z-index", "10")
+            // .style("bottom","50px")
+            // .style("left","0px")
+            .text("Los Angeles");
+
+            var labels = d3.select("#map-container-state")
+            .append("div")
+            .attr("class","label-SF")
+            .style("position", "absolute")
+            .style("z-index", "10")
+            .style("top","45%")
+            .style("left","0px")
+            .text("Bay area");
 
             // show tooltip
             var state_tooltip = d3.select("#map-container-state")
@@ -944,7 +964,7 @@ d3.json(houseCAURL, function(houseCA){
             .attr("class","tooltip")
             .style("position", "absolute")
             .style("z-index", "10")
-            .style("visibility", "hidden")
+            .style("visibility", "hidden");
           };
 
           // camap("./assets/maps/ca_assembly.json",assemblyCA,0);
