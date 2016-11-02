@@ -262,6 +262,9 @@ function tooltip_function(abbrev,races,properties) {
         sum += element;
         count++;
       }
+      if (tempvar["o"]) {
+        sum += +tempvar["o"];
+      }
       // this is a hack for when there are no reported results yet
       if (sum == 0) { sum = 0.1; }
       var count = 1; var html_str = "<div class='state-name'>"+properties.name+"</div>";
@@ -285,11 +288,6 @@ function tooltip_function(abbrev,races,properties) {
   }
   return html_str;
 }
-
-// // map variables
-// var presidentmap_bystate = "../assets/maps/us_state_new.json";
-// var presidentmap_bycounty = "../assets/maps/us_county_new.json";
-// var map_bycongressdistricts = "../assets/maps/us_house_new.json";
 
 // size of text for bar charts
 if (screen.width < 480){
