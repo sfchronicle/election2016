@@ -97,7 +97,7 @@ h1 {
   font-size: 16px;
   text-align: left;
   padding: 10px 0;
-  padding-right: 10px;
+  padding-right: 20px;
   // font-style: italic;
   color: darken(@dark-gray,10%);
   @media @mobile {
@@ -303,6 +303,32 @@ li {
   }
   @media @tablet {
     padding: 5px;
+  }
+}
+
+.key {
+  font-family: @block-graphics;
+  font-size: 16px;
+  .fa {
+    padding: 0 10px;
+    font-size: 16px !important;
+  }
+  .fa-times-circle-o {
+    color: red;
+  }
+  .fa-check-circle-o {
+    color: green;
+  }
+  .fa-star {
+    color: @dark-gray;
+  }
+  padding-bottom: 20px;
+  .symbol {
+    padding: 0 10px;
+  }
+  margin-top: -25px;
+  &.centered {
+    text-align: center;
   }
 }
 

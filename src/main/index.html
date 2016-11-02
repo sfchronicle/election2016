@@ -216,6 +216,11 @@
 
       <h2 class="races" id="racectrl"><i class="fa fa-caret-down" id="rcaret" aria-hidden="true"></i>  Races:</h2>
 
+      <div class="key">Key:
+        <span class="symbol"><i class='fa fa-check-circle-o' aria-hidden='true'></i>Winner</span> |
+        <span class="symbol"><i class='fa fa-star' aria-hidden='true'></i>Incumbent</span>
+      </div>
+
       <div id="racesec">
         <h4 class="race statesenate" id="statesenate">State Senate, District 11</h4>
         <h4 class="race statedistrict9" id="statedistrict9">State Senate, District 9</h4>
@@ -223,6 +228,12 @@
       </div>
 
       <h2 class="propositions" id="propctrl"><i class="fa fa-caret-down" id="caret" aria-hidden="true"></i>  Propositions:</h2>
+
+      <div class="key">Key:
+        <span class="symbol"><i class='fa fa-check-circle-o' aria-hidden='true'></i>Yes vote</span> |
+        <span class="symbol"><i class='fa fa-times-circle-o' aria-hidden='true'></i>No vote</span>
+      </div>
+
       <div id="propsec">
         <input type="text" placeholder="&#xf002;  Search by proposition number or title" id="propositions-search" style="font-family:AntennaExtraLight, FontAwesome">
 
@@ -312,6 +323,12 @@
       </h1>
 
       <h2 class="sf-propositions" id="sfpropctrl"><i class="fa fa-caret-down" id="sfcaret" aria-hidden="true"></i>  Measures:</h2>
+
+      <div class="key">Key:
+        <span class="symbol"><i class='fa fa-check-circle-o' aria-hidden='true'></i>Yes vote</span> |
+        <span class="symbol"><i class='fa fa-times-circle-o' aria-hidden='true'></i>No vote</span>
+      </div>
+
       <div id="sfpropsec">
         <input type="text" placeholder="&#xf002;  Search by S.F. measure letter or name" id="sf-propositions-search" style="font-family:AntennaExtraLight, FontAwesome">
 
@@ -332,6 +349,11 @@
       </div>
 
       <h2 class="races" id="sctrl"><i class="fa fa-caret-down" id="scaret" aria-hidden="true"></i>  Supervisors:</h2>
+      <div class="key">Key:
+        <span class="symbol"><i class='fa fa-check-circle-o' aria-hidden='true'></i>Winner</span> |
+        <span class="symbol"><i class='fa fa-star' aria-hidden='true'></i>Incumbent</span>
+      </div>
+
       <div id="ssec">
         <div id="sf-section"></div>
       </div>
@@ -347,6 +369,11 @@
       <div class="br"></div>
       <div class="hed">Find results for all Bay Area measures and races</div>
       <div class="chatter">Choose your county and click on the ballot category to see all the races and propositions for your neighborhood.</div>
+      <div class="key centered">Key:
+        <span class="symbol"><i class='fa fa-check-circle-o' aria-hidden='true'></i>Winner / Yes vote</span> |
+        <span class="symbol"><i class='fa fa-times-circle-o' aria-hidden='true'></i>No vote</span> |
+        <span class="symbol"><i class='fa fa-star' aria-hidden='true'></i>Incumbent</span>
+      </div>
 
       <div class="button-container section-container">
         <% csv.sections.forEach(function(section,idx){ %>
@@ -411,12 +438,6 @@
       <p>Except for certain state and local races, which are called by a San Francisco Chronicle senior editor, race winners and electoral votes are called by AP state and Washington bureaus.</p>
 
       <p>Read more about <a href="http://www.ap.org/products-services/elections/FAQs" target="_blank">how the AP reports results and calls races</a>.</p>
-    </div>
-
-    <div class="symbol-container">
-      <div class="symbol"><i class='fa fa-check-circle-o' aria-hidden='true'></i>Winner / Yes vote</div>
-      <div class="symbol"><i class='fa fa-times-circle-o' aria-hidden='true'></i>No vote</div>
-      <div class="symbol"><i class='fa fa-star' aria-hidden='true'></i>Incumbent</div>
     </div>
 
     <div class="party-abbrev-container">
