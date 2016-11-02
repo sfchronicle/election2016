@@ -77,6 +77,10 @@ h1 {
   }
 }
 
+.padding{
+  padding:0 15px;
+}
+
 .section-hed {
   width: 100%;
   background-color: lighten(@light-gray,10%);
@@ -116,7 +120,7 @@ h2 {
     padding-top: 20px;
   }
   &.regionalhed {
-    padding: 0;
+    padding: 0 20px;
     border: 0;
   }
   .fa {
@@ -125,13 +129,6 @@ h2 {
     color: @red-map;
   }
 }
-
-// .regionalhed {
-//   visibility: collapse;
-//   &.active {
-//     visibility: visible;
-//   }
-// }
 
 .section-div {
   padding-top: 5px;
@@ -142,16 +139,17 @@ h2 {
   }
 }
 #ssec, #racesec {
-  padding-left: 20px;
+  padding: 0 20px;
   @media @mobile {
-    padding-left: 0;
+    padding: 0 10px;
   }
 }
 #fsec {
-  padding-bottom: 20px;
-  @media @mobile {
-    padding-bottom: 20px;
-  }
+  padding:0 15px 20px;
+}
+
+.national{
+  padding: 0 15px;
 }
 
 h3 {
@@ -821,7 +819,7 @@ header {
     }
 
     @media @mobile{
-      font-size:18px;
+      font-size:15px;
     }
   }
   .long {
@@ -850,17 +848,36 @@ header {
   .sub-title-links {
     text-align: left;
     font-family: @block-graphics;
+
+    @media (max-width:600px){
+      text-align:center;
+    }
+    @media (max-width:385px){
+      text-align:left;
+    }
   }
 
   .sub-title {
     border-bottom: 0px;
-    padding: 1px 10px 0;
+    padding: 2px 10px;
     margin: 0;
+
+    @media @mobile{
+    padding:6px 10px;
+    }
+
+    @media (max-width:385px){
+        padding: 8px 5px;
+    }
   }
 
   .share-block {
     display: block;
     vertical-align: text-top;
+
+     @media (max-width:600px){
+      display:none;
+    }
 
     .link {
       padding-top: 2px !important;
@@ -958,6 +975,7 @@ header {
 
 #president{
   margin-top:3em;
+  padding:0 15px;
   @media @mobile {
     margin-top: 1.5em;
   }
@@ -1046,6 +1064,13 @@ header {
     // height: 40px;
     margin-top: -10px;
   }
+}
+
+#sfpropsec{
+  padding:0 10px;
+}
+#propsec{
+  padding:0 10px;
 }
 
 .propositions-list, .sf-propositions-list, .regional-callouts {
@@ -1191,20 +1216,10 @@ header {
   }
 }
 
-// #propsec, #sfpropsec, #racesec, #ssec {
-//  display: none;
-// }
-
-// #sfpropsec, #ssec {
-//  display: none;
-// }
-// #racesec, #propsec {
-//   display: block;
-// }
-
 .propositions, .sf-propositions, .races {
   cursor: pointer;
-  cursor: hand;
+  margin: 15px 15px 30px;
+    padding: 0;
 }
 
 .show {
