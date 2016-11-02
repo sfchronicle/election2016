@@ -3,16 +3,16 @@ var topojson = require('topojson');
 var social = require("./lib/social");
 
 // initialize colors
-var red = "#BC1826";//"#BE3434";//"#D91E36";//"#A41A1A";//"#8A0000";//"#F04646";
-var blue = "#265B9B";//"#194E8E";//"#315A8C";//"#004366";//"#62A9CC";
+var red = "#BC1826";
+var blue = "#265B9B";
 var light_blue = "#598ECE";
-var green = "#487F75";//"#2E655B";
+var green = "#487F75";
 var purple = "#69586B";
 var orange = "#DE8067";
-var yellow = "#FFCC32";//"#6790B7";//"#EB8F6A";//"#FFFF65";//"#FFCC32";
-var yes_map = '#61988E';//"#705A91";//"#1D75AF";//"#6C85A5";//"#FFE599";
-var no_map = '#EB8F6A';//"#FFDB89";//"#EAE667";//"#D13D59";//"#6790B7";
-var undecided_map = "#8C8C8C";//"#b2b2b2";//"#EB8F6A";//"#FFFF65";
+var yellow = "#FFCC32";
+var yes_map = '#61988E';
+var no_map = '#EB8F6A';
+var undecided_map = "#8C8C8C";
 var dark_gray = "#8C8C8C";
 var light_gray = "#b2b2b2";
 var lightest_gray = "#D8D8D8";
@@ -187,8 +187,6 @@ function tooltip_function(abbrev,races,properties) {
 
 d3.json(raceSummariesURL, function(raceSummaries){
 
-  console.log(raceSummaries);
-
   // read in electoral votes
   var clinton_electoralvotes = raceSummaries["electoralcount"]["Dem"];
   var trump_electoralvotes = raceSummaries["electoralcount"]["GOP"];
@@ -247,9 +245,9 @@ document.querySelector('#presidentbycounty').addEventListener('click', function(
 ["presidentMap_States","presidentMap_Counties"].forEach(function(svg_element,ind){
 
   if (svg_element.split("_")[1] == "States") {
-    var map_file = "../assets/maps/us_state.json";
+    var map_file = "http://extras.sfgate.com/editorial/election2016/topojson/us_state_new.json";
   } else {
-    var map_file = "../assets/maps/us_county.json";
+    var map_file = "http://extras.sfgate.com/editorial/election2016/topojson/us_county_new.json";
   }
 
   svg_element = d3.select("#map-container-president")
@@ -259,7 +257,7 @@ document.querySelector('#presidentbycounty').addEventListener('click', function(
     .append("svg")
     //responsive SVG needs these 2 attributes and no width and height attr
     .attr("preserveAspectRatio", "xMinYMin meet")
-    .attr("viewBox", "0 0 960 500")
+    .attr("viewBox", "0 0 960 525")
     //class to make it responsive
     .classed("svg-content-responsive", true)
     .attr("id","president-map-states-svg");
@@ -365,3 +363,128 @@ var tooltip = d3.select("#map-container-president")
 
 // hide the county map to start
 d3.select("#presidentMap_Counties-container").classed("disappear",true);
+
+
+// -----------------------------------------------------------------------------
+// TIMER FOR GETTING DATA
+// -----------------------------------------------------------------------------
+var one = 6000,  // 60000 = one minute
+    presDataTimer =  one * 2; //two minutes
+
+
+// -----------------------------------------------------------------------------
+// UPDATES PRESIDENTIAL STATE & COUNTY MAP
+// -----------------------------------------------------------------------------
+
+setInterval(function() {
+  updatePresidentialData();
+}, presDataTimer);
+
+function updatePresidentialData(){
+  console.log('President Map Data!');
+
+  var state_svg_element = d3.select("#presidentMap_States-container");
+  var county_svg_element = d3.select("#presidentMap_Counties-container");
+
+  // updates state map
+  d3.json(presidentialDataURL, function(presidentialData){
+    state_svg_element.selectAll(".states")
+    .style("fill", function(d,index) {
+      var stateabbrev = stateCodes[parseInt(d.id)].state;
+      if (presidentialData[String(stateabbrev)].d) {
+        var tempvar = presidentialData[String(stateabbrev)];
+        var new_color = code_map_variable(tempvar,d.properties);
+        return new_color;
+      } else if (presidentialData[String(stateabbrev)]){
+        var tempvar = presidentialData[String(stateabbrev)];
+        var new_color = color_partial_results(tempvar,d.properties);
+        return new_color;
+      } else {
+        return dark_gray;
+      }
+    })
+    .attr("d", path)
+    .on('mouseover', function(d,index) {
+      var stateabbrev = stateCodes[parseInt(d.id)].state;
+      if (presidentialData[String(stateabbrev)]) {
+        var html_str = tooltip_function(stateabbrev,presidentialData,d.properties);
+      } else {
+        var html_str = "<div class='state-name'>"+d.properties.name+"</div><div>No results yet.</div>";
+      }
+      tooltip.html(html_str);
+      tooltip.style("visibility", "visible");
+    });
+  });
+  // updates county map data
+  d3.json(presidentialCountyDataURL, function(presidentialCountyData){
+    county_svg_element.selectAll(".states")
+    .style("fill", function(d,index) {
+      if (presidentialCountyData[d.id]) {
+      var tempvar = presidentialCountyData[d.id];
+      var new_color = code_county(tempvar,d.properties);
+        return new_color;
+      } else {
+        return dark_gray;
+      }
+    })
+    .attr("d", path)
+    .on('mouseover', function(d,index) {
+      if (presidentialCountyData[d.id]) {
+        var html_str = tooltip_function(d.id,presidentialCountyData,d.properties);
+      } else {
+        var html_str = "<div class='state-name'>County: "+d.properties.name+"</div><div>No results yet.</div>";
+      }
+      tooltip.html(html_str);
+      tooltip.style("visibility", "visible");
+    });
+  });
+}
+
+
+// -----------------------------------------------------------------------------
+// UPDATES ELECTORAL COUNT 
+// -----------------------------------------------------------------------------
+
+setInterval(function() {
+  updateElectoralCount();
+}, presDataTimer);
+
+function updateElectoralCount(){
+
+  d3.json(raceSummariesURL, function(raceSummaries){
+
+    console.log('updated electoralcount!');
+
+    // read in electoral votes
+    var clinton_electoralvotes = raceSummaries["electoralcount"]["Dem"];
+    var trump_electoralvotes = raceSummaries["electoralcount"]["GOP"];
+    var other_electoralvotes = raceSummaries["electoralcount"]["Other"];
+    var uncounted_electoralvotes = 538-clinton_electoralvotes-trump_electoralvotes-other_electoralvotes;
+    var clinton_percent = clinton_electoralvotes/538*100;
+    var trump_percent = trump_electoralvotes/538*100;
+    var other_percent = other_electoralvotes/538*100;
+    var uncounted_percent = 100-trump_percent-clinton_percent-other_percent;
+
+    if (raceSummaries["electoralcount"]["d"]){
+      if (raceSummaries["electoralcount"]["d"] == "Dem") {
+        document.getElementById("electoralhillaryclinton").innerHTML = "Hillary Clinton ("+clinton_electoralvotes+") <i class='fa fa-check-circle-o' aria-hidden='true'></i>";
+        document.getElementById("electoraldonaldtrump").innerHTML = "Donald Trump ("+trump_electoralvotes+")";
+      } else {
+        document.getElementById("electoralhillaryclinton").innerHTML = "Hillary Clinton ("+clinton_electoralvotes+")";
+        document.getElementById("electoraldonaldtrump").innerHTML = "<i class='fa fa-check-circle-o' aria-hidden='true'></i>  Donald Trump ("+trump_electoralvotes+")";
+      }
+    } else {
+      document.getElementById("electoralhillaryclinton").innerHTML = "Hillary Clinton ("+clinton_electoralvotes+")";
+      document.getElementById("electoraldonaldtrump").innerHTML = "Donald Trump ("+trump_electoralvotes+")";
+    }
+    document.getElementById("total-pres-votes-dem").innerHTML = formatthousands(raceSummaries["presvote"]["Dem"]);
+    document.getElementById("total-pres-votes-rep").innerHTML = formatthousands(raceSummaries["presvote"]["GOP"]);
+
+    // display electoral votes on bar
+    document.getElementById("uncounted").style.width = String(uncounted_percent)+"%";
+    document.getElementById("other").style.width = String(other_percent)+"%";
+    document.getElementById("hillaryclinton").style.width = String(clinton_percent)+"%";
+    document.getElementById("donaldtrump").style.width = String(trump_percent)+"%";
+  });
+
+}

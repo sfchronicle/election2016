@@ -2,21 +2,17 @@
 <html>
   <head>
     <title><%= json.project.title %></title>
-    <!-- <script type="text/javascript" id="adPositionManagerScriptTag" src="http://aps.hearstnp.com/Scripts/loadAds.js"></script> -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="../style.css">
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
     <script src="http://projects.sfchronicle.com/shared/js/jquery.min.js"></script>
-    <%= t.include("partials/_head.html") %>
-    <%= t.include("partials/_analytics.html") %>
     <script src="http://projects.sfchronicle.com/shared/js/responsive-child.js"></script>
   </head>
 
   <body is="responsive-body">
 
-    <div class="outer">
+    <div class="outer widget">
 
       <div class="title-img widget">
 
@@ -26,9 +22,7 @@
             </a>
           </div>
 
-        <img src="../assets/election2016banner.png">
-
-        <%= t.include("partials/_social-links.html") %>
+        <img class="banner widget" src="../assets/election2016banner.png">
 
       </div>
 
@@ -65,7 +59,7 @@
 
       <div id="map-container-president"></div>
 
-      <div class="legend-container">
+      <div class="legend-container widget">
         <div class="element"><div class="dem-swath"><div class="legend-text">Hillary Clinton</div></div></div>
         <div class="element"><div class="rep-swath"><div class="legend-text">Donald Trump</div></div></div>
         <div class="element"><div class="stein-swath"><div class="legend-text">Jill Stein</div></div></div>
@@ -86,7 +80,6 @@
     </script>
 
     <script src="../president_app.js" async></script>
-    <%= t.include("partials/_helloSFC.html") %>
 
   </body>
 </html>

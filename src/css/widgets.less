@@ -2,9 +2,17 @@
 // styles for widgets ---------------------------------------------------------------
 // ----------------------------------------------------------------------------------
 
+
+.outer{
+	
+	&.widget{
+	  margin:10px auto;
+	  max-width:650px;
+	}
+}
 .title-img {
   &.widget {
-    max-width: 500px;
+    max-width: 510px;
     margin: auto;
   }
 }
@@ -15,4 +23,30 @@
     font-size: 30px;
     font-family: @med-graphics;
   }
+}
+
+.banner{
+	&.widget{
+	margin-bottom:10px;
+	}
+}
+
+.legend-container{
+
+	&.widget{
+		width:100%;
+
+		.element{
+		    -webkit-flex: 0 0 24%;
+		    -ms-flex: 0 0 24%;
+		    flex: 0 0 24%;
+
+		@media (max-width:500px){
+			-webkit-flex: 0 0 50%;
+		    -ms-flex: 0 0 50%;
+		    flex: 0 0 50%;
+		}
+		}
+	}
+	
 }
