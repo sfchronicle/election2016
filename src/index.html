@@ -216,45 +216,20 @@
 
       <h2 class="races" id="racectrl"><i class="fa fa-caret-down" id="rcaret" aria-hidden="true"></i>  Races:</h2>
 
-      <div class="key">Key:
-        <span class="symbol"><i class='fa fa-check-circle-o' aria-hidden='true'></i>Winner</span> |
-        <span class="symbol"><i class='fa fa-star' aria-hidden='true'></i>Incumbent</span>
-      </div>
-
       <div id="racesec">
+        <div class="key">Key:
+          <span class="symbol"><i class='fa fa-check-circle-o' aria-hidden='true'></i>Winner</span> |
+          <span class="symbol"><i class='fa fa-star' aria-hidden='true'></i>Incumbent</span>
+        </div>
+
         <h4 class="race statesenate" id="statesenate">State Senate, District 11</h4>
         <h4 class="race statedistrict9" id="statedistrict9">State Senate, District 9</h4>
         <h4 class="race stateassembly" id="stateassembly">State Assembly, District 16</h4>
       </div>
 
-      <h2 class="propositions" id="propctrl"><i class="fa fa-caret-down" id="caret" aria-hidden="true"></i>  Propositions:</h2>
-
-      <div class="key">Key:
-        <span class="symbol"><i class='fa fa-check-circle-o' aria-hidden='true'></i>Yes vote</span> |
-        <span class="symbol"><i class='fa fa-times-circle-o' aria-hidden='true'></i>No vote</span>
-      </div>
-
-      <div id="propsec">
-        <input type="text" placeholder="&#xf002;  Search by proposition number or title" id="propositions-search" style="font-family:AntennaExtraLight, FontAwesome">
-
-        <div class="propositions-list">
-          <% csv.StatePropositionsData.forEach(function(prop,idx){ %>
-
-            <div class='prop-group active prop<%=prop.number%> prop.<%=prop.number%> proposition<%=prop.number%> measure<%=prop.number%> <%=prop.number%> <%=prop.title.replace(/ /g,'').replace("-","")%>'>
-              <div class='prop-icon'>
-                <img src='../assets/graphics/stateprops/prop<%=prop.number%>.png'></img>
-                <div class='prop-name'>Prop. <%=prop.number%></div>
-              </div>
-              <div class='prop-name'><%=prop.title%></div>
-              <div class='result'><div id="prop<%=prop.number%>"></div></div>
-              <div class='prop-desc'><%=prop.description%></div>
-            </div>
-
-          <% }); %>
-        </div>
-      </div>
-
       <div class="br"></div>
+      <div class="divider"></div>
+
       <div class="hed">How California's counties voted</div>
       <div class="chatter">Hover over or click on the counties to see how Californians voted in each precinct for representatives.</div>
 
@@ -282,10 +257,39 @@
       <div id="map-container-state"></div>
 
       <div class="br"></div>
-
       <div class="divider"></div>
 
-      <div class="hed padded">How California's counties voted</div>
+      <h2 class="propositions" id="propctrl"><i class="fa fa-caret-down" id="caret" aria-hidden="true"></i>  Propositions:</h2>
+
+      <div id="propsec">
+        <div class="key">Key:
+          <span class="symbol"><i class='fa fa-check-circle-o' aria-hidden='true'></i>Yes vote</span> |
+          <span class="symbol"><i class='fa fa-times-circle-o' aria-hidden='true'></i>No vote</span>
+        </div>
+
+        <input type="text" placeholder="&#xf002;  Search by proposition number or title" id="propositions-search" style="font-family:AntennaExtraLight, FontAwesome">
+
+        <div class="propositions-list">
+          <% csv.StatePropositionsData.forEach(function(prop,idx){ %>
+
+            <div class='prop-group active prop<%=prop.number%> prop.<%=prop.number%> proposition<%=prop.number%> measure<%=prop.number%> <%=prop.number%> <%=prop.title.replace(/ /g,'').replace("-","")%>'>
+              <div class='prop-icon'>
+                <img src='../assets/graphics/stateprops/prop<%=prop.number%>.png'></img>
+                <div class='prop-name'>Prop. <%=prop.number%></div>
+              </div>
+              <div class='prop-name'><%=prop.title%></div>
+              <div class='result'><div id="prop<%=prop.number%>"></div></div>
+              <div class='prop-desc'><%=prop.description%></div>
+            </div>
+
+          <% }); %>
+        </div>
+      </div>
+
+      <div class="br"></div>
+
+
+      <div class="hed">How California's counties voted</div>
       <div class="chatter">Hover over or click on the counties to see how Californians voted in each precinct for propositions.</div>
 
       <div class="legend-container ca-legend-props active" id="ca-prop-legend">
@@ -324,12 +328,12 @@
 
       <h2 class="sf-propositions" id="sfpropctrl"><i class="fa fa-caret-down" id="sfcaret" aria-hidden="true"></i>  Measures:</h2>
 
-      <div class="key">Key:
-        <span class="symbol"><i class='fa fa-check-circle-o' aria-hidden='true'></i>Yes vote</span> |
-        <span class="symbol"><i class='fa fa-times-circle-o' aria-hidden='true'></i>No vote</span>
-      </div>
-
       <div id="sfpropsec">
+        <div class="key">Key:
+          <span class="symbol"><i class='fa fa-check-circle-o' aria-hidden='true'></i>Yes vote</span> |
+          <span class="symbol"><i class='fa fa-times-circle-o' aria-hidden='true'></i>No vote</span>
+        </div>
+
         <input type="text" placeholder="&#xf002;  Search by S.F. measure letter or name" id="sf-propositions-search" style="font-family:AntennaExtraLight, FontAwesome">
 
         <div class="sf-propositions-list">
@@ -349,12 +353,13 @@
       </div>
 
       <h2 class="races" id="sctrl"><i class="fa fa-caret-down" id="scaret" aria-hidden="true"></i>  Supervisors:</h2>
-      <div class="key">Key:
-        <span class="symbol"><i class='fa fa-check-circle-o' aria-hidden='true'></i>Winner</span> |
-        <span class="symbol"><i class='fa fa-star' aria-hidden='true'></i>Incumbent</span>
-      </div>
 
       <div id="ssec">
+        <div class="key">Key:
+          <span class="symbol"><i class='fa fa-check-circle-o' aria-hidden='true'></i>Winner</span> |
+          <span class="symbol"><i class='fa fa-star' aria-hidden='true'></i>Incumbent</span>
+        </div>
+
         <div id="sf-section"></div>
       </div>
 
