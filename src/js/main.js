@@ -82,7 +82,7 @@ function populateRace(raceID,racevar,p) {
     var html = "<div class='candidate-precincts'>"+formatthousands(racevar.p)+" / "+formatthousands(racevar.pt)+" precincts reporting</div>";
   } else {
     if (p == 0) {
-      console.log("ERROR!! CORRECT ME!!")
+      // console.log("ERROR!! CORRECT ME!!")
     }
     var html = "<div class='candidate-precincts'>"+formatthousands(racevar.p)+" / "+formatthousands(p)+" precincts reporting</div>";
   }
@@ -1257,26 +1257,26 @@ qsa(".sectionbutton").forEach(function(group,index) {
 d3.json(localDataURL, function(localData){
 
   // NEED TO CHECK THIS!!!!
-  console.log(localData);
+  // console.log(localData);
   var propID_list = ["RR","X","B","T1","O1","HH"];
   var RRPropData = localData["Special Districts"]["Measures"][1];
-  console.log("RR");
-  console.log(RRPropData);
+  // console.log("RR");
+  // console.log(RRPropData);
   var XPropData = localData["Contra Costa"]["Measures"][21];
-  console.log("X");
-  console.log(XPropData);
+  // console.log("X");
+  // console.log(XPropData);
   var BPropData = localData["Santa Clara"]["Measures"][1];
-  console.log("B");
-  console.log(BPropData);
+  // console.log("B");
+  // console.log(BPropData);
   var T1PropData = localData["Alameda"]["Measures"][17];
-  console.log("T1");
-  console.log(T1PropData);
+  // console.log("T1");
+  // console.log(T1PropData);
   var O1PropData = localData["Alameda"]["Measures"][12];
-  console.log("O1");
-  console.log(O1PropData);
+  // console.log("O1");
+  // console.log(O1PropData);
   var HHPropData = localData["Alameda"]["Measures"][27];
-  console.log("HH");
-  console.log(HHPropData);
+  // console.log("HH");
+  // console.log(HHPropData);
 
   for (var ii=0; ii<6; ii++) {
     var propID = document.getElementById("regionalprop"+propID_list[ii]);
@@ -1454,17 +1454,17 @@ $(document).on('click', 'a[href^="#"]', function(e) {
 // -----------------------------------------------------------------------------
 // TIMERS FOR GETTING DATA
 // -----------------------------------------------------------------------------
-var one = 2000, // 60000 = one minute
-    presDataTimer =  one * 3, //one minute
-    raceSummariesTimer = one * 3,
-    FederalDataTimer = one,
-    houseCATimer = one,
-    senateCATimer = one,
-    federalsenateCATimer = one,
-    StateTimer = one,
+var one = 60000, // 60000 = one minute
+    presDataTimer =  one * 2, //one minute
+    raceSummariesTimer = one * 2,
+    FederalDataTimer = one * 2,
+    houseCATimer = one * 3,
+    senateCATimer = one * 3,
+    federalsenateCATimer = one * 3,
+    StateTimer = one * 3,
     propsCATimer = one * 5,
     localDataTimer = one * 5, // includes SF supes
-    regionalDataTimer = one;
+    regionalDataTimer = one * 10;
 
 
 // -----------------------------------------------------------------------------
@@ -1476,6 +1476,7 @@ setInterval(function() {
 }, presDataTimer);
 
 function updatePresidentialData(){
+  console.log('President Map Data!');
 
   var state_svg_element = d3.select("#presidentMap_States-container");
   var county_svg_element = d3.select("#presidentMap_Counties-container");
@@ -1546,6 +1547,8 @@ setInterval(function() {
 function updateElectoralCount(){
 
   d3.json(raceSummariesURL, function(raceSummaries){
+
+    console.log('updated electoralcount!');
 
     // read in electoral votes
     var clinton_electoralvotes = raceSummaries["electoralcount"]["Dem"];
