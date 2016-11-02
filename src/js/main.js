@@ -689,8 +689,6 @@ d3.select("#congressmap_Districts-container").classed("disappear",true);
 
 d3.json(raceSummariesURL, function(raceSummaries){
 
-  console.log(raceSummaries);
-
   // read in electoral votes
   var clinton_electoralvotes = raceSummaries["electoralcount"]["Dem"];
   var trump_electoralvotes = raceSummaries["electoralcount"]["GOP"];
@@ -702,7 +700,6 @@ d3.json(raceSummariesURL, function(raceSummaries){
   var uncounted_percent = 100-trump_percent-clinton_percent-other_percent;
 
   if (raceSummaries["electoralcount"]["d"]){
-    console.log("we have a winner!")
     if (raceSummaries["electoralcount"]["d"] == "Dem") {
       document.getElementById("electoralhillaryclinton").innerHTML = "Hillary Clinton ("+clinton_electoralvotes+") <i class='fa fa-check-circle-o' aria-hidden='true'></i>";
       document.getElementById("electoraldonaldtrump").innerHTML = "Donald Trump ("+trump_electoralvotes+")";
@@ -1225,7 +1222,7 @@ d3.json(localDataURL, function(localData){
     var racevar = d;
     populateRace(supeID,racevar,0);
   });
-});f
+});
 
 // -----------------------------------------------------------------------------
 // populating regional results
@@ -1450,3 +1447,623 @@ $(document).on('click', 'a[href^="#"]', function(e) {
     // animated top scrolling
     $('body, html').animate({scrollTop: pos});
 });
+
+
+
+
+// -----------------------------------------------------------------------------
+// TIMERS FOR GETTING DATA
+// -----------------------------------------------------------------------------
+var one = 2000, // 60000 = one minute
+    presDataTimer =  one * 3, //one minute
+    raceSummariesTimer = one * 3,
+    FederalDataTimer = one,
+    houseCATimer = one,
+    senateCATimer = one,
+    federalsenateCATimer = one,
+    StateTimer = one,
+    propsCATimer = one * 5,
+    localDataTimer = one * 5, // includes SF supes
+    regionalDataTimer = one;
+
+
+// -----------------------------------------------------------------------------
+// UPDATES PRESIDENTIAL STATE & COUNTY MAP
+// -----------------------------------------------------------------------------
+
+setInterval(function() {
+  updatePresidentialData();
+}, presDataTimer);
+
+function updatePresidentialData(){
+
+  var state_svg_element = d3.select("#presidentMap_States-container");
+  var county_svg_element = d3.select("#presidentMap_Counties-container");
+
+  // updates state map
+  d3.json(presidentialDataURL, function(presidentialData){
+    state_svg_element.selectAll(".states")
+    .style("fill", function(d,index) {
+      var stateabbrev = stateCodes[parseInt(d.id)].state;
+      if (presidentialData[String(stateabbrev)].d) {
+        var tempvar = presidentialData[String(stateabbrev)];
+        var new_color = code_map_variable(tempvar,d.properties);
+        return new_color;
+      } else if (presidentialData[String(stateabbrev)]){
+        var tempvar = presidentialData[String(stateabbrev)];
+        var new_color = color_partial_results(tempvar,d.properties);
+        return new_color;
+      } else {
+        return dark_gray;
+      }
+    })
+    .attr("d", path)
+    .on('mouseover', function(d,index) {
+      var stateabbrev = stateCodes[parseInt(d.id)].state;
+      if (presidentialData[String(stateabbrev)]) {
+        var html_str = tooltip_function(stateabbrev,presidentialData,d.properties);
+      } else {
+        var html_str = "<div class='state-name'>"+d.properties.name+"</div><div>No results yet.</div>";
+      }
+      tooltip.html(html_str);
+      tooltip.style("visibility", "visible");
+    });
+  });
+  // updates county map data
+  d3.json(presidentialCountyDataURL, function(presidentialCountyData){
+    county_svg_element.selectAll(".states")
+    .style("fill", function(d,index) {
+      if (presidentialCountyData[d.id]) {
+      var tempvar = presidentialCountyData[d.id];
+      var new_color = code_county(tempvar,d.properties);
+        return new_color;
+      } else {
+        return dark_gray;
+      }
+    })
+    .attr("d", path)
+    .on('mouseover', function(d,index) {
+      if (presidentialCountyData[d.id]) {
+        var html_str = tooltip_function(d.id,presidentialCountyData,d.properties);
+      } else {
+        var html_str = "<div class='state-name'>County: "+d.properties.name+"</div><div>No results yet.</div>";
+      }
+      tooltip.html(html_str);
+      tooltip.style("visibility", "visible");
+    });
+  });
+}
+
+
+// -----------------------------------------------------------------------------
+// UPDATES ELECTORAL COUNT 
+// -----------------------------------------------------------------------------
+
+setInterval(function() {
+  updateElectoralCount();
+}, presDataTimer);
+
+function updateElectoralCount(){
+
+  d3.json(raceSummariesURL, function(raceSummaries){
+
+    // read in electoral votes
+    var clinton_electoralvotes = raceSummaries["electoralcount"]["Dem"];
+    var trump_electoralvotes = raceSummaries["electoralcount"]["GOP"];
+    var other_electoralvotes = raceSummaries["electoralcount"]["Other"];
+    var uncounted_electoralvotes = 538-clinton_electoralvotes-trump_electoralvotes-other_electoralvotes;
+    var clinton_percent = clinton_electoralvotes/538*100;
+    var trump_percent = trump_electoralvotes/538*100;
+    var other_percent = other_electoralvotes/538*100;
+    var uncounted_percent = 100-trump_percent-clinton_percent-other_percent;
+
+    if (raceSummaries["electoralcount"]["d"]){
+      if (raceSummaries["electoralcount"]["d"] == "Dem") {
+        document.getElementById("electoralhillaryclinton").innerHTML = "Hillary Clinton ("+clinton_electoralvotes+") <i class='fa fa-check-circle-o' aria-hidden='true'></i>";
+        document.getElementById("electoraldonaldtrump").innerHTML = "Donald Trump ("+trump_electoralvotes+")";
+      } else {
+        document.getElementById("electoralhillaryclinton").innerHTML = "Hillary Clinton ("+clinton_electoralvotes+")";
+        document.getElementById("electoraldonaldtrump").innerHTML = "<i class='fa fa-check-circle-o' aria-hidden='true'></i>  Donald Trump ("+trump_electoralvotes+")";
+      }
+    } else {
+      document.getElementById("electoralhillaryclinton").innerHTML = "Hillary Clinton ("+clinton_electoralvotes+")";
+      document.getElementById("electoraldonaldtrump").innerHTML = "Donald Trump ("+trump_electoralvotes+")";
+    }
+    document.getElementById("total-pres-votes-dem").innerHTML = formatthousands(raceSummaries["presvote"]["Dem"]);
+    document.getElementById("total-pres-votes-rep").innerHTML = formatthousands(raceSummaries["presvote"]["GOP"]);
+
+    // display electoral votes on bar
+    document.getElementById("uncounted").style.width = String(uncounted_percent)+"%";
+    document.getElementById("other").style.width = String(other_percent)+"%";
+    document.getElementById("hillaryclinton").style.width = String(clinton_percent)+"%";
+    document.getElementById("donaldtrump").style.width = String(trump_percent)+"%";
+  });
+
+}
+
+
+// -----------------------------------------------------------------------------
+// UPDATES GOVERNOR, SENATOR & CONGRESS MAP
+// -----------------------------------------------------------------------------
+setInterval(function() {
+  updateFederalData();
+}, FederalDataTimer);
+
+function updateFederalData(){
+
+  var gov_svg_element = d3.select('#governormap_States-container');
+  var sen_svg_element = d3.select('#senatemap_States-container');
+  var con_svg_element = d3.select('#congressmap_States-container');
+
+    
+  d3.json(governorRacesURL, function(governorRaces){
+      gov_svg_element.selectAll('.states')
+      .style("fill", function(d,index) {
+        var stateabbrev = stateCodes[parseInt(d.id)].state;
+        if (governorRaces[String(stateabbrev)]) {
+          var tempvar = governorRaces[String(stateabbrev)];
+          if (tempvar.d){
+            var new_color = code_map_variable(tempvar,d.properties);
+            return new_color;
+          } else {
+            var new_color = color_partial_results(tempvar,d.properties);
+            return new_color;
+          }
+        } else {
+          return lightest_gray;
+      }
+    })
+    .attr("d", path)
+    .on('mouseover', function(d,index) {
+      var stateabbrev = stateCodes[parseInt(d.id)].state;
+      var html_str = tooltip_function(stateabbrev,governorRaces,d.properties);
+      tooltip.html(html_str);
+      tooltip.style("visibility", "visible");
+    });
+  });
+
+  d3.json(senateRacesURL, function(senateRaces){
+    sen_svg_element.selectAll('.states')
+    .style("fill", function(d,index) {
+      var stateabbrev = stateCodes[parseInt(d.id)].state;
+      if (senateRaces[String(stateabbrev)]) {
+          var tempvar = senateRaces[String(stateabbrev)];
+          if (tempvar.d){
+            var new_color = code_map_variable(tempvar,d.properties);
+            return new_color;
+          } else {
+            var new_color = color_partial_results(tempvar,d.properties);
+            return new_color;
+          }
+      } else {
+        return lightest_gray;
+      }
+    })
+    .attr("d", path)
+    .on('mouseover', function(d,index) {
+      var stateabbrev = stateCodes[parseInt(d.id)].state;
+      var html_str = tooltip_function(stateabbrev,senateRaces,d.properties);
+      tooltip.html(html_str);
+      tooltip.style("visibility", "visible");
+    });
+  });
+
+  d3.json(congressRacesURL, function(congressRaces){
+    con_svg_element.selectAll('.states')
+    .style("fill", function(d, index){
+      var district = d.id;
+      if (congressRaces[String(district)]) {
+          var tempvar = congressRaces[String(district)];
+          if (tempvar.d) {
+            var new_color = code_map_variable(tempvar,d.properties);
+            return new_color;
+          } else {
+            var new_color = color_partial_results(tempvar,d.properties);
+            return new_color;
+          }
+      } else {
+        return lightest_gray;
+      }
+    })
+    .attr("d", path)
+    .on('mouseover', function(d,index) {
+      var html_str = tooltip_function(d.id,congressRaces,d.properties);
+      tooltip.html(html_str);
+      tooltip.style("visibility", "visible");
+    });
+  });  
+}
+
+
+// -----------------------------------------------------------------------------
+// UPDATES HOUSE VOTE COUNT
+// -----------------------------------------------------------------------------
+
+
+setInterval(function() {
+  updateHouseVoteCount();
+}, FederalDataTimer);
+
+function updateHouseVoteCount(){
+
+  d3.json(raceSummariesURL, function(raceSummaries){
+    // read in electoral votes
+    var houseDem = raceSummaries["housebalance"]["Dem"];
+    var houseRep = raceSummaries["housebalance"]["GOP"];
+    var houseOther = raceSummaries["housebalance"]["other"];
+    var houseDem_percent = houseDem/435*100;
+    var houseRep_percent = houseRep/435*100;
+    var houseOther_percent = houseOther/435*100;
+    var houseUncounted_percent = 100-houseDem_percent-houseRep_percent-houseOther;
+
+    document.getElementById("house-dem").innerHTML = " ("+houseDem+" seats)";
+    document.getElementById("house-rep").innerHTML = " ("+houseRep+" seats)";
+
+    // display electoral votes on bar
+    document.getElementById("uncounted-house").style.width = String(houseUncounted_percent)+"%";
+    document.getElementById("other-house").style.width = String(houseOther_percent)+"%";
+    document.getElementById("dem-house").style.width = String(houseDem_percent)+"%";
+    document.getElementById("rep-house").style.width = String(houseRep_percent)+"%";
+
+  });
+}
+
+// -----------------------------------------------------------------------------
+// UPDATES SENATE VOTE COUNT
+// -----------------------------------------------------------------------------
+
+setInterval(function() {
+  updateSenateVoteCount();
+}, FederalDataTimer);
+
+function updateSenateVoteCount(){
+  d3.json(raceSummariesURL, function(raceSummaries){
+    // read in electoral votes
+    var senateDem = raceSummaries["senatebalance"]["Dem"];
+    var senateRep = raceSummaries["senatebalance"]["GOP"];
+    var senateOther = raceSummaries["senatebalance"]["other"];
+    var senateDem_percent = senateDem;
+    var senateRep_percent = senateRep;
+    var senateOther_percent = senateOther;
+    var senateUncounted_percent = 100-senateDem_percent-senateRep_percent-senateOther_percent;
+
+    document.getElementById("senate-dem").innerHTML = " ("+senateDem+" seats)";
+    document.getElementById("senate-rep").innerHTML = " ("+senateRep+" seats)";
+
+    // display electoral votes on bar
+    document.getElementById("uncounted-senate").style.width = String(senateUncounted_percent)+"%";
+    document.getElementById("other-senate").style.width = String(senateOther_percent)+"%";
+    document.getElementById("dem-senate").style.width = String(senateDem_percent)+"%";
+    document.getElementById("rep-senate").style.width = String(senateRep_percent)+"%";
+  });
+}
+
+// -----------------------------------------------------------------------------
+// UPDATES GOVERNOR VOTE COUNT
+// -----------------------------------------------------------------------------
+setInterval(function() {
+  updateGovernorVoteCount();
+}, FederalDataTimer);
+
+function updateGovernorVoteCount(){
+
+  d3.json(raceSummariesURL, function(raceSummaries){
+    // read in electoral votes
+    var governorDem = raceSummaries["governorbalance"]["Dem"];
+    var governorRep = raceSummaries["governorbalance"]["GOP"];
+    var governorOther = raceSummaries["governorbalance"]["other"];
+    var governorDem_percent = governorDem/50*100;
+    var governorRep_percent = governorRep/50*100;
+    var governorOther_percent = governorOther/50*100;
+    var governorUncounted_percent = 100-governorDem_percent-governorRep_percent-governorOther_percent;
+
+    document.getElementById("governor-dem").innerHTML = " ("+governorDem+" seats)";
+    document.getElementById("governor-rep").innerHTML = " ("+governorRep+" seats)";
+
+    // display electoral votes on bar
+    document.getElementById("uncounted-governor").style.width = String(governorUncounted_percent)+"%";
+    document.getElementById("other-governor").style.width = String(governorOther_percent)+"%";
+    document.getElementById("dem-governor").style.width = String(governorDem_percent)+"%";
+    document.getElementById("rep-governor").style.width = String(governorRep_percent)+"%";
+  });
+}
+
+// -----------------------------------------------------------------------------
+// UPDATES LORETTA/KAMALA & MIKE/RO RACES 
+// -----------------------------------------------------------------------------
+
+// setInterval(function() {
+//   updateSenateCongressRace();
+// }, FederalDataTimer);
+
+// function updateSenateCongressRace(){
+
+//     d3.json(senateRacesURL, function(senateRaces){
+//       d3.json(congressRacesURL, function(congressRaces){
+//         // senate race
+//         var raceID = document.getElementById("senate");
+//         var senatevar = senateRaces["CA"];
+//         console.log(senatevar);
+
+//         populateRace(raceID,senatevar,24848);
+
+//         // house race
+//         var raceID = document.getElementById("congress");
+//         var congressvar = congressRaces["0617"];
+//         populateRace(raceID,congressvar,345);
+//       });
+//     });
+// }
+
+
+// -----------------------------------------------------------------------------
+// UPDATES  SF SUPERVISORS
+// -----------------------------------------------------------------------------
+  
+// setInterval(function() {
+//   updateSFSupes();
+// }, localDataTimer);
+
+// function updateSFSupes(){
+
+//   d3.json(localDataURL, function(localData){
+
+//     var sectionID = document.getElementById("sf-section");
+//     localData["San Francisco"]["Supervisors"].forEach(function(d,idx) {
+//       var name = d.name;
+//       var districtNum = name.substr(name.indexOf("District ") + 9);
+//       sectionID.insertAdjacentHTML("beforeend","<h4 class='race sup' id='district"+districtNum+"'>"+d.name+"</h4>")
+//       var supeID = document.getElementById("district"+districtNum);
+//       var racevar = d;
+//       populateRace(supeID,racevar,0);
+//     });
+//   });
+// }
+
+
+
+// -----------------------------------------------------------------------------
+// UPDATES SF PROPs
+// -----------------------------------------------------------------------------
+ 
+// setInterval(function() {
+//   updateSFProps();
+// }, localDataTimer);
+
+// function updateSFProps(){ 
+
+//   d3.json(localDataURL, function(localData){
+
+//     for (var propidx=0; propidx<24; propidx++) {
+//       var propID = document.getElementById("sfprop"+propidx);
+//       var propResult = localData["San Francisco"]["Measures"][propidx];
+//       var htmlresult = "";
+//       var total = +propResult["Yes"]+ +propResult["No"];
+//       if (total == 0) { total = 0.1;}
+//       if (propResult.d == "Yes") {
+//         var htmlresult = "<span class='propyes'><i class='fa fa-check-circle-o' aria-hidden='true'></i>Yes: "+Math.round(propResult["Yes"]/total*1000)/10+"%</span><span class='propno'>No: "+Math.round(propResult["No"]/total*1000)/10+"%</span>"
+//       } else if (propResult.d == "No") {
+//         var htmlresult = "<span class='propyes'>Yes: "+Math.round(propResult["Yes"]/total*1000)/10+"%</span><span class='propno'><i class='fa fa-times-circle-o' aria-hidden='true'></i>No: "+Math.round(propResult["No"]/total*1000)/10+"%</span>"
+//       } else {
+//         var htmlresult = "<span class='propyes'>Yes: "+Math.round(propResult["Yes"]/total*1000)/10+"%</span><span class='propno'>No: "+Math.round(propResult["No"]/total*1000)/10+"%</span>"
+//       }
+//       var htmlresult = htmlresult+ "<div class='prop-precincts'>"+formatthousands(propResult.p)+" / "+formatthousands(propResult.pt)+" precincts reporting</div>"
+//       propID.insertAdjacentHTML("beforebegin",htmlresult)
+//     }
+//   });
+// }
+
+
+// -----------------------------------------------------------------------------
+// UPDATES CA SENATE/ASSEMBLY/DISTRICT 9 RACES
+// -----------------------------------------------------------------------------
+    
+// setInterval(function() {
+//   updateStateKeyRaces();
+// }, StateTimer);
+
+// function updateStateKeyRaces(){
+
+//     d3.json(senateCAURL, function(senateCA){
+
+//       d3.json(assemblyCAURL, function(assemblyCA){
+
+//         // Wiener vs Kim race
+//         var raceID = document.getElementById("statesenate");
+//         var statesenatevar = senateCA["06011"];
+//         populateRace(raceID,statesenatevar,645);
+
+//         // Skinner vs Swanson race
+//         var raceID = document.getElementById("statedistrict9");
+//         var statesenatevar = senateCA["06009"];
+//         populateRace(raceID,statesenatevar,651);
+
+//         // Cook-Kallio vs Baker race
+//         var raceID = document.getElementById("stateassembly");
+//         var assemblyvar = assemblyCA["06016"];
+//         populateRace(raceID,assemblyvar,337);
+
+//       });
+//     });
+// }
+
+// -----------------------------------------------------------------------------
+// UPDATES STATE PROPs
+// -----------------------------------------------------------------------------
+
+// setInterval(function() {
+//   updateStateProps();
+// }, StateTimer);
+
+// function updateStateProps(){
+
+//   d3.json(propsCAURL, function(propsCA){
+//     for (var propidx=51; propidx<68; propidx++) {
+//       var propID = document.getElementById("prop"+propidx);
+//       var propResult = propsCA[propidx]["state"];
+//       var total = +propResult.r["Yes"]+ +propResult.r["No"];
+//       if (total == 0) { total = 0.1;}
+//       if (propResult.d == "Yes") {
+//         var htmlresult = "<span class='propyes'><i class='fa fa-check-circle-o' aria-hidden='true'></i>Yes: "+Math.round(propResult.r["Yes"]/total*1000)/10+"%</span><span class='propno'>No: "+Math.round(propResult.r["No"]/total*1000)/10+"%</span>"
+//       } else if (propResult.d == "No") {
+//         var htmlresult = "<span class='propyes'>Yes: "+Math.round(propResult.r["Yes"]/total*1000)/10+"%</span><span class='propno'><i class='fa fa-times-circle-o' aria-hidden='true'></i>No: "+Math.round(propResult.r["No"]/total*1000)/10+"%</span>"
+//       } else {
+//         var htmlresult = "<span class='propyes'>Yes: "+Math.round(propResult.r["Yes"]/total*1000)/10+"%</span><span class='propno'>No: "+Math.round(propResult.r["No"]/total*1000)/10+"%</span>"
+//       }
+//       var htmlresult = htmlresult+ "<div class='prop-precincts'>"+formatthousands(propResult.p)+" / 24,848 precincts reporting</div>"
+//       propID.insertAdjacentHTML("beforebegin",htmlresult)
+//     }
+//   });
+// }
+
+
+// -----------------------------------------------------------------------------
+// UPDATES REGIONAL PROPs
+// -----------------------------------------------------------------------------
+
+// setInterval(function() {
+//   updateRegionalProps();
+// }, regionalDataTimer);
+
+// function updateRegionalProps(){
+
+//   d3.json(localDataURL, function(localData){
+
+//     // NEED TO CHECK THIS!!!!
+//     console.log(localData);
+//     var propID_list = ["RR","X","B","T1","O1","HH"];
+//     var RRPropData = localData["Special Districts"]["Measures"][1];
+//     console.log("RR");
+//     console.log(RRPropData);
+//     var XPropData = localData["Contra Costa"]["Measures"][21];
+//     console.log("X");
+//     console.log(XPropData);
+//     var BPropData = localData["Santa Clara"]["Measures"][1];
+//     console.log("B");
+//     console.log(BPropData);
+//     var T1PropData = localData["Alameda"]["Measures"][17];
+//     console.log("T1");
+//     console.log(T1PropData);
+//     var O1PropData = localData["Alameda"]["Measures"][12];
+//     console.log("O1");
+//     console.log(O1PropData);
+//     var HHPropData = localData["Alameda"]["Measures"][27];
+//     console.log("HH");
+//     console.log(HHPropData);
+
+//     for (var ii=0; ii<6; ii++) {
+//       var propID = document.getElementById("regionalprop"+propID_list[ii]);
+//       var propResult = eval(String(propID_list[ii])+"PropData");
+//       var total = +propResult["Yes"]+ +propResult["No"];
+//       if (total == 0) { total = 0.1;}
+//       if (propResult.d == "Yes") {
+//         var htmlresult = "<span class='propyes small'><i class='fa fa-check-circle-o' aria-hidden='true'></i>Yes: "+Math.round(propResult["Yes"]/total*1000)/10+"%</span><span class='propno small'>No: "+Math.round(propResult["No"]/total*1000)/10+"%</span>"
+//       } else if (propResult.d == "No") {
+//         var htmlresult = "<span class='propyes small'>Yes: "+Math.round(propResult["Yes"]/total*1000)/10+"%</span><span class='propno small'><i class='fa fa-check-circle-o' aria-hidden='true'>No: "+Math.round(propResult["No"]/total*1000)/10+"%</i></span>"
+//       } else {
+//         var htmlresult = "<span class='propyes small'>Yes: "+Math.round(propResult["Yes"]/total*1000)/10+"%</span><span class='propno small'>No: "+Math.round(propResult["No"]/total*1000)/10+"%</span>"
+//       }
+//       var htmlresult = htmlresult+ "<div class='prop-precincts'>"+formatthousands(propResult.p)+" / "+formatthousands(propResult.pt)+" precincts reporting</div>"
+//       propID.insertAdjacentHTML("beforebegin",htmlresult)
+//     }
+//   });
+// }
+
+
+// -----------------------------------------------------------------------------
+// UPDATES CALIFORNIA PROPs
+// -----------------------------------------------------------------------------
+
+// setInterval(function() {
+//   updateCAProps();
+//   console.log('CA PropS!!')
+// }, StateTimer);
+//
+// function updateCAProps(){
+// =
+//   d3.json(propsCAURL, function(propsCA){
+//     var svgCACounties = d3.select("#map-container-state-props")
+//     .selectAll(".states")
+//     .style("fill", function(d) {
+//       var location = d.id;
+//       if (active_data[String(location)]) {
+//         var tempvar = active_data[String(location)];
+//         if (tempvar.r || tempvar.d) {
+//           var new_color = code_map_variable(tempvar,d.properties);
+//           return new_color;
+//         } else if (flag == 1) {
+//           var new_color = code_county(tempvar,d.properties);
+//           return new_color;
+//         } else {
+//           var new_color = color_partial_results(tempvar,d.properties);
+//           return new_color;
+//         }
+//       } else {
+//         return lightest_gray;
+//       }
+//     })
+//     .attr("d", path)
+//     .on('mouseover', function(d,index) {
+//       var html_str = tooltip_function(d.id,active_data,d.properties);
+//       state_tooltip.html(html_str);
+//       state_tooltip.style("visibility", "visible");
+//     });
+//   });
+// }
+
+// -----------------------------------------------------------------------------
+// UPDATES STATE MAPs 
+// -----------------------------------------------------------------------------
+
+// setInterval(function() {
+//   updateStateCAMaps();
+// }, StateTimer);
+
+// function updateStateCAMaps(){
+
+//   d3.json(houseCAURL, function(houseCA){
+
+//     d3.json(federalsenateCAURL, function(federalsenateCA){
+
+//       d3.json(senateCAURL, function(senateCA){
+
+//         d3.json(assemblyCAURL, function(assemblyCA){
+
+//           var svgCACounties = d3.select("#map-container-state");
+//           svgCACounties.selectAll(".states")
+//           .style("fill", function(d) {
+//             var location = d.id;
+//             if (d.id == 0) {
+//               return "#fff";
+//             } else if (active_data[String(location)]) {
+//               var tempvar = active_data[String(location)];
+//               if (tempvar.r || tempvar.d) {
+//                 var new_color = code_map_variable(tempvar,d.properties);
+//                 return new_color;
+//               } else if (flag == 1) {
+//                 var new_color = code_county(tempvar,d.properties);
+//                 return new_color;
+//               } else {
+//                 var new_color = color_partial_results(tempvar,d.properties);
+//                 return new_color;
+//               }
+//             } else {
+//               return lightest_gray;//fill(path.area(d));
+//             }
+//           })
+//           .attr("d", path)
+//           .on('mouseover', function(d,index) {
+//             if (d.id != 0) {
+//               var html_str = tooltip_function(d.id,active_data,d.properties);
+//               state_tooltip.html(html_str);
+//               state_tooltip.style("visibility", "visible");
+//             }
+//           });
+
+//         });
+//       });
+//     });
+//   });
+// }
+
+
