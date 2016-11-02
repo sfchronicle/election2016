@@ -947,8 +947,6 @@ d3.json(houseCAURL, function(houseCA){
             .attr("class","label-LA")
             .style("position", "absolute")
             .style("z-index", "5")
-            // .style("top","98%")
-            // .style("left","2%")
             .text("Los Angeles")
 
             var labelBA = d3.select("#map-container-state")
@@ -956,8 +954,6 @@ d3.json(houseCAURL, function(houseCA){
             .attr("class","label-SF")
             .style("position", "absolute")
             .style("z-index", "5")
-            // .style("top","45%")
-            // .style("left","2%")
             .text("Bay Area")
 
             // show tooltip
@@ -968,21 +964,12 @@ d3.json(houseCAURL, function(houseCA){
             .style("z-index", "10")
             .style("visibility", "hidden");
           };
-
-          // camap("./assets/maps/ca_assembly.json",assemblyCA,0);
           camap("../assets/maps/ca_house_insets.json",houseCA,0);
 
       });
     });
   });
 });
-
-// document.addEventListener("DOMContentLoaded", function() {
-  // console.log("GOT HERE!");
-  // var offsetHeight = document.getElementById('map-container-state').offsetHeight;
-  // document.getElementsByClassName('label-SF')[0].style["margin-top"] = offsetHeight/2+10+'px';
-  // console.log(offsetHeight/2+10);
-// });
 
 // -----------------------------------------------------------------------------
 // STATE MAP PROPOSITIONS ------------------------------------------------------
@@ -996,8 +983,6 @@ d3.json(propsCAURL, function(propsCA){
     this.classList.add("active");
     var active_data = propsCA[select_race.value];
     camap("../assets/maps/ca_county_new.json",active_data.counties);
-    d3.selectAll(".ca-legend").classed("active",false);
-    document.getElementById("ca-prop-legend").classList.add("active");
   });
 
   var path = d3.geo.path()
@@ -1011,8 +996,6 @@ d3.json(propsCAURL, function(propsCA){
       this.classList.add("active");
       var active_data = propsCA[51+index];
       camap("../assets/maps/ca_county_new.json",active_data.counties);
-      d3.selectAll(".ca-legend").classed("active",false);
-      document.getElementById("ca-prop-legend").classList.add("active");
     });
   });
 
