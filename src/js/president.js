@@ -245,9 +245,9 @@ document.querySelector('#presidentbycounty').addEventListener('click', function(
 ["presidentMap_States","presidentMap_Counties"].forEach(function(svg_element,ind){
 
   if (svg_element.split("_")[1] == "States") {
-    var map_file = "http://extras.sfgate.com/editorial/election2016/topojson/us_state_new.json";
+    var map_file = "../assets/maps/us_state_new.json";
   } else {
-    var map_file = "http://extras.sfgate.com/editorial/election2016/topojson/us_county_new.json";
+    var map_file = "../assets/maps/us_county_new.json";
   }
 
   svg_element = d3.select("#map-container-president")
@@ -338,7 +338,7 @@ document.querySelector('#presidentbycounty').addEventListener('click', function(
         .on("mousemove", function() {
           if (screen.width <= 480) {
             return tooltip
-              .style("top",(d3.event.pageY+40)+"px")//(d3.event.pageY+40)+"px")
+              .style("top",(d3.event.pageY+40)+"px")
               .style("left",10+"px");
           } else {
             return tooltip

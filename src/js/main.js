@@ -1204,7 +1204,7 @@ d3.json(localDataURL, function(localData){
       var htmlresult = "<span class='propyes'>Yes: "+Math.round(propResult["Yes"]/total*1000)/10+"%</span><span class='propno'>No: "+Math.round(propResult["No"]/total*1000)/10+"%</span>"
     }
     var htmlresult = htmlresult+ "<div class='prop-precincts'>"+formatthousands(propResult.p)+" / "+formatthousands(propResult.pt)+" precincts reporting</div>"
-    propID.insertAdjacentHTML("beforebegin",htmlresult)
+    propID.innerHTML = htmlresult;
   }
 });
 
@@ -1775,28 +1775,48 @@ function updateGovernorVoteCount(){
 // UPDATES LORETTA/KAMALA & MIKE/RO RACES 
 // -----------------------------------------------------------------------------
 
-// setInterval(function() {
-//   updateSenateCongressRace();
-// }, FederalDataTimer);
+setInterval(function() {
+  updateSenateCongressRace();
+}, FederalDataTimer);
 
-// function updateSenateCongressRace(){
+function updateSenateCongressRace(){
 
-//     d3.json(senateRacesURL, function(senateRaces){
-//       d3.json(congressRacesURL, function(congressRaces){
-//         // senate race
-//         var raceID = document.getElementById("senate");
-//         var senatevar = senateRaces["CA"];
-//         console.log(senatevar);
+    d3.json(senateRacesURL, function(senateRaces){
+      d3.json(congressRacesURL, function(congressRaces){
+        
+        // Senate race: 24848 total precincts 
+        var harris_votes = senateRaces["CA"]["c2"];
+        var sanchez_votes = senateRaces["CA"]["c1"];
+        var total_senatevotes = +sanchez_votes + +harris_votes;
+        var width = document.getElementById("federal").getBoundingClientRect().width;
+        // sanchez 
+        var sanchez_percent = Math.round(+sanchez_votes/total_senatevotes*100);
+        var sanchez_pixels = (width-text_len)*(sanchez_percent/100);
+        $("#lorettasanchez").width(sanchez_pixels);
+        $("#fsec").find(".bar-label:first").text(sanchez_percent+'%');
+        // harris 
+        var harris_percent = Math.round(+harris_votes/total_senatevotes*100);
+        var harris_pixels = (width-text_len)*(harris_percent/100);
+        $("#kamalaharris").width(harris_pixels);
+        $("#fsec").find(".bar-label:eq(1)").text(harris_percent+'%');
 
-//         populateRace(raceID,senatevar,24848);
-
-//         // house race
-//         var raceID = document.getElementById("congress");
-//         var congressvar = congressRaces["0617"];
-//         populateRace(raceID,congressvar,345);
-//       });
-//     });
-// }
+        // house race: 345 total precincts
+        var honda_votes = congressRaces["0617"]["c1"];
+        var khanna_votes = congressRaces["0617"]["c2"];
+        var total_housevotes = +khanna_votes + +honda_votes;
+        // honda
+        var honda_percent = Math.round(+honda_votes/total_housevotes*100);
+        var honda_pixels = (width-text_len)*(honda_percent/100);
+        $("#mikehonda").width(honda_pixels);
+        $("#fsec").find(".bar-label:eq(2)").text(honda_percent+'%');
+        // khana
+        var khanna_percent = Math.round(+khanna_votes/total_housevotes*100);
+        var khanna_pixels = (width-text_len)*(khanna_percent/100);
+        $("#rokhanna").width(khanna_pixels);
+        $("#fsec").find(".bar-label:eq(3)").text(khanna_percent+'%');
+      });
+    });
+}
 
 
 // -----------------------------------------------------------------------------
@@ -1829,32 +1849,32 @@ function updateGovernorVoteCount(){
 // UPDATES SF PROPs
 // -----------------------------------------------------------------------------
  
-// setInterval(function() {
-//   updateSFProps();
-// }, localDataTimer);
+setInterval(function() {
+  updateSFProps();
+}, propsCATimer);
 
-// function updateSFProps(){ 
+function updateSFProps(){ 
 
-//   d3.json(localDataURL, function(localData){
+  d3.json(localDataURL, function(localData){
 
-//     for (var propidx=0; propidx<24; propidx++) {
-//       var propID = document.getElementById("sfprop"+propidx);
-//       var propResult = localData["San Francisco"]["Measures"][propidx];
-//       var htmlresult = "";
-//       var total = +propResult["Yes"]+ +propResult["No"];
-//       if (total == 0) { total = 0.1;}
-//       if (propResult.d == "Yes") {
-//         var htmlresult = "<span class='propyes'><i class='fa fa-check-circle-o' aria-hidden='true'></i>Yes: "+Math.round(propResult["Yes"]/total*1000)/10+"%</span><span class='propno'>No: "+Math.round(propResult["No"]/total*1000)/10+"%</span>"
-//       } else if (propResult.d == "No") {
-//         var htmlresult = "<span class='propyes'>Yes: "+Math.round(propResult["Yes"]/total*1000)/10+"%</span><span class='propno'><i class='fa fa-times-circle-o' aria-hidden='true'></i>No: "+Math.round(propResult["No"]/total*1000)/10+"%</span>"
-//       } else {
-//         var htmlresult = "<span class='propyes'>Yes: "+Math.round(propResult["Yes"]/total*1000)/10+"%</span><span class='propno'>No: "+Math.round(propResult["No"]/total*1000)/10+"%</span>"
-//       }
-//       var htmlresult = htmlresult+ "<div class='prop-precincts'>"+formatthousands(propResult.p)+" / "+formatthousands(propResult.pt)+" precincts reporting</div>"
-//       propID.insertAdjacentHTML("beforebegin",htmlresult)
-//     }
-//   });
-// }
+    for (var propidx=0; propidx<24; propidx++) {
+      var propID = document.getElementById("sfprop"+propidx);
+      var propResult = localData["San Francisco"]["Measures"][propidx];
+      var htmlresult = "";
+      var total = +propResult["Yes"]+ +propResult["No"];
+      if (total == 0) { total = 0.1;}
+      if (propResult.d == "Yes") {
+        var htmlresult = "<span class='propyes'><i class='fa fa-check-circle-o' aria-hidden='true'></i>Yes: "+Math.round(propResult["Yes"]/total*1000)/10+"%</span><span class='propno'>No: "+Math.round(propResult["No"]/total*1000)/10+"%</span>"
+      } else if (propResult.d == "No") {
+        var htmlresult = "<span class='propyes'>Yes: "+Math.round(propResult["Yes"]/total*1000)/10+"%</span><span class='propno'><i class='fa fa-times-circle-o' aria-hidden='true'></i>No: "+Math.round(propResult["No"]/total*1000)/10+"%</span>"
+      } else {
+        var htmlresult = "<span class='propyes'>Yes: "+Math.round(propResult["Yes"]/total*1000)/10+"%</span><span class='propno'>No: "+Math.round(propResult["No"]/total*1000)/10+"%</span>"
+      }
+      var htmlresult = htmlresult+ "<div class='prop-precincts'>"+formatthousands(propResult.p)+" / "+formatthousands(propResult.pt)+" precincts reporting</div>"
+      propID.innerHTML = htmlresult;
+    }
+  });
+}
 
 
 // -----------------------------------------------------------------------------

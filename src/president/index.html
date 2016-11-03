@@ -13,34 +13,33 @@
   <body is="responsive-body">
 
     <div class="outer widget">
+      <hr class="hr-widget">
 
       <div class="title-img widget">
-
-          <div class="desk-logo">
-            <a href="http://www.sfchronicle.com" target="_blank">
-              <img src="http://projects.sfchronicle.com/shared/logos/sfcg_logo_color.png">
-            </a>
-          </div>
+          <a href="http://www.sfchronicle.com" target="_blank">
+            <div class="desk-logo widget">
+              <img src="http://projects.sfchronicle.com/shared/logos/sfcg_logo_color.png?">
+            </div>
+          </a>
 
         <img class="banner widget" src="../assets/election2016banner.png">
 
       </div>
 
-      <div class="deck widget">Live presidential election results
-      </div>
+      <div class="deck widget">Live Results</div>
 
-      <div class="icon left">
+      <div class="icon left widget">
         <img src="../assets/graphics/clinton.png">
       </div>
-      <div class="icon right">
+      <div class="icon right widget">
         <img src="../assets/graphics/trump.png">
       </div>
 
-      <h3 class="president-name left"><span id="electoralhillaryclinton">Hillary Clinton</span>
-        <div class="president-votes"><span id="total-pres-votes-dem">0</span> votes</div>
+      <h3 class="president-name left widget"><span id="electoralhillaryclinton">Hillary Clinton</span>
+        <div class="president-votes widget"><span id="total-pres-votes-dem">0</span> votes</div>
       </h3>
-      <h3 class="president-name right"><span id="electoraldonaldtrump">Donald Trump</span>
-        <div class="president-votes right"><span id="total-pres-votes-rep">0</span> votes</div>
+      <h3 class="president-name right widget"><span id="electoraldonaldtrump">Donald Trump</span>
+        <div class="president-votes right widget"><span id="total-pres-votes-rep">0</span> votes</div>
       </h3>
       <div class="president-bar">
         <div class="bar" id="hillaryclinton"></div>
@@ -57,8 +56,6 @@
         <div class="button race button-pres counties-pres" id="presidentbycounty">Results by county</div>
       </div>
 
-      <div id="map-container-president"></div>
-
       <div class="legend-container widget">
         <div class="element"><div class="dem-swath"><div class="legend-text">Hillary Clinton</div></div></div>
         <div class="element"><div class="rep-swath"><div class="legend-text">Donald Trump</div></div></div>
@@ -68,6 +65,13 @@
         <div class="element"><div class="uncalled-swath"><div class="legend-text">Uncalled race</div></div></div>
         <div class="element"><div class="noresults-swath"><div class="legend-text">No results</div></div></div>
       </div>
+      <div id="map-container-president"></div>
+
+      <footer class="footer-widget">
+        <div>
+          <p>Live results: <a href="http://sfchronicle.com/election">www.sfchronicle.com/election</a></p>
+        </div>
+      </footer>
 
     </div>
 
