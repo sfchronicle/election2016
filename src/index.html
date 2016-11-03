@@ -54,7 +54,7 @@
           <div id="p" class="sub-title"><a href="#president">President</a></div>
           <div id="f" class="sub-title"><a href="#federal">Nation</a></div>
           <div id="s" class="sub-title"><a href="#state">State</a></div>
-          <div id="l" class="sub-title"><a href="#local">S.F.</a></div>
+          <div id="l" class="sub-title"><a href="#local">SF</a></div>
           <div id="r" class="sub-title"><a href="#regional">Bay Area</a></div>
         </div>
       </div>
@@ -232,35 +232,6 @@
       <div class="hed padding">How California's counties voted</div>
       <div class="chatter">Hover over or click on the counties to see how Californians voted in each precinct for representatives.</div>
 
-      <h2 class="propositions padding" id="propctrl"><i class="fa fa-caret-down" id="caret" aria-hidden="true"></i>  Propositions:</h2>
-
-      <div class="key padding">Key:
-        <span class="symbol"><i class='fa fa-check-circle-o' aria-hidden='true'></i>Yes vote</span> |
-        <span class="symbol"><i class='fa fa-times-circle-o' aria-hidden='true'></i>No vote</span>
-      </div>
-
-      <div id="propsec">
-        <input type="text" placeholder="&#xf002;  Search by proposition number or title" id="propositions-search" style="font-family:AntennaExtraLight, FontAwesome">
-
-        <div class="propositions-list">
-          <% csv.StatePropositionsData.forEach(function(prop,idx){ %>
-
-            <div class='prop-group active prop<%=prop.number%> prop.<%=prop.number%> proposition<%=prop.number%> measure<%=prop.number%> <%=prop.number%> <%=prop.title.replace(/ /g,'').replace("-","")%>'>
-              <div class='prop-icon'>
-                <img src='./assets/graphics/stateprops/prop<%=prop.number%>.png'></img>
-                <div class='prop-name'>Prop. <%=prop.number%></div>
-              </div>
-              <div class='prop-name'><%=prop.title%></div>
-              <div class='result'><div id="prop<%=prop.number%>"></div></div>
-              <div class='prop-desc'><%=prop.description%></div>
-            </div>
-
-          <% }); %>
-        </div>
-      </div>
-
-      <div class="br"></div>
-
       <div class="legend-container ca-legend active" id="ca-race-legend">
         <div class="element"><div class="dem-swath"><div class="legend-text">Democratic winner</div></div></div>
         <div class="element"><div class="rep-swath"><div class="legend-text">Republican winner</div></div></div>
@@ -296,6 +267,8 @@
         </div>
 
         <input type="text" placeholder="&#xf002;  Search by proposition number or title" id="propositions-search" style="font-family:AntennaExtraLight, FontAwesome">
+
+        <div id="no-results-state">No results found. Try another search, for example "Prop. 51" or "56" or "tax".</div>
 
         <div class="propositions-list">
           <% csv.StatePropositionsData.forEach(function(prop,idx){ %>
@@ -362,7 +335,7 @@
         <span class="symbol"><i class='fa fa-times-circle-o' aria-hidden='true'></i>No vote</span>
       </div>
 
-        <input type="text" placeholder="&#xf002;  Search by S.F. measure letter or name" id="sf-propositions-search" style="font-family:AntennaExtraLight, FontAwesome">
+        <input type="text" placeholder="&#xf002;  Search by SF measure letter or name" id="sf-propositions-search" style="font-family:AntennaExtraLight, FontAwesome">
 
         <div class="sf-propositions-list">
           <% csv.SFPropositionsData.forEach(function(prop,idx){ %>

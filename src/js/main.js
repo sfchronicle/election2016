@@ -331,20 +331,24 @@ function regional_section(this_name,regionkey){
           caretID.classList.add('fa-caret-down');
         }
       });
-      localData[this_name][d2].forEach(function(d3,idx3){
-        var key = d3.name.toLowerCase().replace(/ /g,'').replace(".","").replace("'","");
-        if(d3["n"]) {
-          var h4_html = "<h4 class='race sup' id='key"+regionkey+racekey+key+"'>"+d3.name+" ("+d3["n"]+" seats)</h4>";
+      localData[this_name][d2].forEach(function(d4,idx3){
+        var key = d4.name.toLowerCase().replace(/ /g,'').replace(".","").replace("'","");
+        if(d4["n"]) {
+          var h4_html = "<h4 class='race sup' id='key"+regionkey+racekey+key+"'>"+d4.name+" ("+d4["n"]+" seats)</h4>";
         } else {
-          var h4_html = "<h4 class='race sup' id='key"+regionkey+racekey+key+"'>"+d3.name+"</h4>";
+          if(d4["desc"]){
+            var h4_html = "<h4 class='race sup' id='key"+regionkey+racekey+key+"'>"+d4.name+"<div class='race desc'>"+d4.desc+"</div></h4>";
+          } else {
+            var h4_html = "<h4 class='race sup' id='key"+regionkey+racekey+key+"'>"+d4.name+"</h4>";
+          }
         }
         raceID.insertAdjacentHTML("beforeend",h4_html)
         var finalID = document.getElementById("key"+regionkey+racekey+key);
         // need to do a different thing for measures here
         if (racekey == "measures") {
-          populateMeasure(finalID,d3);
+          populateMeasure(finalID,d4);
         } else {
-          populateRace(finalID,d3,0);
+          populateRace(finalID,d4,0);
         }
       });
     });
@@ -471,7 +475,7 @@ document.querySelector('#presidentbycounty').addEventListener('click', function(
           if (screen.width <= 480) {
             return tooltip
               .style("top",(d3.event.pageY+40)+"px")//(d3.event.pageY+40)+"px")
-              .style("left",10+"px");
+              .style("left",((d3.event.pageX)/2-40)+"px");
           } else {
             return tooltip
               .style("top", (d3.event.pageY+20)+"px")
@@ -1148,8 +1152,10 @@ input.addEventListener('input', function(){
     }
     if (class_match>0) {
       value.classList.add("active");
+      document.querySelector('#no-results-state').classList.remove("active");
     } else {
       value.classList.remove("active");
+      document.querySelector('#no-results-state').classList.add("active");
     }
     class_match = 0;
 
@@ -1189,6 +1195,8 @@ sfinput.addEventListener('input', function(){
 // filling in sf propositions results ---------------------------------------
 // -----------------------------------------------------------------------------
 d3.json(localDataURL, function(localData){
+
+  console.log(localData);
 
   for (var propidx=0; propidx<24; propidx++) {
     var propID = document.getElementById("sfprop"+propidx);
@@ -1537,7 +1545,7 @@ function updatePresidentialData(){
 
 
 // -----------------------------------------------------------------------------
-// UPDATES ELECTORAL COUNT 
+// UPDATES ELECTORAL COUNT
 // -----------------------------------------------------------------------------
 
 setInterval(function() {
@@ -1598,7 +1606,7 @@ function updateFederalData(){
   var sen_svg_element = d3.select('#senatemap_States-container');
   var con_svg_element = d3.select('#congressmap_States-container');
 
-    
+
   d3.json(governorRacesURL, function(governorRaces){
       gov_svg_element.selectAll('.states')
       .style("fill", function(d,index) {
@@ -1674,7 +1682,7 @@ function updateFederalData(){
       tooltip.html(html_str);
       tooltip.style("visibility", "visible");
     });
-  });  
+  });
 }
 
 
@@ -1772,7 +1780,7 @@ function updateGovernorVoteCount(){
 }
 
 // -----------------------------------------------------------------------------
-// UPDATES LORETTA/KAMALA & MIKE/RO RACES 
+// UPDATES LORETTA/KAMALA & MIKE/RO RACES
 // -----------------------------------------------------------------------------
 
 setInterval(function() {
@@ -1783,18 +1791,18 @@ function updateSenateCongressRace(){
 
     d3.json(senateRacesURL, function(senateRaces){
       d3.json(congressRacesURL, function(congressRaces){
-        
-        // Senate race: 24848 total precincts 
+
+        // Senate race: 24848 total precincts
         var harris_votes = senateRaces["CA"]["c2"];
         var sanchez_votes = senateRaces["CA"]["c1"];
         var total_senatevotes = +sanchez_votes + +harris_votes;
         var width = document.getElementById("federal").getBoundingClientRect().width;
-        // sanchez 
+        // sanchez
         var sanchez_percent = Math.round(+sanchez_votes/total_senatevotes*100);
         var sanchez_pixels = (width-text_len)*(sanchez_percent/100);
         $("#lorettasanchez").width(sanchez_pixels);
         $("#fsec").find(".bar-label:first").text(sanchez_percent+'%');
-        // harris 
+        // harris
         var harris_percent = Math.round(+harris_votes/total_senatevotes*100);
         var harris_pixels = (width-text_len)*(harris_percent/100);
         $("#kamalaharris").width(harris_pixels);
@@ -1822,7 +1830,7 @@ function updateSenateCongressRace(){
 // -----------------------------------------------------------------------------
 // UPDATES  SF SUPERVISORS
 // -----------------------------------------------------------------------------
-  
+
 // setInterval(function() {
 //   updateSFSupes();
 // }, localDataTimer);
@@ -1848,7 +1856,7 @@ function updateSenateCongressRace(){
 // -----------------------------------------------------------------------------
 // UPDATES SF PROPs
 // -----------------------------------------------------------------------------
- 
+
 setInterval(function() {
   updateSFProps();
 }, propsCATimer);
@@ -1880,7 +1888,7 @@ function updateSFProps(){
 // -----------------------------------------------------------------------------
 // UPDATES CA SENATE/ASSEMBLY/DISTRICT 9 RACES
 // -----------------------------------------------------------------------------
-    
+
 // setInterval(function() {
 //   updateStateKeyRaces();
 // }, StateTimer);
@@ -2035,7 +2043,7 @@ function updateSFProps(){
 // }
 
 // -----------------------------------------------------------------------------
-// UPDATES STATE MAPs 
+// UPDATES STATE MAPs
 // -----------------------------------------------------------------------------
 
 // setInterval(function() {
@@ -2088,5 +2096,3 @@ function updateSFProps(){
 //     });
 //   });
 // }
-
-
