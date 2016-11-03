@@ -1074,14 +1074,13 @@ header {
   .display-flex;
   .flex-wrap(wrap);
   .sf-prop-group,.prop-group {
-    margin: 0.5%;
+    margin: 5px 0.5%;
     padding: 10px;
     background: lighten(@light-gray,10%);
     border-radius: 5px;
     display: none;
     &.active {
       display:block;
-      // width: 100%;
       .flex(0 0 32%);
       @media @mobile {
         margin: 5px auto;
@@ -1095,14 +1094,11 @@ header {
     }
   }
   .reg-prop-group {
-    // margin: 0.5%;
     padding: 10px;
     margin-bottom: 20px;
     background: lighten(@light-gray,10%);
     border-radius: 5px;
     display:block;
-    // border: 2px @light-gray solid;
-    // width: 100%;
     .flex(0 0 32.5%);
     margin: 0.25%;
     &.long {
