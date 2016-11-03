@@ -1137,6 +1137,7 @@ var input = document.querySelector('#propositions-search');
 input.addEventListener('input', function(){
 
   var class_match = 0;
+  var is_result = 0;
   var filter = input.value.toLowerCase().replace(/ /g,'').replace("'","").replace("-","");
 
   Array.prototype.filter.call(document.querySelectorAll(".prop-group"), function(value,index,array){
@@ -1152,14 +1153,20 @@ input.addEventListener('input', function(){
     }
     if (class_match>0) {
       value.classList.add("active");
-      document.querySelector('#no-results-state').classList.remove("active");
+      is_result++;
     } else {
       value.classList.remove("active");
-      document.querySelector('#no-results-state').classList.add("active");
     }
     class_match = 0;
 
   });
+
+  if (is_result == 0) {
+    document.querySelector('#no-results-state').classList.add("active");
+  } else {
+    document.querySelector('#no-results-state').classList.remove("active");
+  }
+
 });
 
 // -----------------------------------------------------------------------------
@@ -1169,7 +1176,10 @@ input.addEventListener('input', function(){
 // sf propositions search bar
 var sfinput = document.querySelector('#sf-propositions-search');
 sfinput.addEventListener('input', function(){
+
   var class_match = 0;
+  var is_result = 0
+
   var filter = sfinput.value.toLowerCase().replace(/ /g,'').replace("'","").replace("-","");
   Array.prototype.filter.call(document.querySelectorAll(".sf-prop-group"), function(value,index,array){
     var classes = value.className.split(" ");
@@ -1184,11 +1194,19 @@ sfinput.addEventListener('input', function(){
     }
     if (class_match>0) {
       value.classList.add("active");
+      is_result++;
     } else {
       value.classList.remove("active");
     }
     class_match = 0;
   });
+
+  if (is_result == 0) {
+    document.querySelector('#no-results-sf').classList.add("active");
+  } else {
+    document.querySelector('#no-results-sf').classList.remove("active");
+  }
+
 });
 
 // -----------------------------------------------------------------------------
@@ -1861,7 +1879,7 @@ setInterval(function() {
   updateSFProps();
 }, propsCATimer);
 
-function updateSFProps(){ 
+function updateSFProps(){
 
   d3.json(localDataURL, function(localData){
 
