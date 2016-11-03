@@ -1287,7 +1287,7 @@ header {
 
 .flex-container {
   .display-flex();
-  @media @mobile {
+  @media @phone-horiz {
     clear: both;
     display: block;
   }
@@ -1380,14 +1380,15 @@ header {
 
 #map-container-state-props {
   .flex(0 0 45%);
+  @media @phone-horiz {
+    max-width: 300px;
+    margin: auto;
+    margin-bottom: 17%;
+  }
   @media @mobile {
     margin-bottom: 30%;
   }
 }
-// .section-container {
-//   background: @light-blue-map;
-//   color: white;
-// }
 
 .section-container {
   margin: 25px 0 !important;
