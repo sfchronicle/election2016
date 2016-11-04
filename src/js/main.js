@@ -742,15 +742,15 @@ d3.json(raceSummariesURL, function(raceSummaries){
 
   if (raceSummaries["electoralcount"]["d"]){
     if (raceSummaries["electoralcount"]["d"] == "Dem") {
-      document.getElementById("electoralhillaryclinton").innerHTML = "Hillary Clinton ("+clinton_electoralvotes+") <i class='fa fa-check-circle-o' aria-hidden='true'></i>";
-      document.getElementById("electoraldonaldtrump").innerHTML = "Donald Trump ("+trump_electoralvotes+")";
+      document.getElementById("electoralhillaryclinton").innerHTML = "<div class='evotes' id='electoralhillaryclintonevotes'>"+clinton_electoralvotes+"<span class='evotes-text'> electoral votes</span></div>Hillary Clinton <i class='fa fa-check-circle-o' aria-hidden='true'>";
+      document.getElementById("electoraldonaldtrump").innerHTML = "<div class='evotes' id='electoraldonaldtrumpevotes'>"+trump_electoralvotes+"<span class='evotes-text'> electoral votes</span></div>Donald Trump";
     } else {
-      document.getElementById("electoralhillaryclinton").innerHTML = "Hillary Clinton ("+clinton_electoralvotes+")";
-      document.getElementById("electoraldonaldtrump").innerHTML = "<i class='fa fa-check-circle-o' aria-hidden='true'></i>  Donald Trump ("+trump_electoralvotes+")";
+      document.getElementById("electoralhillaryclinton").innerHTML = "<div class='evotes' id='electoralhillaryclintonevotes'>"+clinton_electoralvotes+"<span class='evotes-text'> electoral votes</span></div>Hillary Clinton";
+      document.getElementById("electoraldonaldtrump").innerHTML = "<div class='evotes' id='electoraldonaldtrumpevotes'>"+trump_electoralvotes+"<span class='evotes-text'> electoral votes</span></div><i class='fa fa-check-circle-o' aria-hidden='true'> Donald Trump";
     }
   } else {
-    document.getElementById("electoralhillaryclinton").innerHTML = "Hillary Clinton ("+clinton_electoralvotes+")";
-    document.getElementById("electoraldonaldtrump").innerHTML = "Donald Trump ("+trump_electoralvotes+")";
+    document.getElementById("electoralhillaryclinton").innerHTML = "<div class='evotes' id='electoralhillaryclintonevotes'>"+clinton_electoralvotes+"<span class='evotes-text'> electoral votes</span></div>Hillary Clinton";
+    document.getElementById("electoraldonaldtrump").innerHTML = "<div class='evotes' id='electoraldonaldtrumpevotes'>"+trump_electoralvotes+"<span class='evotes-text'> electoral votes</span></div>Donald Trump";
   }
   document.getElementById("total-pres-votes-dem").innerHTML = formatthousands(raceSummaries["presvote"]["Dem"]);
   document.getElementById("total-pres-votes-rep").innerHTML = formatthousands(raceSummaries["presvote"]["GOP"]);
