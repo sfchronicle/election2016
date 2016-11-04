@@ -995,26 +995,26 @@ d3.json(houseCAURL, function(houseCA){
 
             // add layer with labels
             var labelLA = d3.select("#map-container-state")
-            .append("div")
-            .attr("class","label-LA")
-            .style("position", "absolute")
-            .style("z-index", "5")
-            .text("Los Angeles")
+              .append("div")
+              .attr("class","label-LA")
+              .style("position", "absolute")
+              .style("z-index", "5")
+              .text("Los Angeles")
 
             var labelBA = d3.select("#map-container-state")
-            .append("div")
-            .attr("class","label-SF")
-            .style("position", "absolute")
-            .style("z-index", "5")
-            .text("Bay Area")
+              .append("div")
+              .attr("class","label-SF")
+              .style("position", "absolute")
+              .style("z-index", "5")
+              .text("Bay Area")
 
             // show tooltip
             var state_tooltip = d3.select("#map-container-state")
-            .append("div")
-            .attr("class","tooltip")
-            .style("position", "absolute")
-            .style("z-index", "10")
-            .style("visibility", "hidden");
+              .append("div")
+              .attr("class","tooltip")
+              .style("position", "absolute")
+              .style("z-index", "10")
+              .style("visibility", "hidden");
 
           };
 
