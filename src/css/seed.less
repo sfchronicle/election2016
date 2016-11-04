@@ -79,6 +79,9 @@ h1 {
 
 .padding{
   padding:0 15px;
+  @media @mobile {
+    padding: 0 10px;
+  }
 }
 
 .section-hed {
@@ -1371,15 +1374,21 @@ header {
 .label-SF, .label-LA {
   font-family: @med-graphics;
   font-size: 20px;
+  @media @phone-horiz {
+    font-size: 15px;
+  }
   @media @mobile {
-    font-size: 11px;
+    font-size: 10px;
   }
 }
 
 .label-SF {
   margin-top: -300px;
+  @media @phone-horiz {
+    margin-top: -200px;
+  }
   @media @mobile {
-    margin-top: -130px;
+    margin-top: -125px;
   }
 }
 .label-LA {

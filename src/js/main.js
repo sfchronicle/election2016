@@ -1015,7 +1015,9 @@ d3.json(houseCAURL, function(houseCA){
             .style("position", "absolute")
             .style("z-index", "10")
             .style("visibility", "hidden");
+
           };
+
           camap("./assets/maps/ca_house_insets.json",houseCA,0);
 
       });

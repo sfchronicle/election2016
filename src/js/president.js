@@ -338,12 +338,16 @@ document.querySelector('#presidentbycounty').addEventListener('click', function(
         .on("mousemove", function() {
           if (screen.width <= 480) {
             return tooltip
-              .style("top",(d3.event.pageY+40)+"px")
-              .style("left",10+"px");
+              .style("top",((d3.event.pageY)/3+10)+"px")//(d3.event.pageY+40)+"px")
+              .style("left",((d3.event.pageX)/3+10)+"px");
+          } else if (screen.width <= 670) {
+            return tooltip
+              .style("top",((d3.event.pageY)/2+200)+"px")//(d3.event.pageY+40)+"px")
+              .style("left",((d3.event.pageX)/2+200)+"px");
           } else {
             return tooltip
-              .style("top", (d3.event.pageY+20)+"px")
-              .style("left",(d3.event.pageX-80)+"px");
+            .style("top",((d3.event.pageY)/2+200)+"px")//(d3.event.pageY+40)+"px")
+            .style("left",((d3.event.pageX)/2+200)+"px");
           }
         })
         .on("mouseout", function(){return tooltip.style("visibility", "hidden");
@@ -442,7 +446,7 @@ function updatePresidentialData(){
 
 
 // -----------------------------------------------------------------------------
-// UPDATES ELECTORAL COUNT 
+// UPDATES ELECTORAL COUNT
 // -----------------------------------------------------------------------------
 
 setInterval(function() {
