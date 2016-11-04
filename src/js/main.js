@@ -655,7 +655,7 @@ d3.json(governorRacesURL, function(governorRaces){
                       var new_color = code_map_variable(tempvar,d.properties);
                       return new_color;
                     } else {
-                      var new_color = color_partial_results(tempvar,d.properties,"hashblueFed","hashblueFed");
+                      var new_color = color_partial_results(tempvar,d.properties,"hashblueFed","hashredFed");
                       return new_color;
                     }
                 } else {
