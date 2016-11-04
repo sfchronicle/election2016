@@ -41,7 +41,7 @@ var d = new Date(),
     hours = d.getHours().toString().length == 1 ? +d.getHours() : d.getHours(),
     ampm = d.getHours() >= 12 ? 'pm' : 'am',
     months = ['Jan.','Feb.','Mar.','Apr.','May','June','July','Aug.','Sept.','Oct.','Nov.','Dec.'];
-    
+
 var published = months[d.getMonth()]+' '+d.getDate()+', '+d.getFullYear()+' '+hours+':'+minutes+ampm;
 
 document.getElementById(divID).innerHTML = published;
@@ -454,8 +454,12 @@ d3.json("../assets/maps/us_state_new.json", function(error, us) {
     .on("mousemove", function() {
       if (screen.width <= 480) {
         return tooltip
-          .style("top",(d3.event.pageY+40)+"px")//(d3.event.pageY+40)+"px")
-          .style("left",((d3.event.pageX)/2-40)+"px");
+          .style("top",(d3.event.pageY+10)+"px")//(d3.event.pageY+40)+"px")
+          .style("left",((d3.event.pageX)/3+10)+"px");
+      } else if (screen.width <= 670) {
+        return tooltip
+          .style("top",(d3.event.pageY+10)+"px")//(d3.event.pageY+40)+"px")
+          .style("left",((d3.event.pageX)/2+50)+"px");
       } else {
         return tooltip
           .style("top", (d3.event.pageY+20)+"px")
@@ -518,8 +522,12 @@ if (screen.width > 670) {
         .on("mousemove", function() {
           if (screen.width <= 480) {
             return tooltip
-              .style("top",(d3.event.pageY+40)+"px")//(d3.event.pageY+40)+"px")
-              .style("left",((d3.event.pageX)/2-40)+"px");
+              .style("top",(d3.event.pageY+10)+"px")//(d3.event.pageY+40)+"px")
+              .style("left",((d3.event.pageX)/3+10)+"px");
+          } else if (screen.width <= 670) {
+            return tooltip
+              .style("top",(d3.event.pageY+10)+"px")//(d3.event.pageY+40)+"px")
+              .style("left",((d3.event.pageX)/2+50)+"px");
           } else {
             return tooltip
               .style("top", (d3.event.pageY+20)+"px")
@@ -683,8 +691,12 @@ d3.json(governorRacesURL, function(governorRaces){
             .on("mousemove", function() {
               if (screen.width <= 480) {
                 return tooltip
-                  .style("top",(d3.event.pageY+40)+"px")//(d3.event.pageY+40)+"px")
-                  .style("left",10+"px");
+                  .style("top",(d3.event.pageY+10)+"px")//(d3.event.pageY+40)+"px")
+                  .style("left",((d3.event.pageX)/3+10)+"px");
+              } else if (screen.width <= 670) {
+                return tooltip
+                  .style("top",(d3.event.pageY+10)+"px")//(d3.event.pageY+40)+"px")
+                  .style("left",((d3.event.pageX)/2+50)+"px");
               } else {
                 return tooltip
                   .style("top", (d3.event.pageY+20)+"px")
@@ -963,11 +975,15 @@ d3.json(houseCAURL, function(houseCA){
               .on("mousemove", function() {
                 if (screen.width <= 480) {
                   return state_tooltip
-                    .style("top",(d3.event.pageY/3+10)+"px")//(d3.event.pageY+40)+"px")
-                    .style("left",50+"px");
+                    .style("top",(d3.event.pageY+10)+"px")//(d3.event.pageY+40)+"px")
+                    .style("left",((d3.event.pageX)/3+10)+"px");
+                } else if (screen.width <= 670) {
+                  return state_tooltip
+                    .style("top",(d3.event.pageY+10)+"px")//(d3.event.pageY+40)+"px")
+                    .style("left",((d3.event.pageX)/2+50)+"px");
                 } else {
                   return state_tooltip
-                    .style("top", (d3.event.pageY+10)+"px")
+                    .style("top", (d3.event.pageY+20)+"px")
                     .style("left",(d3.event.pageX-80)+"px");
                 }
               })
@@ -1086,27 +1102,31 @@ d3.json(propsCAURL, function(propsCA){
       .attr("d", path)
       .on('mouseover', function(d,index) {
         var html_str = tooltip_function(d.id,active_data,d.properties);
-        state_tooltip.html(html_str);
-        state_tooltip.style("visibility", "visible");
+        prop_tooltip.html(html_str);
+        prop_tooltip.style("visibility", "visible");
       })
       .on("mousemove", function() {
         if (screen.width <= 480) {
-          return state_tooltip
+          return prop_tooltip
             .style("top",(d3.event.pageY+10)+"px")//(d3.event.pageY+40)+"px")
-            .style("left",50+"px");
+            .style("left",((d3.event.pageX)/3+10)+"px");
+        } else if (screen.width <= 670) {
+          return prop_tooltip
+            .style("top",(d3.event.pageY+10)+"px")//(d3.event.pageY+40)+"px")
+            .style("left",((d3.event.pageX)/2+50)+"px");
         } else {
-          return state_tooltip
-            .style("top", (d3.event.pageY+10)+"px")
+          return prop_tooltip
+            .style("top", (d3.event.pageY+20)+"px")
             .style("left",(d3.event.pageX-80)+"px");
         }
       })
       .on("mouseout", function(){
-        return state_tooltip.style("visibility", "hidden");
+        return prop_tooltip.style("visibility", "hidden");
       });
     });
 
     // show tooltip
-    var state_tooltip = d3.select("#map-container-state")
+    var prop_tooltip = d3.select("#map-container-state-props")
     .append("div")
     .attr("class","tooltip")
     .style("position", "absolute")
