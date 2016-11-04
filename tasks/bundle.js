@@ -18,6 +18,18 @@ module.exports = function(grunt) {
     var seeds = {
       "./src/js/main.js": "build/main_app.js",
       "./src/js/president.js": "build/president_app.js"
+      "./src/js/senate.js": "build/senate_app.js",
+      "./src/js/house.js": "build/house_app.js",
+      "./src/js/statesenate.js": "build/statesenate_app.js",
+      "./src/js/stateassembly.js": "build/stateassembly_app.js",
+      "./src/js/sfsupes.js": "build/sfsupes_app.js",
+      "./src/js/sfmeasures.js": "build/sfmeasures_app.js",
+      "./src/js/caprop55.js": "build/caprop55_app.js",
+      "./src/js/caprop56.js": "build/caprop56_app.js",
+      "./src/js/caprop62.js": "build/caprop62_app.js",
+      "./src/js/caprop63.js": "build/caprop63_app.js",
+      "./src/js/caprop64.js": "build/caprop64_app.js",
+      "./src/js/measureRR.js": "build/measureRR_app.js"
     };
 
     async.forEachOf(seeds, function(dest, src, c) {
