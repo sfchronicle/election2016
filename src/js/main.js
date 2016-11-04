@@ -107,7 +107,8 @@ function populateRace(raceID,racevar,p) {
     }
     count ++;
   }
-  raceID.insertAdjacentHTML("afterend",html);
+  var closeDiv = html + "</div>";
+  raceID.innerHTML = closeDiv;
   count = 1;
   while (racevar["c"+count]) {
     var namekey = racevar["c"+count+"_name"].toLowerCase().replace(/ /g,'').replace(".","").replace("'","");
@@ -1266,13 +1267,12 @@ d3.json(localDataURL, function(localData){
   localData["San Francisco"]["Supervisors"].forEach(function(d,idx) {
     var name = d.name;
     var districtNum = name.substr(name.indexOf("District ") + 9);
-    sectionID.insertAdjacentHTML("beforeend","<h4 class='race sup' id='district"+districtNum+"'>"+d.name+"</h4>")
+    sectionID.insertAdjacentHTML("beforeend","<h4 class='race sup'>"+d.name+"</h4><div id='district"+districtNum+"'>")
     var supeID = document.getElementById("district"+districtNum);
     var racevar = d;
     populateRace(supeID,racevar,0);
   });
 });
-
 // -----------------------------------------------------------------------------
 // populating regional results
 // -----------------------------------------------------------------------------
@@ -1591,13 +1591,11 @@ function updatePresidentialData(){
 
 setInterval(function() {
   updateElectoralCount();
-}, 100000);
+}, presDataTimer);
 
 function updateElectoralCount(){
 
   d3.json(raceSummariesURL, function(raceSummaries){
-
-    console.log('updated electoralcount!');
 
     // read in electoral votes
     var clinton_electoralvotes = raceSummaries["electoralcount"]["Dem"];
@@ -1637,94 +1635,94 @@ function updateElectoralCount(){
 // -----------------------------------------------------------------------------
 // UPDATES GOVERNOR, SENATOR & CONGRESS MAP
 // -----------------------------------------------------------------------------
-setInterval(function() {
-  updateFederalData();
-}, FederalDataTimer);
+// setInterval(function() {
+//   updateFederalData();
+// }, FederalDataTimer);
 
-function updateFederalData(){
+// function updateFederalData(){
 
-  var gov_svg_element = d3.select('#governormap_States-container');
-  var sen_svg_element = d3.select('#senatemap_States-container');
-  var con_svg_element = d3.select('#congressmap_States-container');
+//   var gov_svg_element = d3.select('#governormap_States-container');
+//   var sen_svg_element = d3.select('#senatemap_States-container');
+//   var con_svg_element = d3.select('#congressmap_States-container');
 
 
-  d3.json(governorRacesURL, function(governorRaces){
-      gov_svg_element.selectAll('.states')
-      .style("fill", function(d,index) {
-        var stateabbrev = stateCodes[parseInt(d.id)].state;
-        if (governorRaces[String(stateabbrev)]) {
-          var tempvar = governorRaces[String(stateabbrev)];
-          if (tempvar.d){
-            var new_color = code_map_variable(tempvar,d.properties);
-            return new_color;
-          } else {
-            var new_color = color_partial_results(tempvar,d.properties);
-            return new_color;
-          }
-        } else {
-          return lightest_gray;
-      }
-    })
-    .attr("d", path)
-    .on('mouseover', function(d,index) {
-      var stateabbrev = stateCodes[parseInt(d.id)].state;
-      var html_str = tooltip_function(stateabbrev,governorRaces,d.properties);
-      tooltip.html(html_str);
-      tooltip.style("visibility", "visible");
-    });
-  });
+//   d3.json(governorRacesURL, function(governorRaces){
+//       gov_svg_element.selectAll('.states')
+//       .style("fill", function(d,index) {
+//         var stateabbrev = stateCodes[parseInt(d.id)].state;
+//         if (governorRaces[String(stateabbrev)]) {
+//           var tempvar = governorRaces[String(stateabbrev)];
+//           if (tempvar.d){
+//             var new_color = code_map_variable(tempvar,d.properties);
+//             return new_color;
+//           } else {
+//             var new_color = color_partial_results(tempvar,d.properties);
+//             return new_color;
+//           }
+//         } else {
+//           return lightest_gray;
+//       }
+//     })
+//     .attr("d", path)
+//     .on('mouseover', function(d,index) {
+//       var stateabbrev = stateCodes[parseInt(d.id)].state;
+//       var html_str = tooltip_function(stateabbrev,governorRaces,d.properties);
+//       tooltip.html(html_str);
+//       tooltip.style("visibility", "visible");
+//     });
+//   });
 
-  d3.json(senateRacesURL, function(senateRaces){
-    sen_svg_element.selectAll('.states')
-    .style("fill", function(d,index) {
-      var stateabbrev = stateCodes[parseInt(d.id)].state;
-      if (senateRaces[String(stateabbrev)]) {
-          var tempvar = senateRaces[String(stateabbrev)];
-          if (tempvar.d){
-            var new_color = code_map_variable(tempvar,d.properties);
-            return new_color;
-          } else {
-            var new_color = color_partial_results(tempvar,d.properties);
-            return new_color;
-          }
-      } else {
-        return lightest_gray;
-      }
-    })
-    .attr("d", path)
-    .on('mouseover', function(d,index) {
-      var stateabbrev = stateCodes[parseInt(d.id)].state;
-      var html_str = tooltip_function(stateabbrev,senateRaces,d.properties);
-      tooltip.html(html_str);
-      tooltip.style("visibility", "visible");
-    });
-  });
+//   d3.json(senateRacesURL, function(senateRaces){
+//     sen_svg_element.selectAll('.states')
+//     .style("fill", function(d,index) {
+//       var stateabbrev = stateCodes[parseInt(d.id)].state;
+//       if (senateRaces[String(stateabbrev)]) {
+//           var tempvar = senateRaces[String(stateabbrev)];
+//           if (tempvar.d){
+//             var new_color = code_map_variable(tempvar,d.properties);
+//             return new_color;
+//           } else {
+//             var new_color = color_partial_results(tempvar,d.properties);
+//             return new_color;
+//           }
+//       } else {
+//         return lightest_gray;
+//       }
+//     })
+//     .attr("d", path)
+//     .on('mouseover', function(d,index) {
+//       var stateabbrev = stateCodes[parseInt(d.id)].state;
+//       var html_str = tooltip_function(stateabbrev,senateRaces,d.properties);
+//       tooltip.html(html_str);
+//       tooltip.style("visibility", "visible");
+//     });
+//   });
 
-  d3.json(congressRacesURL, function(congressRaces){
-    con_svg_element.selectAll('.states')
-    .style("fill", function(d, index){
-      var district = d.id;
-      if (congressRaces[String(district)]) {
-          var tempvar = congressRaces[String(district)];
-          if (tempvar.d) {
-            var new_color = code_map_variable(tempvar,d.properties);
-            return new_color;
-          } else {
-            var new_color = color_partial_results(tempvar,d.properties);
-            return new_color;
-          }
-      } else {
-        return lightest_gray;
-      }
-    })
-    .attr("d", path)
-    .on('mouseover', function(d,index) {
-      var html_str = tooltip_function(d.id,congressRaces,d.properties);
-      tooltip.html(html_str);
-      tooltip.style("visibility", "visible");
-    });
-  });
-}
+//   d3.json(congressRacesURL, function(congressRaces){
+//     con_svg_element.selectAll('.states')
+//     .style("fill", function(d, index){
+//       var district = d.id;
+//       if (congressRaces[String(district)]) {
+//           var tempvar = congressRaces[String(district)];
+//           if (tempvar.d) {
+//             var new_color = code_map_variable(tempvar,d.properties);
+//             return new_color;
+//           } else {
+//             var new_color = color_partial_results(tempvar,d.properties);
+//             return new_color;
+//           }
+//       } else {
+//         return lightest_gray;
+//       }
+//     })
+//     .attr("d", path)
+//     .on('mouseover', function(d,index) {
+//       var html_str = tooltip_function(d.id,congressRaces,d.properties);
+//       tooltip.html(html_str);
+//       tooltip.style("visibility", "visible");
+//     });
+//   });
+// }
 
 
 // -----------------------------------------------------------------------------
@@ -1872,25 +1870,24 @@ function updateSenateCongressRace(){
 // UPDATES  SF SUPERVISORS
 // -----------------------------------------------------------------------------
 
-// setInterval(function() {
-//   updateSFSupes();
-// }, localDataTimer);
+setInterval(function() {
+  updateSFSupes();
+}, localDataTimer);
 
-// function updateSFSupes(){
+function updateSFSupes(){
 
-//   d3.json(localDataURL, function(localData){
+  d3.json(localDataURL, function(localData){
 
-//     var sectionID = document.getElementById("sf-section");
-//     localData["San Francisco"]["Supervisors"].forEach(function(d,idx) {
-//       var name = d.name;
-//       var districtNum = name.substr(name.indexOf("District ") + 9);
-//       sectionID.insertAdjacentHTML("beforeend","<h4 class='race sup' id='district"+districtNum+"'>"+d.name+"</h4>")
-//       var supeID = document.getElementById("district"+districtNum);
-//       var racevar = d;
-//       populateRace(supeID,racevar,0);
-//     });
-//   });
-// }
+    var sectionID = document.getElementById("sf-section");
+    localData["San Francisco"]["Supervisors"].forEach(function(d,idx) {
+      var name = d.name;
+      var districtNum = name.substr(name.indexOf("District ") + 9);
+      var supeID = document.getElementById("district"+districtNum);
+      var racevar = d;
+      populateRace(supeID,racevar,0);
+    });
+  });
+}
 
 
 
