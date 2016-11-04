@@ -34,6 +34,19 @@ var localDataURL = "http://extras.sfgate.com/editorial/election2016/live/emma_lo
 // helpful functions:
 var formatthousands = d3.format("0,000");
 
+// timestamp
+function lastUpdated(divID){
+var d = new Date(),
+    minutes = d.getMinutes().toString().length == 1 ? '0'+d.getMinutes() : d.getMinutes(),
+    hours = d.getHours().toString().length == 1 ? +d.getHours() : d.getHours(),
+    ampm = d.getHours() >= 12 ? 'pm' : 'am',
+    months = ['Jan.','Feb.','Mar.','Apr.','May','June','July','Aug.','Sept.','Oct.','Nov.','Dec.'];
+    
+var published = months[d.getMonth()]+' '+d.getDate()+', '+d.getFullYear()+' '+hours+':'+minutes+ampm;
+
+document.getElementById(divID).innerHTML = published;
+}
+
 // function for shading colors
 function shadeColor2(color, percent) {
     var f=parseInt(color.slice(1),16),t=percent<0?0:255,p=percent<0?percent*-1:percent,R=f>>16,G=f>>8&0x00FF,B=f&0x0000FF;
