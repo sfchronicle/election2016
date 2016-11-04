@@ -1531,7 +1531,7 @@ $(document).on('click', 'a[href^="#"]', function(e) {
 // TIMERS FOR GETTING DATA
 // -----------------------------------------------------------------------------
 var one = 60000, // 60000 = one minute
-    presDataTimer =  one * 2, //one minute
+    presDataTimer =  one * 2, // two minutes
     raceSummariesTimer = one * 2,
     FederalDataTimer = one * 2,
     houseCATimer = one * 3,
@@ -1549,7 +1549,7 @@ var one = 60000, // 60000 = one minute
 
 setInterval(function() {
   updatePresidentialData();
-}, presDataTimer);
+}, 1000);
 
 function updatePresidentialData(){
   console.log('President Map Data!');
@@ -1568,7 +1568,7 @@ function updatePresidentialData(){
         return new_color;
       } else if (presidentialData[String(stateabbrev)]){
         var tempvar = presidentialData[String(stateabbrev)];
-        var new_color = color_partial_results(tempvar,d.properties);
+        var new_color = color_partial_results(tempvar,d.properties,"hashblue_pres","hashred_pres");
         return new_color;
       } else {
         return dark_gray;
