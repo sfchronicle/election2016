@@ -708,7 +708,7 @@ d3.json(governorRacesURL, function(governorRaces){
               return tooltip.style("visibility", "hidden");
             });
           });
-        
+
 
         // show tooltip
         var federal_tooltip = d3.select("#map-container-federal")
