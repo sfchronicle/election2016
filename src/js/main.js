@@ -606,10 +606,11 @@ d3.json(governorRacesURL, function(governorRaces){
 
       function federalmap(active_map,active_data,flag){
 
-        d3.select("#map-container-federal").select("svg").remove();
-        d3.select("#map-container-federal").select(".svg-container").remove();
 
-        var svg_element_fed = d3.select("#map-container-federal")
+          d3.select("#map-container-federal").select("svg").remove();
+          d3.select("#map-container-federal").select(".svg-container").remove();
+
+          var svg_element_fed = d3.select("#map-container-federal")
             .append("div")
             .classed("svg-container", true) //container class to make it responsive
             .attr("id","map-container-federal")
@@ -664,14 +665,14 @@ d3.json(governorRacesURL, function(governorRaces){
               } else {
                 var district = d.id;
                 if (active_data[String(district)]) {
-                    var tempvar = active_data[String(district)];
-                    if (tempvar.d) {
-                      var new_color = code_map_variable(tempvar,d.properties);
-                      return new_color;
-                    } else {
-                      var new_color = color_partial_results(tempvar,d.properties,"hashblueFed","hashredFed");
-                      return new_color;
-                    }
+                  var tempvar = active_data[String(district)];
+                  if (tempvar.d) {
+                    var new_color = code_map_variable(tempvar,d.properties);
+                    return new_color;
+                  } else {
+                    var new_color = color_partial_results(tempvar,d.properties,"hashblueFed","hashredFed");
+                    return new_color;
+                  }
                 } else {
                   return lightest_gray;//fill(path.area(d));
                 }
@@ -705,23 +706,25 @@ d3.json(governorRacesURL, function(governorRaces){
             })
             .on("mouseout", function(){
               return tooltip.style("visibility", "hidden");
-
             });
           });
+        
 
-          // show tooltip
-          var federal_tooltip = d3.select("#map-container-federal")
-              .append("div")
-              .attr("class","tooltip")
-              .style("position", "absolute")
-              .style("z-index", "10")
-              .style("visibility", "hidden")
-        };
-        federalmap("./assets/maps/us_state_new.json",senateRaces);
+        // show tooltip
+        var federal_tooltip = d3.select("#map-container-federal")
+          .append("div")
+          .attr("class","tooltip")
+          .style("position", "absolute")
+          .style("z-index", "10")
+          .style("visibility", "hidden");
+      };
+
+      federalmap("./assets/maps/us_state_new.json",senateRaces);
 
     });
   });
 });
+
 
 
 // -----------------------------------------------------------------------------
