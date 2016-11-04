@@ -60,7 +60,7 @@
       </div>
       <div id="stick-ph"></div>
 
-      <div class="deck deck-sub">Click on the section headers above to navigate the page or scroll down to see all the races.</div>
+      <div class="deck deck-sub">Live election results: Click on the section headers above to navigate the page or scroll to see all the races.</div>
 
       <div class="" id="president">
 
@@ -229,8 +229,8 @@
       <div class="br"></div>
       <div class="divider"></div>
 
-      <div class="hed padding">How California's counties voted</div>
-      <div class="chatter">Hover over or click on the counties to see how Californians voted in each precinct for representatives.</div>
+      <div class="hed padding">California’s legislative races</div>
+      <div class="chatter">See how Californians voted in each precinct for federal and state representatives.</div>
 
       <div class="legend-container ca-legend active" id="ca-race-legend">
         <div class="element"><div class="dem-swath"><div class="legend-text">Democratic winner</div></div></div>
@@ -262,13 +262,13 @@
 
       <div id="propsec">
         <div class="key">Key:
-          <span class="symbol"><i class='fa fa-check-circle-o' aria-hidden='true'></i>Yes vote</span> |
-          <span class="symbol"><i class='fa fa-times-circle-o' aria-hidden='true'></i>No vote</span>
+          <span class="symbol"><i class='fa fa-check-circle-o' aria-hidden='true'></i>Approved</span> |
+          <span class="symbol"><i class='fa fa-times-circle-o' aria-hidden='true'></i>Rejected</span>
         </div>
 
         <input type="text" placeholder="&#xf002;  Search by proposition number or title" id="propositions-search" style="font-family:AntennaExtraLight, FontAwesome">
 
-        <div id="no-results-state">No results found. Try another search, for example "Prop. 51" or "56" or "tax".</div>
+        <div id="no-results-state">Search by proposition number or keyword</div>
 
         <div class="propositions-list">
           <% csv.StatePropositionsData.forEach(function(prop,idx){ %>
@@ -290,7 +290,7 @@
       <div class="br"></div>
 
       <div class="hed padded padding">How California's counties voted</div>
-      <div class="chatter padding">Hover over or click on the counties to see how Californians voted in each precinct for propositions.</div>
+      <div class="chatter padding">See which precincts voted for or against each proposition, and which were approved or rejected.</div>
 
 
       <div class="legend-container ca-legend-props active" id="ca-prop-legend">
@@ -331,13 +331,13 @@
 
       <div id="sfpropsec">
       <div class="key ">Key:
-        <span class="symbol"><i class='fa fa-check-circle-o' aria-hidden='true'></i>Yes vote</span> |
-        <span class="symbol"><i class='fa fa-times-circle-o' aria-hidden='true'></i>No vote</span>
+        <span class="symbol"><i class='fa fa-check-circle-o' aria-hidden='true'></i>Approved</span> |
+        <span class="symbol"><i class='fa fa-times-circle-o' aria-hidden='true'></i>Rejected</span>
       </div>
 
         <input type="text" placeholder="&#xf002;  Search by SF measure letter or name" id="sf-propositions-search" style="font-family:AntennaExtraLight, FontAwesome">
 
-        <div id="no-results-sf">No results found. Try another search, for example “Measure B” or “tax”.</div>
+        <div id="no-results-sf">Search by keyword or by typing “measure” and the letter</div>
 
         <div class="sf-propositions-list">
           <% csv.SFPropositionsData.forEach(function(prop,idx){ %>
@@ -373,15 +373,27 @@
 
       <div class="break-half"></div>
       <h1 class="section-hed">Bay Area
-        <div class="section-chatter">Voters around the region decide the fate of a major BART bond measure and sort through dozens of other propositions and races that will affect lives at the local level. Scroll to see the biggest issues and click the geographic buttons below to check races in your neighborhood.</div>
+        <div class="section-chatter">Voters around the region decide the fate of a major BART bond measure and sort through dozens of other propositions and races that will affect lives at the local level.</div>
       </h1>
 
       <div class="br"></div>
-      <div class="hed padding">Find results for all Bay Area measures and races</div>
-      <div class="chatter padding">Choose your county and click on the ballot category to see all the races and propositions for your neighborhood.</div>
+
+      <div class="regional-callouts padding">
+        <div class="reg-prop-group long">
+          <div class='sf-prop-icon'>
+            <img src='./assets/graphics/regionalprops/measureRR.png'></img>
+          </div>
+          <div class='reg-prop-name'>Measure RR</div>
+          <div class='result'><div id="regionalpropRR"></div></div>
+          <div class="reg-prop-desc">Authorizes $3.5 billion in bonds for BART rehabilitation and modernization. Requires cumulative two-thirds vote in San Francisco, Alameda and Contra Costa counties for passage.</div>
+        </div>
+      </div>
+
+      <div class="br"></div>
+      <div class="chatter padding">Choose your county from the options below and click on the ballot category to see all the races and propositions for your neighborhood.</div>
       <div class="key centered padding">Key:
-        <span class="symbol"><i class='fa fa-check-circle-o' aria-hidden='true'></i>Winner / Yes vote</span> |
-        <span class="symbol"><i class='fa fa-times-circle-o' aria-hidden='true'></i>No vote</span> |
+        <span class="symbol"><i class='fa fa-check-circle-o' aria-hidden='true'></i>Winner / Approved</span> |
+        <span class="symbol"><i class='fa fa-times-circle-o' aria-hidden='true'></i>Rejected</span> |
         <span class="symbol"><i class='fa fa-star' aria-hidden='true'></i>Incumbent</span>
       </div>
 
@@ -399,27 +411,6 @@
 
       <div class="br"></div>
 
-      <div class="regional-callouts padding">
-        <div class="reg-prop-group long">
-          <div class='sf-prop-icon'>
-            <img src='./assets/graphics/regionalprops/measureRR.png'></img>
-          </div>
-          <div class='reg-prop-name'>Measure RR</div>
-          <div class='result'><div id="regionalpropRR"></div></div>
-          <div class="reg-prop-desc">Authorizes $3.5 billion in bonds for BART rehabilitation and modernization. Requires cumulative two-thirds vote in San Francisco, Alameda and Contra Costa counties for passage.</div>
-        </div>
-        <% csv.RegionalMeasuresData.forEach(function(prop,idx){ %>
-          <div class='reg-prop-group'>
-            <div class='reg-prop-icon'>
-              <img src='./assets/graphics/regionalprops/measure<%=prop.letter%>.png'></img>
-            </div>
-            <div class='reg-prop-name'><%=prop.title%></div>
-            <div class='result'><div id="regionalprop<%=prop.letter%>"></div></div>
-            <div class='reg-prop-desc'><%=prop.description%></div>
-          </div>
-        <% }); %>
-      </div>
-      <div class="br"></div>
 
     </section>
 
