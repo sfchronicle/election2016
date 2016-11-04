@@ -1,0 +1,48 @@
+<!doctype html>
+<html>
+  <head>
+    <title><%= json.project.title %></title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link rel="stylesheet" type="text/css" href="../style.css">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+    <script src="http://projects.sfchronicle.com/shared/js/jquery.min.js"></script>
+    <script src="http://projects.sfchronicle.com/shared/js/responsive-child.js"></script>
+  </head>
+
+  <body is="responsive-body">
+
+    <div class="outer widget">
+      <hr class="hr-widget">
+
+      <div class="title-img widget">
+          <a href="http://www.sfchronicle.com" target="_blank">
+            <div class="desk-logo widget">
+              <img src="http://projects.sfchronicle.com/shared/logos/sfcg_logo_color.png?">
+            </div>
+          </a>
+
+        <img class="banner widget" src="../assets/election2016banner.png">
+
+      </div>
+
+      <footer class="footer-widget">
+        <div>
+          <p>Live results: <a href="http://sfchronicle.com/election">www.sfchronicle.com/election</a></p>
+        </div>
+      </footer>
+
+    </div>
+
+    <script>
+
+      // map look-up tables
+      var stateCodes = <%= JSON.stringify(csv.stateCodes) %>;
+      var countyCodes = <%= JSON.stringify(json.countyCodesLookup) %>;
+
+    </script>
+
+    <script src="../president_app.js" async></script>
+
+  </body>
+</html>
