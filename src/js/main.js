@@ -61,8 +61,8 @@ function populateMeasure(measureID,measurevar) {
       html_str = html_str + "<div class='votes-req'>Vote requirement: "+measurevar.a+"</div>"
     }
   }
-  html_str = html_str + "</div>"
-  measureID.insertAdjacentHTML("afterend",html_str);
+  html_str = html_str + "</div>";
+  measureID.innerHTML = html_str;
 }
 
 // function to populate races
@@ -328,15 +328,15 @@ function regional_section(this_name,regionkey){
       localData[this_name][d2].forEach(function(d4,idx3){
         var key = d4.name.toLowerCase().replace(/ /g,'').replace(".","").replace("'","");
         if(d4["n"]) {
-          var h4_html = "<h4 class='race sup' id='key"+regionkey+racekey+key+"'>"+d4.name+" ("+d4["n"]+" seats)</h4>";
+          var h4_html = "<h4 class='race sup'>"+d4.name+" ("+d4["n"]+" seats)</h4><div id='key"+regionkey+racekey+key+ "'>";
         } else {
           if(d4["desc"]){
-            var h4_html = "<h4 class='race sup' id='key"+regionkey+racekey+key+"'>"+d4.name+"<div class='race desc'>"+d4.desc+"</div></h4>";
+            var h4_html = "<h4 class='race sup'>"+d4.name+"<div class='race desc'>"+d4.desc+"</div></h4><div id='key"+regionkey+racekey+key+ "'>";
           } else {
-            var h4_html = "<h4 class='race sup' id='key"+regionkey+racekey+key+"'>"+d4.name+"</h4>";
+            var h4_html = "<h4 class='race sup'>"+d4.name+"</h4><div id='key"+regionkey+racekey+key+ "'>";
           }
         }
-        raceID.insertAdjacentHTML("beforeend",h4_html)
+        raceID.innerHTML = h4_html;
         var finalID = document.getElementById("key"+regionkey+racekey+key);
         // need to do a different thing for measures here
         if (racekey == "measures") {
@@ -1149,7 +1149,7 @@ d3.json(propsCAURL, function(propsCA){
       var htmlresult = "<span class='propyes'>Yes: "+Math.round(propResult.r["Yes"]/total*1000)/10+"%</span><span class='propno'>No: "+Math.round(propResult.r["No"]/total*1000)/10+"%</span>"
     }
     var htmlresult = htmlresult+ "<div class='prop-precincts'>"+formatthousands(propResult.p)+" / 24,848 precincts reporting</div>"
-    propID.insertAdjacentHTML("beforebegin",htmlresult)
+    propID.innerHTML = htmlresult;
   }
 });
 
@@ -1238,8 +1238,6 @@ sfinput.addEventListener('input', function(){
 // -----------------------------------------------------------------------------
 d3.json(localDataURL, function(localData){
 
-  console.log(localData);
-
   for (var propidx=0; propidx<24; propidx++) {
     var propID = document.getElementById("sfprop"+propidx);
     var propResult = localData["San Francisco"]["Measures"][propidx];
@@ -1301,47 +1299,27 @@ qsa(".sectionbutton").forEach(function(group,index) {
 });
 
 // -----------------------------------------------------------------------------
-// filling in regional propositions results ---------------------------------------
+// filling in regional RR Prop
 // -----------------------------------------------------------------------------
 d3.json(localDataURL, function(localData){
-
-  // NEED TO CHECK THIS!!!!
-  // console.log(localData);
-  var propID_list = ["RR","X","B","T1","O1","HH"];
   var RRPropData = localData["Special Districts"]["Measures"][1];
-  // console.log("RR");
-  // console.log(RRPropData);
-  var XPropData = localData["Contra Costa"]["Measures"][21];
-  // console.log("X");
-  // console.log(XPropData);
-  var BPropData = localData["Santa Clara"]["Measures"][1];
-  // console.log("B");
-  // console.log(BPropData);
-  var T1PropData = localData["Alameda"]["Measures"][17];
-  // console.log("T1");
-  // console.log(T1PropData);
-  var O1PropData = localData["Alameda"]["Measures"][12];
-  // console.log("O1");
-  // console.log(O1PropData);
-  var HHPropData = localData["Alameda"]["Measures"][27];
-  // console.log("HH");
-  // console.log(HHPropData);
+  var RRPropYes = localData["Special Districts"]["Measures"][1]['Yes'];
+  var RRPropNo = localData["Special Districts"]["Measures"][1]['No'];
 
-  for (var ii=0; ii<6; ii++) {
-    var propID = document.getElementById("regionalprop"+propID_list[ii]);
-    var propResult = eval(String(propID_list[ii])+"PropData");
-    var total = +propResult["Yes"]+ +propResult["No"];
-    if (total == 0) { total = 0.1;}
-    if (propResult.d == "Yes") {
-      var htmlresult = "<span class='propyes small'><i class='fa fa-check-circle-o' aria-hidden='true'></i>Yes: "+Math.round(propResult["Yes"]/total*1000)/10+"%</span><span class='propno small'>No: "+Math.round(propResult["No"]/total*1000)/10+"%</span>"
-    } else if (propResult.d == "No") {
-      var htmlresult = "<span class='propyes small'>Yes: "+Math.round(propResult["Yes"]/total*1000)/10+"%</span><span class='propno small'><i class='fa fa-check-circle-o' aria-hidden='true'>No: "+Math.round(propResult["No"]/total*1000)/10+"%</i></span>"
-    } else {
-      var htmlresult = "<span class='propyes small'>Yes: "+Math.round(propResult["Yes"]/total*1000)/10+"%</span><span class='propno small'>No: "+Math.round(propResult["No"]/total*1000)/10+"%</span>"
-    }
-    var htmlresult = htmlresult+ "<div class='prop-precincts'>"+formatthousands(propResult.p)+" / "+formatthousands(propResult.pt)+" precincts reporting</div>"
-    propID.insertAdjacentHTML("beforebegin",htmlresult)
+  var propID = document.getElementById('regionalpropRR');
+  var total = +RRPropYes + +RRPropNo;
+  var propResult = RRPropData;
+
+  if (total == 0) { total = 0.1;}
+  if (propResult.d == "Yes") {
+    var htmlresult = "<span class='propyes small'><i class='fa fa-check-circle-o' aria-hidden='true'></i>Yes: "+Math.round(propResult["Yes"]/total*1000)/10+"%</span><span class='propno small'>No: "+Math.round(propResult["No"]/total*1000)/10+"%</span>"
+  } else if (propResult.d == "No") {
+    var htmlresult = "<span class='propyes small'>Yes: "+Math.round(propResult["Yes"]/total*1000)/10+"%</span><span class='propno small'><i class='fa fa-check-circle-o' aria-hidden='true'>No: "+Math.round(propResult["No"]/total*1000)/10+"%</i></span>"
+  } else {
+    var htmlresult = "<span class='propyes small'>Yes: "+Math.round(propResult["Yes"]/total*1000)/10+"%</span><span class='propno small'>No: "+Math.round(propResult["No"]/total*1000)/10+"%</span>"
   }
+  var htmlresult = htmlresult+ "<div class='prop-precincts'>"+formatthousands(propResult.p)+" / "+formatthousands(propResult.pt)+" precincts reporting</div>"
+  propID.innerHTML = htmlresult;
 });
 
 // -----------------------------------------------------------------------------
@@ -1525,7 +1503,6 @@ setInterval(function() {
 }, FederalDataTimer);
 
 function updatePresidentialData(){
-  console.log('President Map Data!');
 
   var state_svg_element = d3.select("#presidentMap_States-container");
   var county_svg_element = d3.select("#presidentMap_Counties-container");
@@ -1828,44 +1805,21 @@ setInterval(function() {
 
 function updateSenateCongressRace(){
 
-    d3.json(senateRacesURL, function(senateRaces){
-      d3.json(congressRacesURL, function(congressRaces){
+  d3.json(senateRacesURL, function(senateRaces){
+    d3.json(congressRacesURL, function(congressRaces){
+      // populating federal races
+      // senate race
+      var raceID = document.getElementById("senate");
+      var senatevar = senateRaces["CA"];
+      populateRace(raceID,senatevar,24848);
 
-        // Senate race: 24848 total precincts
-        var harris_votes = senateRaces["CA"]["c2"];
-        var sanchez_votes = senateRaces["CA"]["c1"];
-        var total_senatevotes = +sanchez_votes + +harris_votes;
-        var width = document.getElementById("federal").getBoundingClientRect().width;
-        // sanchez
-        var sanchez_percent = Math.round(+sanchez_votes/total_senatevotes*100);
-        var sanchez_pixels = (width-text_len)*(sanchez_percent/100);
-        $("#lorettasanchez").width(sanchez_pixels);
-        $("#fsec").find(".bar-label:first").text(sanchez_percent+'%');
-        // harris
-        var harris_percent = Math.round(+harris_votes/total_senatevotes*100);
-        var harris_pixels = (width-text_len)*(harris_percent/100);
-        $("#kamalaharris").width(harris_pixels);
-        $("#fsec").find(".bar-label:eq(1)").text(harris_percent+'%');
-
-        // house race: 345 total precincts
-        var honda_votes = congressRaces["0617"]["c1"];
-        var khanna_votes = congressRaces["0617"]["c2"];
-        var total_housevotes = +khanna_votes + +honda_votes;
-        // honda
-        var honda_percent = Math.round(+honda_votes/total_housevotes*100);
-        var honda_pixels = (width-text_len)*(honda_percent/100);
-        $("#mikehonda").width(honda_pixels);
-        $("#fsec").find(".bar-label:eq(2)").text(honda_percent+'%');
-        // khana
-        var khanna_percent = Math.round(+khanna_votes/total_housevotes*100);
-        var khanna_pixels = (width-text_len)*(khanna_percent/100);
-        $("#rokhanna").width(khanna_pixels);
-        $("#fsec").find(".bar-label:eq(3)").text(khanna_percent+'%');
-      });
+      // house race
+      var raceID = document.getElementById("congress");
+      var congressvar = congressRaces["0617"];
+      populateRace(raceID,congressvar,345);
     });
+  });
 }
-
-
 // -----------------------------------------------------------------------------
 // UPDATES  SF SUPERVISORS
 // -----------------------------------------------------------------------------
@@ -1888,8 +1842,6 @@ function updateSFSupes(){
     });
   });
 }
-
-
 
 // -----------------------------------------------------------------------------
 // UPDATES SF PROPs
@@ -1924,123 +1876,103 @@ function updateSFProps(){
 
 
 // -----------------------------------------------------------------------------
-// UPDATES CA SENATE/ASSEMBLY/DISTRICT 9 RACES
+// UPDATES CA SENATE,ASSEMBLY,DISTRICT-9 RACES
 // -----------------------------------------------------------------------------
 
-// setInterval(function() {
-//   updateStateKeyRaces();
-// }, StateTimer);
+setInterval(function() {
+  updateStateKeyRaces();
+}, StateTimer);
 
-// function updateStateKeyRaces(){
+function updateStateKeyRaces(){
 
-//     d3.json(senateCAURL, function(senateCA){
+  d3.json(senateCAURL, function(senateCA){
 
-//       d3.json(assemblyCAURL, function(assemblyCA){
+    d3.json(assemblyCAURL, function(assemblyCA){
 
-//         // Wiener vs Kim race
-//         var raceID = document.getElementById("statesenate");
-//         var statesenatevar = senateCA["06011"];
-//         populateRace(raceID,statesenatevar,645);
+      // Wiener vs Kim race
+      var raceID = document.getElementById("statesenate");
+      var statesenatevar = senateCA["06011"];
+      populateRace(raceID,statesenatevar,645);
 
-//         // Skinner vs Swanson race
-//         var raceID = document.getElementById("statedistrict9");
-//         var statesenatevar = senateCA["06009"];
-//         populateRace(raceID,statesenatevar,651);
+      // Skinner vs Swanson race
+      var raceID = document.getElementById("statedistrict9");
+      var statesenatevar = senateCA["06009"];
+      populateRace(raceID,statesenatevar,651);
 
-//         // Cook-Kallio vs Baker race
-//         var raceID = document.getElementById("stateassembly");
-//         var assemblyvar = assemblyCA["06016"];
-//         populateRace(raceID,assemblyvar,337);
+      // Cook-Kallio vs Baker race
+      var raceID = document.getElementById("stateassembly");
+      var assemblyvar = assemblyCA["06016"];
+      populateRace(raceID,assemblyvar,337);
 
-//       });
-//     });
-// }
+    });
+  });
+}
 
 // -----------------------------------------------------------------------------
 // UPDATES STATE PROPs
 // -----------------------------------------------------------------------------
 
-// setInterval(function() {
-//   updateStateProps();
-// }, StateTimer);
+setInterval(function() {
+  updateStateProps();
+}, StateTimer);
 
-// function updateStateProps(){
+function updateStateProps(){
 
-//   d3.json(propsCAURL, function(propsCA){
-//     for (var propidx=51; propidx<68; propidx++) {
-//       var propID = document.getElementById("prop"+propidx);
-//       var propResult = propsCA[propidx]["state"];
-//       var total = +propResult.r["Yes"]+ +propResult.r["No"];
-//       if (total == 0) { total = 0.1;}
-//       if (propResult.d == "Yes") {
-//         var htmlresult = "<span class='propyes'><i class='fa fa-check-circle-o' aria-hidden='true'></i>Yes: "+Math.round(propResult.r["Yes"]/total*1000)/10+"%</span><span class='propno'>No: "+Math.round(propResult.r["No"]/total*1000)/10+"%</span>"
-//       } else if (propResult.d == "No") {
-//         var htmlresult = "<span class='propyes'>Yes: "+Math.round(propResult.r["Yes"]/total*1000)/10+"%</span><span class='propno'><i class='fa fa-times-circle-o' aria-hidden='true'></i>No: "+Math.round(propResult.r["No"]/total*1000)/10+"%</span>"
-//       } else {
-//         var htmlresult = "<span class='propyes'>Yes: "+Math.round(propResult.r["Yes"]/total*1000)/10+"%</span><span class='propno'>No: "+Math.round(propResult.r["No"]/total*1000)/10+"%</span>"
-//       }
-//       var htmlresult = htmlresult+ "<div class='prop-precincts'>"+formatthousands(propResult.p)+" / 24,848 precincts reporting</div>"
-//       propID.insertAdjacentHTML("beforebegin",htmlresult)
-//     }
-//   });
-// }
-
-
-// -----------------------------------------------------------------------------
-// UPDATES REGIONAL PROPs
-// -----------------------------------------------------------------------------
-
-// setInterval(function() {
-//   updateRegionalProps();
-// }, regionalDataTimer);
-
-// function updateRegionalProps(){
-
-//   d3.json(localDataURL, function(localData){
-
-//     // NEED TO CHECK THIS!!!!
-//     console.log(localData);
-//     var propID_list = ["RR","X","B","T1","O1","HH"];
-//     var RRPropData = localData["Special Districts"]["Measures"][1];
-//     console.log("RR");
-//     console.log(RRPropData);
-//     var XPropData = localData["Contra Costa"]["Measures"][21];
-//     console.log("X");
-//     console.log(XPropData);
-//     var BPropData = localData["Santa Clara"]["Measures"][1];
-//     console.log("B");
-//     console.log(BPropData);
-//     var T1PropData = localData["Alameda"]["Measures"][17];
-//     console.log("T1");
-//     console.log(T1PropData);
-//     var O1PropData = localData["Alameda"]["Measures"][12];
-//     console.log("O1");
-//     console.log(O1PropData);
-//     var HHPropData = localData["Alameda"]["Measures"][27];
-//     console.log("HH");
-//     console.log(HHPropData);
-
-//     for (var ii=0; ii<6; ii++) {
-//       var propID = document.getElementById("regionalprop"+propID_list[ii]);
-//       var propResult = eval(String(propID_list[ii])+"PropData");
-//       var total = +propResult["Yes"]+ +propResult["No"];
-//       if (total == 0) { total = 0.1;}
-//       if (propResult.d == "Yes") {
-//         var htmlresult = "<span class='propyes small'><i class='fa fa-check-circle-o' aria-hidden='true'></i>Yes: "+Math.round(propResult["Yes"]/total*1000)/10+"%</span><span class='propno small'>No: "+Math.round(propResult["No"]/total*1000)/10+"%</span>"
-//       } else if (propResult.d == "No") {
-//         var htmlresult = "<span class='propyes small'>Yes: "+Math.round(propResult["Yes"]/total*1000)/10+"%</span><span class='propno small'><i class='fa fa-check-circle-o' aria-hidden='true'>No: "+Math.round(propResult["No"]/total*1000)/10+"%</i></span>"
-//       } else {
-//         var htmlresult = "<span class='propyes small'>Yes: "+Math.round(propResult["Yes"]/total*1000)/10+"%</span><span class='propno small'>No: "+Math.round(propResult["No"]/total*1000)/10+"%</span>"
-//       }
-//       var htmlresult = htmlresult+ "<div class='prop-precincts'>"+formatthousands(propResult.p)+" / "+formatthousands(propResult.pt)+" precincts reporting</div>"
-//       propID.insertAdjacentHTML("beforebegin",htmlresult)
-//     }
-//   });
-// }
+  d3.json(propsCAURL, function(propsCA){
+    for (var propidx=51; propidx<68; propidx++) {
+      var propID = document.getElementById("prop"+propidx);
+      var propResult = propsCA[propidx]["state"];
+      var total = +propResult.r["Yes"]+ +propResult.r["No"];
+      if (total == 0) { total = 0.1;}
+      if (propResult.d == "Yes") {
+        var htmlresult = "<span class='propyes'><i class='fa fa-check-circle-o' aria-hidden='true'></i>Yes: "+Math.round(propResult.r["Yes"]/total*1000)/10+"%</span><span class='propno'>No: "+Math.round(propResult.r["No"]/total*1000)/10+"%</span>"
+      } else if (propResult.d == "No") {
+        var htmlresult = "<span class='propyes'>Yes: "+Math.round(propResult.r["Yes"]/total*1000)/10+"%</span><span class='propno'><i class='fa fa-times-circle-o' aria-hidden='true'></i>No: "+Math.round(propResult.r["No"]/total*1000)/10+"%</span>"
+      } else {
+        var htmlresult = "<span class='propyes'>Yes: "+Math.round(propResult.r["Yes"]/total*1000)/10+"%</span><span class='propno'>No: "+Math.round(propResult.r["No"]/total*1000)/10+"%</span>"
+      }
+      var htmlresult = htmlresult+ "<div class='prop-precincts'>"+formatthousands(propResult.p)+" / 24,848 precincts reporting</div>"
+      propID.innerHTML = htmlresult;
+    }
+  });
+}
 
 
 // -----------------------------------------------------------------------------
-// UPDATES CALIFORNIA PROPs
+// UPDATES REGIONAL RR PROP
+// -----------------------------------------------------------------------------
+
+setInterval(function() {
+  updateRegionalProps();
+}, regionalDataTimer);
+
+function updateRegionalProps(){
+
+  d3.json(localDataURL, function(localData){
+    var RRPropData = localData["Special Districts"]["Measures"][1];
+    var RRPropYes = localData["Special Districts"]["Measures"][1]['Yes'];
+    var RRPropNo = localData["Special Districts"]["Measures"][1]['No'];
+
+    var propID = document.getElementById('regionalpropRR');
+    var total = +RRPropYes + +RRPropNo;
+    var propResult = RRPropData;
+
+    if (total == 0) { total = 0.1;}
+    if (propResult.d == "Yes") {
+      var htmlresult = "<span class='propyes small'><i class='fa fa-check-circle-o' aria-hidden='true'></i>Yes: "+Math.round(propResult["Yes"]/total*1000)/10+"%</span><span class='propno small'>No: "+Math.round(propResult["No"]/total*1000)/10+"%</span>"
+    } else if (propResult.d == "No") {
+      var htmlresult = "<span class='propyes small'>Yes: "+Math.round(propResult["Yes"]/total*1000)/10+"%</span><span class='propno small'><i class='fa fa-check-circle-o' aria-hidden='true'>No: "+Math.round(propResult["No"]/total*1000)/10+"%</i></span>"
+    } else {
+      var htmlresult = "<span class='propyes small'>Yes: "+Math.round(propResult["Yes"]/total*1000)/10+"%</span><span class='propno small'>No: "+Math.round(propResult["No"]/total*1000)/10+"%</span>"
+    }
+    var htmlresult = htmlresult+ "<div class='prop-precincts'>"+formatthousands(propResult.p)+" / "+formatthousands(propResult.pt)+" precincts reporting</div>"
+    propID.innerHTML = htmlresult;
+  });
+}
+
+
+// -----------------------------------------------------------------------------
+// UPDATES CALIFORNIA PROP MAPs
 // -----------------------------------------------------------------------------
 
 // setInterval(function() {
@@ -2134,3 +2066,66 @@ function updateSFProps(){
 //     });
 //   });
 // }
+
+// -----------------------------------------------------------------------------
+// UPDATES REGIONAL DATA
+// -----------------------------------------------------------------------------
+
+
+
+
+//   d3.json(localDataURL, function(localData){
+
+//     var sectionID = document.getElementById("regional-results");
+//     var regionID = document.getElementById("region"+regionkey);
+//     var results_types = Object.keys(localData[this_name]);
+//     if (this_name == "San Francisco") {
+//       var index = results_types.indexOf("Measures");
+//       results_types.splice(index,1);
+//       code_map_variable index2 = results_types.indexOf("Supervisors");
+//       results_types.splice(index2,1);
+//     }
+//     results_types.forEach(function(d2,idx2) {
+//       var racekey = d2.toLowerCase().replace(/ /g,'').replace(".","").replace("'","");
+//       regionID.insertAdjacentHTML("beforeend","<h5 class='regionalhed' id='regionalhed"+regionkey+racekey+"'><i class='fa fa-caret-right' id='caret-"+regionkey+racekey+"' aria-hidden='true'></i>  "+d2+"</h5>");
+//       regionID.insertAdjacentHTML("beforeend","<div class='section-div' id='race"+regionkey+racekey+"'></div>");
+//       var raceID = document.getElementById("race"+regionkey+racekey);
+//       var hedID = document.getElementById("regionalhed"+regionkey+racekey);
+//       var caretID = document.getElementById("caret-"+regionkey+racekey);
+//       raceID.style.display = "none";
+//       // event listeners for expanding/collapsing regional sections
+//       hedID.addEventListener("click",function(){
+//         if (raceID.style.display == "block") {
+//           raceID.style.display = "none";
+//           caretID.classList.remove('fa-caret-down');
+//           caretID.classList.add('fa-caret-right');
+//         }
+//         else {
+//           raceID.style.display = "block";
+//           caretID.classList.remove('fa-caret-right');
+//           caretID.classList.add('fa-caret-down');
+//         }
+//       });
+//       localData[this_name][d2].forEach(function(d4,idx3){
+//         var key = d4.name.toLowerCase().replace(/ /g,'').replace(".","").replace("'","");
+//         if(d4["n"]) {
+//           var h4_html = "<h4 class='race sup'>"+d4.name+" ("+d4["n"]+" seats)</h4><div id='key"+regionkey+racekey+key+ "'>";
+//         } else {
+//           if(d4["desc"]){
+//             var h4_html = "<h4 class='race sup'>"+d4.name+"<div class='race desc'>"+d4.desc+"</div></h4><div id='key"+regionkey+racekey+key+ "'>";
+//           } else {
+//             var h4_html = "<h4 class='race sup'>"+d4.name+"</h4><div id='key"+regionkey+racekey+key+ "'>";
+//           }
+//         }
+//         raceID.innerHTML = h4_html;
+//         var finalID = document.getElementById("key"+regionkey+racekey+key);
+//         // need to do a different thing for measures here
+//         if (racekey == "measures") {
+//           populateMeasure(finalID,d4);
+//         } else {
+//           populateRace(finalID,d4,0);
+//         }
+//       });
+//     });
+//   });
+// };
