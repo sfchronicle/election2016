@@ -494,6 +494,8 @@ if (screen.width > 670) {
 
   d3.json("../assets/maps/us_county_new.json", function(error, us) {
     if (error) throw error;
+    d3.json("../assets/maps/us_state_new.json", function(error, states) {
+      if (error) throw error;
 
       d3.json(presidentialCountyDataURL, function(presidentialCountyData){
 
@@ -540,8 +542,12 @@ if (screen.width > 670) {
               .style("left",(d3.event.pageX-80)+"px");
           }
         })
-        .on("mouseout", function(){return tooltip.style("visibility", "hidden");
-
+        .on("mouseout", function(){return tooltip.style("visibility", "hidden")
+        });
+        var mesh = topojson.mesh(states,states.objects.features, function(a,b) { return a!==b });
+        svg_element_county.append("path").datum(mesh)
+            .attr("d",path)
+            .attr("class","state-paths");
       });
     });
   });
