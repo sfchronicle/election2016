@@ -1045,6 +1045,8 @@ d3.json(houseCAURL, function(houseCA){
 // STATE MAP PROPOSITIONS ------------------------------------------------------
 // -----------------------------------------------------------------------------
 
+var catimer;
+
 d3.json(propsCAURL, function(propsCA){
 
   var select_race = document.getElementById("select-race");
@@ -1066,6 +1068,11 @@ d3.json(propsCAURL, function(propsCA){
       this.classList.add("active");
       var active_data = propsCA[51+index];
       camap("./assets/maps/ca_county_new.json",active_data.counties);
+      clearTimeout(catimer);
+      catimer = setInterval(function() {
+        camap("./assets/maps/ca_county_new.json",active_data.counties);
+      }, caInterval);
+      // camap("./assets/maps/ca_county_new.json",active_data.counties);
     });
   });
 
@@ -1154,6 +1161,10 @@ d3.json(propsCAURL, function(propsCA){
 
   var active_data = propsCA[51];
   camap("./assets/maps/ca_county_new.json",active_data.counties);
+  catimer = setInterval(function() {
+    camap("./assets/maps/ca_county_new.json",active_data.counties);
+  }, caInterval);
+  // camap("./assets/maps/ca_county_new.json",active_data.counties);
 
 });
 
@@ -1543,6 +1554,8 @@ var one = 60000, // 60000 = one minute
     propsCATimer = one * 5,
     localDataTimer = one * 5, // includes SF supes
     regionalDataTimer = one * 10;
+    caInterval = one * 100;
+
 
 
 // -----------------------------------------------------------------------------
