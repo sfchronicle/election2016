@@ -914,7 +914,7 @@ d3.json(houseCAURL, function(houseCA){
               .attr("id","map-container-state")
               .append("svg")
               //responsive SVG needs these 2 attributes and no width and height attr
-              .attr("preserveAspectRatio", "xMinYMin meet")
+              .attr("preserveAspectRatio", "xMinYMin slice")
               .attr("viewBox", "50 0 860 530")
               //class to make it responsive
               .classed("svg-content-responsive", true);

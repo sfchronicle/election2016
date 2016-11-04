@@ -1081,7 +1081,9 @@ header {
     display: none;
     &.active {
       display:block;
-      .flex(0 0 32%);
+      -webkit-flex: 0 0 32%;
+      -ms-flex: 0 0 30%;
+      flex: 0 0 32%;
       @media @mobile {
         margin: 5px auto;
         .flex(0 0 99.5%);
@@ -1099,7 +1101,9 @@ header {
     background: lighten(@light-gray,10%);
     border-radius: 5px;
     display:block;
-    .flex(0 0 32.5%);
+    -webkit-flex: 0 0 32%;
+    -ms-flex: 0 0 30%;
+    flex: 0 0 32%;
     margin: 0.25%;
     &.long {
       .flex(0 0 98.5%);
