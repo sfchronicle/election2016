@@ -31,7 +31,6 @@ var assemblyCAURL = "http://extras.sfgate.com/editorial/election2016/live/emma_a
 var propsCAURL = "http://extras.sfgate.com/editorial/election2016/live/props_county_ca.json";
 var localDataURL = "http://extras.sfgate.com/editorial/election2016/live/emma_localresults.json";
 
-
 // helpful functions:
 var formatthousands = d3.format("0,000");
 
