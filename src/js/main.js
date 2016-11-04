@@ -587,123 +587,128 @@ document.querySelector('#congressmap').addEventListener('click', function(){
     var map_file = "./assets/maps/us_house_new.json";
   }
 
-  var svg_element_fed = d3.select("#map-container-federal")
-      .append("div")
-      .classed("svg-container", true) //container class to make it responsive
-      .attr("id",svg_element+"-container")
-      // .style("display","none")
-      .append("svg")
-      //responsive SVG needs these 2 attributes and no width and height attr
-      .attr("preserveAspectRatio", "xMinYMin meet")
-      .attr("viewBox", "0 0 960 525")
-      //class to make it responsive
-      .classed("svg-content-responsive", true);
-      // .attr("id","governor-map");
+  if (ind == 1) {
+    var disappear_class = false;
+  } else {
+    var disappear_class = true;
+  }
 
-    //Pattern injection
-    var patternfed = svg_element_fed.append("defs")
-    	.append("pattern")
-    		.attr({ id:"hashblueFed", width:"8", height:"8", patternUnits:"userSpaceOnUse", patternTransform:"rotate(60)"})
-    	.append("rect")
-    		.attr({ width:"7.5", height:"8", transform:"translate(0,0)", fill:blue });
+  d3.json(map_file, function(error, us) {
+    if (error) throw error;
 
-    var patternfed2 = svg_element_fed.append("defs")
-      .append("pattern")
-        .attr({ id:"hashredFed", width:"8", height:"8", patternUnits:"userSpaceOnUse", patternTransform:"rotate(60)"})
-      .append("rect")
-        .attr({ width:"7.5", height:"8", transform:"translate(0,0)", fill:red });
+    d3.json(governorRacesURL, function(governorRaces){
 
-    d3.json(map_file, function(error, us) {
-      if (error) throw error;
+      d3.json(senateRacesURL, function(senateRaces){
 
-      d3.json(governorRacesURL, function(governorRaces){
+        d3.json(congressRacesURL, function(congressRaces){
 
-        d3.json(senateRacesURL, function(senateRaces){
+          var svg_element_fed = d3.select("#map-container-federal")
+              .append("div")
+              .classed("svg-container", true) //container class to make it responsive
+              .classed("disappear",disappear_class)
+              .attr("id",svg_element+"-container")
+              // .style("display","none")
+              .append("svg")
+              //responsive SVG needs these 2 attributes and no width and height attr
+              .attr("preserveAspectRatio", "xMinYMin meet")
+              .attr("viewBox", "0 0 960 525")
+              //class to make it responsive
+              .classed("svg-content-responsive", true);
 
-          d3.json(congressRacesURL, function(congressRaces){
+          //Pattern injection
+          var patternfed = svg_element_fed.append("defs")
+            .append("pattern")
+              .attr({ id:"hashblueFed", width:"8", height:"8", patternUnits:"userSpaceOnUse", patternTransform:"rotate(60)"})
+            .append("rect")
+              .attr({ width:"7.5", height:"8", transform:"translate(0,0)", fill:blue });
 
-            var features = topojson.feature(us,us.objects.features).features;
-            svg_element_fed.selectAll(".states")
-              .data(features).enter()
-              .append("path")
-              .attr("class", "states")
-              .attr("d",path)
-              .attr("id",function(d) {
-                return "state"+parseInt(d.id);
-              })
-            .style("fill", function(d,index) {
-              if (ind == 0) {
-                var stateabbrev = stateCodes[parseInt(d.id)].state;
-                if (governorRaces[String(stateabbrev)]) {
-                    var tempvar = governorRaces[String(stateabbrev)];
-                    if (tempvar.d){
-                      var new_color = code_map_variable(tempvar,d.properties);
-                      return new_color;
-                    } else {
-                      var new_color = color_partial_results(tempvar,d.properties,"hashblueFed","hashblueFed");
-                      console.log(new_color);
-                      return new_color;
-                    }
-                } else {
-                  return lightest_gray;//fill(path.area(d));
-                }
-              } else if (ind == 1) {
-                var stateabbrev = stateCodes[parseInt(d.id)].state;
-                if (senateRaces[String(stateabbrev)]) {
-                    var tempvar = senateRaces[String(stateabbrev)];
-                    if (tempvar.d){
-                      var new_color = code_map_variable(tempvar,d.properties);
-                      return new_color;
-                    } else {
-                      var new_color = color_partial_results(tempvar,d.properties,"hashblueFed","hashredFed");
-                      return new_color;
-                    }
-                } else {
-                  return lightest_gray;//fill(path.area(d));
-                }
-              } else {
-                var district = d.id;
-                if (congressRaces[String(district)]) {
-                    var tempvar = congressRaces[String(district)];
-                    if (tempvar.d) {
-                      var new_color = code_map_variable(tempvar,d.properties);
-                      return new_color;
-                    } else {
-                      var new_color = color_partial_results(tempvar,d.properties,"hashblueFed","hashredFed");
-                      return new_color;
-                    }
-                } else {
-                  return lightest_gray;//fill(path.area(d));
-                }
-              }
+          var patternfed2 = svg_element_fed.append("defs")
+            .append("pattern")
+              .attr({ id:"hashredFed", width:"8", height:"8", patternUnits:"userSpaceOnUse", patternTransform:"rotate(60)"})
+            .append("rect")
+              .attr({ width:"7.5", height:"8", transform:"translate(0,0)", fill:red });
+
+          var features = topojson.feature(us,us.objects.features).features;
+          svg_element_fed.selectAll(".states")
+            .data(features).enter()
+            .append("path")
+            .attr("class", "states")
+            .attr("d",path)
+            .attr("id",function(d) {
+              return "state"+parseInt(d.id);
             })
-            .attr("d", path)
-            .on('mouseover', function(d,index) {
-              if (ind == 0) {
-                var stateabbrev = stateCodes[parseInt(d.id)].state;
-                var html_str = tooltip_function(stateabbrev,governorRaces,d.properties);
-              } else if (ind == 1){
-                var stateabbrev = stateCodes[parseInt(d.id)].state;
-                var html_str = tooltip_function(stateabbrev,senateRaces,d.properties);
+          .style("fill", function(d,index) {
+            if (ind == 0) {
+              var stateabbrev = stateCodes[parseInt(d.id)].state;
+              if (governorRaces[String(stateabbrev)]) {
+                  var tempvar = governorRaces[String(stateabbrev)];
+                  if (tempvar.d){
+                    var new_color = code_map_variable(tempvar,d.properties);
+                    return new_color;
+                  } else {
+                    var new_color = color_partial_results(tempvar,d.properties,"hashblueFed","hashblueFed");
+                    return new_color;
+                  }
               } else {
-                var html_str = tooltip_function(d.id,congressRaces,d.properties);
+                return lightest_gray;//fill(path.area(d));
               }
-              tooltip.html(html_str);
-              tooltip.style("visibility", "visible");
-            })
-            .on("mousemove", function() {
-              if (screen.width <= 480) {
-                return tooltip
-                  .style("top",(d3.event.pageY+40)+"px")//(d3.event.pageY+40)+"px")
-                  .style("left",10+"px");
+            } else if (ind == 1) {
+              var stateabbrev = stateCodes[parseInt(d.id)].state;
+              if (senateRaces[String(stateabbrev)]) {
+                  var tempvar = senateRaces[String(stateabbrev)];
+                  if (tempvar.d){
+                    var new_color = code_map_variable(tempvar,d.properties);
+                    return new_color;
+                  } else {
+                    var new_color = color_partial_results(tempvar,d.properties,"hashblueFed","hashredFed");
+                    return new_color;
+                  }
               } else {
-                return tooltip
-                  .style("top", (d3.event.pageY+20)+"px")
-                  .style("left",(d3.event.pageX-80)+"px");
+                return lightest_gray;//fill(path.area(d));
               }
-            })
-            .on("mouseout", function(){
-              return tooltip.style("visibility", "hidden");
+            } else {
+              var district = d.id;
+              if (congressRaces[String(district)]) {
+                  var tempvar = congressRaces[String(district)];
+                  if (tempvar.d) {
+                    var new_color = code_map_variable(tempvar,d.properties);
+                    return new_color;
+                  } else {
+                    var new_color = color_partial_results(tempvar,d.properties,"hashblueFed","hashredFed");
+                    return new_color;
+                  }
+              } else {
+                return lightest_gray;//fill(path.area(d));
+              }
+            }
+          })
+          .attr("d", path)
+          .on('mouseover', function(d,index) {
+            if (ind == 0) {
+              var stateabbrev = stateCodes[parseInt(d.id)].state;
+              var html_str = tooltip_function(stateabbrev,governorRaces,d.properties);
+            } else if (ind == 1){
+              var stateabbrev = stateCodes[parseInt(d.id)].state;
+              var html_str = tooltip_function(stateabbrev,senateRaces,d.properties);
+            } else {
+              var html_str = tooltip_function(d.id,congressRaces,d.properties);
+            }
+            tooltip.html(html_str);
+            tooltip.style("visibility", "visible");
+          })
+          .on("mousemove", function() {
+            if (screen.width <= 480) {
+              return tooltip
+                .style("top",(d3.event.pageY+40)+"px")//(d3.event.pageY+40)+"px")
+                .style("left",10+"px");
+            } else {
+              return tooltip
+                .style("top", (d3.event.pageY+20)+"px")
+                .style("left",(d3.event.pageX-80)+"px");
+            }
+          })
+          .on("mouseout", function(){
+            return tooltip.style("visibility", "hidden");
           });
         });
       });
@@ -718,10 +723,6 @@ var federal_tooltip = d3.select("#map-container-federal")
     .style("position", "absolute")
     .style("z-index", "10")
     .style("visibility", "hidden")
-
-// hide the county map to start
-d3.select("#governormap_States-container").classed("disappear",true);
-d3.select("#congressmap_Districts-container").classed("disappear",true);
 
 // -----------------------------------------------------------------------------
 // filling in electoral vote count
