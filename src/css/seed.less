@@ -156,10 +156,9 @@ h3 {
   font-size: 18px;
   margin: 0;
   padding: 0;
-  // color: @dark-gray;
   font-family: @block-graphics;
   @media @mobile {
-    font-size: 14px;
+    font-size: 16px;
   }
 }
 
@@ -891,11 +890,16 @@ header {
     display: none !important;
   }
 }
+#electoraldonaldtrumpevotes{
+  color:#BC1826;
+}
 
+#electoralhillaryclintonevotes{
+  color:#265B9B;
+}
 .icon {
   height: 90px;
-  margin-bottom: 5px;
-  margin-top: 15px;
+  margin-top: 25px;
   img {
     height: 90px;
   }
@@ -980,12 +984,15 @@ header {
 
 .president-votes {
   color: @dark-gray;
+  font-family: AntennaExtraLight;
   font-style: italic;
   font-size: 14px;
 }
 
+
+
 .president-name, .party-name {
-  // margin-top: 10px;
+  font-family: 'AntennaBold';
   padding: 10px;
   &.right {
     float: right;
@@ -1006,8 +1013,15 @@ header {
     font-family: @bold-graphics;
   }
   .evotes-text {
+    display:block;
+    text-transform:uppercase;
     font-size: 12px;
+    color:#333; 
     font-family: @block-graphics;
+
+    @media @mobile{
+      font-size:10px;
+    }
   }
 }
 .president-bar, .senate-bar, .house-bar, .governor-bar {

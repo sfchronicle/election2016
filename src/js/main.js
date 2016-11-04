@@ -722,7 +722,7 @@ var federal_tooltip = d3.select("#map-container-federal")
     .attr("class","tooltip")
     .style("position", "absolute")
     .style("z-index", "10")
-    .style("visibility", "hidden")
+    .style("visibility", "hidden");
 
 // -----------------------------------------------------------------------------
 // filling in electoral vote count
@@ -1549,7 +1549,7 @@ var one = 60000, // 60000 = one minute
 
 setInterval(function() {
   updatePresidentialData();
-}, 1000);
+}, FederalDataTimer);
 
 function updatePresidentialData(){
   console.log('President Map Data!');
@@ -1618,7 +1618,7 @@ function updatePresidentialData(){
 
 setInterval(function() {
   updateElectoralCount();
-}, presDataTimer);
+}, 100000);
 
 function updateElectoralCount(){
 
@@ -1637,25 +1637,25 @@ function updateElectoralCount(){
     var uncounted_percent = 100-trump_percent-clinton_percent-other_percent;
 
     if (raceSummaries["electoralcount"]["d"]){
-      if (raceSummaries["electoralcount"]["d"] == "Dem") {
-        document.getElementById("electoralhillaryclinton").innerHTML = "Hillary Clinton ("+clinton_electoralvotes+") <i class='fa fa-check-circle-o' aria-hidden='true'></i>";
-        document.getElementById("electoraldonaldtrump").innerHTML = "Donald Trump ("+trump_electoralvotes+")";
-      } else {
-        document.getElementById("electoralhillaryclinton").innerHTML = "Hillary Clinton ("+clinton_electoralvotes+")";
-        document.getElementById("electoraldonaldtrump").innerHTML = "<i class='fa fa-check-circle-o' aria-hidden='true'></i>  Donald Trump ("+trump_electoralvotes+")";
-      }
+    if (raceSummaries["electoralcount"]["d"] == "Dem") {
+      document.getElementById("electoralhillaryclinton").innerHTML = "<div class='evotes' id='electoralhillaryclintonevotes'>"+clinton_electoralvotes+"<span class='evotes-text'> electoral votes</span></div>Hillary Clinton <i class='fa fa-check-circle-o' aria-hidden='true'>";
+      document.getElementById("electoraldonaldtrump").innerHTML = "<div class='evotes' id='electoraldonaldtrumpevotes'>"+trump_electoralvotes+"<span class='evotes-text'> electoral votes</span></div>Donald Trump";
     } else {
-      document.getElementById("electoralhillaryclinton").innerHTML = "Hillary Clinton ("+clinton_electoralvotes+")";
-      document.getElementById("electoraldonaldtrump").innerHTML = "Donald Trump ("+trump_electoralvotes+")";
+      document.getElementById("electoralhillaryclinton").innerHTML = "<div class='evotes' id='electoralhillaryclintonevotes'>"+clinton_electoralvotes+"<span class='evotes-text'> electoral votes</span></div>Hillary Clinton";
+      document.getElementById("electoraldonaldtrump").innerHTML = "<div class='evotes' id='electoraldonaldtrumpevotes'>"+trump_electoralvotes+"<span class='evotes-text'> electoral votes</span></div><i class='fa fa-check-circle-o' aria-hidden='true'> Donald Trump";
     }
-    document.getElementById("total-pres-votes-dem").innerHTML = formatthousands(raceSummaries["presvote"]["Dem"]);
-    document.getElementById("total-pres-votes-rep").innerHTML = formatthousands(raceSummaries["presvote"]["GOP"]);
+  } else {
+    document.getElementById("electoralhillaryclinton").innerHTML = "<div class='evotes' id='electoralhillaryclintonevotes'>"+clinton_electoralvotes+"<span class='evotes-text'> electoral votes</span></div>Hillary Clinton";
+    document.getElementById("electoraldonaldtrump").innerHTML = "<div class='evotes' id='electoraldonaldtrumpevotes'>"+trump_electoralvotes+"<span class='evotes-text'> electoral votes</span></div>Donald Trump";
+  }
+  document.getElementById("total-pres-votes-dem").innerHTML = formatthousands(raceSummaries["presvote"]["Dem"]);
+  document.getElementById("total-pres-votes-rep").innerHTML = formatthousands(raceSummaries["presvote"]["GOP"]);
 
-    // display electoral votes on bar
-    document.getElementById("uncounted").style.width = String(uncounted_percent)+"%";
-    document.getElementById("other").style.width = String(other_percent)+"%";
-    document.getElementById("hillaryclinton").style.width = String(clinton_percent)+"%";
-    document.getElementById("donaldtrump").style.width = String(trump_percent)+"%";
+  // display electoral votes on bar
+  document.getElementById("uncounted").style.width = String(uncounted_percent)+"%";
+  document.getElementById("other").style.width = String(other_percent)+"%";
+  document.getElementById("hillaryclinton").style.width = String(clinton_percent)+"%";
+  document.getElementById("donaldtrump").style.width = String(trump_percent)+"%";
   });
 
 }
