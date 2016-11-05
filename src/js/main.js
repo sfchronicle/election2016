@@ -1055,9 +1055,9 @@ d3.json(houseCAURL, function(houseCA){
           };
 
           camap("./assets/maps/ca_house_insets.json",houseCA,0);
-          catimer_props = setInterval(function() {
+          catimer_races = setInterval(function() {
             camap("./assets/maps/ca_house_insets.json",houseCA,0);
-          }, caInterval);
+          }, caIntervalRaces);
 
       });
     });
@@ -1577,8 +1577,8 @@ var one = 60000, // 60000 = one minute
     propsCATimer = one * 5,
     localDataTimer = one * 5, // includes SF supes
     regionalDataTimer = one * 10,
-    caInterval = one * 100;
-    caInvervalRaces = one * 100;
+    caInterval = one * 5,
+    caIntervalRaces = one *5;
 
 
 
