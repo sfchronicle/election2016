@@ -30,6 +30,9 @@ var federalsenateCAURL = "http://extras.sfgate.com/editorial/election2016/live/e
 var assemblyCAURL = "http://extras.sfgate.com/editorial/election2016/live/emma_assembly_district_id.json";
 var propsCAURL = "http://extras.sfgate.com/editorial/election2016/live/props_county_ca.json";
 var localDataURL = "http://extras.sfgate.com/editorial/election2016/live/emma_localresults.json";
+var storylinksURL = "http://extras.sfgate.com/editorial/election2016/live/electionurls.json";
+
+console.log(storylinksURL);
 
 // helpful functions:
 var formatthousands = d3.format("0,000");
@@ -46,6 +49,14 @@ var published = months[d.getMonth()]+' '+d.getDate()+', '+d.getFullYear()+' '+ho
 
 document.getElementById(divID).innerHTML = published;
 }
+
+// // event listener for tooltips
+// document.querySelectorAll('.close-tooltip').addEventListener('click', function(){
+//   tooltip.style("visibility", "hidden");
+//   federal_tooltip.style("visibility","hidden");
+//   state_tooltip.style("visibility", "hidden");
+//   prop_tooltip.style("visibility", "hidden");
+// });
 
 // function for shading colors
 function shadeColor2(color, percent) {
@@ -261,11 +272,11 @@ function tooltip_function(abbrev,races,properties) {
       if (+tempvar.r["Yes"] != 0) {
         var total = +tempvar.r["Yes"] + +tempvar.r["No"];
         if (total == 0) { total = 0.1;}
-        var html_str = "<div class='state-name'>"+properties.name+"</div>";
+        var html_str = "<div class='state-name'>"+properties.name+"<span class='close-tooltip'><i class='fa fa-times' aria-hidden='true'></i></span></div>";
         html_str = html_str+"<div class='result'>Yes: "+Math.round(+tempvar.r["Yes"]/total*1000)/10+"%<span class='no-class'>No: "+Math.round(+tempvar.r["No"]/total*1000)/10+"%</span></div>";
         html_str = html_str+"<div>"+formatthousands(tempvar.p)+"/"+formatthousands(properties.precincts)+" precincts reporting</div>";
       } else {
-        var html_str = "<div class='state-name'>"+properties.name+"</div>";
+        var html_str = "<div class='state-name'>"+properties.name+"<span class='close-tooltip'><i class='fa fa-times' aria-hidden='true'></i></span></div>";
         html_str = html_str+"<div>"+formatthousands(tempvar.p)+"/"+formatthousands(properties.precincts)+" precincts reporting</div>";
       }
     } else {
@@ -280,7 +291,7 @@ function tooltip_function(abbrev,races,properties) {
       }
       // this is a hack for when there are no reported results yet
       if (sum == 0) { sum = 0.1; }
-      var count = 1; var html_str = "<div class='state-name'>"+properties.name+"</div>";
+      var count = 1; var html_str = "<div class='state-name'>"+properties.name+"<span class='close-tooltip'><i class='fa fa-times' aria-hidden='true'></i></span></div>";
       while (tempvar["c"+count]) {
         var party = tempvar["c"+count+"_party"];
         var key = tempvar["c"+count+"_name"].toLowerCase().replace(/ /g,'').replace("'","");
@@ -297,7 +308,7 @@ function tooltip_function(abbrev,races,properties) {
       html_str = html_str+"<div>"+formatthousands(tempvar.p)+"/"+formatthousands(properties.precincts)+" precincts reporting</div>";
     }
   } else {
-    var html_str = "<div class='state-name'>"+properties.name+"</div><div>No race.</div>";
+    var html_str = "<div class='state-name'>"+properties.name+"<span class='close-tooltip'><i class='fa fa-times' aria-hidden='true'></i></span></div><div>No race.</div>";
   }
   return html_str;
 }
@@ -700,26 +711,26 @@ d3.json(governorRacesURL, function(governorRaces){
               } else {
                 var html_str = tooltip_function(d.id,active_data,d.properties);
               }
-              tooltip.html(html_str);
-              tooltip.style("visibility", "visible");
+              federal_tooltip.html(html_str);
+              federal_tooltip.style("visibility", "visible");
             })
             .on("mousemove", function() {
               if (screen.width <= 480) {
-                return tooltip
+                return federal_tooltip
                   .style("top",(d3.event.pageY+10)+"px")//(d3.event.pageY+40)+"px")
                   .style("left",((d3.event.pageX)/3+10)+"px");
               } else if (screen.width <= 670) {
-                return tooltip
+                return federal_tooltip
                   .style("top",(d3.event.pageY+10)+"px")//(d3.event.pageY+40)+"px")
                   .style("left",((d3.event.pageX)/2+50)+"px");
               } else {
-                return tooltip
+                return federal_tooltip
                   .style("top", (d3.event.pageY+20)+"px")
                   .style("left",(d3.event.pageX-80)+"px");
               }
             })
             .on("mouseout", function(){
-              return tooltip.style("visibility", "hidden");
+              return federal_tooltip.style("visibility", "hidden");
             });
           });
 
@@ -1360,7 +1371,11 @@ d3.json(localDataURL, function(localData){
 // populating regional results
 // -----------------------------------------------------------------------------
 
-regional_section("Alameda","alameda");
+// var regionalsection_timer;
+// regional_section("Alameda","alameda");
+// regionalsection_timer = setInterval(function(){
+//   regional_section("Alameda","alameda");
+// },regionalInterval)
 
 // event listeners for different Regional regions
 var qsa = s => Array.prototype.slice.call(document.querySelectorAll(s));
@@ -1380,6 +1395,10 @@ qsa(".sectionbutton").forEach(function(group,index) {
       regionsection[i].remove();
     }
     regional_section(this_name,regionkey);
+    // clearTimeout(regionalsection_timer);
+    // regionalsection_timer = setInterval(function() {
+    //   regional_section(this_name,regionkey);
+    // }, regionalInterval);
   });
 });
 
@@ -1578,7 +1597,9 @@ var one = 60000, // 60000 = one minute
     localDataTimer = one * 5, // includes SF supes
     regionalDataTimer = one * 10,
     caInterval = one * 5,
-    caIntervalRaces = one *5;
+    caIntervalRaces = one * 5,
+    regionalInterval = 1000,
+    linksInterval = one * 5;
 
 
 

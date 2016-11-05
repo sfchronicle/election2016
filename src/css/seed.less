@@ -1315,6 +1315,17 @@ header {
   }
 }
 
+.close-tooltip {
+  display: none;
+  @media @mobile {
+    display: block;
+    float: right;
+    font-size: 16px;
+    padding: 2px;
+    margin-top: -5px;
+  }
+}
+
 .flex-container {
   .display-flex();
   @media @phone-horiz {
