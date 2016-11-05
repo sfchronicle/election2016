@@ -1554,7 +1554,7 @@ var one = 60000, // 60000 = one minute
     StateTimer = one * 3,
     propsCATimer = one * 5,
     localDataTimer = one * 5, // includes SF supes
-    regionalDataTimer = one * 10;
+    regionalDataTimer = one * 10,
     caInterval = one * 100;
 
 
