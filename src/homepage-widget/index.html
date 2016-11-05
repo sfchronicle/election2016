@@ -1,0 +1,85 @@
+<!doctype html>
+<html>
+  <head>
+    <title><%= json.project.title %></title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link rel="stylesheet" type="text/css" href="../style.css">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+    <script src="http://projects.sfchronicle.com/shared/js/jquery.min.js"></script>
+    <script src="http://projects.sfchronicle.com/shared/js/responsive-child.js"></script>
+  </head>
+
+  <body is="responsive-body">
+
+    <div class="outer">
+    
+
+      <div class="title-img widget">
+    
+        <img class="banner widget" src="../assets/election2016banner.png">
+
+      </div>
+
+      <div class="deck widget">Live Results</div>
+
+      <div class="icon left">
+          <img src="../assets/graphics/clinton.png">
+        </div>
+        <div class="icon right">
+          <img src="../assets/graphics/trump.png">
+        </div>
+
+        <h3 class="president-name left"><span id="electoralhillaryclinton">Hillary Clinton</span>
+          <div class="president-votes"><span id="total-pres-votes-dem">0</span> votes</div>
+        </h3>
+        <h3 class="president-name right"><span id="electoraldonaldtrump">Donald Trump</span>
+          <div class="president-votes right"><span id="total-pres-votes-rep">0</span> votes</div>
+        </h3>
+        <div class="president-bar">
+          <div class="bar" id="hillaryclinton"></div>
+          <div class="bar" id="other"></div>
+          <div class="bar" id="uncounted"></div>
+          <div class="bar" id="donaldtrump"></div>
+          <div class="mark270"></div>
+        </div>
+        <div class="marker270"><i class="fa fa-angle-double-up" aria-hidden="true"></i></div>
+        <div class="marker270label">270 electoral votes</div>
+
+        <div class="button-container" id="pres-button-container">
+          <div class="button race button-pres states-pres active" id="presidentbystate">Results by state</div>
+          <div class="button race button-pres counties-pres" id="presidentbycounty">Results by county</div>
+        </div>
+        <div class="legend-container home">
+          <div class="element-home"><div class="dem-swath swath"></div><div class="text">Hillary Clinton</div></div>
+          <div class="element-home"><div class="rep-swath swath"></div><div class="text">Donald Trump</div></div>
+          <div class="element-home"><div class="stein-swath swath"></div><div class="text">Jill Stein</div></div>
+          <div class="element-home"><div class="johnson-swath swath"></div><div class="text">Gary Johnson</div></div>
+          <div class="element-home"><div class="other-swath swath"></div><div class="text">Other winner</div></div>
+          <div class="element-home"><div class="uncalled-swath swath"></div><div class="text">Uncalled race</div></div>
+          <div class="element-home"><div class="noresults-swath swath"></div><div class="text">No results</div></div>
+        </div>
+        <div id="map-container-president"></div>
+
+        
+     
+      <footer class="footer-widget">
+        <div>
+          <p>Live results: <a href="http://sfchronicle.com/election">www.sfchronicle.com/election</a></p>
+        </div>
+      </footer>
+
+    </div>
+
+    <script>
+
+      // map look-up tables
+      var stateCodes = <%= JSON.stringify(csv.stateCodes) %>;
+      var countyCodes = <%= JSON.stringify(json.countyCodesLookup) %>;
+
+    </script>
+
+    <script src="../homepage.js" async></script>
+
+  </body>
+</html>
