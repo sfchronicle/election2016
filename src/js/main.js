@@ -419,7 +419,7 @@ var pattern2 = svg_element_pres.append("defs")
   .append("rect")
     .attr({ width:"7.5", height:"8", transform:"translate(0,0)", fill:red });
 
-d3.json("../assets/maps/us_state_new.json", function(error, us) {
+d3.json("./assets/maps/us_state_new.json", function(error, us) {
   if (error) throw error;
 
   d3.json(presidentialDataURL, function(presidentialData){
@@ -493,9 +493,9 @@ if (screen.width > 670) {
     .classed("svg-content-responsive", true);
     // .attr("id","president-map-counties-svg");
 
-  d3.json("../assets/maps/us_county_new.json", function(error, us) {
+  d3.json("./assets/maps/us_county_new.json", function(error, us) {
     if (error) throw error;
-    d3.json("../assets/maps/us_state_new.json", function(error, states) {
+    d3.json("./assets/maps/us_state_new.json", function(error, states) {
       if (error) throw error;
 
       d3.json(presidentialCountyDataURL, function(presidentialCountyData){
