@@ -347,15 +347,15 @@ function regional_section(this_name,regionkey){
       localData[this_name][d2].forEach(function(d4,idx3){
         var key = d4.name.toLowerCase().replace(/ /g,'').replace(".","").replace("'","");
         if(d4["n"]) {
-          var h4_html = "<h4 class='race sup'>"+d4.name+" ("+d4["n"]+" seats)</h4><div id='key"+regionkey+racekey+key+ "'>";
+          var h4_html = "<div><h4 class='race sup'>"+d4.name+" ("+d4["n"]+" seats)</h4><div id='key"+regionkey+racekey+ key + "'</div>";
         } else {
           if(d4["desc"]){
-            var h4_html = "<h4 class='race sup'>"+d4.name+"<div class='race desc'>"+d4.desc+"</div></h4><div id='key"+regionkey+racekey+key+ "'>";
+            var h4_html = "<div><h4 class='race sup'>"+d4.name+"<div class='race desc'>"+d4.desc+"</div></h4><div id='key"+regionkey+racekey+ key + "'</div>";
           } else {
-            var h4_html = "<h4 class='race sup'>"+d4.name+"</h4><div id='key"+regionkey+racekey+key+ "'>";
+            var h4_html = "<div><h4 class='race sup'>"+d4.name+"</h4><div id='key"+regionkey+racekey+ key + "'</div>";
           }
         }
-        raceID.innerHTML = h4_html;
+        raceID.insertAdjacentHTML("beforeend",h4_html)
         var finalID = document.getElementById("key"+regionkey+racekey+key);
         // need to do a different thing for measures here
         if (racekey == "measures") {
@@ -367,6 +367,7 @@ function regional_section(this_name,regionkey){
     });
   });
 };
+
 
 // PRESIDENTIAL MAP ------------------------------------------------------------
 
