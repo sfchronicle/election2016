@@ -873,6 +873,9 @@ d3.json(senateRacesURL, function(senateRaces){
 // -----------------------------------------------------------------------------
 // STATE MAP ------------------------------------------------------------
 // -----------------------------------------------------------------------------
+
+var catimer_races;
+
 d3.json(houseCAURL, function(houseCA){
 
   d3.json(federalsenateCAURL, function(federalsenateCA){
@@ -888,6 +891,10 @@ d3.json(houseCAURL, function(houseCA){
             d3.selectAll(".camapinset").classed("active",false);
             this.classList.add("active");
             camap("./assets/maps/ca_assembly_insets.json",assemblyCA,0);
+            clearTimeout(catimer_races);
+            catimer_races = setInterval(function() {
+              camap("./assets/maps/ca_assembly_insets.json",assemblyCA,0);
+            }, caIntervalRaces);
             d3.selectAll(".ca-legend").classed("active",false);
             document.getElementById("ca-race-legend").classList.add("active");
           });
@@ -896,6 +903,10 @@ d3.json(houseCAURL, function(houseCA){
             d3.selectAll(".camapinset").classed("active",false);
             this.classList.add("active");
             camap("./assets/maps/ca_statesenate_insets.json",senateCA,0);
+            clearTimeout(catimer_races);
+            catimer_races = setInterval(function() {
+              camap("./assets/maps/ca_statesenate_insets.json",senateCA,0);
+            }, caIntervalRaces);
             d3.selectAll(".ca-legend").classed("active",false);
             document.getElementById("ca-race-legend").classList.add("active");
           });
@@ -904,6 +915,10 @@ d3.json(houseCAURL, function(houseCA){
             d3.selectAll(".camapinset").classed("active",false);
             this.classList.add("active");
             camap("./assets/maps/ca_county_insets.json",federalsenateCA,1);
+            clearTimeout(catimer_races);
+            catimer_races = setInterval(function() {
+              camap("./assets/maps/ca_county_insets.json",federalsenateCA,1);
+            }, caIntervalRaces);
             d3.selectAll(".ca-legend").classed("active",false);
             document.getElementById("ca-sanchez-legend").classList.add("active");
           });
@@ -912,6 +927,10 @@ d3.json(houseCAURL, function(houseCA){
             d3.selectAll(".camapinset").classed("active",false);
             this.classList.add("active");
             camap("./assets/maps/ca_house_insets.json",houseCA,0);
+            clearTimeout(catimer_races);
+            catimer_races = setInterval(function() {
+              camap("./assets/maps/ca_house_insets.json",houseCA,0);
+            }, caIntervalRaces);
             d3.selectAll(".ca-legend").classed("active",false);
             document.getElementById("ca-race-legend").classList.add("active");
           });
@@ -1035,6 +1054,9 @@ d3.json(houseCAURL, function(houseCA){
           };
 
           camap("./assets/maps/ca_house_insets.json",houseCA,0);
+          catimer_props = setInterval(function() {
+            camap("./assets/maps/ca_house_insets.json",houseCA,0);
+          }, caInterval);
 
       });
     });
@@ -1045,7 +1067,7 @@ d3.json(houseCAURL, function(houseCA){
 // STATE MAP PROPOSITIONS ------------------------------------------------------
 // -----------------------------------------------------------------------------
 
-var catimer;
+var catimer_props;
 
 d3.json(propsCAURL, function(propsCA){
 
@@ -1068,8 +1090,8 @@ d3.json(propsCAURL, function(propsCA){
       this.classList.add("active");
       var active_data = propsCA[51+index];
       camap("./assets/maps/ca_county_new.json",active_data.counties);
-      clearTimeout(catimer);
-      catimer = setInterval(function() {
+      clearTimeout(catimer_props);
+      catimer_props = setInterval(function() {
         camap("./assets/maps/ca_county_new.json",active_data.counties);
       }, caInterval);
       // camap("./assets/maps/ca_county_new.json",active_data.counties);
@@ -1161,7 +1183,7 @@ d3.json(propsCAURL, function(propsCA){
 
   var active_data = propsCA[51];
   camap("./assets/maps/ca_county_new.json",active_data.counties);
-  catimer = setInterval(function() {
+  catimer_props = setInterval(function() {
     camap("./assets/maps/ca_county_new.json",active_data.counties);
   }, caInterval);
   // camap("./assets/maps/ca_county_new.json",active_data.counties);
@@ -1555,6 +1577,7 @@ var one = 60000, // 60000 = one minute
     localDataTimer = one * 5, // includes SF supes
     regionalDataTimer = one * 10;
     caInterval = one * 100;
+    caInvervalRaces = one * 100;
 
 
 
