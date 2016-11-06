@@ -1371,11 +1371,17 @@ d3.json(localDataURL, function(localData){
 // populating regional results
 // -----------------------------------------------------------------------------
 
-// var regionalsection_timer;
-// regional_section("Alameda","alameda");
-// regionalsection_timer = setInterval(function(){
-//   regional_section("Alameda","alameda");
-// },regionalInterval)
+var regionalsection_timer;
+regional_section("Alameda","alameda");
+regionalsection_timer = setInterval(function(){
+  var element = document.getElementById("regional-results-wrapper");
+  if (element){
+    element.parentNode.removeChild(element);
+  }
+  document.getElementById("regional-results-wrapper-wrapper").insertAdjacentHTML("beforeend","<div id='regional-results-wrapper'><div id='regional-results'></div></div>");
+  regional_section("Alameda","alameda");
+  console.log("done");
+},60000);
 
 // event listeners for different Regional regions
 var qsa = s => Array.prototype.slice.call(document.querySelectorAll(s));
@@ -1395,10 +1401,16 @@ qsa(".sectionbutton").forEach(function(group,index) {
       regionsection[i].remove();
     }
     regional_section(this_name,regionkey);
-    // clearTimeout(regionalsection_timer);
-    // regionalsection_timer = setInterval(function() {
-    //   regional_section(this_name,regionkey);
-    // }, regionalInterval);
+    clearTimeout(regionalsection_timer);
+    regionalsection_timer = setInterval(function() {
+      var element = document.getElementById("regional-results-wrapper");
+      if (element){
+        element.parentNode.removeChild(element);
+      }
+      document.getElementById("regional-results-wrapper-wrapper").insertAdjacentHTML("beforeend","<div id='regional-results-wrapper'><div id='regional-results'></div></div>");
+      regional_section(this_name,regionkey);
+      console.log("done");
+    }, 60000);
   });
 });
 
@@ -1598,7 +1610,7 @@ var one = 60000, // 60000 = one minute
     regionalDataTimer = one * 10,
     caInterval = one * 5,
     caIntervalRaces = one * 5,
-    regionalInterval = 1000,
+    regionalInterval = one * 5,
     linksInterval = one * 5;
 
 
