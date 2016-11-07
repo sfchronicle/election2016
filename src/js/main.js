@@ -32,6 +32,34 @@ var propsCAURL = "http://extras.sfgate.com/editorial/election2016/live/props_cou
 var localDataURL = "http://extras.sfgate.com/editorial/election2016/live/emma_localresults.json";
 var storylinksURL = "http://extras.sfgate.com/editorial/election2016/live/electionurls.json";
 
+d3.json(storylinksURL, function(storyLinks){
+  console.log(storyLinks);
+  setLinks(storyLinks);
+});
+var storyTimer = setInterval(function() {
+  d3.json(storylinksURL, function(storyLinks){
+    setLinks(storyLinks);
+  });
+}, 60000);
+
+function setLinks(storyLinks) {
+  if (storyLinks.prez1109) {
+    document.getElementById("presidentStoryLink").innerHTML = "<span class='story-link-URL'><a href='"+storyLinks.prez1109+"' target='_blank'>  <i class='fa fa-external-link' aria-hidden='true'></i>Read the story</a></span>";
+  }
+  if (storyLinks.ussenate1109) {
+    document.getElementById("senateStoryLink").innerHTML = "<span class='story-link-URL'><a href='"+storyLinks.ussenate1109+"' target='_blank'>  <i class='fa fa-external-link' aria-hidden='true'></i>Read the story</a></span>";
+  }
+  if (storyLinks.casenate1109) {
+    document.getElementById("CAsenateStoryLink").innerHTML = "<span class='story-link-URL'><a href='"+storyLinks.casenate1109+"' target='_blank'>  <i class='fa fa-external-link' aria-hidden='true'></i>Read the story</a></span>";
+  }
+  if (storyLinks.bart1109) {
+      document.getElementById("bartStoryLink").innerHTML = "<span class='story-link-URL'><a href='"+storyLinks.bart1109+"' target='_blank'>  <i class='fa fa-external-link' aria-hidden='true'></i>Read the story</a></span>";
+  }
+  if (storyLinks.southbay1109) {
+      document.getElementById("southbayStoryLink").innerHTML = "<span class='story-link-URL'><a href='"+storyLinks.southbay1109+"' target='_blank'>  <i class='fa fa-external-link' aria-hidden='true'></i>Read the story</a></span>";
+  }
+};
+
 // helpful functions:
 var formatthousands = d3.format("0,000");
 
@@ -1682,11 +1710,11 @@ function updateElectoralCount(){
 
     if (raceSummaries["electoralcount"]["d"]){
     if (raceSummaries["electoralcount"]["d"] == "Dem") {
-      document.getElementById("electoralhillaryclinton").innerHTML = "<div class='evotes' id='electoralhillaryclintonevotes'>"+clinton_electoralvotes+"<span class='evotes-text'> electoral votes</span></div>Hillary Clinton <i class='fa fa-check-circle-o' aria-hidden='true'>";
+      document.getElementById("electoralhillaryclinton").innerHTML = "<div class='evotes' id='electoralhillaryclintonevotes'>"+clinton_electoralvotes+"<span class='evotes-text'> electoral votes</span></div>Hillary Clinton <i class='fa fa-check-circle-o' aria-hidden='true'></i>";
       document.getElementById("electoraldonaldtrump").innerHTML = "<div class='evotes' id='electoraldonaldtrumpevotes'>"+trump_electoralvotes+"<span class='evotes-text'> electoral votes</span></div>Donald Trump";
     } else {
       document.getElementById("electoralhillaryclinton").innerHTML = "<div class='evotes' id='electoralhillaryclintonevotes'>"+clinton_electoralvotes+"<span class='evotes-text'> electoral votes</span></div>Hillary Clinton";
-      document.getElementById("electoraldonaldtrump").innerHTML = "<div class='evotes' id='electoraldonaldtrumpevotes'>"+trump_electoralvotes+"<span class='evotes-text'> electoral votes</span></div><i class='fa fa-check-circle-o' aria-hidden='true'> Donald Trump";
+      document.getElementById("electoraldonaldtrump").innerHTML = "<div class='evotes' id='electoraldonaldtrumpevotes'>"+trump_electoralvotes+"<span class='evotes-text'> electoral votes</span></div><i class='fa fa-check-circle-o' aria-hidden='true'></i> Donald Trump";
     }
   } else {
     document.getElementById("electoralhillaryclinton").innerHTML = "<div class='evotes' id='electoralhillaryclintonevotes'>"+clinton_electoralvotes+"<span class='evotes-text'> electoral votes</span></div>Hillary Clinton";
