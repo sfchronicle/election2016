@@ -1277,6 +1277,7 @@ header {
 
 .states {
   // fill: #b2b2b2;
+  z-index: -1;
   stroke: white;
   stroke-linejoin: round;
   stroke-width: 0.3px;
@@ -1298,6 +1299,7 @@ header {
 
 .tooltip {
   font-size: 14px;
+  z-index: 50;
   font-family: @block-graphics;
   padding: 10px;
   border-radius: 3px;
@@ -1322,6 +1324,7 @@ header {
 .close-tooltip {
   display: none;
   @media @mobile {
+    z-index: 100;
     display: block;
     float: right;
     font-size: 16px;

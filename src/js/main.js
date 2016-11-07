@@ -48,14 +48,6 @@ var published = months[d.getMonth()]+' '+d.getDate()+', '+d.getFullYear()+' '+ho
 document.getElementById(divID).innerHTML = published;
 }
 
-// // event listener for tooltips
-// document.querySelectorAll('.close-tooltip').addEventListener('click', function(){
-//   tooltip.style("visibility", "hidden");
-//   federal_tooltip.style("visibility","hidden");
-//   state_tooltip.style("visibility", "hidden");
-//   prop_tooltip.style("visibility", "hidden");
-// });
-
 // function for shading colors
 function shadeColor2(color, percent) {
     var f=parseInt(color.slice(1),16),t=percent<0?0:255,p=percent<0?percent*-1:percent,R=f>>16,G=f>>8&0x00FF,B=f&0x0000FF;
@@ -634,7 +626,7 @@ d3.json(governorRacesURL, function(governorRaces){
           var svg_element_fed = d3.select("#map-container-federal")
             .append("div")
             .classed("svg-container", true) //container class to make it responsive
-            .attr("id","map-container-federal")
+            .attr("id","map-container-fed")
             // .style("display","none")
             .append("svg")
             //responsive SVG needs these 2 attributes and no width and height attr
@@ -729,15 +721,6 @@ d3.json(governorRacesURL, function(governorRaces){
               return federal_tooltip.style("visibility", "hidden");
             });
           });
-
-
-        // show tooltip
-        var federal_tooltip = d3.select("#map-container-federal")
-          .append("div")
-          .attr("class","tooltip")
-          .style("position", "absolute")
-          .style("z-index", "10")
-          .style("visibility", "hidden");
       };
 
       federalmap("./assets/maps/us_state_new.json",senateRaces);
@@ -745,6 +728,15 @@ d3.json(governorRacesURL, function(governorRaces){
     });
   });
 });
+
+// show tooltip
+var federal_tooltip = d3.select("#map-container-federal")
+  .append("div")
+  .attr("class","tooltip")
+  .attr("id","fed-tooltip")
+  .style("position", "absolute")
+  .style("z-index", "10")
+  .style("visibility", "hidden");
 
 
 
@@ -766,11 +758,11 @@ d3.json(raceSummariesURL, function(raceSummaries){
 
   if (raceSummaries["electoralcount"]["d"]){
     if (raceSummaries["electoralcount"]["d"] == "Dem") {
-      document.getElementById("electoralhillaryclinton").innerHTML = "<div class='evotes' id='electoralhillaryclintonevotes'>"+clinton_electoralvotes+"<span class='evotes-text'> electoral votes</span></div>Hillary Clinton <i class='fa fa-check-circle-o' aria-hidden='true'>";
+      document.getElementById("electoralhillaryclinton").innerHTML = "<div class='evotes' id='electoralhillaryclintonevotes'>"+clinton_electoralvotes+"<span class='evotes-text'> electoral votes</span></div>Hillary Clinton <i class='fa fa-check-circle-o' aria-hidden='true'></i>";
       document.getElementById("electoraldonaldtrump").innerHTML = "<div class='evotes' id='electoraldonaldtrumpevotes'>"+trump_electoralvotes+"<span class='evotes-text'> electoral votes</span></div>Donald Trump";
     } else {
       document.getElementById("electoralhillaryclinton").innerHTML = "<div class='evotes' id='electoralhillaryclintonevotes'>"+clinton_electoralvotes+"<span class='evotes-text'> electoral votes</span></div>Hillary Clinton";
-      document.getElementById("electoraldonaldtrump").innerHTML = "<div class='evotes' id='electoraldonaldtrumpevotes'>"+trump_electoralvotes+"<span class='evotes-text'> electoral votes</span></div><i class='fa fa-check-circle-o' aria-hidden='true'> Donald Trump";
+      document.getElementById("electoraldonaldtrump").innerHTML = "<div class='evotes' id='electoraldonaldtrumpevotes'>"+trump_electoralvotes+"<span class='evotes-text'> electoral votes</span></div><i class='fa fa-check-circle-o' aria-hidden='true'></i> Donald Trump";
     }
   } else {
     document.getElementById("electoralhillaryclinton").innerHTML = "<div class='evotes' id='electoralhillaryclintonevotes'>"+clinton_electoralvotes+"<span class='evotes-text'> electoral votes</span></div>Hillary Clinton";
@@ -1133,27 +1125,12 @@ d3.json(propsCAURL, function(propsCA){
       .append("path")
       .attr("class", "states")
       .attr("d",path)
-      // .attr("id",function(d) {
-      //   return "county"+parseInt(d.id);
-      // })
       .style("fill", function(d) {
         var location = d.id;
         if (active_data[String(location)]) {
           var tempvar = active_data[String(location)];
-          console.log(d.properties);
-          console.log(tempvar);
-          // if (tempvar.r || tempvar.d) {
-            var new_color = code_map_variable(tempvar,d.properties);
-            return new_color;
-          // } else if (flag == 1) {
-          //   var new_color = code_county(tempvar,d.properties);
-          //   return new_color;
-          // } else {
-            // var new_color = color_partial_results(tempvar,d.properties,"hashblueCA","hashredCA");
-            // return new_color;
-          // }
-        // } else {
-        //   return lightest_gray;//fill(path.area(d));
+          var new_color = code_map_variable(tempvar,d.properties);
+          return new_color;
         }
       })
       .attr("d", path)
