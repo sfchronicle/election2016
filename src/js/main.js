@@ -32,8 +32,6 @@ var propsCAURL = "http://extras.sfgate.com/editorial/election2016/live/props_cou
 var localDataURL = "http://extras.sfgate.com/editorial/election2016/live/emma_localresults.json";
 var storylinksURL = "http://extras.sfgate.com/editorial/election2016/live/electionurls.json";
 
-console.log(storylinksURL);
-
 // helpful functions:
 var formatthousands = d3.format("0,000");
 
@@ -237,9 +235,9 @@ function code_county(tempvar,properties){
 // function for coloring map
 function code_map_variable(tempvar,properties){
   if (tempvar.r) {
-    if (tempvar.r["Yes"] > tempvar.r["No"]) {
+    if (+tempvar.r["Yes"] > +tempvar.r["No"]) {
       return yes_map;
-    } else if (tempvar.r["Yes"] < tempvar.r["No"]){
+    } else if (+tempvar.r["Yes"] < +tempvar.r["No"]){
       return no_map;
     } else {
       return undecided_map;
@@ -269,9 +267,8 @@ function tooltip_function(abbrev,races,properties) {
   if (races[String(abbrev)]) {
     var tempvar = races[String(abbrev)];
     if (tempvar.r) {
-      if (+tempvar.r["Yes"] != 0) {
-        var total = +tempvar.r["Yes"] + +tempvar.r["No"];
-        if (total == 0) { total = 0.1;}
+      var total = +tempvar.r["Yes"] + +tempvar.r["No"];
+      if (total > 0) {
         var html_str = "<div class='state-name'>"+properties.name+"<span class='close-tooltip'><i class='fa fa-times' aria-hidden='true'></i></span></div>";
         html_str = html_str+"<div class='result'>Yes: "+Math.round(+tempvar.r["Yes"]/total*1000)/10+"%<span class='no-class'>No: "+Math.round(+tempvar.r["No"]/total*1000)/10+"%</span></div>";
         html_str = html_str+"<div>"+formatthousands(tempvar.p)+"/"+formatthousands(properties.precincts)+" precincts reporting</div>";
@@ -289,8 +286,7 @@ function tooltip_function(abbrev,races,properties) {
       if (tempvar["o"]) {
         sum += +tempvar["o"];
       }
-      // this is a hack for when there are no reported results yet
-      if (sum == 0) { sum = 0.1; }
+      if (sum == 0) { sum = 0.1; } // this is a hack for when there are no reported results yet
       var count = 1; var html_str = "<div class='state-name'>"+properties.name+"<span class='close-tooltip'><i class='fa fa-times' aria-hidden='true'></i></span></div>";
       while (tempvar["c"+count]) {
         var party = tempvar["c"+count+"_party"];
@@ -1144,18 +1140,20 @@ d3.json(propsCAURL, function(propsCA){
         var location = d.id;
         if (active_data[String(location)]) {
           var tempvar = active_data[String(location)];
-          if (tempvar.r || tempvar.d) {
+          console.log(d.properties);
+          console.log(tempvar);
+          // if (tempvar.r || tempvar.d) {
             var new_color = code_map_variable(tempvar,d.properties);
             return new_color;
-          } else if (flag == 1) {
-            var new_color = code_county(tempvar,d.properties);
-            return new_color;
-          } else {
-            var new_color = color_partial_results(tempvar,d.properties,"hashblueCA","hashredCA");
-            return new_color;
-          }
-        } else {
-          return lightest_gray;//fill(path.area(d));
+          // } else if (flag == 1) {
+          //   var new_color = code_county(tempvar,d.properties);
+          //   return new_color;
+          // } else {
+            // var new_color = color_partial_results(tempvar,d.properties,"hashblueCA","hashredCA");
+            // return new_color;
+          // }
+        // } else {
+        //   return lightest_gray;//fill(path.area(d));
         }
       })
       .attr("d", path)
