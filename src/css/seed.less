@@ -295,6 +295,9 @@ li {
   padding-bottom: 5px;
   font-family: @block-graphics;
   margin: 20px auto;
+  &.nobottompadding {
+    margin-bottom: 0;
+  }
   &.lesspadding {
     margin: 10px auto;
   }
@@ -1664,12 +1667,13 @@ header {
   padding: 4px;
   // float:left;
   .display-flex;
-  .flex-wrap(wrap);
+  // .flex-wrap(wrap);
+  justify-content: center;
   @media @mobile {
     margin: 15px auto;
   }
   .element {
-    width: 16%;
+    // width: 16%;
     .flex(0 0 16%);
     // width: 16%;
   }
