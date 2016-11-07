@@ -26,46 +26,43 @@
 
       </div>
 
-      <div class="deck widget">Live Results</div>
+      
+        <div class="icon left">
+          <img src="../assets/graphics/clinton.png">
+        </div>
+        <div class="icon right">
+          <img src="../assets/graphics/trump.png">
+        </div>
 
-      <div class="icon left widget">
-        <img src="../assets/graphics/clinton.png">
-      </div>
-      <div class="icon right widget">
-        <img src="../assets/graphics/trump.png">
-      </div>
-
-      <h3 class="president-name left widget"><span id="electoralhillaryclinton">Hillary Clinton</span>
-        <div class="president-votes widget"><span id="total-pres-votes-dem">0</span> votes</div>
-      </h3>
-      <h3 class="president-name right widget"><span id="electoraldonaldtrump">Donald Trump</span>
-        <div class="president-votes right widget"><span id="total-pres-votes-rep">0</span> votes</div>
-      </h3>
-      <div class="president-bar">
-        <div class="bar" id="hillaryclinton"></div>
-        <div class="bar" id="other"></div>
-        <div class="bar" id="uncounted"></div>
-        <div class="bar" id="donaldtrump"></div>
-        <div class="mark270"></div>
-      </div>
-      <div class="marker270"><i class="fa fa-angle-double-up" aria-hidden="true"></i></div>
-      <div class="marker270label">270 electoral votes</div>
-
-      <div class="button-container" id="pres-button-container">
-        <div class="button race button-pres states-pres active" id="presidentbystate">Results by state</div>
-        <div class="button race button-pres counties-pres" id="presidentbycounty">Results by county</div>
-      </div>
-
-      <div class="legend-container widget">
-        <div class="element"><div class="dem-swath"><div class="legend-text">Hillary Clinton</div></div></div>
-        <div class="element"><div class="rep-swath"><div class="legend-text">Donald Trump</div></div></div>
-        <div class="element"><div class="stein-swath"><div class="legend-text">Jill Stein</div></div></div>
-        <div class="element"><div class="johnson-swath"><div class="legend-text">Gary Johnson</div></div></div>
-        <div class="element"><div class="other-swath"><div class="legend-text">Other winner</div></div></div>
-        <div class="element"><div class="uncalled-swath"><div class="legend-text">Uncalled race</div></div></div>
-        <div class="element"><div class="noresults-swath"><div class="legend-text">No results</div></div></div>
-      </div>
-      <div id="map-container-president"></div>
+        <h3 class="president-name left"><span id="electoralhillaryclinton">Hillary Clinton</span>
+          <div class="president-votes"><span id="total-pres-votes-dem">0</span> votes</div>
+        </h3>
+        <h3 class="president-name right"><span id="electoraldonaldtrump">Donald Trump</span>
+          <div class="president-votes right"><span id="total-pres-votes-rep">0</span> votes</div>
+        </h3>
+        <div class="president-bar">
+          <div class="bar" id="hillaryclinton"></div>
+          <div class="bar" id="other"></div>
+          <div class="bar" id="uncounted"></div>
+          <div class="bar" id="donaldtrump"></div>
+          <div class="mark270"></div>
+        </div>
+        <div class="marker270"><i class="fa fa-angle-double-up" aria-hidden="true"></i></div>
+        <div class="marker270label">270 electoral votes</div>
+        <div class="deck widget" id="timestamp-container"><span>Last updated: </span><span id="timestamp"></span></div>
+        
+        <div class="legend-container home">
+          <div class="element-home"><div class="dem-swath swath"></div><div class="text">Hillary Clinton</div></div>
+          <div class="element-home"><div class="rep-swath swath"></div><div class="text">Donald Trump</div></div>
+          <div class="element-home"><div class="other-swath swath"></div><div class="text">Other winner</div></div>
+          <div class="element-home"><div class="uncalled-swath swath"></div><div class="text">Uncalled race</div></div>
+          <div class="element-home"><div class="noresults-swath swath"></div><div class="text">No results</div></div>
+        </div>
+        <div class="button-container" id="pres-button-container">
+          <div class="button race button-pres states-pres active" id="presidentbystate">Results by state</div>
+          <div class="button race button-pres counties-pres" id="presidentbycounty">Results by county</div>
+        </div>
+        <div id="map-container-president"></div>
 
       <footer class="footer-widget">
         <div>
