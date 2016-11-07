@@ -205,14 +205,24 @@ if (screen.width < 480){
 function lastUpdated(divID){
 var d = new Date(),
     minutes = d.getMinutes().toString().length == 1 ? '0'+d.getMinutes() : d.getMinutes(),
-    hours = d.getHours().toString().length == 1 ? +d.getHours() : d.getHours(),
-    ampm = d.getHours() >= 12 ? 'pm' : 'am',
+    hours = d.getHours(),
+    ampm = d.getHours() >= 12 ? ' p.m.' : ' a.m.',
     months = ['Jan.','Feb.','Mar.','Apr.','May','June','July','Aug.','Sept.','Oct.','Nov.','Dec.'];
 
-var published = months[d.getMonth()]+' '+d.getDate()+', '+d.getFullYear()+' '+hours+':'+minutes+ampm;
+    if(hours > 12){
+      hours = (hours - 12);     
+      if(hours < 10){
+          hours =  hours;
+      }else if(hours == 12){
+          hours = "12";
+      }
+    }
 
+var published = months[d.getMonth()]+' '+d.getDate()+', '+d.getFullYear()+' '+hours+':'+minutes+ampm;
 document.getElementById(divID).innerHTML = published;
 }
+// post first timestamp
+lastUpdated('timestamp');
 
 // PRESIDENTIAL MAP ------------------------------------------------------------
 
@@ -499,6 +509,7 @@ function updateElectoralCount(){
 
 setInterval(function() {
   updatePresidentialData();
+  lastUpdated('timestamp');
 }, FederalDataTimer);
 
 function updatePresidentialData(){
@@ -560,3 +571,22 @@ function updatePresidentialData(){
   });
 }
 
+
+setInterval(function () {
+
+    var today = new Date(), //gets the browser's current time
+      electionDay = new Date("Nov 08 2016 20:00:00 GMT-0800 (PST)"), //sets the countdown at 5pm
+      msPerDay = 24 * 60 * 60 * 1000,
+      timeLeft = (electionDay.getTime() - today.getTime()),
+      daysLeft = Math.floor(timeLeft / msPerDay),
+      hrsLeft = Math.floor((timeLeft / (1000 * 60 * 60)) % 24),
+      minsLeft = Math.floor((timeLeft / 1000 / 60) % 60),
+      secsLeft = Math.floor((timeLeft / 1000) % 60);
+  
+  document.getElementById("countdown").innerHTML = (
+    "<div class='time'><div class='hours'>"   +  hrsLeft   + "</div><div class='text'>HOURS</span></div></div>" + 
+    "<div class='time'><div class='minutes'>" +  minsLeft  + "</div><div class='text'>MINUTES</span></div></div>" +
+    "<div class='time'><div class='seconds'>" +  secsLeft  + "</div><div class='text'>SECONDS</span></div></div>"
+  );
+
+}, 1000);
