@@ -996,7 +996,6 @@ header {
 }
 
 
-
 .president-name, .party-name {
   font-family: 'AntennaBold';
   padding: 10px;
@@ -1658,19 +1657,21 @@ header {
 .legend-container {
   font-size: 12px;
   font-family: @block-graphics;
-  border: 1px solid @black;
-  border-radius: 6px;
-  width: 300px;
+  width: 100%;
   margin: auto;
+  text-align: center;
   margin-bottom: 10px;
   padding: 4px;
+  // float:left;
   .display-flex;
   .flex-wrap(wrap);
   @media @mobile {
     margin: 15px auto;
   }
   .element {
-    .flex(0 0 50%);
+    width: 16%;
+    .flex(0 0 16%);
+    // width: 16%;
   }
   .rep-swath, .dem-swath, .dem2-swath, .other-swath, .tied-swath, .called-swath, .no-swath, .yes-swath, .uncalled-swath, .no-race-swath, .stein-swath, .johnson-swath, .noresults-swath  {
     height: 14px;
@@ -1700,6 +1701,7 @@ header {
   }
   .no-race-swath {background: @light-gray-map;}
   .legend-text {
+    text-align: left;
     width: 150px;
     padding-left: 20px;
     vertical-align: text-top;
