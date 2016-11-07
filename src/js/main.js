@@ -130,7 +130,6 @@ function populateRace(raceID,racevar,p) {
   while (racevar["c"+count]) {
     var namekey = racevar["c"+count+"_name"].toLowerCase().replace(/ /g,'').replace(".","").replace("'","");
     if (racevar["c"+count+"_party"]){
-      console.log(racevar);
       if (racevar["d"]) {
         if ((racevar["c"+count+"_name"] == racevar["d"]) && (racevar["c"+count+"_i"] == 1)) {
           html = html+"<div class='entry'><h3 class='name'><i class='fa fa-check-circle-o' aria-hidden='true'></i>"+racevar["c"+count+"_name"]+" <span class='"+racevar["c"+count+"_party"]+"party'>" + racevar["c"+count+"_party"] + "</span><i class='fa fa-star' aria-hidden='true'></i></h3><div class='bar' id='"+namekey+"'></div><div class='bar-label'>"+Math.round(racevar["c"+count]/sum*100)+"%</div></div>";
@@ -177,7 +176,7 @@ function populateRace(raceID,racevar,p) {
 }
 
 // color partial results on the map
-function color_partial_results(tempvar,properties,hashblue,hashred){
+function color_partial_results(tempvar,properties,hashblue,hashred,hashyellow){
   Array.prototype.max = function() {
     return Math.max.apply(null, this);
   };
@@ -202,12 +201,8 @@ function color_partial_results(tempvar,properties,hashblue,hashred){
         } else if (tempvar["c"+count+"_party"] == "GOP") {
           // return red;
           return "url(#"+hashred+")";
-        } else if (tempvar["c"+count+"_name"] == "Jill Stein"){
-          return green;
-        } else if (tempvar["c"+count+"_name"] == "Gary Johnson"){
-          return orange;
         } else {
-          return yellow;
+          return "url(#"+hashyellow+")";;
         }
       }
       count++;
@@ -450,6 +445,12 @@ var pattern2 = svg_element_pres.append("defs")
   .append("rect")
     .attr({ width:"7.5", height:"8", transform:"translate(0,0)", fill:red });
 
+var pattern3 = svg_element_pres.append("defs")
+  .append("pattern")
+    .attr({ id:"hashyellow_pres", width:"8", height:"8", patternUnits:"userSpaceOnUse", patternTransform:"rotate(60)"})
+  .append("rect")
+    .attr({ width:"7.5", height:"8", transform:"translate(0,0)", fill:yellow });
+
 d3.json("./assets/maps/us_state_new.json", function(error, us) {
   if (error) throw error;
 
@@ -472,7 +473,7 @@ d3.json("./assets/maps/us_state_new.json", function(error, us) {
           return new_color;
         } else if (presidentialData[String(stateabbrev)]){
           var tempvar = presidentialData[String(stateabbrev)];
-          var new_color = color_partial_results(tempvar,d.properties,"hashblue_pres","hashred_pres");
+          var new_color = color_partial_results(tempvar,d.properties,"hashblue_pres","hashred_pres","hashyellow_pres");
           return new_color;
         } else {
           return dark_gray;
@@ -680,6 +681,12 @@ d3.json(governorRacesURL, function(governorRaces){
             .append("rect")
               .attr({ width:"7.5", height:"8", transform:"translate(0,0)", fill:red });
 
+          var patternfed3 = svg_element_fed.append("defs")
+            .append("pattern")
+              .attr({ id:"hashyellowFed", width:"8", height:"8", patternUnits:"userSpaceOnUse", patternTransform:"rotate(60)"})
+            .append("rect")
+              .attr({ width:"7.5", height:"8", transform:"translate(0,0)", fill:yellow });
+
           d3.json(active_map,function(error,us){
             if (error) throw error;
 
@@ -701,7 +708,7 @@ d3.json(governorRacesURL, function(governorRaces){
                       var new_color = code_map_variable(tempvar,d.properties);
                       return new_color;
                     } else {
-                      var new_color = color_partial_results(tempvar,d.properties,"hashblueFed","hashredFed");
+                      var new_color = color_partial_results(tempvar,d.properties,"hashblueFed","hashredFed","hashyellowFed");
                       return new_color;
                     }
                 } else {
@@ -715,7 +722,7 @@ d3.json(governorRacesURL, function(governorRaces){
                     var new_color = code_map_variable(tempvar,d.properties);
                     return new_color;
                   } else {
-                    var new_color = color_partial_results(tempvar,d.properties,"hashblueFed","hashredFed");
+                    var new_color = color_partial_results(tempvar,d.properties,"hashblueFed","hashredFed","hashyellowFed");
                     return new_color;
                   }
                 } else {
@@ -999,6 +1006,12 @@ d3.json(houseCAURL, function(houseCA){
               .append("rect")
                 .attr({ width:"7.5", height:"8", transform:"translate(0,0)", fill:red });
 
+            var patternCA3 = svgCACounties.append("defs")
+              .append("pattern")
+                .attr({ id:"hashyellowCA", width:"8", height:"8", patternUnits:"userSpaceOnUse", patternTransform:"rotate(60)"})
+              .append("rect")
+                .attr({ width:"7.5", height:"8", transform:"translate(0,0)", fill:yellow });
+
             d3.json(active_map, function(error, us) {
               if (error) throw error;
 
@@ -1024,7 +1037,7 @@ d3.json(houseCAURL, function(houseCA){
                     var new_color = code_county(tempvar,d.properties);
                     return new_color;
                   } else {
-                    var new_color = color_partial_results(tempvar,d.properties,"hashblueCA","hashredCA");
+                    var new_color = color_partial_results(tempvar,d.properties,"hashblueCA","hashredCA","hashyellowCA");
                     return new_color;
                   }
                 } else {
@@ -1646,7 +1659,7 @@ function updatePresidentialData(){
         return new_color;
       } else if (presidentialData[String(stateabbrev)]){
         var tempvar = presidentialData[String(stateabbrev)];
-        var new_color = color_partial_results(tempvar,d.properties,"hashblue_pres","hashred_pres");
+        var new_color = color_partial_results(tempvar,d.properties,"hashblue_pres","hashred_pres","hashyellow_pres");
         return new_color;
       } else {
         return dark_gray;
