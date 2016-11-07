@@ -209,13 +209,11 @@ var d = new Date(),
     ampm = d.getHours() >= 12 ? ' p.m.' : ' a.m.',
     months = ['Jan.','Feb.','Mar.','Apr.','May','June','July','Aug.','Sept.','Oct.','Nov.','Dec.'];
 
-    if(hours > 12){
-      hours = (hours - 12);     
-      if(hours < 10){
-          hours =  hours;
-      }else if(hours == 12){
-          hours = "12";
-      }
+    if(hours >= 12){
+      hours = (hours - 12);
+    }
+    if(hours == 0){
+      hours = 12;
     }
 
 var published = months[d.getMonth()]+' '+d.getDate()+', '+d.getFullYear()+' '+hours+':'+minutes+ampm;
@@ -324,8 +322,8 @@ d3.json("../assets/maps/us_state_new.json", function(error, us) {
           .style("left",((d3.event.pageX)/2+50)+"px");
       } else {
         return tooltip
-          .style("top", (d3.event.pageY+20)+"px")
-          .style("left",(d3.event.pageX-80)+"px");
+          .style("top", (d3.event.pageY-100)+"px")
+          .style("left",(d3.event.pageX/2+150)+"px");
       }
     })
     .on("mouseout", function(){return tooltip.style("visibility", "hidden");
@@ -575,7 +573,7 @@ function updatePresidentialData(){
 setInterval(function () {
 
     var today = new Date(), //gets the browser's current time
-      electionDay = new Date("Nov 08 2016 20:00:00 GMT-0800 (PST)"), //sets the countdown at 5pm
+      electionDay = new Date("Nov 08 2016 20:00:00 GMT-0800 (PST)"), //sets the countdown at 8pm
       msPerDay = 24 * 60 * 60 * 1000,
       timeLeft = (electionDay.getTime() - today.getTime()),
       daysLeft = Math.floor(timeLeft / msPerDay),
@@ -590,3 +588,39 @@ setInterval(function () {
   );
 
 }, 1000);
+
+
+
+
+// -----------------------------------------------------------------------------
+// UPDATES LINKS
+// -----------------------------------------------------------------------------
+
+setInterval(function() {
+  linksID.innerHTML=("");
+  updateLinks();
+}, presDataTimer);
+
+var jsonlinks = "../assets/links.json";
+var linksID = document.getElementById("story-links");
+
+function updateLinks(){
+  d3.json(jsonlinks, function(links){
+    links.forEach(function(d) {      
+      var deck = d.deck,
+          headline = d.headline,
+          url = d.url;
+      linksID.insertAdjacentHTML("beforeend",
+      "<a href='" + url + "' targer='_blank'>" +
+      "<h3>" +  headline   + "</h3>" 
+      );
+
+    });
+  });
+}
+updateLinks();
+
+
+
+
+

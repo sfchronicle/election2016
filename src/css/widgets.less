@@ -2,7 +2,6 @@
 // styles for widgets ---------------------------------------------------------------
 // ----------------------------------------------------------------------------------
 
-
 .outer{
 	
 	&.widget{
@@ -222,24 +221,44 @@
  	width: 100%;
  	position:relative;
     float: left;
-    max-width: 760px;
+    max-width: 720px;
     margin-top: 1em;
  }
 
- #homepage-links{
+#homepage-links{
+ 	min-height:385px;
     float: right;
     width: 33%;
-    padding: 1em;
+    padding: 1em 2em;
     margin-top: 1em;
-    margin-left: 1em;
     border-left: 1px solid #ccc;
 
     .links-title{
-    font-size:1.5em;
-    text-align:center;
+    background-color: #C12020;
+    color: white;
+    margin-bottom: 10px;
+    display: inline-block;
+    text-transform: uppercase;
+    padding: 1px 10px;
+    font-size: 0.8em;
+    font-family:'AntennaRegular';
     }
 
     p{
     font-size:16px;
+    padding:0;
     }
- }
+}
+
+#story-links{
+	
+	h3{
+	font-family:'FarnhamText';
+	margin-bottom:1em;
+	font-size:1em;
+	}
+
+	a{
+	color:#333;
+	}
+}
