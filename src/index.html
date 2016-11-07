@@ -295,6 +295,9 @@
               <div class='prop-name'><%=prop.title%></div>
               <div id="prop<%=prop.number%>" class='result'></div>
               <div class='prop-desc'><%=prop.description%></div>
+              <% if (idx == 13) { %>
+                <div><span id="potStoryLink"></span></div>
+              <% } %>
             </div>
 
           <% }); %>

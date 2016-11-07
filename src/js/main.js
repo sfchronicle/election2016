@@ -58,6 +58,9 @@ function setLinks(storyLinks) {
   if (storyLinks.southbay1109) {
       document.getElementById("southbayStoryLink").innerHTML = "<span class='story-link-URL'><a href='"+storyLinks.southbay1109+"' target='_blank'>  <i class='fa fa-external-link' aria-hidden='true'></i>Read the story</a></span>";
   }
+  if (storyLinks.marijuana1109) {
+      document.getElementById("potStoryLink").innerHTML = "<span class='story-link-URL'><a href='"+storyLinks.marijuana1109+"' target='_blank'>  <i class='fa fa-external-link' aria-hidden='true'></i>Read the story</a></span>";
+  }
 };
 
 // helpful functions:
