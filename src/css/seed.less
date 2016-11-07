@@ -1130,9 +1130,7 @@ header {
   .reg-prop-group {
     padding: 10px;
     margin-bottom: 20px;
-    // background: lighten(@light-gray,10%);
-    border-radius: 5px;
-    border: 1px solid @dark-gray;
+    border-bottom: 1px solid @light-gray;
     text-align: left;
     .sf-prop-icon {
       height: 110px;
@@ -1144,6 +1142,12 @@ header {
     }
   }
 }
+
+.reg-prop-group{
+  width:100%
+}
+
+
 
 .prop-name, .sf-prop-name, .reg-prop-name {
   font-weight: 400;
@@ -1162,7 +1166,34 @@ header {
   text-align: center;
 }
 
-.prop-desc, .sf-prop-desc, .reg-prop-desc {
+.float-left{
+  max-width:350px;
+  width:100%;
+  float:left;
+
+  @media (max-width:830px){
+  float: none;
+    margin: 0 auto;
+  }
+}
+
+.reg-prop-desc{  
+  font-family: @med-graphics;
+  float: right;
+  width: 55%;
+  max-width: 438px;
+  font-size: 0.67em;
+  padding-top: 8px;
+
+  @media (max-width:830px){
+      float: none;
+    margin: 0 auto;
+    padding-top: 30px;
+    width:100%;
+  }
+}
+
+.prop-desc, .sf-prop-desc {
   font-family: @med-graphics;
   font-style: italic;
   font-size: 14px;
