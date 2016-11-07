@@ -440,7 +440,7 @@ d3.json(raceSummariesURL, function(raceSummaries){
       document.getElementById("electoraldonaldtrump").innerHTML = "<div class='evotes' id='electoraldonaldtrumpevotes'>"+trump_electoralvotes+"<span class='evotes-text'> electoral votes</span></div>Donald Trump";
     } else {
       document.getElementById("electoralhillaryclinton").innerHTML = "<div class='evotes' id='electoralhillaryclintonevotes'>"+clinton_electoralvotes+"<span class='evotes-text'> electoral votes</span></div>Hillary Clinton";
-      document.getElementById("electoraldonaldtrump").innerHTML = "<div class='evotes' id='electoraldonaldtrumpevotes'>"+trump_electoralvotes+"<span class='evotes-text'> electoral votes</span></div><i class='fa fa-check-circle-o' aria-hidden='true'> Donald Trump";
+      document.getElementById("electoraldonaldtrump").innerHTML = "<div class='evotes' id='electoraldonaldtrumpevotes'>"+trump_electoralvotes+"<span class='evotes-text'> electoral votes</span></div><i class='fa fa-check-circle-o' aria-hidden='true'></i> Donald Trump";
     }
   } else {
     document.getElementById("electoralhillaryclinton").innerHTML = "<div class='evotes' id='electoralhillaryclintonevotes'>"+clinton_electoralvotes+"<span class='evotes-text'> electoral votes</span></div>Hillary Clinton";
@@ -484,7 +484,7 @@ function updateElectoralCount(){
       document.getElementById("electoraldonaldtrump").innerHTML = "<div class='evotes' id='electoraldonaldtrumpevotes'>"+trump_electoralvotes+"<span class='evotes-text'> electoral votes</span></div>Donald Trump";
     } else {
       document.getElementById("electoralhillaryclinton").innerHTML = "<div class='evotes' id='electoralhillaryclintonevotes'>"+clinton_electoralvotes+"<span class='evotes-text'> electoral votes</span></div>Hillary Clinton";
-      document.getElementById("electoraldonaldtrump").innerHTML = "<div class='evotes' id='electoraldonaldtrumpevotes'>"+trump_electoralvotes+"<span class='evotes-text'> electoral votes</span></div><i class='fa fa-check-circle-o' aria-hidden='true'> Donald Trump";
+      document.getElementById("electoraldonaldtrump").innerHTML = "<div class='evotes' id='electoraldonaldtrumpevotes'>"+trump_electoralvotes+"<span class='evotes-text'> electoral votes</span></div>Donald Trump <i class='fa fa-check-circle-o' aria-hidden='true'>";
     }
   } else {
     document.getElementById("electoralhillaryclinton").innerHTML = "<div class='evotes' id='electoralhillaryclintonevotes'>"+clinton_electoralvotes+"<span class='evotes-text'> electoral votes</span></div>Hillary Clinton";
@@ -596,13 +596,15 @@ setInterval(function () {
 // UPDATES LINKS
 // -----------------------------------------------------------------------------
 
-setInterval(function() {
-  linksID.innerHTML=("");
-  updateLinks();
-}, presDataTimer);
+// setInterval(function() {
+//   linksID.innerHTML=("");
+//   updateLinks();
+// }, presDataTimer);
 
 var jsonlinks = "../assets/links.json";
+var jsonHeadline = "../assets/homepage.json";
 var linksID = document.getElementById("story-links");
+var headlineID = document.getElementById("homepage-headline");
 
 function updateLinks(){
   d3.json(jsonlinks, function(links){
@@ -614,7 +616,13 @@ function updateLinks(){
       "<a href='" + url + "' targer='_blank'>" +
       "<h3>" +  headline   + "</h3>" 
       );
-
+    });
+  });
+  // Updates the main headline
+  d3.json(jsonHeadline, function(headline){ 
+    headline.forEach(function(d) {  
+        var mainHeadline = d.main_headline;
+        headlineID.innerHTML = mainHeadline;
     });
   });
 }
