@@ -45,6 +45,8 @@ var storyTimer = setInterval(function() {
 function setLinks(storyLinks) {
   if (storyLinks.prez1109) {
     document.getElementById("presidentStoryLink").innerHTML = "<span class='story-link-URL'><a href='"+storyLinks.prez1109+"' target='_blank'>  <i class='fa fa-external-link' aria-hidden='true'></i>Read the story</a></span>";
+  } else if (storyLinks.prezlive1109) {
+    document.getElementById("presidentStoryLink").innerHTML = "<span class='story-link-URL'><a href='"+storyLinks.prezlive1109+"' target='_blank'>  <i class='fa fa-external-link' aria-hidden='true'></i>Read the story</a></span>";
   }
   if (storyLinks.ussenate1109) {
     document.getElementById("senateStoryLink").innerHTML = "<span class='story-link-URL'><a href='"+storyLinks.ussenate1109+"' target='_blank'>  <i class='fa fa-external-link' aria-hidden='true'></i>Read the story</a></span>";
