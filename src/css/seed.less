@@ -1667,14 +1667,28 @@ header {
   padding: 4px;
   // float:left;
   .display-flex;
-  // .flex-wrap(wrap);
+  .flex-wrap(wrap);
   justify-content: center;
   @media @mobile {
     margin: 15px auto;
+    margin-top: 0;
+  }
+  &.ca-legend {
+    @media @mobile {
+      justify-content: flex-start;
+    }
   }
   .element {
     // width: 16%;
     .flex(0 0 16%);
+    @media @mobile {
+      .flex(0 0 33%);
+    }
+    &.long {
+      @media @mobile {
+        .flex(0 0 50%);
+      }
+    }
     // width: 16%;
   }
   .rep-swath, .dem-swath, .dem2-swath, .other-swath, .tied-swath, .called-swath, .no-swath, .yes-swath, .uncalled-swath, .no-race-swath, .stein-swath, .johnson-swath, .noresults-swath  {
