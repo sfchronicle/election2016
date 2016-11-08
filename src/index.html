@@ -299,8 +299,18 @@
               <div class='prop-name'><%=prop.title%></div>
               <div id="prop<%=prop.number%>" class='result'></div>
               <div class='prop-desc'><%=prop.description%></div>
-              <% if (idx == 13) { %>
+              <% if (idx == 5) { %>
+                <div><span id="cigaretteStoryLink"></span></div>
+              <% } else if (idx == 11) { %>
+                <div><span id="deathStoryLink"></span></div>
+              <% } else if (idx == 12) { %>
+                <div><span id="gunsStoryLink"></span></div>
+              <% } else if (idx == 13) { %>
                 <div><span id="potStoryLink"></span></div>
+              <% } else if (idx == 15) { %>
+                <div><span id="deathStoryLink2"></span></div>
+              <% } else { %>
+                <div><span class="propStoryLink"></span></div>
               <% } %>
             </div>
 

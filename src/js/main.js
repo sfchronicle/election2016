@@ -55,13 +55,29 @@ function setLinks(storyLinks) {
     document.getElementById("CAsenateStoryLink").innerHTML = "<span class='story-link-URL'><a href='"+storyLinks.casenate1109+"' target='_blank'>  <i class='fa fa-external-link' aria-hidden='true'></i>Read the story</a></span>";
   }
   if (storyLinks.bart1109) {
-      document.getElementById("bartStoryLink").innerHTML = "<span class='story-link-URL'><a href='"+storyLinks.bart1109+"' target='_blank'>  <i class='fa fa-external-link' aria-hidden='true'></i>Read the story</a></span>";
+    document.getElementById("bartStoryLink").innerHTML = "<span class='story-link-URL'><a href='"+storyLinks.bart1109+"' target='_blank'>  <i class='fa fa-external-link' aria-hidden='true'></i>Read the story</a></span>";
   }
   if (storyLinks.southbay1109) {
-      document.getElementById("southbayStoryLink").innerHTML = "<span class='story-link-URL'><a href='"+storyLinks.southbay1109+"' target='_blank'>  <i class='fa fa-external-link' aria-hidden='true'></i>Read the story</a></span>";
+    document.getElementById("southbayStoryLink").innerHTML = "<span class='story-link-URL'><a href='"+storyLinks.southbay1109+"' target='_blank'>  <i class='fa fa-external-link' aria-hidden='true'></i>Read the story</a></span>";
   }
   if (storyLinks.marijuana1109) {
-      document.getElementById("potStoryLink").innerHTML = "<span class='story-link-URL'><a href='"+storyLinks.marijuana1109+"' target='_blank'>  <i class='fa fa-external-link' aria-hidden='true'></i>Read the story</a></span>";
+    document.getElementById("potStoryLink").innerHTML = "<span class='story-link-URL'><a href='"+storyLinks.marijuana1109+"' target='_blank'>  <i class='fa fa-external-link' aria-hidden='true'></i>Read the story</a></span>";
+  }
+  if (storyLinks.death1109) {
+    document.getElementById("deathStoryLink").innerHTML = "<span class='story-link-URL'><a href='"+storyLinks.death1109+"' target='_blank'>  <i class='fa fa-external-link' aria-hidden='true'></i>Read the story</a></span>";
+    document.getElementById("deathStoryLink2").innerHTML = "<span class='story-link-URL'><a href='"+storyLinks.death1109+"' target='_blank'>  <i class='fa fa-external-link' aria-hidden='true'></i>Read the story</a></span>";
+  }
+  if (storyLinks.guns1109) {
+    document.getElementById("gunsStoryLink").innerHTML = "<span class='story-link-URL'><a href='"+storyLinks.guns1109+"' target='_blank'>  <i class='fa fa-external-link' aria-hidden='true'></i>Read the story</a></span>";
+  }
+  if (storyLinks.cigtax1109) {
+    document.getElementById("cigaretteStoryLink").innerHTML = "<span class='story-link-URL'><a href='"+storyLinks.cigtax1109+"' target='_blank'>  <i class='fa fa-external-link' aria-hidden='true'></i>Read the story</a></span>";
+  }
+  if (storyLinks.caprops1109){
+    var links_list = document.getElementsByClassName("propStoryLink");
+    for (var i=0; i<links_list.length; i++) {
+      links_list[i].innerHTML = "<span class='story-link-URL'><a href='"+storyLinks.caprops1109+"' target='_blank'>  <i class='fa fa-external-link' aria-hidden='true'></i>Read the story</a></span>";
+    }
   }
 };
 
@@ -1266,7 +1282,7 @@ d3.json(propsCAURL, function(propsCA){
     } else {
       var htmlresult = "<span class='propyes'>Yes: "+Math.round(propResult.r["Yes"]/total*1000)/10+"%</span><span class='propno'>No: "+Math.round(propResult.r["No"]/total*1000)/10+"%</span>"
     }
-    var htmlresult = htmlresult+ "<div class='prop-precincts'>"+formatthousands(propResult.p)+" / 24,848 precincts reporting</div>"
+    var htmlresult = htmlresult+ "<div class='prop-precincts'>"+formatthousands(propResult.p)+" / 24,849 precincts reporting</div>"
     propID.innerHTML = htmlresult;
   }
 });
@@ -1980,7 +1996,7 @@ function updateStateProps(){
       } else {
         var htmlresult = "<span class='propyes'>Yes: "+Math.round(propResult.r["Yes"]/total*1000)/10+"%</span><span class='propno'>No: "+Math.round(propResult.r["No"]/total*1000)/10+"%</span>"
       }
-      var htmlresult = htmlresult+ "<div class='prop-precincts'>"+formatthousands(propResult.p)+" / 24,848 precincts reporting</div>"
+      var htmlresult = htmlresult+ "<div class='prop-precincts'>"+formatthousands(propResult.p)+" / 24,849 precincts reporting</div>"
       propID.innerHTML = htmlresult;
     }
   });
