@@ -649,6 +649,8 @@ var tooltip = d3.select("#map-container-president")
 
 // US MAP RACES ----------------------------------------------------------------
 
+var federal_timer;
+
 d3.json(governorRacesURL, function(governorRaces){
 
   d3.json(senateRacesURL, function(senateRaces){
@@ -665,6 +667,10 @@ d3.json(governorRacesURL, function(governorRaces){
         this.classList.add("active");
 
         federalmap("./assets/maps/us_state_new.json",governorRaces);
+        federal_timer = setInterval(function() {
+          federalmap("./assets/maps/us_state_new.json",governorRaces);
+          console.log("refresh federal map");
+        }, 300000);
 
         d3.select("#house-power-balance").classed("disappear",true);
         d3.select("#senate-power-balance").classed("disappear",true);
@@ -679,6 +685,10 @@ d3.json(governorRacesURL, function(governorRaces){
         this.classList.add("active");
 
         federalmap("./assets/maps/us_state_new.json",senateRaces);
+        federal_timer = setInterval(function() {
+          federalmap("./assets/maps/us_state_new.json",senateRaces);
+          console.log("refresh federal map");
+        }, 300000);
 
         d3.select("#house-power-balance").classed("disappear",true);
         d3.select("#senate-power-balance").classed("disappear",false);
@@ -693,6 +703,10 @@ d3.json(governorRacesURL, function(governorRaces){
         this.classList.add("active");
 
         federalmap("./assets/maps/us_house_new.json",congressRaces);
+        federal_timer = setInterval(function() {
+          federalmap("./assets/maps/us_house_new.json",congressRaces);
+          console.log("refresh federal map");
+        }, 300000);
 
         d3.select("#house-power-balance").classed("disappear",false);
         d3.select("#senate-power-balance").classed("disappear",true);
@@ -823,6 +837,10 @@ d3.json(governorRacesURL, function(governorRaces){
         .style("visibility", "hidden");
 
       federalmap("./assets/maps/us_state_new.json",senateRaces);
+      federal_timer = setInterval(function() {
+        federalmap("./assets/maps/us_state_new.json",senateRaces);
+        console.log("refresh federal map");
+      }, 300000);
 
     });
   });
