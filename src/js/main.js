@@ -33,12 +33,12 @@ var localDataURL = "http://extras.sfgate.com/editorial/election2016/live/emma_lo
 var storylinksURL = "http://extras.sfgate.com/editorial/election2016/live/electionurls.json";
 
 d3.json(storylinksURL, function(storyLinks){
-  console.log(storyLinks);
   setLinks(storyLinks);
 });
 var storyTimer = setInterval(function() {
   d3.json(storylinksURL, function(storyLinks){
     setLinks(storyLinks);
+    console.log("refresh story links");
   });
 }, 300000);
 
@@ -879,7 +879,7 @@ d3.json(raceSummariesURL, function(raceSummaries){
   var houseDem_percent = houseDem/435*100;
   var houseRep_percent = houseRep/435*100;
   var houseOther_percent = houseOther/435*100;
-  var houseUncounted_percent = 100-houseDem_percent-houseRep_percent-houseOther;
+  var houseUncounted_percent = 100-houseDem_percent-houseRep_percent-houseOther_percent;
 
   document.getElementById("house-dem").innerHTML = " ("+houseDem+" seats)";
   document.getElementById("house-rep").innerHTML = " ("+houseRep+" seats)";
@@ -979,11 +979,12 @@ d3.json(houseCAURL, function(houseCA){
           document.querySelector('.caassembly').addEventListener('click', function(){
             d3.selectAll(".camapinset").classed("active",false);
             this.classList.add("active");
-            camap("./assets/maps/ca_assembly_insets.json",assemblyCA,0);
+            camap_insets_function("./assets/maps/ca_assembly_insets.json",assemblyCA,0);
             clearTimeout(catimer_races);
             catimer_races = setInterval(function() {
-              camap("./assets/maps/ca_assembly_insets.json",assemblyCA,0);
-            }, caIntervalRaces);
+              console.log("refresh ca insets map");
+              camap_insets_function("./assets/maps/ca_assembly_insets.json",assemblyCA,0);
+            }, 300000);
             d3.selectAll(".ca-legend").classed("active",false);
             document.getElementById("ca-race-legend").classList.add("active");
           });
@@ -991,11 +992,12 @@ d3.json(houseCAURL, function(houseCA){
           document.querySelector('.casenate').addEventListener('click', function(){
             d3.selectAll(".camapinset").classed("active",false);
             this.classList.add("active");
-            camap("./assets/maps/ca_statesenate_insets.json",senateCA,0);
+            camap_insets_function("./assets/maps/ca_statesenate_insets.json",senateCA,0);
             clearTimeout(catimer_races);
             catimer_races = setInterval(function() {
-              camap("./assets/maps/ca_statesenate_insets.json",senateCA,0);
-            }, caIntervalRaces);
+              console.log("refresh ca insets map");
+              camap_insets_function("./assets/maps/ca_statesenate_insets.json",senateCA,0);
+            }, 300000);
             d3.selectAll(".ca-legend").classed("active",false);
             document.getElementById("ca-race-legend").classList.add("active");
           });
@@ -1003,11 +1005,12 @@ d3.json(houseCAURL, function(houseCA){
           document.querySelector('.cafeddistrict').addEventListener('click', function(){
             d3.selectAll(".camapinset").classed("active",false);
             this.classList.add("active");
-            camap("./assets/maps/ca_county_insets.json",federalsenateCA,1);
+            camap_insets_function("./assets/maps/ca_county_insets.json",federalsenateCA,1);
             clearTimeout(catimer_races);
             catimer_races = setInterval(function() {
-              camap("./assets/maps/ca_county_insets.json",federalsenateCA,1);
-            }, caIntervalRaces);
+              console.log("refresh ca insets map");
+              camap_insets_function("./assets/maps/ca_county_insets.json",federalsenateCA,1);
+            }, 300000);
             d3.selectAll(".ca-legend").classed("active",false);
             document.getElementById("ca-sanchez-legend").classList.add("active");
           });
@@ -1015,16 +1018,17 @@ d3.json(houseCAURL, function(houseCA){
           document.querySelector('.cadistrict').addEventListener('click', function(){
             d3.selectAll(".camapinset").classed("active",false);
             this.classList.add("active");
-            camap("./assets/maps/ca_house_insets.json",houseCA,0);
+            camap_insets_function("./assets/maps/ca_house_insets.json",houseCA,0);
             clearTimeout(catimer_races);
             catimer_races = setInterval(function() {
-              camap("./assets/maps/ca_house_insets.json",houseCA,0);
-            }, caIntervalRaces);
+              console.log("refresh ca insets map");
+              camap_insets_function("./assets/maps/ca_house_insets.json",houseCA,0);
+            }, 300000);
             d3.selectAll(".ca-legend").classed("active",false);
             document.getElementById("ca-race-legend").classList.add("active");
           });
 
-          function camap(active_map,active_data,flag) {
+          function camap_insets_function(active_map,active_data,flag) {
 
             d3.select("#map-container-state").select("svg").remove();
             d3.select("#map-container-state").select(".svg-container").remove();
@@ -1148,10 +1152,11 @@ d3.json(houseCAURL, function(houseCA){
 
           };
 
-          camap("./assets/maps/ca_house_insets.json",houseCA,0);
+          camap_insets_function("./assets/maps/ca_house_insets.json",houseCA,0);
           catimer_races = setInterval(function() {
-            camap("./assets/maps/ca_house_insets.json",houseCA,0);
-          }, caIntervalRaces);
+            camap_insets_function("./assets/maps/ca_house_insets.json",houseCA,0);
+            console.log("refresh ca insets map");
+          }, 300000);
 
       });
     });
@@ -1171,7 +1176,7 @@ d3.json(propsCAURL, function(propsCA){
     d3.selectAll(".camap").classed("active",false);
     this.classList.add("active");
     var active_data = propsCA[select_race.value];
-    camap("./assets/maps/ca_county_new.json",active_data.counties);
+    camap_function("./assets/maps/ca_county_new.json",active_data.counties);
   });
 
   var path = d3.geo.path()
@@ -1184,16 +1189,17 @@ d3.json(propsCAURL, function(propsCA){
       d3.selectAll(".camap").classed("active",false);
       this.classList.add("active");
       var active_data = propsCA[51+index];
-      camap("./assets/maps/ca_county_new.json",active_data.counties);
+      camap_function("./assets/maps/ca_county_new.json",active_data.counties);
       clearTimeout(catimer_props);
       catimer_props = setInterval(function() {
-        camap("./assets/maps/ca_county_new.json",active_data.counties);
-      }, caInterval);
+        camap_function("./assets/maps/ca_county_new.json",active_data.counties);
+        console.log("refresh ca map");
+      }, 300000);
       // camap("./assets/maps/ca_county_new.json",active_data.counties);
     });
   });
 
-  function camap(active_map,active_data,flag) {
+  function camap_function(active_map,active_data,flag) {
 
     d3.select("#map-container-state-props").select("svg").remove();
     d3.select("#map-container-state-props").select(".svg-container").remove();
@@ -1264,10 +1270,11 @@ d3.json(propsCAURL, function(propsCA){
   };
 
   var active_data = propsCA[51];
-  camap("./assets/maps/ca_county_new.json",active_data.counties);
+  camap_function("./assets/maps/ca_county_new.json",active_data.counties);
   catimer_props = setInterval(function() {
-    camap("./assets/maps/ca_county_new.json",active_data.counties);
-  }, caInterval);
+    camap_function("./assets/maps/ca_county_new.json",active_data.counties);
+    console.log("refresh ca map");
+  }, 300000);
   // camap("./assets/maps/ca_county_new.json",active_data.counties);
 
 });
@@ -1450,8 +1457,8 @@ regionalsection_timer = setInterval(function(){
   }
   document.getElementById("regional-results-wrapper-wrapper").insertAdjacentHTML("beforeend","<div id='regional-results-wrapper'><div id='regional-results'></div></div>");
   regional_section("Alameda","alameda");
-  console.log("done");
-},60000);
+  console.log("refresh local section");
+},300000);
 
 // event listeners for different Regional regions
 var qsa = s => Array.prototype.slice.call(document.querySelectorAll(s));
@@ -1479,8 +1486,8 @@ qsa(".sectionbutton").forEach(function(group,index) {
       }
       document.getElementById("regional-results-wrapper-wrapper").insertAdjacentHTML("beforeend","<div id='regional-results-wrapper'><div id='regional-results'></div></div>");
       regional_section(this_name,regionkey);
-      console.log("done");
-    }, 60000);
+      console.log("refresh local section");
+    }, 300000);
   });
 });
 
@@ -1679,7 +1686,7 @@ var one = 60000, // 60000 = one minute
     localDataTimer = one * 5, // includes SF supes
     regionalDataTimer = one * 10,
     caInterval = one * 5,
-    caIntervalRaces = one * 5,
+    caIntervalRaces = 2000,
     regionalInterval = one * 5,
     linksInterval = one * 5;
 
@@ -1691,6 +1698,7 @@ var one = 60000, // 60000 = one minute
 
 setInterval(function() {
   updatePresidentialData();
+  console.log("refresh presidential map");
 }, FederalDataTimer);
 
 function updatePresidentialData(){
@@ -1818,7 +1826,7 @@ function updateHouseVoteCount(){
     var houseDem_percent = houseDem/435*100;
     var houseRep_percent = houseRep/435*100;
     var houseOther_percent = houseOther/435*100;
-    var houseUncounted_percent = 100-houseDem_percent-houseRep_percent-houseOther;
+    var houseUncounted_percent = 100-houseDem_percent-houseRep_percent-houseOther_percent;
 
     document.getElementById("house-dem").innerHTML = " ("+houseDem+" seats)";
     document.getElementById("house-rep").innerHTML = " ("+houseRep+" seats)";
