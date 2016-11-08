@@ -427,6 +427,7 @@ var one = 60000, // 60000 = one minute
 
 setInterval(function() {
   updateHouseVoteCount();
+  lastUpdated('timestamp');
 }, FederalDataTimer);
 
 function updateHouseVoteCount(){

@@ -21,26 +21,54 @@
               <img src="http://projects.sfchronicle.com/shared/logos/sfcg_logo_color.png?">
             </div>
           </a>
-
         <img class="banner widget" src="../assets/election2016banner.png">
-
       </div>
+
+       
+       <section id="federal">
+        <div class="button-container">
+            <div class="button race senate active" id="senatemap">State Senate</div>
+          </div>
+          <div class="deck widget" id="timestamp-container"><span>Last updated: </span><span id="timestamp"></span></div>
+
+         <div class="legend-container ca-legend active house-widget" id="ca-race-legend">
+        <div class="house-element long"><div class="dem-swath"><div class="legend-text">Democratic winner</div></div></div>
+        <div class="house-element long"><div class="rep-swath"><div class="legend-text">Republican winner</div></div></div>
+        <div class="house-element long"><div class="other-swath"><div class="legend-text">Other winner</div></div></div>
+        <div class="house-element long"><div class="uncalled-swath"><div class="legend-text">Uncalled race</div></div></div>
+        <div class="house-element long"><div class="no-race-swath"><div class="legend-text">No race</div></div></div>
+        <div class="house-element long"><div class="noresults-swath"><div class="legend-text">No results</div></div></div>
+      </div>
+      
+        <div id="map-container-state" class="padding widget"></div>
+
+
+      <div id="racesec" class="widget">
+        <div class="key">Key:
+          <span class="symbol"><i class='fa fa-check-circle-o' aria-hidden='true'></i>Winner</span> |
+          <span class="symbol"><i class='fa fa-star' aria-hidden='true'></i>Incumbent</span>
+        </div>
+
+        <div>
+          <h4>State Senate, District 11<span id="CAsenateStoryLink"></span></h4>
+          <div id="statesenate" ></div>
+          </div>
+        <div>
+          <h4>State Senate, District 9</span></h4>
+          <div id="statedistrict9" ></div>
+          </div>
+      </div>
+
+      </section>
+
 
       <footer class="footer-widget">
         <div>
-          <p>Live results: <a href="http://sfchronicle.com/election">www.sfchronicle.com/election</a></p>
+          <p>Live results: <a href="http://sfchronicle.com/election" target="_blank">www.sfchronicle.com/election</a></p>
         </div>
       </footer>
 
     </div>
-
-    <script>
-
-      // map look-up tables
-      var stateCodes = <%= JSON.stringify(csv.stateCodes) %>;
-      var countyCodes = <%= JSON.stringify(json.countyCodesLookup) %>;
-
-    </script>
 
     <script src="../statesenate_app.js" async></script>
 
