@@ -377,6 +377,17 @@
               <div class='prop-name'><%=prop.title%></div>
               <div class='result' id="sfprop<%=idx%>"><div></div></div>
               <div class='sf-prop-desc'><%=prop.description%></div>
+              <% if ((prop.letter == "M") || (prop.letter == "P") || (prop.letter == "U") || (prop.letter == "X") || (prop.letter == "O")) { %>
+                <div><span class="sfhousingStoryLink"></span></div>
+              <% } else if ((prop.letter == "J") || (prop.letter == "K") || (prop.letter == "Q")) { %>
+                <div><span class="sfhomelessStoryLink"></span></div>
+              <% } else if ((prop.letter == "D") || (prop.letter == "H") || (prop.letter == "L")) { %>
+                <div><span class="sfpropsStoryLink"></span></div>
+              <% } else if ((prop.letter == "G") || (prop.letter == "R")) { %>
+                <div><span class="sfpoliceStoryLink"></span></div>
+              <% } else {%>
+                <div><span class="sfpropsStoryLink"></span></div>
+              <% } %>
             </div>
 
           <% }); %>

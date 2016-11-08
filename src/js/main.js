@@ -40,7 +40,7 @@ var storyTimer = setInterval(function() {
   d3.json(storylinksURL, function(storyLinks){
     setLinks(storyLinks);
   });
-}, 60000);
+}, 300000);
 
 function setLinks(storyLinks) {
   if (storyLinks.prez1109) {
@@ -77,6 +77,30 @@ function setLinks(storyLinks) {
     var links_list = document.getElementsByClassName("propStoryLink");
     for (var i=0; i<links_list.length; i++) {
       links_list[i].innerHTML = "<span class='story-link-URL'><a href='"+storyLinks.caprops1109+"' target='_blank'>  <i class='fa fa-external-link' aria-hidden='true'></i>Read the story</a></span>";
+    }
+  }
+  if (storyLinks.sfhousing1109) {
+    var links_list = document.getElementsByClassName("sfhousingStoryLink");
+    for (var i=0; i<links_list.length; i++) {
+      links_list[i].innerHTML = "<span class='story-link-URL'><a href='"+storyLinks.sfhousing1109+"' target='_blank'>  <i class='fa fa-external-link' aria-hidden='true'></i>Read the story</a></span>";
+    }
+  }
+  if (storyLinks.sfhomeless1109) {
+    var links_list = document.getElementsByClassName("sfhomelessStoryLink");
+    for (var i=0; i<links_list.length; i++) {
+      links_list[i].innerHTML = "<span class='story-link-URL'><a href='"+storyLinks.sfhomeless1109+"' target='_blank'>  <i class='fa fa-external-link' aria-hidden='true'></i>Read the story</a></span>";
+    }
+  }
+  if (storyLinks.sfpolice1109) {
+    var links_list = document.getElementsByClassName("sfpoliceStoryLink");
+    for (var i=0; i<links_list.length; i++) {
+      links_list[i].innerHTML = "<span class='story-link-URL'><a href='"+storyLinks.sfpolice1109+"' target='_blank'>  <i class='fa fa-external-link' aria-hidden='true'></i>Read the story</a></span>";
+    }
+  }
+  if (storyLinks.sfprops1109) {
+    var links_list = document.getElementsByClassName("sfpropsStoryLink");
+    for (var i=0; i<links_list.length; i++) {
+      links_list[i].innerHTML = "<span class='story-link-URL'><a href='"+storyLinks.sfprops1109+"' target='_blank'>  <i class='fa fa-external-link' aria-hidden='true'></i>Read the story</a></span>";
     }
   }
 };
