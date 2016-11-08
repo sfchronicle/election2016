@@ -246,7 +246,8 @@ p {
   }
 
   @media @mobile {
-      font-size: 0.8em;
+    font-size: 14px;
+      // font-size: 0.8em;
   }
 
 }
@@ -1377,6 +1378,7 @@ header {
   border-radius: 3px;
   background: lighten(@light-gray,20%);
   border: 1px @dark-gray solid;
+  min-width: 140px;
   .fa-check-circle-o {
     color: green;
     margin-right: 5px;
@@ -1751,6 +1753,9 @@ header {
     .element {
       @media @mobile {
         .flex(0 0 30%);
+        .legend-text {
+          width: 100px;
+        }
       }
     }
   }
@@ -1798,6 +1803,7 @@ header {
   .legend-text {
     text-align: left;
     width: 150px;
+    // width: 150px;
     padding-left: 20px;
     vertical-align: text-top;
   }

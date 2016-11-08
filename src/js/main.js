@@ -544,7 +544,7 @@ d3.json("./assets/maps/us_state_new.json", function(error, us) {
       if (screen.width <= 480) {
         return tooltip
           .style("top",(d3.event.pageY+10)+"px")//(d3.event.pageY+40)+"px")
-          .style("left",((d3.event.pageX)/3+10)+"px");
+          .style("left",((d3.event.pageX)/3+40)+"px");
       } else if (screen.width <= 670) {
         return tooltip
           .style("top",(d3.event.pageY+10)+"px")//(d3.event.pageY+40)+"px")
@@ -614,7 +614,7 @@ if (screen.width > 670) {
           if (screen.width <= 480) {
             return tooltip
               .style("top",(d3.event.pageY+10)+"px")//(d3.event.pageY+40)+"px")
-              .style("left",((d3.event.pageX)/3+10)+"px");
+              .style("left",((d3.event.pageX)/3+40)+"px");
           } else if (screen.width <= 670) {
             return tooltip
               .style("top",(d3.event.pageY+10)+"px")//(d3.event.pageY+40)+"px")
@@ -709,7 +709,7 @@ d3.json(governorRacesURL, function(governorRaces){
           var svg_element_fed = d3.select("#map-container-federal")
             .append("div")
             .classed("svg-container", true) //container class to make it responsive
-            .attr("id","map-container-fed")
+            .attr("id","map-container-federal")
             // .style("display","none")
             .append("svg")
             //responsive SVG needs these 2 attributes and no width and height attr
@@ -795,7 +795,7 @@ d3.json(governorRacesURL, function(governorRaces){
               if (screen.width <= 480) {
                 return federal_tooltip
                   .style("top",(d3.event.pageY+10)+"px")//(d3.event.pageY+40)+"px")
-                  .style("left",((d3.event.pageX)/3+10)+"px");
+                  .style("left",((d3.event.pageX)/3+40)+"px");
               } else if (screen.width <= 670) {
                 return federal_tooltip
                   .style("top",(d3.event.pageY+10)+"px")//(d3.event.pageY+40)+"px")
@@ -807,26 +807,26 @@ d3.json(governorRacesURL, function(governorRaces){
               }
             })
             .on("mouseout", function(){
-              return federal_tooltip.style("visibility", "hidden");
+              return federal_tooltip.transition().delay(20).style("visibility", "hidden");
+              // return federal_tooltip.style("visibility", "hidden");
             });
           });
       };
+
+      // show tooltip
+      var federal_tooltip = d3.select("#map-container-federal")
+        .append("div")
+        .attr("class","tooltip")
+        // .attr("id","fed-tooltip")
+        .style("position", "absolute")
+        .style("z-index", "100")
+        .style("visibility", "hidden");
 
       federalmap("./assets/maps/us_state_new.json",senateRaces);
 
     });
   });
 });
-
-// show tooltip
-var federal_tooltip = d3.select("#map-container-federal")
-  .append("div")
-  .attr("class","tooltip")
-  .attr("id","fed-tooltip")
-  .style("position", "absolute")
-  .style("z-index", "10")
-  .style("visibility", "hidden");
-
 
 
 // -----------------------------------------------------------------------------
@@ -1106,7 +1106,7 @@ d3.json(houseCAURL, function(houseCA){
                 if (screen.width <= 480) {
                   return state_tooltip
                     .style("top",(d3.event.pageY+10)+"px")//(d3.event.pageY+40)+"px")
-                    .style("left",((d3.event.pageX)/3+10)+"px");
+                    .style("left",((d3.event.pageX)/3+40)+"px");
                 } else if (screen.width <= 670) {
                   return state_tooltip
                     .style("top",(d3.event.pageY+10)+"px")//(d3.event.pageY+40)+"px")
@@ -1238,7 +1238,7 @@ d3.json(propsCAURL, function(propsCA){
         if (screen.width <= 480) {
           return prop_tooltip
             .style("top",(d3.event.pageY+10)+"px")//(d3.event.pageY+40)+"px")
-            .style("left",((d3.event.pageX)/3+10)+"px");
+            .style("left",((d3.event.pageX)/3+40)+"px");
         } else if (screen.width <= 670) {
           return prop_tooltip
             .style("top",(d3.event.pageY+10)+"px")//(d3.event.pageY+40)+"px")
