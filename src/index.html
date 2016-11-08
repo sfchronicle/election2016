@@ -4,8 +4,12 @@
     <title>Election 2016 results: Presidential, national, California, Bay Area, San Francisco</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="__sync_contentCategory" content="free">
     <link rel="stylesheet" type="text/css" href="style.css">
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+    <script type="text/javascript" src="http://treg.hearstnp.com/treg.js"></script>
+    <script type="text/javascript" src="http://www.sfchronicle.com/js/hdn/omniture/syncronex.js"></script>
+    <script type="text/javascript" src="https://syncaccess-hst-sfc.syncronex.com/hst/sfc/api/scripts/syncwall"></script>
     <script src="http://projects.sfchronicle.com/shared/js/jquery.min.js"></script>
     <script type="text/javascript" id="adPositionManagerScriptTag" src="http://aps.hearstnp.com/Scripts/loadAds.js"></script>
     <%= t.include("partials/_head.html") %>
@@ -46,7 +50,7 @@
               </a>
             </div>
             <div class="link social">
-              <a id="twitter-icon" title="Share on Twitter" href="https://twitter.com/intent/tweet?url=http%3A%2F%2Fprojects.sfchronicle.com%2F2016%2F<%= grunt.data.json.project.slug %>&text=<%= grunt.data.json.project.twitter_text %>&hashtags=<%= grunt.data.json.project.hashtag %>">
+              <a id="twitter-icon" title="Share on Twitter" href="https://twitter.com/intent/tweet?url=http%3A%2F%2Fsfchronicle.com%2Felection%2F&text=<%= grunt.data.json.project.twitter_text %>&hashtags=<%= grunt.data.json.project.hashtag %>">
                 <i class="fa fa-twitter"></i>
               </a>
             </div>
