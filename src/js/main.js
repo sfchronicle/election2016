@@ -668,6 +668,7 @@ d3.json(governorRacesURL, function(governorRaces){
         document.querySelector("#congressmap").classList.remove("active");
         this.classList.add("active");
 
+        clearTimeout(federal_timer);
         federalmap("./assets/maps/us_state_new.json",governorRaces);
         federal_timer = setInterval(function() {
           federalmap("./assets/maps/us_state_new.json",governorRaces);
@@ -686,6 +687,7 @@ d3.json(governorRacesURL, function(governorRaces){
         document.querySelector("#governormap").classList.remove("active");
         this.classList.add("active");
 
+        clearTimeout(federal_timer);
         federalmap("./assets/maps/us_state_new.json",senateRaces);
         federal_timer = setInterval(function() {
           federalmap("./assets/maps/us_state_new.json",senateRaces);
@@ -704,6 +706,7 @@ d3.json(governorRacesURL, function(governorRaces){
         document.querySelector("#senatemap").classList.remove("active");
         this.classList.add("active");
 
+        clearTimeout(federal_timer);
         federalmap("./assets/maps/us_house_new.json",congressRaces);
         federal_timer = setInterval(function() {
           federalmap("./assets/maps/us_house_new.json",congressRaces);
@@ -823,8 +826,11 @@ d3.json(governorRacesURL, function(governorRaces){
               }
             })
             .on("mouseout", function(){
-              return federal_tooltip.transition().delay(20).style("visibility", "hidden");
-              // return federal_tooltip.style("visibility", "hidden");
+              if (screen.width <= 480) {
+                return federal_tooltip.transition().delay(20).style("visibility", "hidden");
+              } else {
+                return federal_tooltip.style("visibility", "hidden");
+              }
             });
           });
       };
