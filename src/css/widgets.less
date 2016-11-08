@@ -23,14 +23,17 @@
     border-bottom: 1px solid #ccc;
     @media @mobile{
     padding-bottom: 0.51em;
+  	}
   }
+
+  &.caprops-widget{
+  max-width:650px;
+  margin:0 auto;
   }
 
   @media (max-width:1110px){
   text-align:center;
   }
-
-
 }
 
 .hr-widget{
@@ -442,5 +445,22 @@
 	.flex(0 0 26%);
 	@media @mobile{
 		.flex(0 0 49%);
+	}
+}
+
+#map-container-state-props {
+	
+	&.widget{
+	  @media (max-width:670px){
+	  margin-bottom:27%;
+	  }
+	}
+}
+
+.caprop-element{
+	.flex(0 0 16%);
+
+	@media @mobile{
+    .flex(0 0 20%);
 	}
 }

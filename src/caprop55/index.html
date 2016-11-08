@@ -12,10 +12,10 @@
 
   <body is="responsive-body">
 
-    <div class="outer widget">
+    <div class="outer caprops-widget">
       <hr class="hr-widget">
 
-      <div class="title-img widget">
+      <div class="title-img caprops-widget">
           <a href="http://www.sfchronicle.com" target="_blank">
             <div class="desk-logo widget">
               <img src="http://projects.sfchronicle.com/shared/logos/sfcg_logo_color.png?">
@@ -23,25 +23,48 @@
           </a>
 
         <img class="banner widget" src="../assets/election2016banner.png">
-
       </div>
+
+                <div class="button-container">
+            <div class="button race senate active" id="senatemap">California Propositions</div>
+          </div>
+          <div class="deck widget" id="timestamp-container"><span>Last updated: </span><span id="timestamp"></span></div>
+
+      <div class="legend-container ca-legend-props" id="ca-prop-legend">
+        <div class="caprop-element"><div class="yes-swath"><div class="legend-text">Yes vote</div></div></div>
+        <div class="caprop-element"><div class="no-swath right"><div class="legend-text">No vote</div></div></div>
+        <div class="caprop-element"><div class="noresults-swath"><div class="legend-text">No results</div></div></div>
+      </div>
+
+      <div class="flex-container padding" style="min-width: 315px;">
+        <div class="button-container vertical" id="ca-map-buttons-props">
+          <% csv.StatePropositionsData.forEach(function(prop,idx){ %>
+            <% if (idx == 0) { %>
+                <div class="button camap prop camapprop prop<%=prop.number%>" id="button<%=prop.number%>"><div class='bold-button-number'>Prop. <%=prop.number%></div><div class='button-title'><%=prop.title%></div></div>
+            <% } else { %>
+                <div class="button camap prop camapprop prop<%=prop.number%>" id="button<%=prop.number%>"><div class='bold-button-number'>Prop. <%=prop.number%></div><div class='button-title'><%=prop.title%></div></div>
+            <% } %>
+          <% }); %>
+        </div>
+        <div class="drop-down">
+          <div class="select-text">Select race from the menu:</div>
+          <select name="select" id="select-race">
+            <% csv.StatePropositionsData.forEach(function(prop,idx){ %>
+              <option value='<%=prop.number%>' class="option"><%=prop.title%> (Prop. <%=prop.number%>)</option>
+            <% }); %>
+          </select>
+        </div>
+        <div id="map-container-state-props" class="widget"></div>
+    </div>
 
       <footer class="footer-widget">
         <div>
-          <p>Live results: <a href="http://sfchronicle.com/election">www.sfchronicle.com/election</a></p>
+          <p>Live results: <a href="http://sfchronicle.com/election" target="_blank">www.sfchronicle.com/election</a></p>
         </div>
       </footer>
 
     </div>
-
-    <script>
-
-      // map look-up tables
-      var stateCodes = <%= JSON.stringify(csv.stateCodes) %>;
-      var countyCodes = <%= JSON.stringify(json.countyCodesLookup) %>;
-
-    </script>
-
+    
     <script src="../caprop55_app.js" async></script>
 
   </body>
