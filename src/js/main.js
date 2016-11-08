@@ -950,7 +950,7 @@ d3.json(senateRacesURL, function(senateRaces){
     // senate race
     var raceID = document.getElementById("senate");
     var senatevar = senateRaces["CA"];
-    populateRace(raceID,senatevar,24848);
+    populateRace(raceID,senatevar,24849);
 
     // house race
     var raceID = document.getElementById("congress");
@@ -1908,7 +1908,7 @@ function updateSenateCongressRace(){
       // senate race
       var raceID = document.getElementById("senate");
       var senatevar = senateRaces["CA"];
-      populateRace(raceID,senatevar,24848);
+      populateRace(raceID,senatevar,24849);
 
       // house race
       var raceID = document.getElementById("congress");
