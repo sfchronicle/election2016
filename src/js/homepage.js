@@ -35,7 +35,7 @@ var one = 60000, // 60000 = one minute
     caIntervalRaces = one *5;
 
 // color partial results on the map
-function color_partial_results(tempvar,properties,hashblue,hashred){
+function color_partial_results(tempvar,properties,hashblue,hashred,hashyellow){
   Array.prototype.max = function() {
     return Math.max.apply(null, this);
   };
@@ -60,12 +60,8 @@ function color_partial_results(tempvar,properties,hashblue,hashred){
         } else if (tempvar["c"+count+"_party"] == "GOP") {
           // return red;
           return "url(#"+hashred+")";
-        } else if (tempvar["c"+count+"_name"] == "Jill Stein"){
-          return green;
-        } else if (tempvar["c"+count+"_name"] == "Gary Johnson"){
-          return orange;
         } else {
-          return yellow;
+          return "url(#"+hashyellow+")";;
         }
       }
       count++;
@@ -272,6 +268,12 @@ var pattern2 = svg_element_pres.append("defs")
   .append("rect")
     .attr({ width:"7.5", height:"8", transform:"translate(0,0)", fill:red });
 
+var pattern3 = svg_element_pres.append("defs")
+  .append("pattern")
+    .attr({ id:"hashyellow_pres", width:"8", height:"8", patternUnits:"userSpaceOnUse", patternTransform:"rotate(60)"})
+  .append("rect")
+    .attr({ width:"7.5", height:"8", transform:"translate(0,0)", fill:yellow });
+
 d3.json("../assets/maps/us_state_new.json", function(error, us) {
   if (error) throw error;
 
@@ -294,7 +296,7 @@ d3.json("../assets/maps/us_state_new.json", function(error, us) {
           return new_color;
         } else if (presidentialData[String(stateabbrev)]){
           var tempvar = presidentialData[String(stateabbrev)];
-          var new_color = color_partial_results(tempvar,d.properties,"hashblue_pres","hashred_pres");
+          var new_color = color_partial_results(tempvar,d.properties,"hashblue_pres","hashred_pres","hashyellow_pres");
           return new_color;
         } else {
           return dark_gray;
@@ -526,7 +528,7 @@ function updatePresidentialData(){
         return new_color;
       } else if (presidentialData[String(stateabbrev)]){
         var tempvar = presidentialData[String(stateabbrev)];
-        var new_color = color_partial_results(tempvar,d.properties,"hashblue_pres","hashred_pres");
+        var new_color = color_partial_results(tempvar,d.properties,"hashblue_pres","hashred_pres","hashyellow_pres");
         return new_color;
       } else {
         return dark_gray;

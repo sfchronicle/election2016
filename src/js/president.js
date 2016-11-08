@@ -25,8 +25,26 @@ var presidentialDataURL = "http://extras.sfgate.com/editorial/election2016/live/
 var presidentialCountyDataURL = "http://extras.sfgate.com/editorial/election2016/live/emma_pres_county_us.json";
 var raceSummariesURL = "http://extras.sfgate.com/editorial/election2016/live/emma_summary.json";
 
+// -----------------------------------------------------------------------------
+// TIMERS FOR GETTING DATA
+// -----------------------------------------------------------------------------
+var one = 60000, // 60000 = one minute
+    presDataTimer =  one * 2, // two minutes
+    raceSummariesTimer = one * 2,
+    FederalDataTimer = one * 2,
+    houseCATimer = one * 3,
+    senateCATimer = one * 3,
+    federalsenateCATimer = one * 3,
+    StateTimer = one * 3,
+    propsCATimer = one * 5,
+    localDataTimer = one * 5, // includes SF supes
+    regionalDataTimer = one * 10,
+    caInterval = one * 5,
+    caIntervalRaces = one *5;
+
+
 // color partial results on the map
-function color_partial_results(tempvar,properties,hashblue,hashred){
+function color_partial_results(tempvar,properties,hashblue,hashred,hashyellow){
   Array.prototype.max = function() {
     return Math.max.apply(null, this);
   };
@@ -51,12 +69,8 @@ function color_partial_results(tempvar,properties,hashblue,hashred){
         } else if (tempvar["c"+count+"_party"] == "GOP") {
           // return red;
           return "url(#"+hashred+")";
-        } else if (tempvar["c"+count+"_name"] == "Jill Stein"){
-          return green;
-        } else if (tempvar["c"+count+"_name"] == "Gary Johnson"){
-          return orange;
         } else {
-          return yellow;
+          return "url(#"+hashyellow+")";;
         }
       }
       count++;
@@ -255,6 +269,12 @@ var pattern2 = svg_element_pres.append("defs")
   .append("rect")
     .attr({ width:"7.5", height:"8", transform:"translate(0,0)", fill:red });
 
+var pattern3 = svg_element_pres.append("defs")
+  .append("pattern")
+    .attr({ id:"hashyellow_pres", width:"8", height:"8", patternUnits:"userSpaceOnUse", patternTransform:"rotate(60)"})
+  .append("rect")
+    .attr({ width:"7.5", height:"8", transform:"translate(0,0)", fill:yellow });
+
 d3.json("../assets/maps/us_state_new.json", function(error, us) {
   if (error) throw error;
 
@@ -277,7 +297,7 @@ d3.json("../assets/maps/us_state_new.json", function(error, us) {
           return new_color;
         } else if (presidentialData[String(stateabbrev)]){
           var tempvar = presidentialData[String(stateabbrev)];
-          var new_color = color_partial_results(tempvar,d.properties,"hashblue_pres","hashred_pres");
+          var new_color = color_partial_results(tempvar,d.properties,"hashblue_pres","hashred_pres","hashyellow_pres");
           return new_color;
         } else {
           return dark_gray;
@@ -398,10 +418,46 @@ var tooltip = d3.select("#map-container-president")
   .attr("class","tooltip")
   .style("position", "absolute")
   .style("z-index", "10")
-  .style("visibility", "hidden");
+  .style("visibility", "hidden")
 
 
+// -----------------------------------------------------------------------------
+// filling in electoral vote count
+// -----------------------------------------------------------------------------
 
+d3.json(raceSummariesURL, function(raceSummaries){
+
+  // read in electoral votes
+  var clinton_electoralvotes = raceSummaries["electoralcount"]["Dem"];
+  var trump_electoralvotes = raceSummaries["electoralcount"]["GOP"];
+  var other_electoralvotes = raceSummaries["electoralcount"]["Other"];
+  var uncounted_electoralvotes = 538-clinton_electoralvotes-trump_electoralvotes-other_electoralvotes;
+  var clinton_percent = clinton_electoralvotes/538*100;
+  var trump_percent = trump_electoralvotes/538*100;
+  var other_percent = other_electoralvotes/538*100;
+  var uncounted_percent = 100-trump_percent-clinton_percent-other_percent;
+
+  if (raceSummaries["electoralcount"]["d"]){
+    if (raceSummaries["electoralcount"]["d"] == "Dem") {
+      document.getElementById("electoralhillaryclinton").innerHTML = "<div class='evotes' id='electoralhillaryclintonevotes'>"+clinton_electoralvotes+"<span class='evotes-text'> electoral votes</span></div>Hillary Clinton <i class='fa fa-check-circle-o' aria-hidden='true'>";
+      document.getElementById("electoraldonaldtrump").innerHTML = "<div class='evotes' id='electoraldonaldtrumpevotes'>"+trump_electoralvotes+"<span class='evotes-text'> electoral votes</span></div>Donald Trump";
+    } else {
+      document.getElementById("electoralhillaryclinton").innerHTML = "<div class='evotes' id='electoralhillaryclintonevotes'>"+clinton_electoralvotes+"<span class='evotes-text'> electoral votes</span></div>Hillary Clinton";
+      document.getElementById("electoraldonaldtrump").innerHTML = "<div class='evotes' id='electoraldonaldtrumpevotes'>"+trump_electoralvotes+"<span class='evotes-text'> electoral votes</span></div><i class='fa fa-check-circle-o' aria-hidden='true'></i> Donald Trump";
+    }
+  } else {
+    document.getElementById("electoralhillaryclinton").innerHTML = "<div class='evotes' id='electoralhillaryclintonevotes'>"+clinton_electoralvotes+"<span class='evotes-text'> electoral votes</span></div>Hillary Clinton";
+    document.getElementById("electoraldonaldtrump").innerHTML = "<div class='evotes' id='electoraldonaldtrumpevotes'>"+trump_electoralvotes+"<span class='evotes-text'> electoral votes</span></div>Donald Trump";
+  }
+  document.getElementById("total-pres-votes-dem").innerHTML = formatthousands(raceSummaries["presvote"]["Dem"]);
+  document.getElementById("total-pres-votes-rep").innerHTML = formatthousands(raceSummaries["presvote"]["GOP"]);
+
+  // display electoral votes on bar
+  document.getElementById("uncounted").style.width = String(uncounted_percent)+"%";
+  document.getElementById("other").style.width = String(other_percent)+"%";
+  document.getElementById("hillaryclinton").style.width = String(clinton_percent)+"%";
+  document.getElementById("donaldtrump").style.width = String(trump_percent)+"%";
+});
 
 // -----------------------------------------------------------------------------
 // UPDATES ELECTORAL COUNT
@@ -431,7 +487,7 @@ function updateElectoralCount(){
       document.getElementById("electoraldonaldtrump").innerHTML = "<div class='evotes' id='electoraldonaldtrumpevotes'>"+trump_electoralvotes+"<span class='evotes-text'> electoral votes</span></div>Donald Trump";
     } else {
       document.getElementById("electoralhillaryclinton").innerHTML = "<div class='evotes' id='electoralhillaryclintonevotes'>"+clinton_electoralvotes+"<span class='evotes-text'> electoral votes</span></div>Hillary Clinton";
-      document.getElementById("electoraldonaldtrump").innerHTML = "<div class='evotes' id='electoraldonaldtrumpevotes'>"+trump_electoralvotes+"<span class='evotes-text'> electoral votes</span></div><i class='fa fa-check-circle-o' aria-hidden='true'> Donald Trump";
+      document.getElementById("electoraldonaldtrump").innerHTML = "<div class='evotes' id='electoraldonaldtrumpevotes'>"+trump_electoralvotes+"<span class='evotes-text'> electoral votes</span></div><i class='fa fa-check-circle-o' aria-hidden='true'></i> Donald Trump";
     }
   } else {
     document.getElementById("electoralhillaryclinton").innerHTML = "<div class='evotes' id='electoralhillaryclintonevotes'>"+clinton_electoralvotes+"<span class='evotes-text'> electoral votes</span></div>Hillary Clinton";
@@ -515,20 +571,25 @@ function updatePresidentialData(){
   });
 }
 
-// -----------------------------------------------------------------------------
-// TIMERS FOR GETTING DATA
-// -----------------------------------------------------------------------------
-var one = 60000, // 60000 = one minute
-    presDataTimer =  one * 2, // two minutes
-    raceSummariesTimer = one * 2,
-    FederalDataTimer = one * 2,
-    houseCATimer = one * 3,
-    senateCATimer = one * 3,
-    federalsenateCATimer = one * 3,
-    StateTimer = one * 3,
-    propsCATimer = one * 5,
-    localDataTimer = one * 5, // includes SF supes
-    regionalDataTimer = one * 10,
-    caInterval = one * 5,
-    caIntervalRaces = one *5;
+// timestamp
+function lastUpdated(divID){
+var d = new Date(),
+    minutes = d.getMinutes().toString().length == 1 ? '0'+d.getMinutes() : d.getMinutes(),
+    hours = d.getHours(),
+    ampm = d.getHours() >= 12 ? ' p.m.' : ' a.m.',
+    months = ['Jan.','Feb.','Mar.','Apr.','May','June','July','Aug.','Sept.','Oct.','Nov.','Dec.'];
+
+    if(hours >= 12){
+      hours = (hours - 12);
+    }
+    if(hours == 0){
+      hours = 12;
+    }
+
+var published = months[d.getMonth()]+' '+d.getDate()+', '+d.getFullYear()+' '+hours+':'+minutes+ampm;
+document.getElementById(divID).innerHTML = published;
+}
+// post first timestamp
+lastUpdated('timestamp');
+
 
