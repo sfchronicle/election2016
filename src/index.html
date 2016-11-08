@@ -363,9 +363,9 @@
         <span class="symbol"><i class='fa fa-times-circle-o' aria-hidden='true'></i>Rejected</span>
       </div>
 
-        <input type="text" placeholder="&#xf002;  Search by keyword or by typing “measure” and the letter" id="sf-propositions-search" style="font-family:AntennaExtraLight, FontAwesome">
+        <input type="text" placeholder="&#xf002;  Search by keyword or “measure” + letter" id="sf-propositions-search" style="font-family:AntennaExtraLight, FontAwesome">
 
-        <div id="no-results-sf">Search by keyword or by typing “measure” and the letter</div>
+        <div id="no-results-sf">Search by keyword or "measure"+letter</div>
 
         <div class="sf-propositions-list">
           <% csv.SFPropositionsData.forEach(function(prop,idx){ %>
@@ -434,8 +434,8 @@
         <span class="symbol"><i class='fa fa-star' aria-hidden='true'></i>Incumbent</span>
       </div>
       <div class="key centered padding mobile">
-        <div class="symbol">Key: <i class='fa fa-check-circle-o' aria-hidden='true'></i>Winner / Approved | </div>
-        <div class="symbol"><i class='fa fa-times-circle-o' aria-hidden='true'></i>Rejected | </div>
+        <div class="symbol">Key: <i class='fa fa-check-circle-o' aria-hidden='true'></i>Winner / Approved    | </div>
+        <div class="symbol"><i class='fa fa-times-circle-o' aria-hidden='true'></i>Rejected    | </div>
         <div class="symbol"><i class='fa fa-star' aria-hidden='true'></i>Incumbent</div>
       </div>
 
