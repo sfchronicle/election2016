@@ -97,10 +97,10 @@ function code_county(tempvar,properties){
           }
         } else if (tempvar["c"+count+"_party"] == "GOP") {
           return red;
-        } else if (tempvar["c"+count+"_name"] == "Jill Stein"){
-          return green;
-        } else if (tempvar["c"+count+"_name"] == "Gary Johnson"){
-          return orange;
+        // } else if (tempvar["c"+count+"_name"] == "Jill Stein"){
+        //   return green;
+        // } else if (tempvar["c"+count+"_name"] == "Gary Johnson"){
+        //   return orange;
         } else {
           return yellow;
         }
@@ -128,10 +128,10 @@ function code_map_variable(tempvar,properties){
         return blue;
       } else if (tempvar["c"+count+"_party"] == "GOP") {
         return red;
-      } else if (tempvar["c"+count+"_name"] == "Jill Stein"){
-        return green;
-      } else if (tempvar["c"+count+"_name"] == "Gary Johnson"){
-        return orange;
+      // } else if (tempvar["c"+count+"_name"] == "Jill Stein"){
+      //   return green;
+      // } else if (tempvar["c"+count+"_name"] == "Gary Johnson"){
+      //   return orange;
       } else {
         return yellow;
       }
