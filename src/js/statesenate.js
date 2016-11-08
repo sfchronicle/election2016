@@ -18,19 +18,7 @@ var light_gray = "#b2b2b2";
 var lightest_gray = "#D8D8D8";
 
 // loading data sources
-var presidentialDataURL = "http://extras.sfgate.com/editorial/election2016/live/emma_pres_state_us.json";
-var presidentialCountyDataURL = "http://extras.sfgate.com/editorial/election2016/live/emma_pres_county_us.json";
-var raceSummariesURL = "http://extras.sfgate.com/editorial/election2016/live/emma_summary.json";
-var governorRacesURL = "http://extras.sfgate.com/editorial/election2016/live/emma_governor_state_us.json";
-var senateRacesURL = "http://extras.sfgate.com/editorial/election2016/live/emma_senate_state_us.json";
-var congressRacesURL = "http://extras.sfgate.com/editorial/election2016/live/emma_house_district_us.json";
-var houseCAURL = "http://extras.sfgate.com/editorial/election2016/live/emma_house_district_ca.json";
 var senateCAURL = "http://extras.sfgate.com/editorial/election2016/live/emma_statesenate_district_ca.json";
-var federalsenateCAURL = "http://extras.sfgate.com/editorial/election2016/live/emma_senate_county_ca.json";
-var assemblyCAURL = "http://extras.sfgate.com/editorial/election2016/live/emma_assembly_district_id.json";
-var propsCAURL = "http://extras.sfgate.com/editorial/election2016/live/props_county_ca.json";
-var localDataURL = "http://extras.sfgate.com/editorial/election2016/live/emma_localresults.json";
-var storylinksURL = "http://extras.sfgate.com/editorial/election2016/live/electionurls.json";
 
 // helpful functions:
 var formatthousands = d3.format("0,000");
@@ -257,6 +245,12 @@ var catimer_races;
 
           function camap(active_map,active_data,flag) {
 
+
+            d3.select("#map-container-state").select("svg").remove();
+            d3.select("#map-container-state").select(".svg-container").remove();
+            d3.select("#map-container-state").select(".label-LA-widget").remove();
+            d3.select("#map-container-state").select(".label-SF-widget").remove();
+
             // CA map by county
             var svgCACounties = d3.select("#map-container-state")
               .append("div")
@@ -379,6 +373,7 @@ var catimer_races;
             camap("../assets/maps/ca_statesenate_insets.json",senateCA,0);
           }, caIntervalRaces);
 
+
       });
    
 
@@ -386,7 +381,6 @@ var catimer_races;
 // populating state section ----------------------------------------------------
 // -----------------------------------------------------------------------------
 d3.json(senateCAURL, function(senateCA){
-
 
     // Wiener vs Kim race
     var raceID = document.getElementById("statesenate");
@@ -405,33 +399,19 @@ d3.json(senateCAURL, function(senateCA){
 // TIMERS FOR GETTING DATA
 // -----------------------------------------------------------------------------
 var one = 60000, // 60000 = one minute
-    presDataTimer =  one * 2, // two minutes
-    raceSummariesTimer = one * 2,
-    FederalDataTimer = one * 2,
-    houseCATimer = one * 3,
-    senateCATimer = one * 3,
-    federalsenateCATimer = one * 3,
-    StateTimer = one * 3,
-    propsCATimer = one * 5,
-    localDataTimer = one * 5, // includes SF supes
-    regionalDataTimer = one * 10,
-    caInterval = one * 5,
-    caIntervalRaces = one * 5,
-    regionalInterval = one * 5,
-    linksInterval = one * 5;
+    caIntervalRaces = one * 5;
 // -----------------------------------------------------------------------------
 // UPDATES CA SENATE,ASSEMBLY,DISTRICT-9 RACES
 // -----------------------------------------------------------------------------
 
 setInterval(function() {
   updateStateKeyRaces();
-}, StateTimer);
+  lastUpdated('timestamp');
+}, caIntervalRaces);
 
 function updateStateKeyRaces(){
 
   d3.json(senateCAURL, function(senateCA){
-
-    d3.json(assemblyCAURL, function(assemblyCA){
 
       // Wiener vs Kim race
       var raceID = document.getElementById("statesenate");
@@ -442,12 +422,5 @@ function updateStateKeyRaces(){
       var raceID = document.getElementById("statedistrict9");
       var statesenatevar = senateCA["06009"];
       populateRace(raceID,statesenatevar,651);
-
-      // Cook-Kallio vs Baker race
-      var raceID = document.getElementById("stateassembly");
-      var assemblyvar = assemblyCA["06016"];
-      populateRace(raceID,assemblyvar,337);
-
     });
-  });
 }
