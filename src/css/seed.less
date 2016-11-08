@@ -1,7 +1,7 @@
 @import "sfchronicle";
 @import "fonts";
 @import "flexbox";
-@import "widgets";
+
 
 @block-graphics: "AntennaExtraLight";
 @med-graphics: "AntennaRegular";
@@ -1712,8 +1712,9 @@ header {
     // width: 16%;
     .flex(0 0 16%);
     @media @mobile {
-      .flex(0 0 33%);
+      .flex(0 0 48%);
     }
+
     &.long {
       @media @mobile {
         .flex(0 0 50%);
@@ -1753,6 +1754,10 @@ header {
     width: 150px;
     padding-left: 20px;
     vertical-align: text-top;
+  }
+
+  @media @mobile{
+  padding-left:0;
   }
 }
 
@@ -1873,3 +1878,5 @@ header {
     padding-right: 5px;
   }
 }
+
+@import "widgets";

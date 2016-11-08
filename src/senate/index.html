@@ -25,10 +25,61 @@
         <img class="banner widget" src="../assets/election2016banner.png">
 
       </div>
+      
+
+
+      <section id="federal">
+
+        <div>
+          
+          <div class="button-container">
+            <div class="button race senate active" id="senatemap">U.S. Senate</div>
+          </div>
+          <div class="deck widget" id="timestamp-container"><span>Last updated: </span><span id="timestamp"></span></div>
+
+          <div id="senate-power-balance">
+            <h3 class="party-name left">Democrats<span id="senate-dem">(100)</span></h3>
+            <h3 class="party-name right">Republicans<span id="senate-rep">(100)</span></h3>
+            <div class="senate-bar">
+              <div class="bar" id="dem-senate"></div>
+              <div class="bar" id="other-senate"></div>
+              <div class="bar" id="uncounted-senate"></div>
+              <div class="bar" id="rep-senate"></div>
+              <div class="mark50"></div>
+              <div class="marker270"><i class="fa fa-angle-double-up" aria-hidden="true"></i></div>
+              <div class="marker270label">50%</div>
+            </div>
+          </div>
+
+
+          <div class="legend-container widget">
+            <div class="element long"><div class="dem-swath"><div class="legend-text">Democratic winner</div></div></div>
+            <div class="element long"><div class="rep-swath"><div class="legend-text">Republican winner</div></div></div>
+            <div class="element long"><div class="other-swath"><div class="legend-text">Other winner</div></div></div>
+            <div class="element long"><div class="uncalled-swath"><div class="legend-text">Uncalled race</div></div></div>
+            <div class="element long"><div class="no-race-swath"><div class="legend-text">No race</div></div></div>
+            <div class="element long"><div class="noresults-swath"><div class="legend-text">No results</div></div></div>
+          </div>
+
+          <div id="map-container-federal"></div>
+
+        </div>
+
+        <div id="fsec" class="fsec-margin-top">
+          <div >
+            <h4>U.S. Senate, California<span id="senateStoryLink"></span></h4>
+            <div id="senate"></div>
+          </div>
+        </div>
+
+        
+
+      </section>
+
 
       <footer class="footer-widget">
         <div>
-          <p>Live results: <a href="http://sfchronicle.com/election">www.sfchronicle.com/election</a></p>
+          <p>Live results: <a href="http://sfchronicle.com/election" target="_blank">www.sfchronicle.com/election</a></p>
         </div>
       </footer>
 

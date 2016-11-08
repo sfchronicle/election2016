@@ -69,6 +69,10 @@
 	    border: none;
 	    padding-left: 7%;
 
+	    @media @mobile{
+	    padding-left:0;
+	    }
+
 	&.homepage{
 	    max-width: 740px;
 	}
@@ -252,6 +256,10 @@
 #timestamp-container{
 	font-size:0.7em;
 
+	@media @mobile{
+	font-size:0.5em;
+	}
+
 }
 
 #countdown{
@@ -389,4 +397,43 @@
 		margin-top: 20px !important;
 		margin-bottom: 0 !important;
 	}
+}
+
+#fsec{
+	
+	&.fsec-margin-top{
+		margin-top:1.5em;
+	}
+}
+
+#senate-power-balance .party-name,
+#house-power-balance .party-name,
+#governor-power-balance .party-name {
+    
+    font-size: 14px;
+
+    @media @mobile{
+     font-size:12px;
+     font-family:'AntennaRegular'
+    }
+
+    span{
+    font-size:10px;
+    }
+
+}
+
+
+.entry{
+	.name{
+		@media @mobile{
+		width:100% !important;
+		}
+	}	
+}
+
+.Demparty, .GOPparty, .party {
+    font-size: 8px;
+    font-family: AntennaRegular;
+    text-transform: uppercase;
 }
