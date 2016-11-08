@@ -32,7 +32,7 @@ var propsCAURL = "http://extras.sfgate.com/editorial/election2016/live/props_cou
 var localDataURL = "http://extras.sfgate.com/editorial/election2016/live/emma_localresults.json";
 var storylinksURL = "http://extras.sfgate.com/editorial/election2016/live/electionurls.json";
 
-var timer5minutes = 20000;//300000;
+var timer5minutes = 300000;
 
 d3.json(storylinksURL, function(storyLinks){
   setLinks(storyLinks);
