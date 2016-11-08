@@ -29,10 +29,7 @@ var raceSummariesURL = "http://extras.sfgate.com/editorial/election2016/live/emm
 // TIMERS FOR GETTING DATA
 // -----------------------------------------------------------------------------
 var one = 60000, // 60000 = one minute
-    presDataTimer =  one * 2, // two minutes
-    raceSummariesTimer = one * 2,
-    FederalDataTimer = one * 2,
-    caIntervalRaces = one *5;
+    presDataTimer =  one * 2;
 
 // color partial results on the map
 function color_partial_results(tempvar,properties,hashblue,hashred,hashyellow){
@@ -500,7 +497,7 @@ function updateElectoralCount(){
 setInterval(function() {
   updatePresidentialData();
   lastUpdated('timestamp');
-}, FederalDataTimer);
+}, presDataTimer);
 
 function updatePresidentialData(){
 
@@ -561,42 +558,23 @@ function updatePresidentialData(){
   });
 }
 
-
-setInterval(function () {
-
-    var today = new Date(), //gets the browser's current time
-      electionDay = new Date("Nov 08 2016 20:00:00 GMT-0800 (PST)"), //sets the countdown at 8pm
-      msPerDay = 24 * 60 * 60 * 1000,
-      timeLeft = (electionDay.getTime() - today.getTime()),
-      daysLeft = Math.floor(timeLeft / msPerDay),
-      hrsLeft = Math.floor((timeLeft / (1000 * 60 * 60)) % 24),
-      minsLeft = Math.floor((timeLeft / 1000 / 60) % 60),
-      secsLeft = Math.floor((timeLeft / 1000) % 60);
-
-  document.getElementById("countdown").innerHTML = (
-    "<div class='time'><div class='hours'>"   +  hrsLeft   + "</div><div class='text'>HOURS</span></div></div>" +
-    "<div class='time'><div class='minutes'>" +  minsLeft  + "</div><div class='text'>MINUTES</span></div></div>" +
-    "<div class='time'><div class='seconds'>" +  secsLeft  + "</div><div class='text'>SECONDS</span></div></div>"
-  );
-
-}, 1000);
-
-
-
-
 // -----------------------------------------------------------------------------
 // UPDATES LINKS
 // -----------------------------------------------------------------------------
 
-// setInterval(function() {
-//   linksID.innerHTML=("");
-//   updateLinks();
-// }, presDataTimer);
+setInterval(function() {
+  linksID.innerHTML=("");
+  headlineID.innerHTML=("");
+  deckID.innerHTML=("");
+  updateLinks();
+}, presDataTimer);
 
 var jsonlinks = "../assets/links.json";
 var jsonHeadline = "../assets/homepage.json";
 var linksID = document.getElementById("story-links");
 var headlineID = document.getElementById("homepage-headline");
+var deckID = document.getElementById("homepage-deck");
+var homeIMG = document.getElementById("image");
 
 function updateLinks(){
   d3.json(jsonlinks, function(links){
@@ -605,17 +583,20 @@ function updateLinks(){
           headline = d.headline,
           url = d.url;
       linksID.insertAdjacentHTML("beforeend",
-      "<a href='" + url + "' targer='_blank'>" +
+      "<a href='" + url + "' target='_blank'>" +
       "<h3>" +  headline   + "</h3>"
       );
     });
   });
-  // Updates the main headline
+  // Updates the main headline, deck and image
   d3.json(jsonHeadline, function(headline){
-    headline.forEach(function(d) {
-        var mainHeadline = d.main_headline;
-        headlineID.innerHTML = mainHeadline;
-    });
+    var mainHeadline = headline[0]['main_headline'];
+    var mainDeck = headline[1]['main_deck'];
+    var mainIMG = headline[2]['img'];
+    var imgByline = headline[3]['byline'];
+    headlineID.innerHTML = mainHeadline;
+    deckID.innerHTML = mainDeck;
+    homeIMG.innerHTML = "<img src='http://ww1.hdnux.com/photos/54/57/61/" + mainIMG +"/3/400x400.jpg'><div class='caption'>" + imgByline + "</div>";
   });
 }
 updateLinks();

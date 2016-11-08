@@ -314,7 +314,11 @@
     max-width:800px;
     }
  }
-
+#homepage-deck{
+    text-align: center;
+    line-height: 1.2;
+    font-size: 0.8em;
+}
 #homepage-links{
  	min-height:385px;
     float: right;
@@ -329,8 +333,8 @@
     margin-bottom: 10px;
     display: inline-block;
     text-transform: uppercase;
-    padding: 1px 10px;
-    font-size: 0.8em;
+    padding: 3px 7px;
+    font-size: 0.6em;
     font-family:'AntennaRegular';
     }
 
@@ -363,6 +367,18 @@
 	a{
 	color:#333;
 	}
+
+	height:350px;
+
+	@media (max-width:900px){
+		height:480px;
+	}
+	@media @tablet{
+		height:250px;
+	}
+	@media @mobile{
+	height:350px;
+	}
 }
 
 #image{
@@ -392,6 +408,16 @@
     }
     @media (max-width:870px){
     font-size:1.75em;
+    }
+}
+
+.headline-container{
+	height: 80px;
+    box-shadow: none;
+    padding: 0;
+
+    @media @mobile{
+    height:130px;
     }
 }
 

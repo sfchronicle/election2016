@@ -15,12 +15,8 @@
     <div class="outer homepage-widget">
 
 
-      <div class="title-img homepage-widget clearfix">
-        <img class="banner homepage-widget" src="../assets/election2016banner.png">
-          <div id="countdown-header">
-            <span>California Polls close in:</span>
-            <div id="countdown"></div>
-          </div>
+      <div class="title-img homepage-widget clearfix" style="text-align:center;padding-bottom:0;border-bottom: none;">
+        <img class="banner homepage-widget" src="../assets/election2016banner.png" style="float:none;padding:0;">
       </div>
       <div id="homepage-president">
 
@@ -90,21 +86,6 @@
       // map look-up tables
       var stateCodes = <%= JSON.stringify(csv.stateCodes) %>;
       var countyCodes = <%= JSON.stringify(json.countyCodesLookup) %>;
-
-      setInterval(function () {
-        var today = new Date(), //gets the browser's current time
-          electionDay = new Date("Nov 08 2016 20:00:00 GMT-0800 (PST)"), //sets the countdown at 8pm
-          msPerDay = 24 * 60 * 60 * 1000,
-          timeLeft = (electionDay.getTime() - today.getTime()),
-          hrsLeft = Math.floor((timeLeft / (1000 * 60 * 60)) % 24),
-          minsLeft = Math.floor((timeLeft / 1000 / 60) % 60),
-          secsLeft = Math.floor((timeLeft / 1000) % 60);
-        document.getElementById("countdown").innerHTML = (
-          "<div class='time'><div class='hours'>"   +  hrsLeft   + "</div><div class='text'>HOURS</span></div></div>" +
-          "<div class='time'><div class='minutes'>" +  minsLeft  + "</div><div class='text'>MINUTES</span></div></div>" +
-          "<div class='time'><div class='seconds'>" +  secsLeft  + "</div><div class='text'>SECONDS</span></div></div>"
-        );
-      }, 1000);
 
     </script>
 
