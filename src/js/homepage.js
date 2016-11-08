@@ -145,14 +145,13 @@ function tooltip_function(abbrev,races,properties) {
   if (races[String(abbrev)]) {
     var tempvar = races[String(abbrev)];
     if (tempvar.r) {
-      if (+tempvar.r["Yes"] != 0) {
-        var total = +tempvar.r["Yes"] + +tempvar.r["No"];
-        if (total == 0) { total = 0.1;}
-        var html_str = "<div class='state-name'>"+properties.name+"</div>";
+      var total = +tempvar.r["Yes"] + +tempvar.r["No"];
+      if (total > 0) {
+        var html_str = "<div class='state-name'>"+properties.name+"<span class='close-tooltip'><i class='fa fa-times' aria-hidden='true'></i></span></div>";
         html_str = html_str+"<div class='result'>Yes: "+Math.round(+tempvar.r["Yes"]/total*1000)/10+"%<span class='no-class'>No: "+Math.round(+tempvar.r["No"]/total*1000)/10+"%</span></div>";
         html_str = html_str+"<div>"+formatthousands(tempvar.p)+"/"+formatthousands(properties.precincts)+" precincts reporting</div>";
       } else {
-        var html_str = "<div class='state-name'>"+properties.name+"</div>";
+        var html_str = "<div class='state-name'>"+properties.name+"<span class='close-tooltip'><i class='fa fa-times' aria-hidden='true'></i></span></div>";
         html_str = html_str+"<div>"+formatthousands(tempvar.p)+"/"+formatthousands(properties.precincts)+" precincts reporting</div>";
       }
     } else {
@@ -165,9 +164,8 @@ function tooltip_function(abbrev,races,properties) {
       if (tempvar["o"]) {
         sum += +tempvar["o"];
       }
-      // this is a hack for when there are no reported results yet
-      if (sum == 0) { sum = 0.1; }
-      var count = 1; var html_str = "<div class='state-name'>"+properties.name+"</div>";
+      if (sum == 0) { sum = 0.1; } // this is a hack for when there are no reported results yet
+      var count = 1; var html_str = "<div class='state-name'>"+properties.name+"<span class='close-tooltip'><i class='fa fa-times' aria-hidden='true'></i></span></div>";
       while (tempvar["c"+count]) {
         var party = tempvar["c"+count+"_party"];
         var key = tempvar["c"+count+"_name"].toLowerCase().replace(/ /g,'').replace("'","");
@@ -184,7 +182,7 @@ function tooltip_function(abbrev,races,properties) {
       html_str = html_str+"<div>"+formatthousands(tempvar.p)+"/"+formatthousands(properties.precincts)+" precincts reporting</div>";
     }
   } else {
-    var html_str = "<div class='state-name'>"+properties.name+"</div><div>No race.</div>";
+    var html_str = "<div class='state-name'>"+properties.name+"<span class='close-tooltip'><i class='fa fa-times' aria-hidden='true'></i></span></div><div>No race.</div>";
   }
   return html_str;
 }
