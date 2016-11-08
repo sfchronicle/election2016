@@ -33,7 +33,7 @@ var one = 60000, // 60000 = one minute
     raceSummariesTimer = one * 2,
     FederalDataTimer = one * 2,
     caIntervalRaces = one *5;
-    
+
 // color partial results on the map
 function color_partial_results(tempvar,properties,hashblue,hashred){
   Array.prototype.max = function() {
@@ -580,9 +580,9 @@ setInterval(function () {
       hrsLeft = Math.floor((timeLeft / (1000 * 60 * 60)) % 24),
       minsLeft = Math.floor((timeLeft / 1000 / 60) % 60),
       secsLeft = Math.floor((timeLeft / 1000) % 60);
-  
+
   document.getElementById("countdown").innerHTML = (
-    "<div class='time'><div class='hours'>"   +  hrsLeft   + "</div><div class='text'>HOURS</span></div></div>" + 
+    "<div class='time'><div class='hours'>"   +  hrsLeft   + "</div><div class='text'>HOURS</span></div></div>" +
     "<div class='time'><div class='minutes'>" +  minsLeft  + "</div><div class='text'>MINUTES</span></div></div>" +
     "<div class='time'><div class='seconds'>" +  secsLeft  + "</div><div class='text'>SECONDS</span></div></div>"
   );
@@ -608,27 +608,22 @@ var headlineID = document.getElementById("homepage-headline");
 
 function updateLinks(){
   d3.json(jsonlinks, function(links){
-    links.forEach(function(d) {      
+    links.forEach(function(d) {
       var deck = d.deck,
           headline = d.headline,
           url = d.url;
       linksID.insertAdjacentHTML("beforeend",
       "<a href='" + url + "' targer='_blank'>" +
-      "<h3>" +  headline   + "</h3>" 
+      "<h3>" +  headline   + "</h3>"
       );
     });
   });
   // Updates the main headline
-  d3.json(jsonHeadline, function(headline){ 
-    headline.forEach(function(d) {  
+  d3.json(jsonHeadline, function(headline){
+    headline.forEach(function(d) {
         var mainHeadline = d.main_headline;
         headlineID.innerHTML = mainHeadline;
     });
   });
 }
 updateLinks();
-
-
-
-
-
