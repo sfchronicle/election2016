@@ -318,14 +318,10 @@ d3.json("../assets/maps/us_state_new.json", function(error, us) {
         return tooltip
           .style("top",(d3.event.pageY+10)+"px")//(d3.event.pageY+40)+"px")
           .style("left",((d3.event.pageX)/3+10)+"px");
-      } else if (screen.width <= 670) {
-        return tooltip
-          .style("top",(d3.event.pageY+10)+"px")//(d3.event.pageY+40)+"px")
-          .style("left",((d3.event.pageX)/2+50)+"px");
       } else {
         return tooltip
-          .style("top", (d3.event.pageY+20)+"px")
-          .style("left",(d3.event.pageX-80)+"px");
+          .style("top",((d3.event.pageY-220)+"px"))//(d3.event.pageY+40)+"px")
+          .style("left",((d3.event.pageX)/2+100)+"px");
       }
     })
     .on("mouseout", function(){return tooltip.style("visibility", "hidden");
@@ -388,14 +384,10 @@ if (screen.width > 670) {
             return tooltip
               .style("top",(d3.event.pageY+10)+"px")//(d3.event.pageY+40)+"px")
               .style("left",((d3.event.pageX)/3+10)+"px");
-          } else if (screen.width <= 670) {
-            return tooltip
-              .style("top",(d3.event.pageY+10)+"px")//(d3.event.pageY+40)+"px")
-              .style("left",((d3.event.pageX)/2+50)+"px");
           } else {
             return tooltip
-              .style("top", (d3.event.pageY+20)+"px")
-              .style("left",(d3.event.pageX-80)+"px");
+              .style("top",((d3.event.pageY-220)+"px"))//(d3.event.pageY+40)+"px")
+              .style("left",((d3.event.pageX)/2+100)+"px");
           }
         })
         .on("mouseout", function(){return tooltip.style("visibility", "hidden")
