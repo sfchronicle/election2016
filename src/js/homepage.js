@@ -569,8 +569,8 @@ setInterval(function() {
   updateLinks();
 }, presDataTimer);
 
-var jsonlinks = "../assets/links.json";
-var jsonHeadline = "../assets/homepage.json";
+var jsonlinks = "http://extras.sfgate.com/editorial/election2016/live/links.json";
+var jsonHeadline = "http://extras.sfgate.com/editorial/election2016/live/homepage.json";
 var linksID = document.getElementById("story-links");
 var headlineID = document.getElementById("homepage-headline");
 var deckID = document.getElementById("homepage-deck");
@@ -590,10 +590,11 @@ function updateLinks(){
   });
   // Updates the main headline, deck and image
   d3.json(jsonHeadline, function(headline){
+
     var mainHeadline = headline[0]['main_headline'];
-    var mainDeck = headline[1]['main_deck'];
-    var mainIMG = headline[2]['img'];
-    var imgByline = headline[3]['byline'];
+    var mainDeck = headline[0]['main_deck'];
+    var mainIMG = headline[0]['img_id'];
+    var imgByline = headline[0]['byline'];
     headlineID.innerHTML = mainHeadline;
     deckID.innerHTML = mainDeck;
     homeIMG.innerHTML = "<img src='http://ww1.hdnux.com/photos/54/57/61/" + mainIMG +"/3/400x400.jpg'><div class='caption'>" + imgByline + "</div>";

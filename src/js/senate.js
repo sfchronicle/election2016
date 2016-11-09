@@ -203,6 +203,36 @@ if (screen.width < 480){
   var text_len = 321;
 }
 
+// function for coloring map
+function code_map_variable(tempvar,properties){
+  if (tempvar.r) {
+    if (+tempvar.r["Yes"] > +tempvar.r["No"]) {
+      return yes_map;
+    } else if (+tempvar.r["Yes"] < +tempvar.r["No"]){
+      return no_map;
+    } else {
+      return undecided_map;
+    }
+  }
+  var count = 1;
+  while (tempvar["c"+count]) {
+    if (tempvar["c"+count+"_name"] == tempvar.d) {
+      if (tempvar["c"+count+"_party"] == "Dem") {
+        return blue;
+      } else if (tempvar["c"+count+"_party"] == "GOP") {
+        return red;
+      // } else if (tempvar["c"+count+"_name"] == "Jill Stein"){
+      //   return green;
+      // } else if (tempvar["c"+count+"_name"] == "Gary Johnson"){
+      //   return orange;
+      } else {
+        return yellow;
+      }
+    }
+    count++;
+  }
+}
+
 // US MAP RACES ----------------------------------------------------------------
 
 
