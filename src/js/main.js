@@ -44,6 +44,13 @@ var storyTimer = setInterval(function() {
   });
 }, timer5minutes);
 
+var iOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+var iOS = !!navigator.platform && /iPad|iPhone|iPod/.test(navigator.platform);
+
+if (iOS) {
+
+}
+
 function setLinks(storyLinks) {
   if (storyLinks.prez1109) {
     document.getElementById("presidentStoryLink").innerHTML = "<span class='story-link-URL'><a href='"+storyLinks.prez1109+"' target='_blank'>  <i class='fa fa-external-link' aria-hidden='true'></i>Read the story</a></span>";
@@ -489,19 +496,19 @@ var pattern = svg_element_pres.append("defs")
 	.append("pattern")
 		.attr({ id:"hashblue_pres", width:"8", height:"8", patternUnits:"userSpaceOnUse", patternTransform:"rotate(60)"})
 	.append("rect")
-		.attr({ width:"7", height:"8", transform:"translate(0,0)", fill:blue });
+		.attr({ width:"6", height:"8", transform:"translate(0,0)", fill:blue });
 
 var pattern2 = svg_element_pres.append("defs")
   .append("pattern")
     .attr({ id:"hashred_pres", width:"8", height:"8", patternUnits:"userSpaceOnUse", patternTransform:"rotate(60)"})
   .append("rect")
-    .attr({ width:"7", height:"8", transform:"translate(0,0)", fill:red });
+    .attr({ width:"6", height:"8", transform:"translate(0,0)", fill:red });
 
 var pattern3 = svg_element_pres.append("defs")
   .append("pattern")
     .attr({ id:"hashyellow_pres", width:"8", height:"8", patternUnits:"userSpaceOnUse", patternTransform:"rotate(60)"})
   .append("rect")
-    .attr({ width:"7", height:"8", transform:"translate(0,0)", fill:yellow });
+    .attr({ width:"6", height:"8", transform:"translate(0,0)", fill:yellow });
 
 d3.json("./assets/maps/us_state_new.json", function(error, us) {
   if (error) throw error;
@@ -540,11 +547,9 @@ d3.json("./assets/maps/us_state_new.json", function(error, us) {
         var html_str = "<div class='state-name'>"+d.properties.name+"</div><div>No results yet.</div>";
       }
       tooltip.html(html_str);
-      tooltip.style("visibility", "visible");
-      document.getElementsByClassName("close-tooltip")[0].addEventListener("click",function(){
-        console.log("closing the tooltip");
+      if (!iOS){
         tooltip.style("visibility", "visible");
-      });
+      }
     })
     .on("mousemove", function() {
       if (screen.width <= 480) {
@@ -569,11 +574,11 @@ d3.json("./assets/maps/us_state_new.json", function(error, us) {
 // COUNTY PRESIDENTIAL MAP ------------------------------------------------------
 console.log("window is:");
 console.log(window.navigator.userAgent.indexOf("MSIE "));
-if (window.navigator.userAgent.indexOf("MSIE ") > 0) {
-  console.log("Internet Explorer");
-  document.getElementById("pres-button-container").setAttribute("display","none");
-} else {
+if (window.navigator.userAgent.indexOf("MSIE ") == -1) {
   console.log("not IE");
+} else {
+  console.log("Internet Explorer");
+  document.getElementById("presidentbycounty").classList.add("dontshow");
 }
 if ((screen.width > 670) && (window.navigator.userAgent.indexOf("MSIE ") == -1)) {
   console.log("showing the county map");
@@ -623,11 +628,9 @@ if ((screen.width > 670) && (window.navigator.userAgent.indexOf("MSIE ") == -1))
             var html_str = "<div class='state-name'>County: "+d.properties.name+"</div><div>No results yet.</div>";
           }
           tooltip.html(html_str);
-          tooltip.style("visibility", "visible");
-          document.getElementsByClassName("close-tooltip")[0].addEventListener("click",function(){
-            console.log("closing the tooltip");
+          if (!iOS){
             tooltip.style("visibility", "visible");
-          });
+          }
         })
         .on("mousemove", function() {
           if (screen.width <= 480) {
@@ -759,19 +762,19 @@ d3.json(governorRacesURL, function(governorRaces){
             .append("pattern")
               .attr({ id:"hashblueFed", width:"8", height:"8", patternUnits:"userSpaceOnUse", patternTransform:"rotate(60)"})
             .append("rect")
-              .attr({ width:"7", height:"8", transform:"translate(0,0)", fill:blue });
+              .attr({ width:"6", height:"8", transform:"translate(0,0)", fill:blue });
 
           var patternfed2 = svg_element_fed.append("defs")
             .append("pattern")
               .attr({ id:"hashredFed", width:"8", height:"8", patternUnits:"userSpaceOnUse", patternTransform:"rotate(60)"})
             .append("rect")
-              .attr({ width:"7", height:"8", transform:"translate(0,0)", fill:red });
+              .attr({ width:"6", height:"8", transform:"translate(0,0)", fill:red });
 
           var patternfed3 = svg_element_fed.append("defs")
             .append("pattern")
               .attr({ id:"hashyellowFed", width:"8", height:"8", patternUnits:"userSpaceOnUse", patternTransform:"rotate(60)"})
             .append("rect")
-              .attr({ width:"7", height:"8", transform:"translate(0,0)", fill:yellow });
+              .attr({ width:"6", height:"8", transform:"translate(0,0)", fill:yellow });
 
           d3.json(active_map,function(error,us){
             if (error) throw error;
@@ -825,11 +828,9 @@ d3.json(governorRacesURL, function(governorRaces){
                 var html_str = tooltip_function(d.id,active_data,d.properties);
               }
               federal_tooltip.html(html_str);
-              federal_tooltip.style("visibility", "visible");
-              document.getElementsByClassName("close-tooltip")[0].addEventListener("click",function(){
-                console.log("closing the tooltip");
+              if (!iOS){
                 federal_tooltip.style("visibility", "visible");
-              });
+              }
             })
             .on("mousemove", function() {
               if (screen.width <= 480) {
@@ -1099,19 +1100,19 @@ d3.json(houseCAURL, function(houseCA){
               .append("pattern")
                 .attr({ id:"hashblueCA", width:"8", height:"8", patternUnits:"userSpaceOnUse", patternTransform:"rotate(60)"})
               .append("rect")
-                .attr({ width:"7", height:"8", transform:"translate(0,0)", fill:blue });
+                .attr({ width:"6", height:"8", transform:"translate(0,0)", fill:blue });
 
             var patternCA2 = svgCACounties.append("defs")
               .append("pattern")
                 .attr({ id:"hashredCA", width:"8", height:"8", patternUnits:"userSpaceOnUse", patternTransform:"rotate(60)"})
               .append("rect")
-                .attr({ width:"7", height:"8", transform:"translate(0,0)", fill:red });
+                .attr({ width:"6", height:"8", transform:"translate(0,0)", fill:red });
 
             var patternCA3 = svgCACounties.append("defs")
               .append("pattern")
                 .attr({ id:"hashyellowCA", width:"8", height:"8", patternUnits:"userSpaceOnUse", patternTransform:"rotate(60)"})
               .append("rect")
-                .attr({ width:"7", height:"8", transform:"translate(0,0)", fill:yellow });
+                .attr({ width:"6", height:"8", transform:"translate(0,0)", fill:yellow });
 
             d3.json(active_map, function(error, us) {
               if (error) throw error;
@@ -1150,11 +1151,9 @@ d3.json(houseCAURL, function(houseCA){
                 if (d.id != 0) {
                   var html_str = tooltip_function(d.id,active_data,d.properties);
                   state_tooltip.html(html_str);
-                  state_tooltip.style("visibility", "visible");
-                  document.getElementsByClassName("close-tooltip")[0].addEventListener("click",function(){
-                    console.log("closing the tooltip");
+                  if (!iOS){
                     state_tooltip.style("visibility", "visible");
-                  });
+                  }
                 }
               })
               .on("mousemove", function() {
@@ -1289,11 +1288,9 @@ d3.json(propsCAURL, function(propsCA){
       .on('mouseover', function(d,index) {
         var html_str = tooltip_function(d.id,active_data,d.properties);
         prop_tooltip.html(html_str);
-        prop_tooltip.style("visibility", "visible");
-        document.getElementsByClassName("close-tooltip")[0].addEventListener("click",function(){
-          console.log("closing the tooltip");
+        if (!iOS){
           prop_tooltip.style("visibility", "visible");
-        });
+        }
       })
       .on("mousemove", function() {
         if (screen.width <= 480) {
@@ -1787,11 +1784,9 @@ function updatePresidentialData(){
         var html_str = "<div class='state-name'>"+d.properties.name+"</div><div>No results yet.</div>";
       }
       tooltip.html(html_str);
-      tooltip.style("visibility", "visible");
-      document.getElementsByClassName("close-tooltip")[0].addEventListener("click",function(){
-        console.log("closing the tooltip");
+      if (!iOS){
         tooltip.style("visibility", "visible");
-      });
+      }
     });
   });
   // updates county map data
@@ -1814,11 +1809,9 @@ function updatePresidentialData(){
         var html_str = "<div class='state-name'>County: "+d.properties.name+"</div><div>No results yet.</div>";
       }
       tooltip.html(html_str);
-      tooltip.style("visibility", "visible");
-      document.getElementsByClassName("close-tooltip")[0].addEventListener("click",function(){
-        console.log("closing the tooltip");
+      if (!iOS){
         tooltip.style("visibility", "visible");
-      });
+      }
     });
   });
 }
