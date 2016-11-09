@@ -188,6 +188,9 @@ function populateRace(raceID,racevar,p) {
   }
   while (racevar["c"+count]) {
     var namekey = racevar["c"+count+"_name"].toLowerCase().replace(/ /g,'').replace(".","").replace("'","");
+    if (namekey == "rokhanna") {
+      racevar["d"] = "Ro Khanna";
+    }
     if (racevar["c"+count+"_party"]){
       if (racevar["d"]) {
         if ((racevar["c"+count+"_name"] == racevar["d"]) && (racevar["c"+count+"_i"] == 1)) {
