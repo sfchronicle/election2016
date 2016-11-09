@@ -30,7 +30,9 @@ module.exports = function(grunt) {
       "./src/js/caprop63.js": "build/caprop63_app.js",
       "./src/js/caprop64.js": "build/caprop64_app.js",
       "./src/js/measureRR.js": "build/measureRR_app.js",
-      "./src/js/homepage.js": "build/homepage.js"
+      "./src/js/homepage.js": "build/homepage.js",
+      "./src/js/alameda.js": "build/alameda.js",
+      "./src/js/bayarea.js": "build/bayarea.js"
       
     };
 
