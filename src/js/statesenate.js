@@ -49,6 +49,36 @@ function shadeColor2(color, percent) {
     return "#"+(0x1000000+(Math.round((t-R)*p)+R)*0x10000+(Math.round((t-G)*p)+G)*0x100+(Math.round((t-B)*p)+B)).toString(16).slice(1);
 }
 
+// function for coloring map
+function code_map_variable(tempvar,properties){
+  if (tempvar.r) {
+    if (+tempvar.r["Yes"] > +tempvar.r["No"]) {
+      return yes_map;
+    } else if (+tempvar.r["Yes"] < +tempvar.r["No"]){
+      return no_map;
+    } else {
+      return undecided_map;
+    }
+  }
+  var count = 1;
+  while (tempvar["c"+count]) {
+    if (tempvar["c"+count+"_name"] == tempvar.d) {
+      if (tempvar["c"+count+"_party"] == "Dem") {
+        return blue;
+      } else if (tempvar["c"+count+"_party"] == "GOP") {
+        return red;
+      // } else if (tempvar["c"+count+"_name"] == "Jill Stein"){
+      //   return green;
+      // } else if (tempvar["c"+count+"_name"] == "Gary Johnson"){
+      //   return orange;
+      } else {
+        return yellow;
+      }
+    }
+    count++;
+  }
+}
+
 // function to populate measure data
 function populateMeasure(measureID,measurevar) {
   var total = +measurevar["Yes"] + +measurevar["No"];
