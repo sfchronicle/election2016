@@ -541,6 +541,10 @@ d3.json("./assets/maps/us_state_new.json", function(error, us) {
       }
       tooltip.html(html_str);
       tooltip.style("visibility", "visible");
+      document.getElementsByClassName("close-tooltip")[0].addEventListener("click",function(){
+        console.log("closing the tooltip");
+        tooltip.style("visibility", "visible");
+      });
     })
     .on("mousemove", function() {
       if (screen.width <= 480) {
@@ -611,6 +615,10 @@ if (screen.width > 670) {
           }
           tooltip.html(html_str);
           tooltip.style("visibility", "visible");
+          document.getElementsByClassName("close-tooltip")[0].addEventListener("click",function(){
+            console.log("closing the tooltip");
+            tooltip.style("visibility", "visible");
+          });
         })
         .on("mousemove", function() {
           if (screen.width <= 480) {
@@ -809,6 +817,10 @@ d3.json(governorRacesURL, function(governorRaces){
               }
               federal_tooltip.html(html_str);
               federal_tooltip.style("visibility", "visible");
+              document.getElementsByClassName("close-tooltip")[0].addEventListener("click",function(){
+                console.log("closing the tooltip");
+                federal_tooltip.style("visibility", "visible");
+              });
             })
             .on("mousemove", function() {
               if (screen.width <= 480) {
@@ -1130,6 +1142,10 @@ d3.json(houseCAURL, function(houseCA){
                   var html_str = tooltip_function(d.id,active_data,d.properties);
                   state_tooltip.html(html_str);
                   state_tooltip.style("visibility", "visible");
+                  document.getElementsByClassName("close-tooltip")[0].addEventListener("click",function(){
+                    console.log("closing the tooltip");
+                    state_tooltip.style("visibility", "visible");
+                  });
                 }
               })
               .on("mousemove", function() {
@@ -1265,6 +1281,10 @@ d3.json(propsCAURL, function(propsCA){
         var html_str = tooltip_function(d.id,active_data,d.properties);
         prop_tooltip.html(html_str);
         prop_tooltip.style("visibility", "visible");
+        document.getElementsByClassName("close-tooltip")[0].addEventListener("click",function(){
+          console.log("closing the tooltip");
+          prop_tooltip.style("visibility", "visible");
+        });
       })
       .on("mousemove", function() {
         if (screen.width <= 480) {
@@ -1491,17 +1511,11 @@ var qsa = s => Array.prototype.slice.call(document.querySelectorAll(s));
 qsa(".sectionbutton").forEach(function(group,index) {
   group.addEventListener("click", function(e) {
     var this_name = this.innerHTML;
-    var regionkey = this.classList[2];
+    var regionkey = this.getAttribute("class").split(" ")[2];
     var button_lists = document.getElementsByClassName("sectionbutton");
-    var bn = button_lists.length;
-    for (var i=0; i<bn; i++){
-      var b = button_lists[i];
-      b.classList.remove("active");
-    };
-    this.classList.add("active");
     var regionsection = document.getElementsByClassName("regionalhed");
     for (var i=0; i<regionsection.length; i++) {
-      regionsection[i].remove();
+      regionsection[i].parentNode.removeChild(regionsection[i]);
     }
     regional_section(this_name,regionkey);
     clearTimeout(regionalsection_timer);
@@ -1514,6 +1528,12 @@ qsa(".sectionbutton").forEach(function(group,index) {
       regional_section(this_name,regionkey);
       console.log("refresh local section");
     }, timer5minutes);
+    var bn = button_lists.length;
+    for (var i=0; i<bn; i++){
+      var b = button_lists[i];
+      b.classList.remove("active");
+    };
+    this.classList.add("active");
   });
 });
 
@@ -1759,6 +1779,10 @@ function updatePresidentialData(){
       }
       tooltip.html(html_str);
       tooltip.style("visibility", "visible");
+      document.getElementsByClassName("close-tooltip")[0].addEventListener("click",function(){
+        console.log("closing the tooltip");
+        tooltip.style("visibility", "visible");
+      });
     });
   });
   // updates county map data
@@ -1782,6 +1806,10 @@ function updatePresidentialData(){
       }
       tooltip.html(html_str);
       tooltip.style("visibility", "visible");
+      document.getElementsByClassName("close-tooltip")[0].addEventListener("click",function(){
+        console.log("closing the tooltip");
+        tooltip.style("visibility", "visible");
+      });
     });
   });
 }
