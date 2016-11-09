@@ -270,19 +270,19 @@ function code_map_variable(tempvar,properties){
             .append("pattern")
               .attr({ id:"hashblueFed", width:"8", height:"8", patternUnits:"userSpaceOnUse", patternTransform:"rotate(60)"})
             .append("rect")
-              .attr({ width:"7.5", height:"8", transform:"translate(0,0)", fill:blue });
+              .attr({ width:"6", height:"8", transform:"translate(0,0)", fill:blue });
 
           var patternfed2 = svg_element_fed.append("defs")
             .append("pattern")
               .attr({ id:"hashredFed", width:"8", height:"8", patternUnits:"userSpaceOnUse", patternTransform:"rotate(60)"})
             .append("rect")
-              .attr({ width:"7.5", height:"8", transform:"translate(0,0)", fill:red });
+              .attr({ width:"6", height:"8", transform:"translate(0,0)", fill:red });
 
           var patternfed3 = svg_element_fed.append("defs")
             .append("pattern")
               .attr({ id:"hashyellowFed", width:"8", height:"8", patternUnits:"userSpaceOnUse", patternTransform:"rotate(60)"})
             .append("rect")
-              .attr({ width:"7.5", height:"8", transform:"translate(0,0)", fill:yellow });
+              .attr({ width:"6", height:"8", transform:"translate(0,0)", fill:yellow });
 
           d3.json(active_map,function(error,us){
             if (error) throw error;

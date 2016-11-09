@@ -268,19 +268,19 @@ var catimer_races;
               .append("pattern")
                 .attr({ id:"hashblueCA", width:"8", height:"8", patternUnits:"userSpaceOnUse", patternTransform:"rotate(60)"})
               .append("rect")
-                .attr({ width:"7.5", height:"8", transform:"translate(0,0)", fill:blue });
+                .attr({ width:"6", height:"8", transform:"translate(0,0)", fill:blue });
 
             var patternCA2 = svgCACounties.append("defs")
               .append("pattern")
                 .attr({ id:"hashredCA", width:"8", height:"8", patternUnits:"userSpaceOnUse", patternTransform:"rotate(60)"})
               .append("rect")
-                .attr({ width:"7.5", height:"8", transform:"translate(0,0)", fill:red });
+                .attr({ width:"6", height:"8", transform:"translate(0,0)", fill:red });
 
             var patternCA3 = svgCACounties.append("defs")
               .append("pattern")
                 .attr({ id:"hashyellowCA", width:"8", height:"8", patternUnits:"userSpaceOnUse", patternTransform:"rotate(60)"})
               .append("rect")
-                .attr({ width:"7.5", height:"8", transform:"translate(0,0)", fill:yellow });
+                .attr({ width:"6", height:"8", transform:"translate(0,0)", fill:yellow });
 
             d3.json(active_map, function(error, us) {
               if (error) throw error;
