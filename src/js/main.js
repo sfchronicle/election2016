@@ -489,19 +489,19 @@ var pattern = svg_element_pres.append("defs")
 	.append("pattern")
 		.attr({ id:"hashblue_pres", width:"8", height:"8", patternUnits:"userSpaceOnUse", patternTransform:"rotate(60)"})
 	.append("rect")
-		.attr({ width:"7.5", height:"8", transform:"translate(0,0)", fill:blue });
+		.attr({ width:"7", height:"8", transform:"translate(0,0)", fill:blue });
 
 var pattern2 = svg_element_pres.append("defs")
   .append("pattern")
     .attr({ id:"hashred_pres", width:"8", height:"8", patternUnits:"userSpaceOnUse", patternTransform:"rotate(60)"})
   .append("rect")
-    .attr({ width:"7.5", height:"8", transform:"translate(0,0)", fill:red });
+    .attr({ width:"7", height:"8", transform:"translate(0,0)", fill:red });
 
 var pattern3 = svg_element_pres.append("defs")
   .append("pattern")
     .attr({ id:"hashyellow_pres", width:"8", height:"8", patternUnits:"userSpaceOnUse", patternTransform:"rotate(60)"})
   .append("rect")
-    .attr({ width:"7.5", height:"8", transform:"translate(0,0)", fill:yellow });
+    .attr({ width:"7", height:"8", transform:"translate(0,0)", fill:yellow });
 
 d3.json("./assets/maps/us_state_new.json", function(error, us) {
   if (error) throw error;
@@ -567,7 +567,16 @@ d3.json("./assets/maps/us_state_new.json", function(error, us) {
 });
 
 // COUNTY PRESIDENTIAL MAP ------------------------------------------------------
-if (screen.width > 670) {
+console.log("window is:");
+console.log(window.navigator.userAgent.indexOf("MSIE "));
+if (window.navigator.userAgent.indexOf("MSIE ") > 0) {
+  console.log("Internet Explorer");
+  document.getElementById("pres-button-container").setAttribute("display","none");
+} else {
+  console.log("not IE");
+}
+if ((screen.width > 670) && (window.navigator.userAgent.indexOf("MSIE ") == -1)) {
+  console.log("showing the county map");
   var svg_element_county = d3.select("#map-container-president")
     .append("div")
     .classed("svg-container", true) //container class to make it responsive
@@ -750,19 +759,19 @@ d3.json(governorRacesURL, function(governorRaces){
             .append("pattern")
               .attr({ id:"hashblueFed", width:"8", height:"8", patternUnits:"userSpaceOnUse", patternTransform:"rotate(60)"})
             .append("rect")
-              .attr({ width:"7.5", height:"8", transform:"translate(0,0)", fill:blue });
+              .attr({ width:"7", height:"8", transform:"translate(0,0)", fill:blue });
 
           var patternfed2 = svg_element_fed.append("defs")
             .append("pattern")
               .attr({ id:"hashredFed", width:"8", height:"8", patternUnits:"userSpaceOnUse", patternTransform:"rotate(60)"})
             .append("rect")
-              .attr({ width:"7.5", height:"8", transform:"translate(0,0)", fill:red });
+              .attr({ width:"7", height:"8", transform:"translate(0,0)", fill:red });
 
           var patternfed3 = svg_element_fed.append("defs")
             .append("pattern")
               .attr({ id:"hashyellowFed", width:"8", height:"8", patternUnits:"userSpaceOnUse", patternTransform:"rotate(60)"})
             .append("rect")
-              .attr({ width:"7.5", height:"8", transform:"translate(0,0)", fill:yellow });
+              .attr({ width:"7", height:"8", transform:"translate(0,0)", fill:yellow });
 
           d3.json(active_map,function(error,us){
             if (error) throw error;
@@ -1090,19 +1099,19 @@ d3.json(houseCAURL, function(houseCA){
               .append("pattern")
                 .attr({ id:"hashblueCA", width:"8", height:"8", patternUnits:"userSpaceOnUse", patternTransform:"rotate(60)"})
               .append("rect")
-                .attr({ width:"7.5", height:"8", transform:"translate(0,0)", fill:blue });
+                .attr({ width:"7", height:"8", transform:"translate(0,0)", fill:blue });
 
             var patternCA2 = svgCACounties.append("defs")
               .append("pattern")
                 .attr({ id:"hashredCA", width:"8", height:"8", patternUnits:"userSpaceOnUse", patternTransform:"rotate(60)"})
               .append("rect")
-                .attr({ width:"7.5", height:"8", transform:"translate(0,0)", fill:red });
+                .attr({ width:"7", height:"8", transform:"translate(0,0)", fill:red });
 
             var patternCA3 = svgCACounties.append("defs")
               .append("pattern")
                 .attr({ id:"hashyellowCA", width:"8", height:"8", patternUnits:"userSpaceOnUse", patternTransform:"rotate(60)"})
               .append("rect")
-                .attr({ width:"7.5", height:"8", transform:"translate(0,0)", fill:yellow });
+                .attr({ width:"7", height:"8", transform:"translate(0,0)", fill:yellow });
 
             d3.json(active_map, function(error, us) {
               if (error) throw error;
