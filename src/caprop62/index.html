@@ -12,7 +12,7 @@
 
   <body is="responsive-body">
 
-    <div class="outer caprops-widget">
+    <div class="outer caprops-widget" style="max-width: 450px;">
       <hr class="hr-widget">
 
       <div class="title-img caprops-widget">
@@ -26,36 +26,33 @@
       </div>
 
                 <div class="button-container">
-            <div class="button race senate active" id="senatemap">California Propositions</div>
+            <div class="button race senate active" id="senatemap">California Proposition 62</div>
           </div>
           <div class="deck widget" id="timestamp-container"><span>Last updated: </span><span id="timestamp"></span></div>
 
-      <div class="legend-container ca-legend-props" id="ca-prop-legend">
-        <div class="caprop-element"><div class="yes-swath"><div class="legend-text">Yes vote</div></div></div>
-        <div class="caprop-element"><div class="no-swath right"><div class="legend-text">No vote</div></div></div>
-        <div class="caprop-element"><div class="noresults-swath"><div class="legend-text">No results</div></div></div>
-      </div>
+      <div id="propsec" style="margin-top: 1.2em;">
+        <div class="key" style="text-align:center;">Key:
+          <span class="symbol"><i class='fa fa-check-circle-o' aria-hidden='true'></i>Approved</span> |
+          <span class="symbol"><i class='fa fa-times-circle-o' aria-hidden='true'></i>Rejected</span>
+        </div>
 
-      <div class="flex-container padding" style="min-width: 315px;">
-        <div class="button-container vertical" id="ca-map-buttons-props">
-          <% csv.StatePropositionsData.forEach(function(prop,idx){ %>
-            <% if (idx == 0) { %>
-                <div class="button camap prop camapprop prop<%=prop.number%>" id="button<%=prop.number%>"><div class='bold-button-number'>Prop. <%=prop.number%></div><div class='button-title'><%=prop.title%></div></div>
-            <% } else { %>
-                <div class="button camap prop camapprop prop<%=prop.number%>" id="button<%=prop.number%>"><div class='bold-button-number'>Prop. <%=prop.number%></div><div class='button-title'><%=prop.title%></div></div>
-            <% } %>
-          <% }); %>
+
+        <div class="propositions-list" style="">
+          <div class="prop-group active prop62 prop.62 proposition62 62 Taxincreaseextension" style="max-width:400px;flex:initial;margin: 0 auto;width: 100%;">
+            
+              <div class="prop-icon">
+                <img src="../assets/graphics/stateprops/prop62.png">
+                <div class="prop-name">Prop. 62</div>
+              </div>
+              <div class="prop-name">Death penalty ban</div>
+              <div id="prop62" class="result"></div>
+              <div class="prop-desc">Repeals death penalty in California and replaces it with life without parole. Applies retroactively to everyone on Death Row.</div>
+              
+                <div><span class="propStoryLink"></span></div>
+              
+            </div>
         </div>
-        <div class="drop-down">
-          <div class="select-text">Select race from the menu:</div>
-          <select name="select" id="select-race">
-            <% csv.StatePropositionsData.forEach(function(prop,idx){ %>
-              <option value='<%=prop.number%>' class="option"><%=prop.title%> (Prop. <%=prop.number%>)</option>
-            <% }); %>
-          </select>
-        </div>
-        <div id="map-container-state-props" class="widget"></div>
-    </div>
+      </div>
 
       <footer class="footer-widget">
         <div>
@@ -64,7 +61,7 @@
       </footer>
 
     </div>
-
+    
     <script src="../caprop62_app.js" async></script>
 
   </body>
