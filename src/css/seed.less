@@ -52,6 +52,29 @@ body {
   font-family: @body;
 }
 
+.redirect {
+  margin: auto;
+  margin-bottom: -20px;
+  text-align: center;
+  max-width: 600px;
+  font-size: 22px;
+  border: 1px solid @light-gray;
+  padding: 20px;
+  @media @tablet {
+    width: 80%;
+    margin-bottom: 0;
+    line-height: 1.4;
+  }
+  &:hover {
+    background: lighten(@light-gray,10%);
+  }
+  a {
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+  }
+}
+
 a {
   color: @dark-red;
 }
